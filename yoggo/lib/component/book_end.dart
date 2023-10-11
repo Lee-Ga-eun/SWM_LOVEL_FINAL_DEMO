@@ -71,7 +71,7 @@ class _BookEndState extends State<BookEnd> {
               height: SizeConfig.defaultSize!,
             ),
             Expanded(
-              flex: 1,
+              flex: 3,
               child: Stack(
                 alignment: Alignment.centerLeft,
                 children: [
@@ -87,6 +87,9 @@ class _BookEndState extends State<BookEnd> {
                       ),
                     ],
                   ),
+                  SizedBox(
+                    height: SizeConfig.defaultSize! * 2,
+                  ),
                 ],
               ),
             ),
@@ -100,9 +103,12 @@ class _BookEndState extends State<BookEnd> {
                             userState.record, widget.voiceId))
                 : Container(),
             Expanded(
-                flex: 2,
+                flex: 4,
                 child: Column(
                   children: [
+                    SizedBox(
+                      height: SizeConfig.defaultSize! * 0.5,
+                    ),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       IconButton(
                         padding: EdgeInsets.all(0.2 * SizeConfig.defaultSize!),
@@ -160,7 +166,7 @@ class _BookEndState extends State<BookEnd> {
                       ),
                     ]),
                     SizedBox(
-                      height: 4 * SizeConfig.defaultSize!,
+                      height: 3.5 * SizeConfig.defaultSize!,
                     )
                   ],
                 ))
@@ -172,7 +178,7 @@ class _BookEndState extends State<BookEnd> {
 
   Expanded allPass() {
     return Expanded(
-        flex: 5,
+        flex: 10,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0),
           child: Column(
@@ -214,7 +220,7 @@ class _BookEndState extends State<BookEnd> {
   Expanded notPurchaseUser(userId, purchase, record, cvi) {
     // 구매를 안 한 사용자
     return Expanded(
-      flex: 5,
+      flex: 10,
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0),
           child: Column(
@@ -351,7 +357,7 @@ class _BookEndState extends State<BookEnd> {
   Expanded notRecordUser(userId, purchase, record, cvi) {
     // 녹음을 안 한 사용자
     return Expanded(
-      flex: 5,
+      flex: 10,
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0),
           child: Column(
