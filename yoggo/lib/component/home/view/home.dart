@@ -815,7 +815,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   .defaultSize! *
                                                               11),
                                                       Text(
-                                                        'Hello, Welcome to LOVEL! \nHere, you can discover free books to read and 4,500 points that can \nunlock premium books. Please click on a book you like and start reading!',
+                                                        "Onboarding",
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'font'.tr(),
@@ -823,7 +823,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             fontSize: SizeConfig
                                                                     .defaultSize! *
                                                                 2),
-                                                      )
+                                                      ).tr()
                                                     ],
                                                   ),
                                                 ),
@@ -959,15 +959,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                           left: SizeConfig.defaultSize! * 1.5,
                                         ),
                                         child: Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              'Attend daily and claim your rewards!',
-                                              style: TextStyle(
-                                                fontFamily: 'font'.tr(),
-                                                fontSize: 2.2 *
-                                                    SizeConfig.defaultSize!,
-                                              ),
-                                            )),
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Point_Info",
+                                            style: TextStyle(
+                                              fontFamily: 'font'.tr(),
+                                              fontSize:
+                                                  2.2 * SizeConfig.defaultSize!,
+                                            ),
+                                          ).tr(),
+                                        ),
                                       ),
                                       Padding(
                                         //첫줄가로
@@ -1199,12 +1200,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   child: Text(
                                                     'CLAIM NOW',
                                                     style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: SizeConfig
-                                                                .defaultSize! *
-                                                            2.2,
-                                                        fontFamily: 'Lilita'),
-                                                  ),
+                                                      color: Colors.black,
+                                                      fontSize: SizeConfig
+                                                              .defaultSize! *
+                                                          2.2,
+                                                      fontFamily: 'font'.tr(),
+                                                    ),
+                                                  ).tr(),
                                                 ),
                                                 SizedBox(
                                                   width: sh * 0.02,
@@ -1268,15 +1270,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         width: 0.03 * sw,
                                                       ),
                                                       Text(
-                                                        '  DOUBLE REWARD',
+                                                        'DOUBLE REWARD',
                                                         style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: SizeConfig
-                                                                    .defaultSize! *
-                                                                2.2,
-                                                            fontFamily:
-                                                                'Lilita'),
-                                                      ),
+                                                          color: Colors.black,
+                                                          fontSize: SizeConfig
+                                                                  .defaultSize! *
+                                                              2.2,
+                                                          fontFamily:
+                                                              'font'.tr(),
+                                                        ),
+                                                      ).tr(),
                                                     ],
                                                   ),
                                                 ),
