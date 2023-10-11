@@ -55,8 +55,9 @@ void main() async {
   //     ? OneSignal.shared.setAppId(dotenv.get("ONESIGNAL_android"))
   //     : OneSignal.shared.setAppId(dotenv.get("ONESIGNAL_ios"));
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
-  OneSignal.initialize(dotenv.get("ONESIGNAL_android"));
-  // : OneSignal.initialize(dotenv.get("ONESIGNAL_ios"));
+  Platform.isAndroid
+      ? OneSignal.initialize(dotenv.get("ONESIGNAL_android"))
+      : OneSignal.initialize(dotenv.get("ONESIGNAL_ios"));
   // OneSignal.shared.setAppId('2d42b96d-78df-43fe-b6d1-3899c3684ac5'); //ios
 
 // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
