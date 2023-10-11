@@ -1204,7 +1204,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       fontSize: SizeConfig
                                                               .defaultSize! *
                                                           2.2,
-                                                      fontFamily: 'font'.tr(),
+                                                      fontFamily:
+                                                          'font-point'.tr(),
                                                     ),
                                                   ).tr(),
                                                 ),
@@ -1277,7 +1278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   .defaultSize! *
                                                               2.2,
                                                           fontFamily:
-                                                              'font'.tr(),
+                                                              'font-point'.tr(),
                                                         ),
                                                       ).tr(),
                                                     ],
