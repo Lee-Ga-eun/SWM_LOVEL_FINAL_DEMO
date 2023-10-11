@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../size_config.dart';
 import 'globalCubit/user/user_cubit.dart';
 import 'home/view/home.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class RecEnd extends StatefulWidget {
@@ -100,9 +101,9 @@ class _RecEndState extends State<RecEnd> {
                               'Congratulations on \n completing the RECORDING',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontFamily: 'Molengo',
+                                  fontFamily: 'font'.tr(),
                                   fontSize: SizeConfig.defaultSize! * 2.5),
-                            ),
+                            ).tr(),
                             SizedBox(
                               width: SizeConfig.defaultSize! * 2,
                             ),
@@ -119,27 +120,14 @@ class _RecEndState extends State<RecEnd> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text:
-                                            'Your voice is well recorded \n We\'ll let you know by PUSH when it\'s done',
-                                        style: TextStyle(
-                                          fontSize:
-                                              SizeConfig.defaultSize! * 2.5,
-                                          fontFamily: 'Molengo',
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                            Text(
+                              'Your voice is well recorded \n We\'ll let you know by PUSH when it\'s done',
+                              style: TextStyle(
+                                fontSize: SizeConfig.defaultSize! * 2.5,
+                                fontFamily: 'font'.tr(),
+                                color: Colors.black,
                               ),
-                            )
+                            ).tr()
                           ],
                         ),
                         SizedBox(
@@ -184,7 +172,7 @@ class _RecEndState extends State<RecEnd> {
                                     child: Text(
                                       'OK',
                                       style: TextStyle(
-                                        fontFamily: 'Molengo',
+                                        fontFamily: 'font'.tr(),
                                         fontSize: SizeConfig.defaultSize! * 2.3,
                                         color: Colors.black,
                                       ),

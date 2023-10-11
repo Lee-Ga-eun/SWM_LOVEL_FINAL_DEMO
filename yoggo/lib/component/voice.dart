@@ -12,6 +12,7 @@ import 'home/view/home.dart';
 import 'rec_re.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class VoiceProfile extends StatefulWidget {
   // final String infenrencedVoice;
@@ -256,10 +257,10 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                                     color: Colors.black,
                                                     fontSize: 3 *
                                                         SizeConfig.defaultSize!,
-                                                    fontFamily: 'Molengo',
+                                                    fontFamily: 'font'.tr(),
                                                     fontWeight: FontWeight.w400,
                                                   ),
-                                                ),
+                                                ).tr(),
                                                 SizedBox(
                                                   height:
                                                       SizeConfig.defaultSize!,
@@ -372,11 +373,11 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                                                           fontSize:
                                                                               2.3 * SizeConfig.defaultSize!,
                                                                           fontFamily:
-                                                                              'Molengo',
+                                                                              'font'.tr(),
                                                                           fontWeight:
                                                                               FontWeight.w400,
                                                                         ),
-                                                                      ),
+                                                                      ).tr(),
                                                                     ),
                                                                   ])),
                                                         ),
@@ -450,9 +451,9 @@ class _VoiceProfileState extends State<VoiceProfile> {
             "If you record again, the previous voice will be deleted.\nyou'll need to recreate the books using the new voice\nDo you want to continue?",
             style: TextStyle(
               fontSize: SizeConfig.defaultSize! * 2.5,
-              fontFamily: 'Molengo',
+              fontFamily: 'font'.tr(),
             ),
-          ),
+          ).tr(),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -481,10 +482,10 @@ class _VoiceProfileState extends State<VoiceProfile> {
                         'YES',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Molengo',
+                          fontFamily: 'font'.tr(),
                           fontSize: 2.2 * SizeConfig.defaultSize!,
                         ),
-                      ),
+                      ).tr(),
                     ),
                   ),
                 ),
@@ -509,10 +510,10 @@ class _VoiceProfileState extends State<VoiceProfile> {
                         'No',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'Molengo',
+                          fontFamily: 'font'.tr(),
                           fontSize: 2.2 * SizeConfig.defaultSize!,
                         ),
-                      ),
+                      ).tr(),
                     ),
                   ),
                 ),

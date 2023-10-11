@@ -17,6 +17,7 @@ import 'package:amplitude_flutter/amplitude.dart' as Amp;
 
 import 'globalCubit/user/user_cubit.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Rec extends StatefulWidget {
   final void Function(String path)? onStop;
@@ -224,15 +225,15 @@ class _RecState extends State<Rec> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              'As she emerges from the sea onto the shore, she realizes that\nher voice is gone, but she still recognizes its immeasurable beauty\nand preciousness. She expresses it in the following way:\n"Voice is an ineffable beauty. It is the purest and most precious gift.\nThough I have lost this cherished gift, I will embark on a journey\nto find true love through other means. Even without my voice,\nthe emotions and passions within me will not easily fade away.\nLove transcends language. In this quest to reclaim my precious voice,\nI will discover my true self and learn the ways of love and freedom."',
+                              'script',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 2.1 * SizeConfig.defaultSize!,
-                                fontFamily: 'Molengo',
+                                fontFamily: 'Molengo'.tr(),
                                 fontWeight: FontWeight.w400,
                               ),
                               textAlign: TextAlign.center,
-                            )
+                            ).tr()
                           ],
                         )),
                       ),
@@ -271,116 +272,120 @@ class _RecState extends State<Rec> {
                     ]),
                     Visibility(
                       visible: stopped,
-                      child: AlertDialog(
-                        titlePadding: EdgeInsets.only(
-                          left: SizeConfig.defaultSize! * 24,
-                          right: SizeConfig.defaultSize! * 24,
-                          top: SizeConfig.defaultSize! * 7,
-                          bottom: SizeConfig.defaultSize! * 2,
-                        ),
-                        actionsPadding: EdgeInsets.only(
-                          // left: SizeConfig.defaultSize! * 5,
-                          // right: SizeConfig.defaultSize! * 5,
-                          bottom: SizeConfig.defaultSize! * 5,
-                          top: SizeConfig.defaultSize! * 3,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              SizeConfig.defaultSize! * 3),
-                        ),
-                        backgroundColor: Colors.white.withOpacity(0.9),
-                        title: Center(
-                          child: Text(
-                            'Are you sure?',
-                            style: TextStyle(
-                              fontSize: SizeConfig.defaultSize! * 2.5,
-                              fontFamily: 'Molengo',
+                      child: SizedBox(
+                        width: SizeConfig.defaultSize! * 200,
+                        child: AlertDialog(
+                          titlePadding: EdgeInsets.only(
+                            top: SizeConfig.defaultSize! * 7,
+                            bottom: SizeConfig.defaultSize! * 2,
+                          ),
+                          actionsPadding: EdgeInsets.only(
+                            left: SizeConfig.defaultSize! * 5,
+                            right: SizeConfig.defaultSize! * 5,
+                            bottom: SizeConfig.defaultSize! * 5,
+                            top: SizeConfig.defaultSize! * 3,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.defaultSize! * 3),
+                          ),
+                          backgroundColor: Colors.white.withOpacity(0.9),
+                          title: Center(
+                            child: Text(
+                              'Are you sure?',
+                              style: TextStyle(
+                                fontSize: SizeConfig.defaultSize! * 2.5,
+                                fontFamily: 'Molengo',
+                              ),
+                            ).tr(),
+                          ),
+                          actions: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    path = ''; // 이 버전을 원하지 않는 경우 path 초기화
+                                    _sendRecRerecClickEvent();
+                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Rec()),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: SizeConfig.defaultSize! * 24,
+                                    height: SizeConfig.defaultSize! * 4.5,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          SizeConfig.defaultSize! * 3),
+                                      color: const Color(0xFFFFA91A),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'No',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Molengo',
+                                          fontSize:
+                                              2.2 * SizeConfig.defaultSize!,
+                                        ),
+                                      ).tr(),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                    width:
+                                        SizeConfig.defaultSize! * 4), // 간격 조정
+                                GestureDetector(
+                                  onTap: () {
+                                    // 1초 후에 다음 페이지로 이동
+                                    // if (path != null) {
+                                    //   // 녹음을 해도 괜찮다고 판단했을 경우 백엔드에 보낸다
+                                    //   widget.onStop?.call(path!);
+                                    //   path_copy = path!.split('/').last;
+                                    //   await sendRecord(path, path_copy);
+                                    _sendRecKeepClickEvent();
+                                    // }
+                                    // Future.delayed(const Duration(seconds: 1),
+                                    //     () async {
+                                    //   print(userState.record);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => RecLoading(
+                                                onStop: widget.onStop,
+                                                path: path!,
+                                              )),
+                                    );
+                                    // });
+                                  },
+                                  child: Container(
+                                    width: SizeConfig.defaultSize! * 24,
+                                    height: SizeConfig.defaultSize! * 4.5,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(
+                                          SizeConfig.defaultSize! * 3),
+                                      color: const Color(0xFFFFA91A),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Yes',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'Molengo',
+                                          fontSize:
+                                              2.2 * SizeConfig.defaultSize!,
+                                        ),
+                                      ).tr(),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
+                          ],
                         ),
-                        actions: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  path = ''; // 이 버전을 원하지 않는 경우 path 초기화
-                                  _sendRecRerecClickEvent();
-                                  Navigator.of(context).pop();
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const Rec()),
-                                  );
-                                },
-                                child: Container(
-                                  width: SizeConfig.defaultSize! * 24,
-                                  height: SizeConfig.defaultSize! * 4.5,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        SizeConfig.defaultSize! * 3),
-                                    color: const Color(0xFFFFA91A),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'No',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: 'Molengo',
-                                        fontSize: 2.2 * SizeConfig.defaultSize!,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                  width: SizeConfig.defaultSize! * 4), // 간격 조정
-                              GestureDetector(
-                                onTap: () {
-                                  // 1초 후에 다음 페이지로 이동
-                                  // if (path != null) {
-                                  //   // 녹음을 해도 괜찮다고 판단했을 경우 백엔드에 보낸다
-                                  //   widget.onStop?.call(path!);
-                                  //   path_copy = path!.split('/').last;
-                                  //   await sendRecord(path, path_copy);
-                                  _sendRecKeepClickEvent();
-                                  // }
-                                  // Future.delayed(const Duration(seconds: 1),
-                                  //     () async {
-                                  //   print(userState.record);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => RecLoading(
-                                              onStop: widget.onStop,
-                                              path: path!,
-                                            )),
-                                  );
-                                  // });
-                                },
-                                child: Container(
-                                  width: SizeConfig.defaultSize! * 24,
-                                  height: SizeConfig.defaultSize! * 4.5,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(
-                                        SizeConfig.defaultSize! * 3),
-                                    color: const Color(0xFFFFA91A),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'Yes',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: 'Molengo',
-                                        fontSize: 2.2 * SizeConfig.defaultSize!,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
                       ),
                     )
                   ])))
@@ -484,7 +489,7 @@ class _RecState extends State<Rec> {
         fontSize: SizeConfig.defaultSize! * 1.8,
         fontFamily: 'Molengo',
       ),
-    );
+    ).tr();
   }
 
   Widget _buildTimer() {

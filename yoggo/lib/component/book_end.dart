@@ -11,7 +11,7 @@ import 'package:yoggo/component/bookPage/view/book_page.dart';
 import 'package:yoggo/component/rec_info.dart';
 import 'package:yoggo/size_config.dart';
 import 'package:yoggo/component/shop.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'globalCubit/user/user_cubit.dart';
 
 class BookEnd extends StatefulWidget {
@@ -193,9 +193,9 @@ class _BookEndState extends State<BookEnd> {
                     'Congratulations on \n completing the READING',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: 'Molengo',
+                        fontFamily: 'font'.tr(),
                         fontSize: SizeConfig.defaultSize! * 2.5),
-                  ),
+                  ).tr(),
                   SizedBox(
                     width: SizeConfig.defaultSize! * 2,
                   ),
@@ -235,9 +235,9 @@ class _BookEndState extends State<BookEnd> {
                     'Congratulations on \n completing the READING',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: 'Molengo',
+                        fontFamily: 'font'.tr(),
                         fontSize: SizeConfig.defaultSize! * 2.5),
-                  ),
+                  ).tr(),
                   SizedBox(
                     width: SizeConfig.defaultSize! * 2,
                   ),
@@ -280,9 +280,9 @@ class _BookEndState extends State<BookEnd> {
                         Text(
                           'If you want to read a book in the voice of your parents,',
                           style: TextStyle(
-                              fontFamily: 'Molengo',
+                              fontFamily: 'font'.tr(),
                               fontSize: SizeConfig.defaultSize! * 2.3),
-                        ),
+                        ).tr(),
                         SizedBox(
                           height: SizeConfig.defaultSize! * 1.5,
                         ),
@@ -329,11 +329,11 @@ class _BookEndState extends State<BookEnd> {
                                 child: Text(
                                   'Go to Record',
                                   style: TextStyle(
-                                    fontFamily: 'Molengo',
+                                    fontFamily: 'font'.tr(),
                                     fontSize: SizeConfig.defaultSize! * 2.3,
                                     color: Colors.black,
                                   ),
-                                ),
+                                ).tr(),
                               ),
                             ]),
                           ),
@@ -372,9 +372,9 @@ class _BookEndState extends State<BookEnd> {
                     'Congratulations on \n completing the READING',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: 'Molengo',
+                        fontFamily: 'font'.tr(),
                         fontSize: SizeConfig.defaultSize! * 2.5),
-                  ),
+                  ).tr(),
                   SizedBox(
                     width: SizeConfig.defaultSize! * 2,
                   ),
@@ -417,9 +417,9 @@ class _BookEndState extends State<BookEnd> {
                         Text(
                           'If you want to read a Book in the voice of your parents,',
                           style: TextStyle(
-                              fontFamily: 'Molengo',
+                              fontFamily: 'font'.tr(),
                               fontSize: SizeConfig.defaultSize! * 2.3),
-                        ),
+                        ).tr(),
                         SizedBox(
                           height: SizeConfig.defaultSize! * 1.5,
                         ),
@@ -466,11 +466,11 @@ class _BookEndState extends State<BookEnd> {
                                 child: Text(
                                   'Go to Record',
                                   style: TextStyle(
-                                    fontFamily: 'Molengo',
+                                    fontFamily: 'font'.tr(),
                                     fontSize: SizeConfig.defaultSize! * 2.3,
                                     color: Colors.black,
                                   ),
-                                ),
+                                ).tr(),
                               ),
                             ]),
                           ),

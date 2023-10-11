@@ -195,6 +195,24 @@ flutter:
       fonts:
         - asset: assets/fonts/LilitaOne-Regular.ttf
           weight: 400
+    - family: IBM
+      fonts:
+        - asset: assets/fonts/IBMPlexSansKR-SemiBold.ttf
+    - family: Jeonju
+      fonts:
+        - asset: assets/fonts/JeonjuCraft_Go_Regular.ttf
+    - family: Maple
+      fonts:
+        - asset: assets/fonts/SOYO Maple Bold.ttf
+          weight: 700
+    - family: AppleGothic
+      fonts:
+        # - asset: assets/fonts/AppleSDGothicNeoL.ttf
+        #  weight: 300
+        #- asset: assets/fonts/AppleSDGothicNeoR.ttf
+        # weight: 400
+        - asset: assets/fonts/AppleSDGothicNeoB.ttf
+          # weight: 700
         # Prata-Regular.ttf
     # - family: Schyler
     #   fonts:

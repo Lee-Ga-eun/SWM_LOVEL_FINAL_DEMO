@@ -1,10 +1,16 @@
 {
-    "Voice Profile": "목소리 프로필",
+  "font": "Maple",
+  "Yes": "네",
+  "YES": "네",
+  "No": "아니요",
+  
+  "Voice Profile": "목소리 프로필",
     "Invite Friends":"친구 초대하기",
     "Edit this voice":"My Voice 바꾸기",
     "Rate on AppStore":"별점 매기기",
     "Rate on PlayStore":"별점 매기기",
     "Welcome":" 반가워요! ",
+  
     "Already Subscribed?":"이미 구독 중인가요?",
     "sub_details":"✅ 당신의 목소리로 읽어보세요\n✅ 모든 책을 이용할 수 있어요\n✅ 7일 무료체험을 제공해요",
     "5.99":"$5.99",
@@ -21,7 +27,27 @@
     "Privacy Policy":"Privacy Policy.",
     "Subscription Terms Android": "After 7-day free trial, LOVEL monthly subscription is $5.99. You can cancel this subscription at any time if you wish."
 
-
-
-
+  "Congratulations on \n completing the READING": "축하해요!\n책 한 권을 다 읽었어요.",
+  "If you want to read a book in the voice of your parents,": "부모님의 목소리로 책을 읽고 싶다면,",
+  "Go to Record": "녹음하러 가기",
+  
+  "We are making your voice!": "당신의 목소리를 만들고 있어요!",
+  "Re-make your voice": "목소리 다시 만들기",
+  "If you record again, the previous voice will be deleted.\nyou'll need to recreate the books using the new voice\nDo you want to continue?": "다시 녹음하면 이전의 목소리는 지워지고, \n새로운 목소리로 책을 다시 만들어야 해요. 계속하시겠어요?",
+  
+  "Congratulations on \n completing the RECORDING": "축하해요!\n녹음을 완료했어요.",
+  "Your voice is well recorded \n We'll let you know by PUSH when it's done": "목소리가 완성되면 알림을 보내드릴게요.",
+  
+  "script": "안녕하세요",
+  "Are you sure?": "이대로 진행하시겠어요?",
+  "Waiting to record": "녹음 대기 중",
+  "No, Re-make": "다시 녹음할래요",
+  
+  "Do not exit the screen. Your precious voice is being transmitted. \nIf you leave the screen, the process will be erased.": "화면을 벗어나지 마세요. 목소리가 전송되고 있어요.\n화면을 벗어나면 처음부터 다시 녹음해야 해요.",
+  
+  "Now it's your turn to make your voice heard!": "이제 당신의 목소리로 녹음할 차례에요!",
+  "Eliminate\nambient noise\nand focus on\nyour voice": "당신의 목소리에\n집중하기 위해\n소음을 최대한\n줄여 주세요",
+  "The more of\n your voice \nwithout gaps \nthe better quality": "빈틈없이\n목소리가\n녹음될수록\n품질이 좋아져요",
+  "The best quality\nwhen recorded\nfor about\n40 seconds": "40초 정도\n녹음했을 때,\n품질이 가장\n좋아요",
+  "You can try again\nuntil you want": "언제든\n원할 때면\n재녹음이\n가능해요"
 }

@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RecLoading extends StatefulWidget {
   final void Function(String path)? onStop;
@@ -136,7 +137,7 @@ class _RecLoadingState extends State<RecLoading> {
                   fontFamily: 'Molengo',
                   fontSize: SizeConfig.defaultSize! * 2.5),
               textAlign: TextAlign.center,
-            )
+            ).tr()
           ],
         ),
       ),
