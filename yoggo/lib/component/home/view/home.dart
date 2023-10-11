@@ -29,9 +29,9 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import '../../globalCubit/user/user_cubit.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -1236,7 +1236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     backgroundColor:
                                                         MaterialStateProperty
                                                             .all<Color>(
-                                                      Color.fromARGB(
+                                                      const Color.fromARGB(
                                                           225, 255, 77, 0),
                                                     ), // 배경색 설정
                                                   ),
@@ -1308,7 +1308,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ? "ca-app-pub-6637884967909793/7985054428"
           : "ca-app-pub-6637884967909793/2799890940",
       // "ca-app-pub-3940256099942544/5224354917", // test
-      request: AdRequest(),
+      request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
           print('Ad was loaded.');
@@ -1528,7 +1528,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontFamily: 'Molengo',
                           fontWeight: FontWeight.w400,
                         ),
-                      ),
+                      ).tr(),
                       SizedBox(
                         height: 1 * SizeConfig.defaultSize!,
                       ),

@@ -66,12 +66,13 @@ dependencies:
   json_annotation: ^4.8.1
   meta: ^1.9.1
   url_launcher: ^6.1.12
-  intl: ^0.18.1
+  intl: ^0.18.0
   in_app_review: ^2.0.6
   share_plus: ^7.1.0
   flutter_cache_manager: ^3.3.1
   google_mobile_ads: ^3.0.0
   #audioplayers: ^0.18.3
+  easy_localization: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -102,6 +103,7 @@ flutter:
     - .env
     - lib/images/icons/
     - assets/scripts/
+    - assets/locales/
       # - lib/images/logo.png
   #   - images/a_dot_ham.jpeg
 

@@ -20,6 +20,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'dart:io' show Platform;
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 Future<void> initPlatformState() async {
   await Purchases.setLogLevel(
@@ -91,19 +92,29 @@ void main() async {
   final dataCubit = DataCubit(dataRepository);
 
   initPlatformState();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight])
       .then((_) {
     runApp(
-      MultiBlocProvider(
-        providers: [
-          BlocProvider<UserCubit>.value(value: userCubit),
-          RepositoryProvider(create: (context) => dataRepository),
-          BlocProvider<DataCubit>.value(value: dataCubit),
+      EasyLocalization(
+        supportedLocales: const [Locale('ko', 'KR')], //Locale('en', 'US'),
+        path: 'assets/locales',
+        fallbackLocale: const Locale('en', 'US'),
+        // startLocale: const Locale('en', 'US'), // 초기 로캘 설정 (선택 사항)
 
-          // Add more Cubits here if needed
-        ],
-        child: const App(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<UserCubit>.value(value: userCubit),
+            RepositoryProvider(create: (context) => dataRepository),
+            BlocProvider<DataCubit>.value(value: dataCubit),
+            // Add more Cubits here if needed
+          ],
+          child: const App(),
+        ),
       ),
     );
   });
@@ -215,6 +226,8 @@ class _AppState extends State<App> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context)
