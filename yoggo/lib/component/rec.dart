@@ -229,7 +229,7 @@ class _RecState extends State<Rec> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 2.1 * SizeConfig.defaultSize!,
-                                fontFamily: 'Molengo'.tr(),
+                                fontFamily: 'font'.tr(),
                                 fontWeight: FontWeight.w400,
                               ),
                               textAlign: TextAlign.center,
@@ -295,7 +295,7 @@ class _RecState extends State<Rec> {
                               'Are you sure?',
                               style: TextStyle(
                                 fontSize: SizeConfig.defaultSize! * 2.5,
-                                fontFamily: 'Molengo',
+                                fontFamily: 'font'.tr(),
                               ),
                             ).tr(),
                           ),
@@ -327,7 +327,7 @@ class _RecState extends State<Rec> {
                                         'No',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'Molengo',
+                                          fontFamily: 'font'.tr(),
                                           fontSize:
                                               2.2 * SizeConfig.defaultSize!,
                                         ),
@@ -374,7 +374,7 @@ class _RecState extends State<Rec> {
                                         'Yes',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'Molengo',
+                                          fontFamily: 'font'.tr(),
                                           fontSize:
                                               2.2 * SizeConfig.defaultSize!,
                                         ),
@@ -487,7 +487,7 @@ class _RecState extends State<Rec> {
       "Waiting to record",
       style: TextStyle(
         fontSize: SizeConfig.defaultSize! * 1.8,
-        fontFamily: 'Molengo',
+        fontFamily: 'font'.tr(),
       ),
     ).tr();
   }

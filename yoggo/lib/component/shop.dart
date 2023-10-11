@@ -407,7 +407,7 @@ class _PurchaseState extends State<Purchase> {
                       child: Text(
                         'Already Subscribed?',
                         style: TextStyle(
-                            fontFamily: 'Molengo',
+                            fontFamily: 'font'.tr(),
                             fontSize: SizeConfig.defaultSize! * 1.6),
                       ).tr(),
                     ),
@@ -524,7 +524,8 @@ class _PurchaseState extends State<Purchase> {
                                             children: [
                                               Text("sub_details",
                                                       style: TextStyle(
-                                                          fontFamily: 'Molengo',
+                                                          fontFamily:
+                                                              'font'.tr(),
                                                           fontSize: 1.5 *
                                                               SizeConfig
                                                                   .defaultSize!))
@@ -563,7 +564,7 @@ class _PurchaseState extends State<Purchase> {
                                                                   SizeConfig
                                                                       .defaultSize!,
                                                               fontFamily:
-                                                                  'Molengo',
+                                                                  'font'.tr(),
                                                             ),
                                                           ).tr(),
                                                           Padding(
@@ -581,7 +582,7 @@ class _PurchaseState extends State<Purchase> {
                                                                     SizeConfig
                                                                         .defaultSize!,
                                                                 fontFamily:
-                                                                    'Molengo',
+                                                                    'font'.tr(),
                                                               ),
                                                             ).tr(),
                                                           ),
@@ -592,12 +593,9 @@ class _PurchaseState extends State<Purchase> {
                                                         style: TextStyle(
                                                             color: const Color
                                                                     .fromARGB(
-                                                                136,
-                                                                0,
-                                                                0,
-                                                                0),
+                                                                136, 0, 0, 0),
                                                             fontFamily:
-                                                                'Molengo',
+                                                                'font'.tr(),
                                                             decoration:
                                                                 TextDecoration
                                                                     .lineThrough,
@@ -635,7 +633,8 @@ class _PurchaseState extends State<Purchase> {
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
-                                                                      'Molengo',
+                                                                      'font'
+                                                                          .tr(),
                                                                   fontSize:
                                                                       SizeConfig
                                                                               .defaultSize! *
@@ -659,7 +658,7 @@ class _PurchaseState extends State<Purchase> {
                                                                         fontSize:
                                                                             1 * SizeConfig.defaultSize!,
                                                                         fontFamily:
-                                                                            'Molengo',
+                                                                            'font'.tr(),
                                                                         color: Colors
                                                                             .black,
                                                                       ),
@@ -674,7 +673,8 @@ class _PurchaseState extends State<Purchase> {
                                                                           SizeConfig
                                                                               .defaultSize!,
                                                                       fontFamily:
-                                                                          'Molengo',
+                                                                          'font'
+                                                                              .tr(),
                                                                       color: Colors
                                                                           .black,
                                                                       decoration:
@@ -697,7 +697,8 @@ class _PurchaseState extends State<Purchase> {
                                                                           SizeConfig
                                                                               .defaultSize!,
                                                                       fontFamily:
-                                                                          'Molengo',
+                                                                          'font'
+                                                                              .tr(),
                                                                       color: Colors
                                                                           .black,
                                                                     ),
@@ -711,7 +712,8 @@ class _PurchaseState extends State<Purchase> {
                                                                           SizeConfig
                                                                               .defaultSize!,
                                                                       fontFamily:
-                                                                          'Molengo',
+                                                                          'font'
+                                                                              .tr(),
                                                                       color: Colors
                                                                           .black,
                                                                       decoration:
@@ -975,7 +977,7 @@ class _PurchaseState extends State<Purchase> {
                     Text(
                       '$price',
                       style: TextStyle(
-                        fontFamily: 'Molengo',
+                        fontFamily: 'font'.tr(),
                         fontSize: 2.5 / 100 * sw,
                       ),
                     ).tr()

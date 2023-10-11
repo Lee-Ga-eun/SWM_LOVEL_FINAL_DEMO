@@ -309,7 +309,7 @@ class _RecReState extends State<RecRe> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 2.1 * SizeConfig.defaultSize!,
-                                fontFamily: 'Molengo',
+                                fontFamily: 'font'.tr(),
                                 fontWeight: FontWeight.w400,
                               ),
                               textAlign: TextAlign.center,
@@ -375,7 +375,7 @@ class _RecReState extends State<RecRe> {
                             'Are you sure?',
                             style: TextStyle(
                               fontSize: SizeConfig.defaultSize! * 2.5,
-                              fontFamily: 'Molengo',
+                              fontFamily: 'font'.tr(),
                             ),
                           ).tr()),
                           actions: [
@@ -406,7 +406,7 @@ class _RecReState extends State<RecRe> {
                                         'No, Re-make',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'Molengo',
+                                          fontFamily: 'font'.tr(),
                                           fontSize:
                                               2.2 * SizeConfig.defaultSize!,
                                         ),
@@ -454,7 +454,7 @@ class _RecReState extends State<RecRe> {
                                         'Yes',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'Molengo',
+                                          fontFamily: 'font'.tr(),
                                           fontSize:
                                               2.2 * SizeConfig.defaultSize!,
                                         ),
@@ -565,7 +565,7 @@ class _RecReState extends State<RecRe> {
     return Text(
       "Waiting to record",
       style: TextStyle(
-        fontFamily: 'Molengo',
+        fontFamily: 'font'.tr(),
         fontSize: SizeConfig.defaultSize! * 1.8,
       ),
     ).tr();

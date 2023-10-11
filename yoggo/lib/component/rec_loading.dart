@@ -134,7 +134,7 @@ class _RecLoadingState extends State<RecLoading> {
             Text(
               'Do not exit the screen. Your precious voice is being transmitted. \nIf you leave the screen, the process will be erased.',
               style: TextStyle(
-                  fontFamily: 'Molengo',
+                  fontFamily: 'font'.tr(),
                   fontSize: SizeConfig.defaultSize! * 2.5),
               textAlign: TextAlign.center,
             ).tr()
