@@ -1,5 +1,8 @@
 {
   "font": "Molengo",
+  "font-thin": "Molengo",
+  "font-book": "GenBkBasR",
+  "font-point": "Lilita",
   "YES": "YES",
   "Yes": "Yes",
   "No": "No",
@@ -10,6 +13,10 @@
   "Rate on AppStore": "Rate on AppStore",
   "Rate on PlayStore": "Rate on PlayStore",
   "Welcome": " Welcome! ",
+  "Onboarding": "    안녕~ LOVEL에 온 걸 환영해!\n    먼저, 책을 읽을 수 있도록 4500 포인트를 줬어.\n    읽고 싶은 책을 클릭해서 바로 읽어보자!",
+  "CLAIM NOW": "포인트 받기",
+  "DOUBLE REWARD": "  두 배로 받기",
+  "Point_Info": "매일 매일 출석하고 포인트를 획득해요!",
 
   "Already Subscribed?": "Already Subscribed?",
   "sub_details": "✅ Read with your voice\n✅ Unlock all books\n✅ 7-day FREE trial",

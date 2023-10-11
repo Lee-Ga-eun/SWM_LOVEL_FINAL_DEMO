@@ -198,6 +198,10 @@ flutter:
     - family: IBM
       fonts:
         - asset: assets/fonts/IBMPlexSansKR-SemiBold.ttf
+    - family: MapleRegular
+      fonts:
+        - asset: assets/fonts/SOYO Maple Regular.ttf
+
     - family: Maple
       fonts:
         - asset: assets/fonts/SOYO Maple Bold.ttf

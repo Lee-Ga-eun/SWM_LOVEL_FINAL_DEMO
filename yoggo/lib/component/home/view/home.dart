@@ -1474,7 +1474,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: SizeConfig.defaultSize! * 3),
+                    SizedBox(height: SizeConfig.defaultSize! * 2),
                     Text(
                       'Welcome',
                       style: TextStyle(
@@ -1524,7 +1524,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         'Voice Profile',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 1.8 * SizeConfig.defaultSize!,
+                          fontSize: 1.5 * SizeConfig.defaultSize!,
                           fontFamily: 'font'.tr(),
                           fontWeight: FontWeight.w400,
                         ),
@@ -1670,7 +1670,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             'Invite Friends',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 1.8 * SizeConfig.defaultSize!,
+                              fontSize: 1.5 * SizeConfig.defaultSize!,
                               fontFamily: 'font'.tr(),
                               fontWeight: FontWeight.w400,
                             ),
@@ -1698,7 +1698,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 : 'Rate on AppStore',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 1.8 * SizeConfig.defaultSize!,
+                              fontSize: 1.5 * SizeConfig.defaultSize!,
                               fontFamily: 'font'.tr(),
                               fontWeight: FontWeight.w400,
                             ),

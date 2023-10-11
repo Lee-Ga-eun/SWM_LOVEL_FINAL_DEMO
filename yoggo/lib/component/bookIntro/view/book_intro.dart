@@ -1444,7 +1444,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                               ? Text(
                                                                                   'READ NOW',
                                                                                   textAlign: TextAlign.center,
-                                                                                  style: TextStyle(color: Colors.black, fontSize: 2.3 * SizeConfig.defaultSize!, fontFamily: 'GenBkBasR'),
+                                                                                  style: TextStyle(color: Colors.black, fontSize: 2.3 * SizeConfig.defaultSize!, fontFamily: 'font-book'.tr()),
                                                                                 ).tr()
                                                                               : Row(
                                                                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1577,8 +1577,8 @@ class _BookIntroState extends State<BookIntro> {
                                                                             color:
                                                                                 Colors.black,
                                                                             fontSize: 2.3 * SizeConfig.defaultSize!,
-                                                                            fontFamily: 'GenBkBasR'),
-                                                                      ),
+                                                                            fontFamily: 'font-book'.tr()),
+                                                                      ).tr(),
                                                                     ),
                                                                   ]))))
                                             ]))
