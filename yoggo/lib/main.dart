@@ -104,7 +104,7 @@ void main() async {
       EasyLocalization(
         supportedLocales: const [Locale('ko', 'KR')], //Locale('en', 'US'),
         path: 'assets/locales',
-        fallbackLocale: const Locale('en', 'US'),
+        //fallbackLocale: const Locale('en', 'US'),
         // startLocale: const Locale('en', 'US'), // 초기 로캘 설정 (선택 사항)
 
         child: MultiBlocProvider(

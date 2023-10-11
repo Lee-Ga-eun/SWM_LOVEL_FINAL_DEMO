@@ -6,6 +6,7 @@ import 'package:yoggo/size_config.dart';
 import 'rec.dart';
 import 'globalCubit/user/user_cubit.dart';
 import 'package:amplitude_flutter/amplitude.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RecInfo extends StatefulWidget {
   const RecInfo({super.key});
@@ -105,7 +106,7 @@ class _RecInfoState extends State<RecInfo> {
                           fontSize: SizeConfig.defaultSize! * 2.2,
                           fontFamily: 'Molengo',
                         ),
-                      ),
+                      ).tr(),
                       SizedBox(
                         height: 1.8 * SizeConfig.defaultSize!,
                       ),
@@ -130,7 +131,7 @@ class _RecInfoState extends State<RecInfo> {
                                       fontWeight: FontWeight.w400,
                                       fontFamily: 'Molengo'),
                                   textAlign: TextAlign.center,
-                                )
+                                ).tr()
                               ],
                             ),
                             SizedBox(
@@ -152,7 +153,7 @@ class _RecInfoState extends State<RecInfo> {
                                     fontFamily: 'Molengo',
                                   ),
                                   textAlign: TextAlign.center,
-                                )
+                                ).tr()
                               ],
                             ),
                             SizedBox(
@@ -174,7 +175,7 @@ class _RecInfoState extends State<RecInfo> {
                                     fontFamily: 'Molengo',
                                   ),
                                   textAlign: TextAlign.center,
-                                )
+                                ).tr()
                               ],
                             ),
                             SizedBox(
@@ -196,7 +197,7 @@ class _RecInfoState extends State<RecInfo> {
                                     fontFamily: 'Molengo',
                                   ),
                                   textAlign: TextAlign.center,
-                                ),
+                                ).tr(),
                                 // Positioned(
                                 //     child: IconButton(
                                 //   padding: EdgeInsets.only(
