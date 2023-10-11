@@ -3,21 +3,48 @@
   "YES": "YES",
   "Yes": "Yes",
   "No": "No",
+  
   "Voice Profile": "Voice Profile",
+  "Invite Friends":"Invite Friends",
+  "Edit this voice":"Edit this voice",
+  "Rate on AppStore":"Rate on AppStore",
+  "Rate on PlayStore":"Rate on PlayStore",
+  "Welcome":" Welcome! ",
+  
+    "Already Subscribed?":"Already Subscribed?",
+    "sub_details":"✅ Read with your voice\n✅ Unlock all books\n✅ 7-day FREE trial",
+    "5.99":"$5.99",
+    "/mo":"/mo",
+    "2.99":"$ 2.99",
+    "4.99":"$ 4.99",
+    "8.99":"$ 8.99",
+    "9.99":"$ 9.99",
+    "19.99":"$19.99",
+    "LOVEL SUBSCRIPTION":"LOVEL SUBSCRIPTION",
+    "Subscription Terms Text":"Subscription Terms: After 7-day free trial, LOVEL monthly subscription is $5.99, automatically renews unless turned off in Account Settings at least 24h before current period ends. Payment is charged to your iTunes account. By tapping Continue, you agree to our ",
+    "Terms":"Terms",
+    "Terms_and":" and ",
+    "Privacy Policy":"Privacy Policy.",
+    "Subscription Terms Android": "After 7-day free trial, LOVEL monthly subscription is $5.99. You can cancel this subscription at any time if you wish."
+  
   "Congratulations on \n completing the READING": "Congratulations on \n completing the READING",
   "If you want to read a book in the voice of your parents,": "If you want to read a book in the voice of your parents,",
   "Go to Record": "Go to Record",
-
+  
   "We are making your voice!": "We are making your voice!",
   "Re-make your voice": "Re-make your voice",
   "If you record again, the previous voice will be deleted.\nyou'll need to recreate the books using the new voice\nDo you want to continue?": "If you record again, the previous voice will be deleted.\nyou'll need to recreate the books using the new voice\nDo you want to continue?",
+  
   "Congratulations on \n completing the RECORDING": "Congratulations on \n completing the RECORDING",
   "Your voice is well recorded \n We'll let you know by PUSH when it's done": "Your voice is well recorded \n We'll let you know by PUSH when it's done",
+  
   "script": "As she emerges from the sea onto the shore, she realizes that\nher voice is gone, but she still recognizes its immeasurable beauty\nand preciousness. She expresses it in the following way:\n\"Voice is an ineffable beauty. It is the purest and most precious gift.\nThough I have lost this cherished gift, I will embark on a journey\nto find true love through other means. Even without my voice,\nthe emotions and passions within me will not easily fade away.\nLove transcends language. In this quest to reclaim my precious voice,\nI will discover my true self and learn the ways of love and freedom.\"",
   "Are you sure?": "Are you sure?",
   "Waiting to record": "Waiting to record",
   "No, Re-make": "No, Re-make",
+  
   "Do not exit the screen. Your precious voice is being transmitted. \nIf you leave the screen, the process will be erased.": "Do not exit the screen. Your precious voice is being transmitted. \nIf you leave the screen, the process will be erased.",
+  
   "Now it's your turn to make your voice heard!": "Now it's your turn to make your voice heard!",
   "Eliminate\nambient noise\nand focus on\nyour voice": "Eliminate\nambient noise\nand focus on\nyour voice",
   "The more of\n your voice \nwithout gaps \nthe better quality": "The more of\n your voice \nwithout gaps \nthe better quality",
