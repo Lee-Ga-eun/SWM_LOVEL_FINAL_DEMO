@@ -1,15 +1,22 @@
 {
   "font": "Maple",
+  "font-thin": "MapleRegular",
+  "font-book": "Maple",
+  "font-point": "Maple",
   "Yes": "네",
   "YES": "네",
   "No": "아니요",
 
   "Voice Profile": "목소리 프로필",
   "Invite Friends": "친구 초대하기",
-  "Edit this voice": "My Voice 바꾸기",
+  "Edit this voice": "프로필 수정",
   "Rate on AppStore": "별점 매기기",
   "Rate on PlayStore": "별점 매기기",
   "Welcome": " 반가워요! ",
+  "Onboarding": "Hello, Welcome to LOVEL! \nHere, you can discover free books to read and 4,500 points that can \nunlock premium books. Please click on a book you like and start reading!",
+  "CLAIM NOW": "CLAIM NOW",
+  "DOUBLE REWARD": "  DOUBLE REWARD",
+  "Point_Info": "Attend daily and claim your rewards!",
 
   "Already Subscribed?": "이미 구독 중인가요?",
   "sub_details": "✅ 당신의 목소리로 읽어보세요\n✅ 모든 책을 이용할 수 있어요\n✅ 7일 무료체험을 제공해요",
@@ -39,8 +46,7 @@
 
   "Congratulations on \n completing the RECORDING": "축하해요!\n녹음을 완료했어요.",
   "Your voice is well recorded \n We'll let you know by PUSH when it's done": "목소리가 완성되면 알림을 보내드릴게요.",
-
-  "script": "안녕하세요",
+  "script": "아이를 키우는 것 자체로 우리는 이미 훌륭하게 해내고 있어요.\n아이는 뱃속에서부터 우리의 언어를 듣고 자라나죠. 스탠포드의 연구에 따르면,\n아이들이 우리 목소리를 구분하는데는 단 1초도 걸리지 않아요. 놀랍지 않나요?\n목소리는 인간의 의사소통에서 가장 중요한 수단이에요. 아이는 우리의 목소리를 통해\n사회성과 정서적인 발달을 배운답니다. 우리 목소리로 읽어줄 것은,\n단순한 책이 아니라 세상을 이해하는 방법이고, 애정과 사랑을 전해주는 마음입니다.\n세상에 하나 뿐인 당신의 특별한 목소리로, 아이에게 말해주세요.\n\"너는 세상에서 가장 소중한 보물이야.\"",
   "Are you sure?": "이대로 진행하시겠어요?",
   "Waiting to record": "녹음 대기 중",
   "No, Re-make": "다시 녹음할래요",

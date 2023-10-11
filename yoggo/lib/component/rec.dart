@@ -229,7 +229,7 @@ class _RecState extends State<Rec> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 2.1 * SizeConfig.defaultSize!,
-                                fontFamily: 'font'.tr(),
+                                fontFamily: 'font-thin'.tr(),
                                 fontWeight: FontWeight.w400,
                               ),
                               textAlign: TextAlign.center,
