@@ -198,9 +198,6 @@ flutter:
     - family: IBM
       fonts:
         - asset: assets/fonts/IBMPlexSansKR-SemiBold.ttf
-    - family: Jeonju
-      fonts:
-        - asset: assets/fonts/JeonjuCraft_Go_Regular.ttf
     - family: Maple
       fonts:
         - asset: assets/fonts/SOYO Maple Bold.ttf
