@@ -1476,11 +1476,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     SizedBox(height: SizeConfig.defaultSize! * 3),
                     Text(
-                      ' Welcome! ',
+                      'Welcome',
                       style: TextStyle(
                           fontSize: SizeConfig.defaultSize! * 1.8,
                           fontFamily: 'Molengo'),
-                    ),
+                    ).tr(),
                     SizedBox(height: SizeConfig.defaultSize!),
                     Padding(
                       padding:
@@ -1614,16 +1614,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                               ),
                                               child: Center(
-                                                  child: Text(
-                                                'Edit this voice',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 1.4 *
-                                                      SizeConfig.defaultSize!,
-                                                  fontFamily: 'Molengo',
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              )))),
+                                                child: Text(
+                                                  'Edit this voice',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 1.4 *
+                                                        SizeConfig.defaultSize!,
+                                                    fontFamily: 'Molengo',
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ).tr(),
+                                              ))),
                                     )
                                   ],
                                 ),
@@ -1673,7 +1674,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontFamily: 'Molengo',
                               fontWeight: FontWeight.w400,
                             ),
-                          ),
+                          ).tr(),
                         ),
                         onTap: () async {
                           _sendInviteFriendsClickEvent(userState.point);
@@ -1701,7 +1702,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontFamily: 'Molengo',
                               fontWeight: FontWeight.w400,
                             ),
-                          ),
+                          ).tr(),
                         ),
                         onTap: () async {
                           final InAppReview inAppReview = InAppReview.instance;

@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
-import 'package:crypto/crypto.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
@@ -13,11 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yoggo/component/home/view/home.dart';
-import 'package:yoggo/component/sign.dart';
 import 'package:yoggo/component/rec_info.dart';
-import 'package:yoggo/component/sign_and.dart';
 import 'package:yoggo/size_config.dart';
-import 'package:flutter/material.dart';
 
 import 'dart:io' show Platform;
 
@@ -25,6 +20,7 @@ import 'globalCubit/user/user_cubit.dart';
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class Purchase extends StatefulWidget {
   const Purchase({super.key});
@@ -223,9 +219,9 @@ class _PurchaseState extends State<Purchase> {
 
   Future<void> payCashToPoint(points) async {
     try {
-      Set<String> _kIds = <String>{"points_$points"};
+      Set<String> kIds = <String>{"points_$points"};
       final ProductDetailsResponse response =
-          await InAppPurchase.instance.queryProductDetails(_kIds);
+          await InAppPurchase.instance.queryProductDetails(kIds);
 
       if (response.notFoundIDs.isNotEmpty) print('제품 없다');
       final ProductDetails productDetails = response.productDetails.first;
@@ -345,10 +341,10 @@ class _PurchaseState extends State<Purchase> {
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 // title: Text('Sorry'),
-                                content: Text('No subscription found.'),
+                                content: const Text('No subscription found.'),
                                 actions: <Widget>[
                                   TextButton(
-                                    child: Text('Close'),
+                                    child: const Text('Close'),
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
@@ -359,16 +355,16 @@ class _PurchaseState extends State<Purchase> {
                           );
                         }
                       } else {
-                        print("entitlement: ${entitlement}");
+                        print("entitlement: $entitlement");
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               // title: Text('Sorry'),
-                              content: Text('No subscription found.'),
+                              content: const Text('No subscription found.'),
                               actions: <Widget>[
                                 TextButton(
-                                  child: Text('Close'),
+                                  child: const Text('Close'),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
@@ -384,10 +380,10 @@ class _PurchaseState extends State<Purchase> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             // title: Text('Sorry'),
-                            content: Text('No subscription found.'),
+                            content: const Text('No subscription found.'),
                             actions: <Widget>[
                               TextButton(
-                                child: Text('Close'),
+                                child: const Text('Close'),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -408,12 +404,13 @@ class _PurchaseState extends State<Purchase> {
                         borderRadius: BorderRadius.all(
                             Radius.circular(SizeConfig.defaultSize! * 1))),
                     child: Center(
-                        child: Text(
-                      'Already Subscribed?',
-                      style: TextStyle(
-                          fontFamily: 'Molengo',
-                          fontSize: SizeConfig.defaultSize! * 1.6),
-                    )),
+                      child: Text(
+                        'Already Subscribed?',
+                        style: TextStyle(
+                            fontFamily: 'Molengo',
+                            fontSize: SizeConfig.defaultSize! * 1.6),
+                      ).tr(),
+                    ),
                   )),
             ),
             // ios 앱 심사를 위한 restore 버튼 끝
@@ -494,7 +491,7 @@ class _PurchaseState extends State<Purchase> {
                                           fontFamily: 'GenBkBasR',
                                           fontSize:
                                               SizeConfig.defaultSize! * 2.3),
-                                    ),
+                                    ).tr(),
                                   ),
                                 ),
                                 Container(
@@ -525,13 +522,13 @@ class _PurchaseState extends State<Purchase> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              Text(
-                                                  '✅ Read with your voice\n✅ Unlock all books\n✅ 7-day FREE trial',
-                                                  style: TextStyle(
-                                                      fontFamily: 'Molengo',
-                                                      fontSize: 1.5 *
-                                                          SizeConfig
-                                                              .defaultSize!)),
+                                              Text("sub_details",
+                                                      style: TextStyle(
+                                                          fontFamily: 'Molengo',
+                                                          fontSize: 1.5 *
+                                                              SizeConfig
+                                                                  .defaultSize!))
+                                                  .tr(),
                                               SizedBox(
                                                   width: 3 *
                                                       SizeConfig.defaultSize!),
@@ -556,7 +553,7 @@ class _PurchaseState extends State<Purchase> {
                                                                 .center,
                                                         children: [
                                                           Text(
-                                                            '\$5.99',
+                                                            '5.99',
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: TextStyle(
@@ -568,7 +565,7 @@ class _PurchaseState extends State<Purchase> {
                                                               fontFamily:
                                                                   'Molengo',
                                                             ),
-                                                          ),
+                                                          ).tr(),
                                                           Padding(
                                                             padding: EdgeInsets.only(
                                                                 top: SizeConfig
@@ -586,12 +583,12 @@ class _PurchaseState extends State<Purchase> {
                                                                 fontFamily:
                                                                     'Molengo',
                                                               ),
-                                                            ),
+                                                            ).tr(),
                                                           ),
                                                         ],
                                                       ),
                                                       Text(
-                                                        '\$19.99',
+                                                        '19.99',
                                                         style: TextStyle(
                                                             color: const Color
                                                                     .fromARGB(
@@ -607,7 +604,7 @@ class _PurchaseState extends State<Purchase> {
                                                             fontSize: 1.5 *
                                                                 SizeConfig
                                                                     .defaultSize!),
-                                                      )
+                                                      ).tr()
                                                     ],
                                                   ),
                                                 ),
@@ -634,7 +631,7 @@ class _PurchaseState extends State<Purchase> {
                                                                   .center,
                                                           children: [
                                                               Text(
-                                                                "After 7-day free trial, LOVEL monthly subscription is \$5.99. You can cancel this subscription at any time if you wish.",
+                                                                "Subscription Terms Android",
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
@@ -649,7 +646,7 @@ class _PurchaseState extends State<Purchase> {
                                                                 textAlign:
                                                                     TextAlign
                                                                         .center,
-                                                              ),
+                                                              ).tr(),
                                                             ])
                                                       : Column(
                                                           children: [
@@ -657,22 +654,20 @@ class _PurchaseState extends State<Purchase> {
                                                               text: TextSpan(
                                                                 children: [
                                                                   TextSpan(
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize: 1 *
-                                                                          SizeConfig
-                                                                              .defaultSize!,
-                                                                      fontFamily:
-                                                                          'Molengo',
-                                                                      color: Colors
-                                                                          .black,
-                                                                    ),
-                                                                    text:
-                                                                        "Subscription Terms: After 7-day free trial, LOVEL monthly subscription is \$5.99, automatically renews unless turned off in Account Settings at least 24h before current period ends. Payment is charged to your iTunes account. By tapping Continue, you agree to our ",
-                                                                  ),
+                                                                      style:
+                                                                          TextStyle(
+                                                                        fontSize:
+                                                                            1 * SizeConfig.defaultSize!,
+                                                                        fontFamily:
+                                                                            'Molengo',
+                                                                        color: Colors
+                                                                            .black,
+                                                                      ),
+                                                                      text: "Subscription Terms Text"
+                                                                          .tr()),
                                                                   TextSpan(
-                                                                    text:
-                                                                        "Terms",
+                                                                    text: "Terms"
+                                                                        .tr(),
                                                                     style:
                                                                         TextStyle(
                                                                       fontSize: 1.2 *
@@ -694,8 +689,8 @@ class _PurchaseState extends State<Purchase> {
                                                                           },
                                                                   ),
                                                                   TextSpan(
-                                                                    text:
-                                                                        " and ",
+                                                                    text: "Terms_and"
+                                                                        .tr(),
                                                                     style:
                                                                         TextStyle(
                                                                       fontSize: 1.2 *
@@ -708,8 +703,8 @@ class _PurchaseState extends State<Purchase> {
                                                                     ),
                                                                   ),
                                                                   TextSpan(
-                                                                    text:
-                                                                        "Privacy Policy.",
+                                                                    text: "Privacy Policy"
+                                                                        .tr(),
                                                                     style:
                                                                         TextStyle(
                                                                       fontSize: 1.2 *
@@ -794,7 +789,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'oneCoin',
                                           coinWid: 6.5,
                                           coinNum: 3000,
-                                          price: '\$ 2.99',
+                                          price: '2.99',
                                           pointNow: userState.point,
                                           flag: ''),
                                       pointGood(
@@ -805,7 +800,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'twoCoins',
                                           coinWid: 8.5,
                                           coinNum: 6000,
-                                          price: '\$ 4.99',
+                                          price: '4.99',
                                           pointNow: userState.point,
                                           flag: 'mostPopular'),
                                     ],
@@ -825,7 +820,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'threeCoins',
                                           coinWid: 10,
                                           coinNum: 10000,
-                                          price: '\$ 8.99',
+                                          price: '8.99',
                                           pointNow: userState.point,
                                           flag: ''),
                                       pointGood(
@@ -836,7 +831,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'fiveCoins',
                                           coinWid: 14.5,
                                           coinNum: 15000,
-                                          price: '\$ 9.99',
+                                          price: '9.99',
                                           pointNow: userState.point,
                                           flag: 'specialPromotion'),
                                     ],
@@ -920,7 +915,7 @@ class _PurchaseState extends State<Purchase> {
                       Container(
                         width: 0.208 * sw,
                         height: (25.5) / 100 * sh,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Color.fromARGB(0, 255, 0, 255),
                         ),
                       ),
@@ -951,15 +946,16 @@ class _PurchaseState extends State<Purchase> {
                                     Image.asset('lib/images/$coinImage.png')),
                           ]),
                       Positioned(
-                          right: 0.5 * SizeConfig.defaultSize!,
-                          bottom: 0.5 * SizeConfig.defaultSize!,
-                          child: Text(
-                            '$coinNum',
-                            style: TextStyle(
-                              fontFamily: 'Lilita',
-                              fontSize: 2.8 / 100 * sw,
-                            ),
-                          ))
+                        right: 0.5 * SizeConfig.defaultSize!,
+                        bottom: 0.5 * SizeConfig.defaultSize!,
+                        child: Text(
+                          '$coinNum',
+                          style: TextStyle(
+                            fontFamily: 'Lilita',
+                            fontSize: 2.8 / 100 * sw,
+                          ),
+                        ),
+                      )
                     ],
                   ),
                   Stack(alignment: Alignment.center, children: [
@@ -982,7 +978,7 @@ class _PurchaseState extends State<Purchase> {
                         fontFamily: 'Molengo',
                         fontSize: 2.5 / 100 * sw,
                       ),
-                    )
+                    ).tr()
                   ]),
                 ],
               ),

@@ -1,4 +1,27 @@
 {
-    "Voice Profile": "목소리 프로필"
+    "Voice Profile": "목소리 프로필",
+    "Invite Friends":"친구 초대하기",
+    "Edit this voice":"My Voice 바꾸기",
+    "Rate on AppStore":"별점 매기기",
+    "Rate on PlayStore":"별점 매기기",
+    "Welcome":" 반가워요! ",
+    "Already Subscribed?":"이미 구독 중인가요?",
+    "sub_details":"✅ 당신의 목소리로 읽어보세요\n✅ 모든 책을 이용할 수 있어요\n✅ 7일 무료체험을 제공해요",
+    "5.99":"$5.99",
+    "/mo":"/mo",
+    "2.99":"$ 2.99",
+    "4.99":"$ 4.99",
+    "8.99":"$ 8.99",
+    "9.99":"$ 9.99",
+    "19.99":"$19.99",
+    "LOVEL SUBSCRIPTION":"LOVEL 구독 서비스",
+    "Subscription Terms Text":"Subscription Terms: After 7-day free trial, LOVEL monthly subscription is $5.99, automatically renews unless turned off in Account Settings at least 24h before current period ends. Payment is charged to your iTunes account. By tapping Continue, you agree to our ",
+    "Terms":"Terms",
+    "Terms_and":" and ",
+    "Privacy Policy":"Privacy Policy.",
+    "Subscription Terms Android": "After 7-day free trial, LOVEL monthly subscription is $5.99. You can cancel this subscription at any time if you wish."
+
+
+
 
 }
