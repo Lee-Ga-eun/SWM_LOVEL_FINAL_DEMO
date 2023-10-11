@@ -72,9 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   RewardedAd? _rewardedAd;
   bool _isAdLoaded = false;
-
-  // final String _adUnitId = "ca-app-pub-3940256099942544/5224354917";
-
   @override
   void initState() {
     super.initState();
@@ -1305,8 +1302,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void _loadRewardedAd() {
     RewardedAd.load(
       adUnitId: Platform.isIOS
-          ? "ca-app-pub-6637884967909793/7985054428"
-          : "ca-app-pub-6637884967909793/2799890940",
+          ? dotenv.get("ADMOB_ios")
+          : dotenv.get("ADMOB_android"),
       // "ca-app-pub-3940256099942544/5224354917", // test
       request: AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
