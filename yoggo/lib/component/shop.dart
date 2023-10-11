@@ -488,7 +488,7 @@ class _PurchaseState extends State<Purchase> {
                                     child: Text(
                                       'LOVEL SUBSCRIPTION',
                                       style: TextStyle(
-                                          fontFamily: 'GenBkBasR',
+                                          fontFamily: 'font-book'.tr(),
                                           fontSize:
                                               SizeConfig.defaultSize! * 2.3),
                                     ).tr(),
@@ -531,7 +531,7 @@ class _PurchaseState extends State<Purchase> {
                                                                   .defaultSize!))
                                                   .tr(),
                                               SizedBox(
-                                                  width: 3 *
+                                                  width: 0.8 *
                                                       SizeConfig.defaultSize!),
                                               Container(
                                                 height: 6.8 *
@@ -564,7 +564,7 @@ class _PurchaseState extends State<Purchase> {
                                                                   SizeConfig
                                                                       .defaultSize!,
                                                               fontFamily:
-                                                                  'font'.tr(),
+                                                                  'Molengo',
                                                             ),
                                                           ).tr(),
                                                           Padding(
@@ -582,7 +582,7 @@ class _PurchaseState extends State<Purchase> {
                                                                     SizeConfig
                                                                         .defaultSize!,
                                                                 fontFamily:
-                                                                    'font'.tr(),
+                                                                    'Molengo',
                                                               ),
                                                             ).tr(),
                                                           ),
@@ -593,9 +593,12 @@ class _PurchaseState extends State<Purchase> {
                                                         style: TextStyle(
                                                             color: const Color
                                                                     .fromARGB(
-                                                                136, 0, 0, 0),
+                                                                136,
+                                                                0,
+                                                                0,
+                                                                0),
                                                             fontFamily:
-                                                                'font'.tr(),
+                                                                'Molengo',
                                                             decoration:
                                                                 TextDecoration
                                                                     .lineThrough,
@@ -669,7 +672,7 @@ class _PurchaseState extends State<Purchase> {
                                                                         .tr(),
                                                                     style:
                                                                         TextStyle(
-                                                                      fontSize: 1.2 *
+                                                                      fontSize: 1 *
                                                                           SizeConfig
                                                                               .defaultSize!,
                                                                       fontFamily:
@@ -693,7 +696,7 @@ class _PurchaseState extends State<Purchase> {
                                                                         .tr(),
                                                                     style:
                                                                         TextStyle(
-                                                                      fontSize: 1.2 *
+                                                                      fontSize: 1 *
                                                                           SizeConfig
                                                                               .defaultSize!,
                                                                       fontFamily:
@@ -708,7 +711,7 @@ class _PurchaseState extends State<Purchase> {
                                                                         .tr(),
                                                                     style:
                                                                         TextStyle(
-                                                                      fontSize: 1.2 *
+                                                                      fontSize: 1 *
                                                                           SizeConfig
                                                                               .defaultSize!,
                                                                       fontFamily:
@@ -977,7 +980,7 @@ class _PurchaseState extends State<Purchase> {
                     Text(
                       '$price',
                       style: TextStyle(
-                        fontFamily: 'font'.tr(),
+                        fontFamily: 'Molengo',
                         fontSize: 2.5 / 100 * sw,
                       ),
                     ).tr()
