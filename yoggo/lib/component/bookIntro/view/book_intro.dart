@@ -9,6 +9,7 @@ import 'package:yoggo/component/home/viewModel/home_screen_cubit.dart';
 import 'package:yoggo/component/rec_info.dart';
 import '../../../Repositories/Repository.dart';
 import '../../bookPage/view/book_page.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:http/http.dart' as http;
@@ -1444,7 +1445,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                                   'READ NOW',
                                                                                   textAlign: TextAlign.center,
                                                                                   style: TextStyle(color: Colors.black, fontSize: 2.3 * SizeConfig.defaultSize!, fontFamily: 'GenBkBasR'),
-                                                                                )
+                                                                                ).tr()
                                                                               : Row(
                                                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                                                   children: [

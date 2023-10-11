@@ -818,7 +818,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         'Hello, Welcome to LOVEL! \nHere, you can discover free books to read and 4,500 points that can \nunlock premium books. Please click on a book you like and start reading!',
                                                         style: TextStyle(
                                                             fontFamily:
-                                                                'Molengo',
+                                                                'font'.tr(),
                                                             color: Colors.black,
                                                             fontSize: SizeConfig
                                                                     .defaultSize! *
@@ -902,7 +902,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             'You can earn points\nthrough attendance checks!',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                                fontFamily: 'Molengo',
+                                                fontFamily: 'font'.tr(),
                                                 fontSize:
                                                     SizeConfig.defaultSize! *
                                                         2),
@@ -963,7 +963,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Text(
                                               'Attend daily and claim your rewards!',
                                               style: TextStyle(
-                                                fontFamily: 'Molengo',
+                                                fontFamily: 'font'.tr(),
                                                 fontSize: 2.2 *
                                                     SizeConfig.defaultSize!,
                                               ),
@@ -1476,7 +1476,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Welcome',
                       style: TextStyle(
                           fontSize: SizeConfig.defaultSize! * 1.8,
-                          fontFamily: 'Molengo'),
+                          fontFamily: 'font'.tr()),
                     ).tr(),
                     SizedBox(height: SizeConfig.defaultSize!),
                     Padding(
@@ -1522,7 +1522,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 1.8 * SizeConfig.defaultSize!,
-                          fontFamily: 'Molengo',
+                          fontFamily: 'font'.tr(),
                           fontWeight: FontWeight.w400,
                         ),
                       ).tr(),
@@ -1617,7 +1617,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     color: Colors.black,
                                                     fontSize: 1.4 *
                                                         SizeConfig.defaultSize!,
-                                                    fontFamily: 'Molengo',
+                                                    fontFamily: 'font'.tr(),
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ).tr(),
@@ -1668,7 +1668,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 1.8 * SizeConfig.defaultSize!,
-                              fontFamily: 'Molengo',
+                              fontFamily: 'font'.tr(),
                               fontWeight: FontWeight.w400,
                             ),
                           ).tr(),
@@ -1696,7 +1696,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 1.8 * SizeConfig.defaultSize!,
-                              fontFamily: 'Molengo',
+                              fontFamily: 'font'.tr(),
                               fontWeight: FontWeight.w400,
                             ),
                           ).tr(),

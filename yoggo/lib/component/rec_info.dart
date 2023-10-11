@@ -104,7 +104,7 @@ class _RecInfoState extends State<RecInfo> {
                         'Now it\'s your turn to make your voice heard!',
                         style: TextStyle(
                           fontSize: SizeConfig.defaultSize! * 2.2,
-                          fontFamily: 'Molengo',
+                          fontFamily: 'font'.tr(),
                         ),
                       ).tr(),
                       SizedBox(
@@ -129,7 +129,7 @@ class _RecInfoState extends State<RecInfo> {
                                   style: TextStyle(
                                       fontSize: SizeConfig.defaultSize! * 2,
                                       fontWeight: FontWeight.w400,
-                                      fontFamily: 'Molengo'),
+                                      fontFamily: 'font'.tr()),
                                   textAlign: TextAlign.center,
                                 ).tr()
                               ],
@@ -150,7 +150,7 @@ class _RecInfoState extends State<RecInfo> {
                                   style: TextStyle(
                                     fontSize: SizeConfig.defaultSize! * 2,
                                     fontWeight: FontWeight.w400,
-                                    fontFamily: 'Molengo',
+                                    fontFamily: 'font'.tr(),
                                   ),
                                   textAlign: TextAlign.center,
                                 ).tr()
@@ -172,7 +172,7 @@ class _RecInfoState extends State<RecInfo> {
                                   style: TextStyle(
                                     fontSize: SizeConfig.defaultSize! * 2,
                                     fontWeight: FontWeight.w400,
-                                    fontFamily: 'Molengo',
+                                    fontFamily: 'font'.tr(),
                                   ),
                                   textAlign: TextAlign.center,
                                 ).tr()
@@ -194,7 +194,7 @@ class _RecInfoState extends State<RecInfo> {
                                   style: TextStyle(
                                     fontSize: SizeConfig.defaultSize! * 2,
                                     fontWeight: FontWeight.w400,
-                                    fontFamily: 'Molengo',
+                                    fontFamily: 'font'.tr(),
                                   ),
                                   textAlign: TextAlign.center,
                                 ).tr(),
