@@ -1,4 +1,6 @@
 {
+  "font size control": "0.7",
+  
   "font": "Maple",
   "font-thin": "MapleRegular",
   "font-book": "Maple",
@@ -20,19 +22,19 @@
 
   "Already Subscribed?": "이미 구독 중인가요?",
   "sub_details": "✅ 당신의 목소리로 읽어보세요\n✅ 모든 책을 이용할 수 있어요\n✅ 7일 무료체험을 제공해요",
-  "5.99": "$5.99",
-  "/mo": "/mo",
-  "2.99": "$ 2.99",
-  "4.99": "$ 4.99",
-  "8.99": "$ 8.99",
-  "9.99": "$ 9.99",
-  "19.99": "$19.99",
+  "sub price": "₩7,900",
+  "/mo": "/월",
+  "3000 price": "₩3,900",
+  "6000 price": "₩6,900",
+  "10000 price": "₩11,900",
+  "15000 price": "₩12,900",
+  "before discount": "₩19,900",
   "LOVEL SUBSCRIPTION": "LOVEL 구독 서비스",
-  "Subscription Terms Text": "Subscription Terms: After 7-day free trial, LOVEL monthly subscription is $5.99, automatically renews unless turned off in Account Settings at least 24h before current period ends. Payment is charged to your iTunes account. By tapping Continue, you agree to our ",
-  "Terms": "Terms",
-  "Terms_and": " and ",
-  "Privacy Policy": "Privacy Policy.",
-  "Subscription Terms Android": "After 7-day free trial, LOVEL monthly subscription is $5.99. You can cancel this subscription at any time if you wish.",
+  "Subscription Terms Text": "무료 체험 7일 후에, LOVEL 월 구독 7,900원이 자동으로 결제됩니다. 언제든지 체험을 시작하고 취소할 수 있습니다. 취소를 원한다면, 구독 기간이 만료되기 24시간 전에 설정에서 구독을 취소하세요. 결제는 iTunes 계정으로 진행됩니다. 결제를 진행하면 다음 사항에 동의하게 됩니다. ",
+  "Terms": "약관",
+  "Terms_and": ", ",
+  "Privacy Policy": "개인정보처리방침.",
+  "Subscription Terms Android": "무료 체험 7일 후에, LOVEL 월 구독 가격은 7,900 원입니다. 언제든지 체험을 시작하고 취소할 수 있습니다.",
 
   "READ NOW": "읽으러 가기",
 

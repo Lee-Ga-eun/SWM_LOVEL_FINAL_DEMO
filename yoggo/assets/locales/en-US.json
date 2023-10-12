@@ -1,4 +1,6 @@
 {
+    "font size control": "1",
+
   "font": "Molengo",
   "font-thin": "Molengo",
   "font-book": "GenBkBasR",
@@ -20,13 +22,13 @@
 
   "Already Subscribed?": "Already Subscribed?",
   "sub_details": "✅ Read with your voice\n✅ Unlock all books\n✅ 7-day FREE trial",
-  "5.99": "$5.99",
+  "sub price": "$5.99",
   "/mo": "/mo",
-  "2.99": "$ 2.99",
-  "4.99": "$ 4.99",
-  "8.99": "$ 8.99",
-  "9.99": "$ 9.99",
-  "19.99": "$19.99",
+  "3000 price": "$ 2.99",
+  "6000 price": "$ 4.99",
+  "10000 price": "$ 8.99",
+  "15000 price": "$ 9.99",
+  "before discount": "$19.99",
   "LOVEL SUBSCRIPTION": "LOVEL SUBSCRIPTION",
   "Subscription Terms Text": "Subscription Terms: After 7-day free trial, LOVEL monthly subscription is $5.99, automatically renews unless turned off in Account Settings at least 24h before current period ends. Payment is charged to your iTunes account. By tapping Continue, you agree to our ",
   "Terms": "Terms",
