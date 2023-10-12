@@ -37,6 +37,12 @@ class _RecInfoState extends State<RecReInfo> {
   Widget build(BuildContext context) {
     final userCubit = context.watch<UserCubit>();
     final userState = userCubit.state;
+    final sw = (MediaQuery.of(context).size.width -
+        MediaQuery.of(context).padding.left -
+        MediaQuery.of(context).padding.right);
+    final sh = (MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom);
     SizeConfig().init(context);
     return Scaffold(
         body: Container(
@@ -99,10 +105,10 @@ class _RecInfoState extends State<RecReInfo> {
             Expanded(
                 flex: 74,
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    //  mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: 1.5 * SizeConfig.defaultSize!,
+                        height: 2 * SizeConfig.defaultSize!,
                       ),
                       Text(
                         'Now it\'s your turn to make your voice heard!',
@@ -131,7 +137,10 @@ class _RecInfoState extends State<RecReInfo> {
                                 Text(
                                   "Eliminate\nambient noise\nand focus on\nyour voice",
                                   style: TextStyle(
-                                      fontSize: SizeConfig.defaultSize! * 2,
+                                      fontSize: SizeConfig.defaultSize! *
+                                          2 *
+                                          double.parse(
+                                              'font size control'.tr()),
                                       fontWeight: FontWeight.w400,
                                       fontFamily: 'font'.tr()),
                                   textAlign: TextAlign.center,
@@ -152,7 +161,9 @@ class _RecInfoState extends State<RecReInfo> {
                                 Text(
                                   "The more of\n your voice \nwithout gaps \nthe better quality",
                                   style: TextStyle(
-                                    fontSize: SizeConfig.defaultSize! * 2,
+                                    fontSize: SizeConfig.defaultSize! *
+                                        2 *
+                                        double.parse('font size control'.tr()),
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'font'.tr(),
                                   ),
@@ -174,7 +185,9 @@ class _RecInfoState extends State<RecReInfo> {
                                 Text(
                                   "The best quality\nwhen recorded\nfor about\n40 seconds",
                                   style: TextStyle(
-                                    fontSize: SizeConfig.defaultSize! * 2,
+                                    fontSize: SizeConfig.defaultSize! *
+                                        2 *
+                                        double.parse('font size control'.tr()),
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'font'.tr(),
                                   ),
@@ -196,7 +209,9 @@ class _RecInfoState extends State<RecReInfo> {
                                 Text(
                                   "You can try again\nuntil you want",
                                   style: TextStyle(
-                                    fontSize: SizeConfig.defaultSize! * 2,
+                                    fontSize: SizeConfig.defaultSize! *
+                                        2 *
+                                        double.parse('font size control'.tr()),
                                     fontWeight: FontWeight.w400,
                                     fontFamily: 'font'.tr(),
                                   ),
@@ -227,48 +242,6 @@ class _RecInfoState extends State<RecReInfo> {
                             ),
                           ])
                     ])),
-            Expanded(
-              flex: 10,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(color: const Color.fromARGB(0, 0, 100, 0)),
-                  ),
-                  Expanded(
-                    flex: 8,
-                    child: Container(color: const Color.fromARGB(0, 0, 100, 0)),
-                  ),
-                  Expanded(flex: 1, child: Container()
-                      // hild: Row(
-                      //     mainAxisAlignment: MainAxisAlignment.end,
-                      //     children: [
-                      //       // IconButton(
-                      //       //   padding: EdgeInsets.only(
-                      //       //       //  left: SizeConfig.defaultSize! * 13,
-                      //       //       // top: SizeConfig.defaultSize! * 2,
-                      //       //       right: SizeConfig.defaultSize! * 4),
-                      //       //   icon: Icon(
-                      //       //     Icons.arrow_forward,
-                      //       //     size: 3 * SizeConfig.defaultSize!,
-                      //       //     color: Colors.black,
-                      //       //   ),
-                      //       //   onPressed: () {
-                      //       //     Navigator.push(
-                      //       //       context,
-                      //       //       MaterialPageRoute(
-                      //       //         builder: (context) => const Rec(
-                      //       //             // 다음 화면으로 contetnVoiceId를 가지고 이동
-                      //       //             ),
-                      //       //       ),
-                      //       //     );
-                      //       //   },
-                      //       // ),
-                      //     ])
-                      ),
-                ],
-              ),
-            ),
           ],
         ),
       ),
