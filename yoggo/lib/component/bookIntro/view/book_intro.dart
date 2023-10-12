@@ -138,7 +138,7 @@ class _BookIntroState extends State<BookIntro> {
     // contentId = widget.id; // contentId는 init에서
     // fetchPageData();
     getToken();
-    _sendBookIntroViewEvent(widget.id);
+    _sendBookIntroViewEvent(contentId, widget.title);
   }
 
   Future<void> fetchClickedVoice(int id) async {
@@ -154,20 +154,16 @@ class _BookIntroState extends State<BookIntro> {
   static Amplitude amplitude = Amplitude.getInstance();
   // static Analytics_config.analytics.logEvent("suhwanc");
 
-  Future<void> _sendBookMyVoiceClickEvent(contentId) async {
+  Future<void> _sendBookMyVoiceClickEvent(contentId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
         name: 'book_my_voice_click',
-        parameters: <String, dynamic>{
-          'contentId': contentId,
-        },
+        parameters: <String, dynamic>{'contentId': contentId, 'title': title},
       );
       amplitude.logEvent(
         'book_my_voice_click',
-        eventProperties: {
-          'contentId': contentId,
-        },
+        eventProperties: {'contentId': contentId, 'title': title},
       );
     } catch (e) {
       // 이벤트 로깅 실패 시 에러 출력
@@ -183,7 +179,7 @@ class _BookIntroState extends State<BookIntro> {
   // }
 
   Future<void> _sendBookVoiceClickEvent(
-      contentVoiceId, contentId, voiceId) async {
+      contentVoiceId, contentId, title, voiceId) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -191,6 +187,7 @@ class _BookIntroState extends State<BookIntro> {
         parameters: <String, dynamic>{
           'contentVoiceId': contentVoiceId,
           'contentId': contentId,
+          'title': title,
           'voiceId': voiceId,
         },
       );
@@ -199,6 +196,7 @@ class _BookIntroState extends State<BookIntro> {
         eventProperties: {
           'contentVoiceId': contentVoiceId,
           'contentId': contentId,
+          'title': title,
           'voiceId': voiceId,
         },
       );
@@ -211,6 +209,7 @@ class _BookIntroState extends State<BookIntro> {
   Future<void> _sendBookStartClickEvent(
     contentVoiceId,
     contentId,
+    title,
     voiceId,
   ) async {
     try {
@@ -220,6 +219,7 @@ class _BookIntroState extends State<BookIntro> {
         parameters: <String, dynamic>{
           'contentVoiceId': contentVoiceId,
           'contentId': contentId,
+          'title': title,
           'voiceId': voiceId,
         },
       );
@@ -228,6 +228,7 @@ class _BookIntroState extends State<BookIntro> {
         eventProperties: {
           'contentVoiceId': contentVoiceId,
           'contentId': contentId,
+          'title': title,
           'voiceId': voiceId,
         },
       );
@@ -239,6 +240,7 @@ class _BookIntroState extends State<BookIntro> {
 
   Future<void> _sendBookIntroViewEvent(
     contentId,
+    title,
   ) async {
     try {
       // 이벤트 로깅
@@ -246,12 +248,14 @@ class _BookIntroState extends State<BookIntro> {
         name: 'book_intro_view',
         parameters: <String, dynamic>{
           'contentId': contentId,
+          'title': title,
         },
       );
       await amplitude.logEvent(
         'book_intro_view',
         eventProperties: {
           'contentId': contentId,
+          'title': title,
         },
       );
     } catch (e) {
@@ -262,6 +266,7 @@ class _BookIntroState extends State<BookIntro> {
 
   Future<void> _sendBookIntroXClickEvent(
     contentId,
+    title,
   ) async {
     try {
       // 이벤트 로깅
@@ -269,12 +274,14 @@ class _BookIntroState extends State<BookIntro> {
         name: 'book_intro_x_click',
         parameters: <String, dynamic>{
           'contentId': contentId,
+          'title': title,
         },
       );
       await amplitude.logEvent(
         'book_intro_x_click',
         eventProperties: {
           'contentId': contentId,
+          'title': title,
         },
       );
     } catch (e) {
@@ -283,44 +290,48 @@ class _BookIntroState extends State<BookIntro> {
     }
   }
 
-  Future<void> _sendBookLoadingViewEvent(
-    contentVoiceId,
-  ) async {
-    try {
-      // 이벤트 로깅
-      await analytics.logEvent(
-        name: 'book_loading_view',
-        parameters: <String, dynamic>{
-          'contentId': contentId,
-        },
-      );
-      await amplitude.logEvent(
-        'book_loading_view',
-        eventProperties: {
-          'contentId': contentId,
-        },
-      );
-    } catch (e) {
-      // 이벤트 로깅 실패 시 에러 출력
-      print('Failed to log event: $e');
-    }
-  }
+  // Future<void> _sendBookLoadingViewEvent(
+  //   contentVoiceId,
+  // ) async {
+  //   try {
+  //     // 이벤트 로깅
+  //     await analytics.logEvent(
+  //       name: 'book_loading_view',
+  //       parameters: <String, dynamic>{
+  //         'contentId': contentId,
+  //         'title': title,
+  //       },
+  //     );
+  //     await amplitude.logEvent(
+  //       'book_loading_view',
+  //       eventProperties: {
+  //         'contentId': contentId,'title': title,
+  //       },
+  //     );
+  //   } catch (e) {
+  //     // 이벤트 로깅 실패 시 에러 출력
+  //     print('Failed to log event: $e');
+  //   }
+  // }
 
   Future<void> _sendBookIntroRegisterLaterClickEvent(
-    contentVoiceId,
-  ) async {
+      contentId, title, voiceId) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
         name: 'book_intro_register_later_click',
         parameters: <String, dynamic>{
           'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
         },
       );
       await amplitude.logEvent(
         'book_intro_register_later_click',
         eventProperties: {
           'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
         },
       );
     } catch (e) {
@@ -330,20 +341,23 @@ class _BookIntroState extends State<BookIntro> {
   }
 
   Future<void> _sendBookIntroRegisterOkClickEvent(
-    contentVoiceId,
-  ) async {
+      contentId, title, voiceId) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
         name: 'book_intro_register_ok_click',
         parameters: <String, dynamic>{
           'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
         },
       );
       await amplitude.logEvent(
         'book_intro_register_ok_click',
         eventProperties: {
           'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
         },
       );
     } catch (e) {
@@ -352,7 +366,7 @@ class _BookIntroState extends State<BookIntro> {
     }
   }
 
-  Future<void> _sendBookBuyClickEvent(pointNow, contentId) async {
+  Future<void> _sendBookBuyClickEvent(pointNow, contentId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -360,6 +374,7 @@ class _BookIntroState extends State<BookIntro> {
         parameters: <String, dynamic>{
           'point_now': pointNow,
           'contentId': contentId,
+          'title': title,
         },
       );
       amplitude.logEvent(
@@ -367,6 +382,7 @@ class _BookIntroState extends State<BookIntro> {
         eventProperties: {
           'point_now': pointNow,
           'contentId': contentId,
+          'title': title,
         },
       );
     } catch (e) {
@@ -395,6 +411,8 @@ class _BookIntroState extends State<BookIntro> {
     print(response.statusCode);
     if (response.statusCode == 200) {
       UserCubit().fetchUser();
+      Amplitude.getInstance()
+          .setUserProperties({'point': json.decode(response.body)[0]['point']});
       return response.statusCode.toString();
     } else if (response.statusCode == 400) {
       return json.decode(response.body)[0].toString();
@@ -568,8 +586,7 @@ class _BookIntroState extends State<BookIntro> {
                                                   3 * SizeConfig.defaultSize!),
                                           onPressed: () {
                                             _sendBookIntroXClickEvent(
-                                              widget.id,
-                                            );
+                                                widget.id, title);
                                             audioPlayer.stop();
                                             Navigator.popUntil(context,
                                                 (route) => route.isFirst);
@@ -741,6 +758,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                               contentId);
                                                                       _sendBookMyVoiceClickEvent(
                                                                         contentId,
+                                                                        title,
                                                                       );
                                                                       //    setState(() {
                                                                       canChanged
@@ -777,6 +795,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                             () {
                                                                           _sendBookMyVoiceClickEvent(
                                                                             contentId,
+                                                                            title,
                                                                           );
 
                                                                           bookVoiceCubit
@@ -828,6 +847,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                               await bookVoiceCubit.loadClickedBookVoiceData(contentId) as BookVoiceModel;
                                                                           _sendBookMyVoiceClickEvent(
                                                                             contentId,
+                                                                            title,
                                                                           );
                                                                           // setState(() {
                                                                           // isClicked.value =
@@ -886,8 +906,8 @@ class _BookIntroState extends State<BookIntro> {
                                                                 // no record
                                                                 onTap: () {
                                                                   _sendBookMyVoiceClickEvent(
-                                                                    contentId,
-                                                                  );
+                                                                      contentId,
+                                                                      title);
                                                                   setState(() {
                                                                     // wantRecord = true;
                                                                   });
@@ -928,8 +948,8 @@ class _BookIntroState extends State<BookIntro> {
                                                             //no Purchase
                                                             onTap: () {
                                                               _sendBookMyVoiceClickEvent(
-                                                                contentId,
-                                                              );
+                                                                  contentId,
+                                                                  title);
                                                               setState(() {
                                                                 wantPurchase =
                                                                     true;
@@ -1000,7 +1020,10 @@ class _BookIntroState extends State<BookIntro> {
                                                                     '${widget.id % 2 + 1}.flac'));
 
                                                         _sendBookVoiceClickEvent(
-                                                            cvi, contentId, vi);
+                                                            cvi,
+                                                            contentId,
+                                                            title,
+                                                            vi);
                                                         // isClicked.value = false;
                                                         // isClicked0.value = true;
                                                         // isClicked1.value =
@@ -1110,7 +1133,10 @@ class _BookIntroState extends State<BookIntro> {
                                                                     '${widget.id % 2 + 1}.flac'));
 
                                                         _sendBookVoiceClickEvent(
-                                                            cvi, contentId, vi);
+                                                            cvi,
+                                                            contentId,
+                                                            title,
+                                                            vi);
                                                         // isClicked.value = false;
                                                         // isClicked0.value =
                                                         //     false;
@@ -1223,6 +1249,7 @@ class _BookIntroState extends State<BookIntro> {
                                                           _sendBookVoiceClickEvent(
                                                               cvi,
                                                               contentId,
+                                                              title,
                                                               vi);
                                                           // isClicked.value = false;
                                                           // isClicked0.value =
@@ -1361,7 +1388,8 @@ class _BookIntroState extends State<BookIntro> {
                                                           onTap: () async {
                                                             _sendBookBuyClickEvent(
                                                                 userState.point,
-                                                                contentId);
+                                                                contentId,
+                                                                title);
                                                             userCubit
                                                                 .fetchUser();
                                                             if (userState
@@ -1478,6 +1506,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                           clickedVoice!
                                                                               .voiceId,
                                                                           contentId,
+                                                                          title,
                                                                           vi,
                                                                         ),
                                                                         // print(clickedVoice!
@@ -1510,6 +1539,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                           clickedVoice!
                                                                               .voiceId,
                                                                           contentId,
+                                                                          title,
                                                                           vi,
                                                                         ),
                                                                         print(clickedVoice!
@@ -1696,7 +1726,8 @@ class _BookIntroState extends State<BookIntro> {
                     actions: [
                       TextButton(
                         onPressed: () {
-                          _sendBookIntroRegisterLaterClickEvent(contentId);
+                          _sendBookIntroRegisterLaterClickEvent(
+                              contentId, title, vi);
                           // 1초 후에 다음 페이지로 이동
                           Future.delayed(const Duration(seconds: 1), () {
                             setState(() {
@@ -1708,7 +1739,8 @@ class _BookIntroState extends State<BookIntro> {
                       ),
                       TextButton(
                         onPressed: () {
-                          _sendBookIntroRegisterOkClickEvent(contentId);
+                          _sendBookIntroRegisterOkClickEvent(
+                              contentId, title, vi);
                           // 1초 후에 다음 페이지로 이동
                           Future.delayed(const Duration(seconds: 1), () {
                             Navigator.push(
@@ -1732,7 +1764,8 @@ class _BookIntroState extends State<BookIntro> {
                     actions: [
                       TextButton(
                         onPressed: () {
-                          _sendBookIntroRegisterLaterClickEvent(contentId);
+                          _sendBookIntroRegisterLaterClickEvent(
+                              contentId, title, vi);
                           // 1초 후에 다음 페이지로 이동
                           Future.delayed(const Duration(seconds: 1), () {
                             setState(() {
@@ -1744,7 +1777,7 @@ class _BookIntroState extends State<BookIntro> {
                       ),
                       TextButton(
                         onPressed: () {
-                          //_sendBookIntroRegisterOkClickEvent(contentId);
+                          //_sendBookIntroRegisterOkClickEvent(contentId, title, voiceId);
                           // 1초 후에 다음 페이지로 이동
                           Future.delayed(const Duration(seconds: 1), () {
                             Navigator.push(
@@ -1771,7 +1804,8 @@ class _BookIntroState extends State<BookIntro> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              _sendBookIntroRegisterLaterClickEvent(contentId);
+                              _sendBookIntroRegisterLaterClickEvent(
+                                  contentId, title, vi);
                               Future.delayed(const Duration(seconds: 1), () {
                                 wantRecord.value = false;
                               });
@@ -1780,7 +1814,8 @@ class _BookIntroState extends State<BookIntro> {
                           ),
                           TextButton(
                             onPressed: () {
-                              _sendBookIntroRegisterOkClickEvent(contentId);
+                              _sendBookIntroRegisterOkClickEvent(
+                                  contentId, title, vi);
                               Future.delayed(const Duration(seconds: 1), () {
                                 Navigator.push(
                                   context,
