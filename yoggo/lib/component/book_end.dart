@@ -20,6 +20,7 @@ class BookEnd extends StatefulWidget {
   final int contentId; //detail_screen에서 받아오는 것들
   final bool isSelected;
   final int lastPage;
+  final String title;
   const BookEnd({
     super.key,
     required this.voiceId, // detail_screen에서 받아오는 것들 초기화
@@ -27,6 +28,7 @@ class BookEnd extends StatefulWidget {
     required this.contentId, // detail_screen에서 받아오는 것들 초기화
     required this.isSelected,
     required this.lastPage,
+    required this.title,
   });
 
   @override
@@ -38,7 +40,7 @@ class _BookEndState extends State<BookEnd> {
   void initState() {
     super.initState();
     _sendBookEndViewEvent(
-        widget.contentVoiceId, widget.contentId, widget.voiceId);
+        widget.contentVoiceId, widget.contentId, widget.voiceId, widget.title);
     // TODO: Add initialization code
   }
 
@@ -113,23 +115,20 @@ class _BookEndState extends State<BookEnd> {
                       IconButton(
                         padding: EdgeInsets.all(0.2 * SizeConfig.defaultSize!),
                         onPressed: () {
-                          _sendBookAgainClickEvent(
-                            widget.contentVoiceId,
-                            widget.contentId,
-                            widget.voiceId,
-                          );
+                          _sendBookAgainClickEvent(widget.contentVoiceId,
+                              widget.contentId, widget.voiceId, widget.title);
                           Navigator.of(context).pop();
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => BookPage(
-                                // 다음 화면으로 contetnVoiceId를 가지고 이동
-                                contentId: widget.contentId,
-                                contentVoiceId: widget.contentVoiceId,
-                                voiceId: widget.voiceId,
-                                lastPage: widget.lastPage,
-                                isSelected: widget.isSelected,
-                              ),
+                                  // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                  contentId: widget.contentId,
+                                  contentVoiceId: widget.contentVoiceId,
+                                  voiceId: widget.voiceId,
+                                  lastPage: widget.lastPage,
+                                  isSelected: widget.isSelected,
+                                  title: widget.title),
                             ),
                           );
                         },
@@ -144,11 +143,8 @@ class _BookEndState extends State<BookEnd> {
                       IconButton(
                         padding: EdgeInsets.all(0.2 * SizeConfig.defaultSize!),
                         onPressed: () {
-                          _sendBookHomeClickEvent(
-                            widget.contentVoiceId,
-                            widget.contentId,
-                            widget.voiceId,
-                          );
+                          _sendBookHomeClickEvent(widget.contentVoiceId,
+                              widget.contentId, widget.voiceId, widget.title);
                           Navigator.of(context)
                               .popUntil((route) => route.isFirst);
 
@@ -294,11 +290,8 @@ class _BookEndState extends State<BookEnd> {
                         ),
                         InkWell(
                           onTap: () {
-                            _sendBookEndSubClick(
-                              widget.contentVoiceId,
-                              widget.contentId,
-                              widget.voiceId,
-                            );
+                            _sendBookEndSubClick(widget.contentVoiceId,
+                                widget.contentId, widget.voiceId, widget.title);
                             Navigator.push(
                               context,
                               //결제가 끝나면 RecInfo로 가야 함
@@ -431,11 +424,8 @@ class _BookEndState extends State<BookEnd> {
                         ),
                         InkWell(
                           onTap: () {
-                            _sendBookEndSubClick(
-                              widget.contentVoiceId,
-                              widget.contentId,
-                              widget.voiceId,
-                            );
+                            _sendBookEndSubClick(widget.contentVoiceId,
+                                widget.contentId, widget.voiceId, widget.title);
                             Navigator.push(
                               context,
                               //결제가 끝나면 RecInfo로 가야 함
@@ -492,10 +482,7 @@ class _BookEndState extends State<BookEnd> {
   }
 
   Future<void> _sendBookEndViewEvent(
-    contentVoiceId,
-    contentId,
-    voiceId,
-  ) async {
+      contentVoiceId, contentId, voiceId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -504,12 +491,14 @@ class _BookEndState extends State<BookEnd> {
           'contentVoiceId': contentVoiceId,
           'contentId': contentId,
           'voiceId': voiceId,
+          'title': title,
         },
       );
       amplitude.logEvent('book_end_view', eventProperties: {
         'contentVoiceId': contentVoiceId,
         'contentId': contentId,
         'voiceId': voiceId,
+        'title': title,
       });
     } catch (e) {
       print('Failed to log event: $e');
@@ -517,10 +506,7 @@ class _BookEndState extends State<BookEnd> {
   }
 
   Future<void> _sendBookEndSubClick(
-    contentVoiceId,
-    contentId,
-    voiceId,
-  ) async {
+      contentVoiceId, contentId, voiceId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -529,12 +515,14 @@ class _BookEndState extends State<BookEnd> {
           'contentVoiceId': contentVoiceId,
           'contentId': contentId,
           'voiceId': voiceId,
+          'title': title,
         },
       );
       amplitude.logEvent('book_end_sub_click', eventProperties: {
         'contentVoiceId': contentVoiceId,
         'contentId': contentId,
         'voiceId': voiceId,
+        'title': title,
       });
     } catch (e) {
       print('Failed to log event: $e');
@@ -542,10 +530,7 @@ class _BookEndState extends State<BookEnd> {
   }
 
   Future<void> _sendBookAgainClickEvent(
-    contentVoiceId,
-    contentId,
-    voiceId,
-  ) async {
+      contentVoiceId, contentId, voiceId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -554,12 +539,14 @@ class _BookEndState extends State<BookEnd> {
           'contentVoiceId': contentVoiceId,
           'contentId': contentId,
           'voiceId': voiceId,
+          'title': title,
         },
       );
       amplitude.logEvent('book_again_click', eventProperties: {
         'contentVoiceId': contentVoiceId,
         'contentId': contentId,
         'voiceId': voiceId,
+        'title': title,
       });
     } catch (e) {
       print('Failed to log event: $e');
@@ -567,10 +554,7 @@ class _BookEndState extends State<BookEnd> {
   }
 
   Future<void> _sendBookHomeClickEvent(
-    contentVoiceId,
-    contentId,
-    voiceId,
-  ) async {
+      contentVoiceId, contentId, voiceId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -579,12 +563,14 @@ class _BookEndState extends State<BookEnd> {
           'contentVoiceId': contentVoiceId,
           'contentId': contentId,
           'voiceId': voiceId,
+          'title': title,
         },
       );
       amplitude.logEvent('book_home_click', eventProperties: {
         'contentVoiceId': contentVoiceId,
         'contentId': contentId,
         'voiceId': voiceId,
+        'title': title,
       });
     } catch (e) {
       print('Failed to log event: $e');

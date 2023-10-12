@@ -1675,8 +1675,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         child: Padding(
-                          padding:
-                              EdgeInsets.all(0.5 * SizeConfig.defaultSize!),
+                          padding: EdgeInsets.only(
+                              right: 0.5 * SizeConfig.defaultSize!,
+                              top: 0.5 * SizeConfig.defaultSize!,
+                              bottom: 0.5 * SizeConfig.defaultSize!),
                           child: Text(
                             'Invite Friends',
                             style: TextStyle(
@@ -1690,8 +1692,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () async {
                           _sendInviteFriendsClickEvent(userState.point);
                           final result = await Share.shareWithResult(
-                              "LOVEL - Fairy Tales with Your Voice\n📚 The best app for busy parents 👨‍👩‍👧‍👦\n\nPlayStore : https://play.google.com/store/apps/details?id=com.sayit.yoggo\n\nAppStore : https://apps.apple.com/us/app/LOVEL/id6454792622");
-
+                              "Invite Friends Script".tr());
                           if (result.status == ShareResultStatus.success) {
                             print('Thank you for sharing our application!');
                           }
@@ -1701,8 +1702,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         child: Padding(
-                          padding:
-                              EdgeInsets.all(0.5 * SizeConfig.defaultSize!),
+                          padding: EdgeInsets.only(
+                              right: 0.5 * SizeConfig.defaultSize!,
+                              top: 0.5 * SizeConfig.defaultSize!,
+                              bottom: 0.5 * SizeConfig.defaultSize!),
                           child: Text(
                             Platform.isAndroid
                                 ? 'Rate on PlayStore'
