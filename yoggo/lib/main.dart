@@ -184,6 +184,7 @@ class _AppState extends State<App> {
         var purchase = responseData['purchase'];
         var record = responseData['record'];
         var username = responseData['username'];
+        var point = responseData['point'];
         var prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
         await prefs.setBool('purchase', purchase);
@@ -201,8 +202,8 @@ class _AppState extends State<App> {
 
           //OneSignal.shared.setExternalUserId(state.userId.toString());
           Amplitude.getInstance().setUserId(state.userId.toString());
-          Amplitude.getInstance()
-              .setUserProperties({'subscribe': purchase, 'record': record});
+          Amplitude.getInstance().setUserProperties(
+              {'point': point, 'subscribe': purchase, 'record': record});
           LogInResult result = await Purchases.logIn(state.userId.toString());
         }
       } else {

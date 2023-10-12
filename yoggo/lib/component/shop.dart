@@ -168,6 +168,7 @@ class _PurchaseState extends State<Purchase> {
         // Display packages for sale
       }
     } catch (e) {
+      print('subStart 안에서 오류남');
       // optional error handling
     }
 
@@ -207,11 +208,13 @@ class _PurchaseState extends State<Purchase> {
         body: jsonEncode({'point': toInt(points)}));
     if (response.statusCode == 200) {
       var userState = context.read<UserCubit>().state;
-
       _sendBuyPointSuccessEvent(userState.point, points);
-
+      Amplitude.getInstance()
+          .setUserProperties({'point': json.decode(response.body)[0]['point']});
       print('포인트 구매 완료');
       context.read<UserCubit>().fetchUser();
+      //       Amplitude.getInstance().setUserProperties(
+      // {'point': point, 'subscribe': purchase, 'record': record});
     } else {
       //_sendSubFailEvent(response.statusCode);
       throw Exception('Failed to buy point');
@@ -308,7 +311,6 @@ class _PurchaseState extends State<Purchase> {
               right: 11.5 * SizeConfig.defaultSize!,
               child: GestureDetector(
                   onTap: () async {
-                    _sendAlreadysubClickEvent(userState.point);
                     try {
                       CustomerInfo customerInfo =
                           await Purchases.restorePurchases();
@@ -316,6 +318,8 @@ class _PurchaseState extends State<Purchase> {
                           customerInfo.entitlements.all['pro'];
                       if (entitlement != null) {
                         if (entitlement.isActive) {
+                          _sendAlreadysubClickEvent(userState.point, 'true');
+
                           print('restore success');
                           subSuccess();
                           if (userState.record) {
@@ -336,63 +340,74 @@ class _PurchaseState extends State<Purchase> {
                             );
                           }
                         } else {
-                          print('fail');
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                // title: Text('Sorry'),
-                                content: const Text('No subscription found.'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('Close'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                          _sendAlreadysubClickEvent(userState.point, 'false');
+                          print('zclcickclciclkc');
+                          await subStart();
+                          // print('fail');
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (BuildContext context) {
+
+                          //     // return AlertDialog(
+                          //     //   // title: Text('Sorry'),
+                          //     //   content: const Text('No subscription found.'),
+                          //     //   actions: <Widget>[
+                          //     //     TextButton(
+                          //     //       child: const Text('Close'),
+                          //     //       onPressed: () {
+                          //     //         Navigator.of(context).pop();
+                          //     //       },
+                          //     //     ),
+                          //     //   ],
+                          //     // );
+                          //   },
+                          // );
                         }
                       } else {
-                        print("entitlement: $entitlement");
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              // title: Text('Sorry'),
-                              content: const Text('No subscription found.'),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text('Close'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                        _sendAlreadysubClickEvent(userState.point, 'false');
+
+                        await subStart();
+
+                        // print("entitlement: $entitlement");
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (BuildContext context) {
+                        //     return AlertDialog(
+                        //       // title: Text('Sorry'),
+                        //       content: const Text('No subscription found.'),
+                        //       actions: <Widget>[
+                        //         TextButton(
+                        //           child: const Text('Close'),
+                        //           onPressed: () {
+                        //             Navigator.of(context).pop();
+                        //           },
+                        //         ),
+                        //       ],
+                        //     );
+                        //   },
+                        // );
                       }
                     } on PlatformException {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            // title: Text('Sorry'),
-                            content: const Text('No subscription found.'),
-                            actions: <Widget>[
-                              TextButton(
-                                child: const Text('Close'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      _sendAlreadysubClickEvent(userState.point, 'false');
+                      await subStart();
+
+                      // showDialog(
+                      //   context: context,
+                      //   builder: (BuildContext context) {
+                      //     return AlertDialog(
+                      //       // title: Text('Sorry'),
+                      //       content: const Text('No subscription found.'),
+                      //       actions: <Widget>[
+                      //         TextButton(
+                      //           child: const Text('Close'),
+                      //           onPressed: () {
+                      //             Navigator.of(context).pop();
+                      //           },
+                      //         ),
+                      //       ],
+                      //     );
+                      //   },
+                      // );
 
                       // Error restoring purchases
                     }
@@ -1095,15 +1110,18 @@ class _PurchaseState extends State<Purchase> {
     }
   }
 
-  Future<void> _sendAlreadysubClickEvent(pointNow) async {
+  Future<void> _sendAlreadysubClickEvent(pointNow, subscribed) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
         name: 'shop_alreadysub_click',
-        parameters: <String, dynamic>{'point_now': pointNow},
+        parameters: <String, dynamic>{
+          'point_now': pointNow,
+          'subscribed': subscribed
+        },
       );
       await amplitude.logEvent('shop_alreadysub_click',
-          eventProperties: {'point_now': pointNow});
+          eventProperties: {'point_now': pointNow, 'subscribed': subscribed});
     } catch (e) {
       // 이벤트 로깅 실패 시 에러 출력
       print('Failed to log event: $e');
