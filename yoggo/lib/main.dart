@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:amplitude_flutter/amplitude.dart';
@@ -40,8 +41,8 @@ void main() async {
   // Amplitude Event 수집을 위해서 꼭 개발 모드(dev)인지 릴리즈 모드(rel)인지 설정하고 앱을 실행하도록 해요
   // 디폴트 값은 dev입니다
 
-  String mode = 'dev';
-  //String mode = 'rel';
+  //String mode = 'dev';
+  String mode = 'rel';
 
   // 사용자 Cubit을 초기화합니다.
   await dotenv.load(fileName: ".env");
@@ -140,6 +141,7 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => initPlugin());
     initialize();
     context.read<UserCubit>().fetchUser();
     getToken();
@@ -148,6 +150,18 @@ class _AppState extends State<App> {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white.withOpacity(0), // 투명한 배경 색상으로 설정
     ));
+  }
+
+  Future<void> initPlugin() async {
+    final TrackingStatus status =
+        await AppTrackingTransparency.trackingAuthorizationStatus;
+    if (status == TrackingStatus.notDetermined) {
+      await Future.delayed((const Duration(milliseconds: 200)));
+      final TrackingStatus status =
+          await AppTrackingTransparency.requestTrackingAuthorization();
+    }
+    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+    print("UUID: $uuid");
   }
 
   Future<void> getToken() async {

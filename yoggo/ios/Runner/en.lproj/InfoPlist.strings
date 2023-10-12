@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by 강경아 on 2023/10/12.
+  
+*/
+
+NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads to you.";
