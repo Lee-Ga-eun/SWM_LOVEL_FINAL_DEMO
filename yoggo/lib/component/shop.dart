@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
@@ -554,7 +555,7 @@ class _PurchaseState extends State<Purchase> {
                                                                 .center,
                                                         children: [
                                                           Text(
-                                                            '5.99',
+                                                            'sub price',
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: TextStyle(
@@ -562,9 +563,12 @@ class _PurchaseState extends State<Purchase> {
                                                                   Colors.black,
                                                               fontSize: 2.8 *
                                                                   SizeConfig
-                                                                      .defaultSize!,
+                                                                      .defaultSize! *
+                                                                  double.parse(
+                                                                      'font size control'
+                                                                          .tr()),
                                                               fontFamily:
-                                                                  'Molengo',
+                                                                  'font'.tr(),
                                                             ),
                                                           ).tr(),
                                                           Padding(
@@ -580,25 +584,25 @@ class _PurchaseState extends State<Purchase> {
                                                                     .black,
                                                                 fontSize: 2 *
                                                                     SizeConfig
-                                                                        .defaultSize!,
+                                                                        .defaultSize! *
+                                                                    double.parse(
+                                                                        'font size control'
+                                                                            .tr()),
                                                                 fontFamily:
-                                                                    'Molengo',
+                                                                    'font'.tr(),
                                                               ),
                                                             ).tr(),
                                                           ),
                                                         ],
                                                       ),
                                                       Text(
-                                                        '19.99',
+                                                        'before discount',
                                                         style: TextStyle(
                                                             color: const Color
                                                                     .fromARGB(
-                                                                136,
-                                                                0,
-                                                                0,
-                                                                0),
+                                                                136, 0, 0, 0),
                                                             fontFamily:
-                                                                'Molengo',
+                                                                'font'.tr(),
                                                             decoration:
                                                                 TextDecoration
                                                                     .lineThrough,
@@ -794,7 +798,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'oneCoin',
                                           coinWid: 6.5,
                                           coinNum: 3000,
-                                          price: '2.99',
+                                          price: '3000 price',
                                           pointNow: userState.point,
                                           flag: ''),
                                       pointGood(
@@ -805,7 +809,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'twoCoins',
                                           coinWid: 8.5,
                                           coinNum: 6000,
-                                          price: '4.99',
+                                          price: '6000 price',
                                           pointNow: userState.point,
                                           flag: 'mostPopular'),
                                     ],
@@ -825,7 +829,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'threeCoins',
                                           coinWid: 10,
                                           coinNum: 10000,
-                                          price: '8.99',
+                                          price: '10000 price',
                                           pointNow: userState.point,
                                           flag: ''),
                                       pointGood(
@@ -836,7 +840,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'fiveCoins',
                                           coinWid: 14.5,
                                           coinNum: 15000,
-                                          price: '9.99',
+                                          price: '15000 price',
                                           pointNow: userState.point,
                                           flag: 'specialPromotion'),
                                     ],
@@ -980,8 +984,11 @@ class _PurchaseState extends State<Purchase> {
                     Text(
                       '$price',
                       style: TextStyle(
-                        fontFamily: 'Molengo',
-                        fontSize: 2.5 / 100 * sw,
+                        fontFamily: 'font'.tr(),
+                        fontSize: 2.5 /
+                            100 *
+                            sw *
+                            double.parse('font size control'.tr()),
                       ),
                     ).tr()
                   ]),
