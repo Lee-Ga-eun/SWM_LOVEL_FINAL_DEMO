@@ -336,24 +336,26 @@ class _PurchaseState extends State<Purchase> {
                             );
                           }
                         } else {
-                          print('fail');
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                // title: Text('Sorry'),
-                                content: const Text('No subscription found.'),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text('Close'),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ],
-                              );
-                            },
-                          );
+                          await subStart();
+                          // print('fail');
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (BuildContext context) {
+
+                          //     // return AlertDialog(
+                          //     //   // title: Text('Sorry'),
+                          //     //   content: const Text('No subscription found.'),
+                          //     //   actions: <Widget>[
+                          //     //     TextButton(
+                          //     //       child: const Text('Close'),
+                          //     //       onPressed: () {
+                          //     //         Navigator.of(context).pop();
+                          //     //       },
+                          //     //     ),
+                          //     //   ],
+                          //     // );
+                          //   },
+                          // );
                         }
                       } else {
                         print("entitlement: $entitlement");
