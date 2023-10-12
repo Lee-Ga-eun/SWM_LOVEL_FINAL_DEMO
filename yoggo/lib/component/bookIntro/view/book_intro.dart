@@ -212,6 +212,7 @@ class _BookIntroState extends State<BookIntro> {
     title,
     voiceId,
   ) async {
+    print(voiceId);
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -391,6 +392,31 @@ class _BookIntroState extends State<BookIntro> {
     }
   }
 
+  Future<void> _sendBookBuySuccessEvent(pointNow, contentId, title) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_buy_success',
+        parameters: <String, dynamic>{
+          'point_now': pointNow,
+          'contentId': contentId,
+          'title': title,
+        },
+      );
+      amplitude.logEvent(
+        'book_buy_success',
+        eventProperties: {
+          'point_now': pointNow,
+          'contentId': contentId,
+          'title': title,
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
   Future<void> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -411,6 +437,8 @@ class _BookIntroState extends State<BookIntro> {
     print(response.statusCode);
     if (response.statusCode == 200) {
       UserCubit().fetchUser();
+      _sendBookBuySuccessEvent(
+          json.decode(response.body)[0]['point'], contentId, widget.title);
       Amplitude.getInstance()
           .setUserProperties({'point': json.decode(response.body)[0]['point']});
       return response.statusCode.toString();
@@ -1504,10 +1532,11 @@ class _BookIntroState extends State<BookIntro> {
                                                                     ? {
                                                                         _sendBookStartClickEvent(
                                                                           clickedVoice!
-                                                                              .voiceId,
+                                                                              .contentVoiceId,
                                                                           contentId,
                                                                           title,
-                                                                          vi,
+                                                                          clickedVoice!
+                                                                              .voiceId,
                                                                         ),
                                                                         // print(clickedVoice!
                                                                         //     .voiceName),
@@ -1519,7 +1548,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                                 BookPage(
                                                                               // 다음 화면으로 contetnVoiceId를 가지고 이동
                                                                               contentVoiceId: clickedVoice!.contentVoiceId,
-                                                                              voiceId: vi,
+                                                                              voiceId: clickedVoice!.voiceId,
                                                                               contentId: contentId,
                                                                               lastPage: lastPage,
                                                                               isSelected: true,
@@ -1538,10 +1567,11 @@ class _BookIntroState extends State<BookIntro> {
                                                                     ? {
                                                                         _sendBookStartClickEvent(
                                                                           clickedVoice!
-                                                                              .voiceId,
+                                                                              .contentVoiceId,
                                                                           contentId,
                                                                           title,
-                                                                          vi,
+                                                                          clickedVoice!
+                                                                              .voiceId,
                                                                         ),
                                                                         print(clickedVoice!
                                                                             .voiceName),
@@ -1552,7 +1582,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                             builder: (context) => BookPage(
                                                                                 // 다음 화면으로 contetnVoiceId를 가지고 이동
                                                                                 contentVoiceId: clickedVoice!.contentVoiceId,
-                                                                                voiceId: vi,
+                                                                                voiceId: clickedVoice!.voiceId,
                                                                                 contentId: contentId,
                                                                                 lastPage: lastPage,
                                                                                 isSelected: true,
