@@ -1523,6 +1523,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                               contentId: contentId,
                                                                               lastPage: lastPage,
                                                                               isSelected: true,
+                                                                              title: widget.title,
                                                                             ),
                                                                           ),
                                                                         )
@@ -1548,15 +1549,14 @@ class _BookIntroState extends State<BookIntro> {
                                                                             .push(
                                                                           context,
                                                                           MaterialPageRoute(
-                                                                            builder: (context) =>
-                                                                                BookPage(
-                                                                              // 다음 화면으로 contetnVoiceId를 가지고 이동
-                                                                              contentVoiceId: clickedVoice!.contentVoiceId,
-                                                                              voiceId: vi,
-                                                                              contentId: contentId,
-                                                                              lastPage: lastPage,
-                                                                              isSelected: true,
-                                                                            ),
+                                                                            builder: (context) => BookPage(
+                                                                                // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                                                                contentVoiceId: clickedVoice!.contentVoiceId,
+                                                                                voiceId: vi,
+                                                                                contentId: contentId,
+                                                                                lastPage: lastPage,
+                                                                                isSelected: true,
+                                                                                title: widget.title),
                                                                           ),
                                                                         ),
                                                                         audioPlayer
@@ -1608,9 +1608,11 @@ class _BookIntroState extends State<BookIntro> {
                                                                         textAlign:
                                                                             TextAlign.center,
                                                                         style: TextStyle(
-                                                                            color:
-                                                                                Colors.black,
-                                                                            fontSize: 2.3 * SizeConfig.defaultSize!,
+                                                                            color: Colors
+                                                                                .black,
+                                                                            fontSize: 2.3 *
+                                                                                SizeConfig.defaultSize! *
+                                                                                double.parse('font size control'.tr()),
                                                                             fontFamily: 'font-book'.tr()),
                                                                       ).tr(),
                                                                     ),

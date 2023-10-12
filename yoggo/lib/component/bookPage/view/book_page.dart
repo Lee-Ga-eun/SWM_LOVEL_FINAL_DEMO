@@ -23,15 +23,16 @@ class BookPage extends StatefulWidget {
   final int lastPage;
   final int voiceId;
   final int contentId;
+  final String title;
 
-  const BookPage({
-    super.key,
-    required this.contentVoiceId, // detail_screen에서 받아오는 것들 초기화
-    required this.voiceId, // detail_screen에서 받아오는 것들 초기화
-    required this.contentId, // detail_screen에서 받아오는 것들 초기화
-    required this.isSelected,
-    required this.lastPage,
-  });
+  const BookPage(
+      {super.key,
+      required this.contentVoiceId, // detail_screen에서 받아오는 것들 초기화
+      required this.voiceId, // detail_screen에서 받아오는 것들 초기화
+      required this.contentId, // detail_screen에서 받아오는 것들 초기화
+      required this.isSelected,
+      required this.lastPage,
+      required this.title});
 
   @override
   _BookPageState createState() => _BookPageState();
@@ -176,7 +177,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
         );
       } else {
         _sendBookPageViewEvent(widget.contentVoiceId, widget.contentId,
-            widget.voiceId, currentPageIndex + 1);
+            widget.voiceId, currentPageIndex + 1, widget.title);
         return WillPopScope(
           child: Scaffold(
             body: Stack(
@@ -185,130 +186,130 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                 Visibility(
                   visible: true,
                   child: PageWidget(
-                    // page: currentPageIndex < widget.lastPage
-                    //     ? bookPage[currentPageIndex]
-                    //     : bookPage[widget.lastPage - 1],
-                    text: currentPageIndex < widget.lastPage
-                        ? bookPage[currentPageIndex].text
-                        : bookPage[widget.lastPage - 1].text,
-                    // imageUrl: currentPageIndex < widget.lastPage
-                    //     ? bookPage[currentPageIndex].imageUrl
-                    //     : bookPage[widget.lastPage - 1].imageUrl,
+                      // page: currentPageIndex < widget.lastPage
+                      //     ? bookPage[currentPageIndex]
+                      //     : bookPage[widget.lastPage - 1],
+                      text: currentPageIndex < widget.lastPage
+                          ? bookPage[currentPageIndex].text
+                          : bookPage[widget.lastPage - 1].text,
+                      // imageUrl: currentPageIndex < widget.lastPage
+                      //     ? bookPage[currentPageIndex].imageUrl
+                      //     : bookPage[widget.lastPage - 1].imageUrl,
 
-                    position: currentPageIndex < widget.lastPage
-                        ? bookPage[currentPageIndex].position
-                        : bookPage[widget.lastPage - 1].position,
-                    audioUrl: bookPage[currentPageIndex].audioUrl,
-                    audioPath: bookPage[currentPageIndex].audioLocalPath,
-                    filePath: currentPageIndex < widget.lastPage
-                        ? bookPage[currentPageIndex].imageLocalPath
-                        : bookPage[widget.lastPage - 1].imageLocalPath,
-                    realCurrent: true,
-                    currentPage: currentPageIndex,
-                    audioPlayer: audioPlayer,
-                    pauseFunction: pauseFunction,
-                    previousPage: previousPage,
-                    currentPageIndex: currentPageIndex,
-                    nextPage: nextPage,
-                    lastPage: widget.lastPage,
-                    voiceId: widget.voiceId,
-                    contentVoiceId: widget.contentVoiceId,
-                    contentId: widget.contentId,
-                    isSelected: widget.isSelected,
-                    dispose: dispose,
-                    stopAudio: stopAudio,
-                  ),
+                      position: currentPageIndex < widget.lastPage
+                          ? bookPage[currentPageIndex].position
+                          : bookPage[widget.lastPage - 1].position,
+                      audioUrl: bookPage[currentPageIndex].audioUrl,
+                      audioPath: bookPage[currentPageIndex].audioLocalPath,
+                      filePath: currentPageIndex < widget.lastPage
+                          ? bookPage[currentPageIndex].imageLocalPath
+                          : bookPage[widget.lastPage - 1].imageLocalPath,
+                      realCurrent: true,
+                      currentPage: currentPageIndex,
+                      audioPlayer: audioPlayer,
+                      pauseFunction: pauseFunction,
+                      previousPage: previousPage,
+                      currentPageIndex: currentPageIndex,
+                      nextPage: nextPage,
+                      lastPage: widget.lastPage,
+                      voiceId: widget.voiceId,
+                      contentVoiceId: widget.contentVoiceId,
+                      contentId: widget.contentId,
+                      isSelected: widget.isSelected,
+                      dispose: dispose,
+                      stopAudio: stopAudio,
+                      title: widget.title),
                 ),
                 // 다음 페이지 위젯
                 Offstage(
                   offstage: true, // 화면에 보이지 않도록 설정
                   child: PageWidget(
-                    text: currentPageIndex < widget.lastPage
-                        ? currentPageIndex == widget.lastPage - 1
-                            ? bookPage[currentPageIndex].text
-                            : bookPage[currentPageIndex + 1].text
-                        : bookPage[widget.lastPage - 1].text,
-                    // imageUrl: currentPageIndex < widget.lastPage
-                    //     ? currentPageIndex == widget.lastPage - 1
-                    //         ? bookPage[currentPageIndex].imageUrl
-                    //         : bookPage[currentPageIndex + 1].imageUrl
-                    //    : bookPage[widget.lastPage - 1].imageUrl,
-                    position: currentPageIndex < widget.lastPage
-                        ? currentPageIndex == widget.lastPage - 1
-                            ? bookPage[currentPageIndex].position
-                            : bookPage[currentPageIndex + 1].position
-                        : bookPage[widget.lastPage - 1].position,
-                    filePath: currentPageIndex < widget.lastPage
-                        ? currentPageIndex == widget.lastPage - 1
-                            ? bookPage[currentPageIndex].imageLocalPath
-                            : bookPage[currentPageIndex + 1].imageLocalPath
-                        : bookPage[widget.lastPage - 1].imageLocalPath,
-                    //text: currentPageIndex<widget.lastPage? bookPage[currentPageIndex].text:bookPage[currentPageIndex+1].text,
-                    //  imageUrl: currentPageIndex<widget.lastPage? bookPage[currentPageIndex].imageUrl:bookPage[currentPageIndex+1].imageUrl,
-                    //  position: currentPageIndex<widget.lastPage? bookPage[currentPageIndex].position:bookPage[currentPageIndex+1].position,
-                    realCurrent: false,
-                    audioUrl: currentPageIndex != widget.lastPage - 1
-                        ? bookPage[currentPageIndex + 1].audioUrl
-                        : bookPage[currentPageIndex].audioUrl,
-                    audioPath: currentPageIndex != widget.lastPage - 1
-                        ? bookPage[currentPageIndex + 1].audioLocalPath
-                        : bookPage[currentPageIndex].audioLocalPath,
-                    currentPage: currentPageIndex != widget.lastPage - 1
-                        ? currentPageIndex + 1
-                        : currentPageIndex,
-                    audioPlayer: audioPlayer,
-                    pauseFunction: pauseFunction,
-                    previousPage: previousPage,
-                    currentPageIndex: currentPageIndex,
-                    nextPage: nextPage,
-                    lastPage: widget.lastPage,
-                    voiceId: widget.voiceId,
-                    contentVoiceId: widget.contentVoiceId,
-                    contentId: widget.contentId,
-                    isSelected: widget.isSelected,
-                    dispose: dispose,
-                    stopAudio: stopAudio,
-                  ),
+                      text: currentPageIndex < widget.lastPage
+                          ? currentPageIndex == widget.lastPage - 1
+                              ? bookPage[currentPageIndex].text
+                              : bookPage[currentPageIndex + 1].text
+                          : bookPage[widget.lastPage - 1].text,
+                      // imageUrl: currentPageIndex < widget.lastPage
+                      //     ? currentPageIndex == widget.lastPage - 1
+                      //         ? bookPage[currentPageIndex].imageUrl
+                      //         : bookPage[currentPageIndex + 1].imageUrl
+                      //    : bookPage[widget.lastPage - 1].imageUrl,
+                      position: currentPageIndex < widget.lastPage
+                          ? currentPageIndex == widget.lastPage - 1
+                              ? bookPage[currentPageIndex].position
+                              : bookPage[currentPageIndex + 1].position
+                          : bookPage[widget.lastPage - 1].position,
+                      filePath: currentPageIndex < widget.lastPage
+                          ? currentPageIndex == widget.lastPage - 1
+                              ? bookPage[currentPageIndex].imageLocalPath
+                              : bookPage[currentPageIndex + 1].imageLocalPath
+                          : bookPage[widget.lastPage - 1].imageLocalPath,
+                      //text: currentPageIndex<widget.lastPage? bookPage[currentPageIndex].text:bookPage[currentPageIndex+1].text,
+                      //  imageUrl: currentPageIndex<widget.lastPage? bookPage[currentPageIndex].imageUrl:bookPage[currentPageIndex+1].imageUrl,
+                      //  position: currentPageIndex<widget.lastPage? bookPage[currentPageIndex].position:bookPage[currentPageIndex+1].position,
+                      realCurrent: false,
+                      audioUrl: currentPageIndex != widget.lastPage - 1
+                          ? bookPage[currentPageIndex + 1].audioUrl
+                          : bookPage[currentPageIndex].audioUrl,
+                      audioPath: currentPageIndex != widget.lastPage - 1
+                          ? bookPage[currentPageIndex + 1].audioLocalPath
+                          : bookPage[currentPageIndex].audioLocalPath,
+                      currentPage: currentPageIndex != widget.lastPage - 1
+                          ? currentPageIndex + 1
+                          : currentPageIndex,
+                      audioPlayer: audioPlayer,
+                      pauseFunction: pauseFunction,
+                      previousPage: previousPage,
+                      currentPageIndex: currentPageIndex,
+                      nextPage: nextPage,
+                      lastPage: widget.lastPage,
+                      voiceId: widget.voiceId,
+                      contentVoiceId: widget.contentVoiceId,
+                      contentId: widget.contentId,
+                      isSelected: widget.isSelected,
+                      dispose: dispose,
+                      stopAudio: stopAudio,
+                      title: widget.title),
                 ),
                 Offstage(
                   offstage: true, // 화면에 보이지 않도록 설정
                   child: PageWidget(
-                    // page: currentPageIndex != 0
-                    //     ? pages[currentPageIndex - 1]
-                    //     : pages[0],
-                    text: currentPageIndex != 0
-                        ? bookPage[currentPageIndex].text
-                        : bookPage[currentPageIndex + 1].text,
-                    // imageUrl: currentPageIndex != 0
-                    //     ? bookPage[currentPageIndex].imageUrl
-                    //     : bookPage[currentPageIndex + 1].imageUrl,
-                    position: currentPageIndex != 0
-                        ? bookPage[currentPageIndex].position
-                        : bookPage[currentPageIndex + 1].position,
-                    realCurrent: false,
-                    audioUrl: currentPageIndex != 0
-                        ? bookPage[currentPageIndex - 1].audioUrl
-                        : bookPage[0].audioUrl,
-                    audioPath: currentPageIndex != 0
-                        ? bookPage[currentPageIndex - 1].audioLocalPath
-                        : bookPage[0].audioLocalPath,
-                    filePath: currentPageIndex != 0
-                        ? bookPage[currentPageIndex].imageLocalPath
-                        : bookPage[currentPageIndex + 1].imageLocalPath,
-                    currentPage: currentPageIndex,
-                    audioPlayer: audioPlayer,
-                    pauseFunction: pauseFunction,
-                    previousPage: previousPage,
-                    currentPageIndex: currentPageIndex,
-                    nextPage: nextPage,
-                    lastPage: widget.lastPage,
-                    voiceId: widget.voiceId,
-                    contentVoiceId: widget.contentVoiceId,
-                    contentId: widget.contentId,
-                    isSelected: widget.isSelected,
-                    dispose: dispose,
-                    stopAudio: stopAudio,
-                  ),
+                      // page: currentPageIndex != 0
+                      //     ? pages[currentPageIndex - 1]
+                      //     : pages[0],
+                      text: currentPageIndex != 0
+                          ? bookPage[currentPageIndex].text
+                          : bookPage[currentPageIndex + 1].text,
+                      // imageUrl: currentPageIndex != 0
+                      //     ? bookPage[currentPageIndex].imageUrl
+                      //     : bookPage[currentPageIndex + 1].imageUrl,
+                      position: currentPageIndex != 0
+                          ? bookPage[currentPageIndex].position
+                          : bookPage[currentPageIndex + 1].position,
+                      realCurrent: false,
+                      audioUrl: currentPageIndex != 0
+                          ? bookPage[currentPageIndex - 1].audioUrl
+                          : bookPage[0].audioUrl,
+                      audioPath: currentPageIndex != 0
+                          ? bookPage[currentPageIndex - 1].audioLocalPath
+                          : bookPage[0].audioLocalPath,
+                      filePath: currentPageIndex != 0
+                          ? bookPage[currentPageIndex].imageLocalPath
+                          : bookPage[currentPageIndex + 1].imageLocalPath,
+                      currentPage: currentPageIndex,
+                      audioPlayer: audioPlayer,
+                      pauseFunction: pauseFunction,
+                      previousPage: previousPage,
+                      currentPageIndex: currentPageIndex,
+                      nextPage: nextPage,
+                      lastPage: widget.lastPage,
+                      voiceId: widget.voiceId,
+                      contentVoiceId: widget.contentVoiceId,
+                      contentId: widget.contentId,
+                      isSelected: widget.isSelected,
+                      dispose: dispose,
+                      stopAudio: stopAudio,
+                      title: widget.title),
                 ),
               ],
             ),
@@ -324,7 +325,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   }
 
   Future<void> _sendBookPageViewEvent(
-      contentVoiceId, contentId, voiceId, pageId) async {
+      contentVoiceId, contentId, voiceId, pageId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -334,6 +335,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
           'contentId': contentId,
           'voiceId': voiceId,
           'pageId': pageId,
+          'title': title
         },
       );
       amplitude.logEvent(
@@ -343,6 +345,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
           'contentId': contentId,
           'voiceId': voiceId,
           'pageId': pageId,
+          'title': title
         },
       );
     } catch (e) {
@@ -352,7 +355,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   }
 
   Future<void> _sendBookPageLoadingViewEvent(
-      contentVoiceId, contentId, voiceId) async {
+      contentVoiceId, contentId, voiceId, title) async {
     try {
       await analytics.logEvent(
         name: 'book_page_loading_view',
@@ -360,6 +363,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
           'contentVoiceId': contentVoiceId,
           'contentId': contentId,
           'voiceId': voiceId,
+          'title': title
         },
       );
       amplitude.logEvent(
@@ -368,6 +372,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
           'contentVoiceId': contentVoiceId,
           'contentId': contentId,
           'voiceId': voiceId,
+          'title': title
         },
       );
     } catch (e) {
@@ -401,6 +406,7 @@ class PageWidget extends StatefulWidget {
   final stopAudio;
   final String filePath;
   final audioPath;
+  final String title;
 
   const PageWidget({
     Key? key,
@@ -427,6 +433,7 @@ class PageWidget extends StatefulWidget {
     required this.stopAudio,
     required this.filePath,
     required this.audioPath,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -515,7 +522,8 @@ class _PageWidgetState extends State<PageWidget> {
                                       widget.contentVoiceId,
                                       widget.contentId,
                                       widget.voiceId,
-                                      widget.currentPageIndex + 1);
+                                      widget.currentPageIndex + 1,
+                                      widget.title);
                                   Navigator.of(context).pop();
                                 },
                               ),
@@ -701,7 +709,8 @@ class _PageWidgetState extends State<PageWidget> {
                                             widget.contentVoiceId,
                                             widget.contentId,
                                             widget.voiceId,
-                                            widget.currentPageIndex + 1);
+                                            widget.currentPageIndex + 1,
+                                            widget.title);
                                         widget.previousPage();
                                       })
                                 ],
@@ -733,7 +742,8 @@ class _PageWidgetState extends State<PageWidget> {
                                                   widget.contentVoiceId,
                                                   widget.contentId,
                                                   widget.voiceId,
-                                                  widget.currentPageIndex + 1);
+                                                  widget.currentPageIndex + 1,
+                                                  widget.title);
                                               widget.nextPage();
                                             })
                                       ],
@@ -765,7 +775,8 @@ class _PageWidgetState extends State<PageWidget> {
                                                   widget.contentVoiceId,
                                                   widget.contentId,
                                                   widget.voiceId,
-                                                  widget.currentPageIndex + 1);
+                                                  widget.currentPageIndex + 1,
+                                                  widget.title);
 
                                               if (widget.record != null &&
                                                   widget.record == true &&
@@ -784,6 +795,7 @@ class _PageWidgetState extends State<PageWidget> {
                                                       lastPage: widget.lastPage,
                                                       isSelected:
                                                           widget.isSelected,
+                                                      title: widget.title,
                                                     ),
                                                   ),
                                                 );
@@ -792,17 +804,17 @@ class _PageWidgetState extends State<PageWidget> {
                                                   context,
                                                   //결제가 끝나면 RecInfo로 가야 함
                                                   MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BookEnd(
-                                                      contentVoiceId:
-                                                          widget.contentVoiceId,
-                                                      contentId:
-                                                          widget.contentId,
-                                                      voiceId: widget.voiceId,
-                                                      lastPage: widget.lastPage,
-                                                      isSelected:
-                                                          widget.isSelected,
-                                                    ),
+                                                    builder: (context) => BookEnd(
+                                                        contentVoiceId: widget
+                                                            .contentVoiceId,
+                                                        contentId:
+                                                            widget.contentId,
+                                                        voiceId: widget.voiceId,
+                                                        lastPage:
+                                                            widget.lastPage,
+                                                        isSelected:
+                                                            widget.isSelected,
+                                                        title: widget.title),
                                                   ),
                                                 );
                                               }
@@ -825,7 +837,7 @@ class _PageWidgetState extends State<PageWidget> {
   }
 
   Future<void> _sendBookPageXClickEvent(
-      contentVoiceId, contentId, voiceId, pageId) async {
+      contentVoiceId, contentId, voiceId, pageId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -835,6 +847,7 @@ class _PageWidgetState extends State<PageWidget> {
           'contentId': contentId,
           'voiceId': voiceId,
           'pageId': pageId,
+          'title': title
         },
       );
       amplitude.logEvent(
@@ -844,6 +857,7 @@ class _PageWidgetState extends State<PageWidget> {
           'contentId': contentId,
           'voiceId': voiceId,
           'pageId': pageId,
+          'title': title
         },
       );
     } catch (e) {
@@ -853,7 +867,7 @@ class _PageWidgetState extends State<PageWidget> {
   }
 
   Future<void> _sendBookLastClickEvent(
-      contentVoiceId, contentId, voiceId, pageId) async {
+      contentVoiceId, contentId, voiceId, pageId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -863,6 +877,7 @@ class _PageWidgetState extends State<PageWidget> {
           'contentId': contentId,
           'voiceId': voiceId,
           'pageId': pageId,
+          'title': title
         },
       );
       amplitude.logEvent(
@@ -872,6 +887,7 @@ class _PageWidgetState extends State<PageWidget> {
           'contentId': contentId,
           'voiceId': voiceId,
           'pageId': pageId,
+          'title': title
         },
       );
     } catch (e) {
@@ -881,7 +897,7 @@ class _PageWidgetState extends State<PageWidget> {
   }
 
   Future<void> _sendBookNextClickEvent(
-      contentVoiceId, contentId, voiceId, pageId) async {
+      contentVoiceId, contentId, voiceId, pageId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -891,6 +907,7 @@ class _PageWidgetState extends State<PageWidget> {
           'contentId': contentId,
           'voiceId': voiceId,
           'pageId': pageId,
+          'title': title
         },
       );
       amplitude.logEvent(
@@ -900,6 +917,7 @@ class _PageWidgetState extends State<PageWidget> {
           'contentId': contentId,
           'voiceId': voiceId,
           'pageId': pageId,
+          'title': title
         },
       );
     } catch (e) {
@@ -909,7 +927,7 @@ class _PageWidgetState extends State<PageWidget> {
   }
 
   Future<void> _sendBookBackClickEvent(
-      contentVoiceId, contentId, voiceId, pageId) async {
+      contentVoiceId, contentId, voiceId, pageId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -919,6 +937,7 @@ class _PageWidgetState extends State<PageWidget> {
           'contentId': contentId,
           'voiceId': voiceId,
           'pageId': pageId,
+          'title': title
         },
       );
       amplitude.logEvent(
@@ -928,6 +947,7 @@ class _PageWidgetState extends State<PageWidget> {
           'contentId': contentId,
           'voiceId': voiceId,
           'pageId': pageId,
+          'title': title
         },
       );
     } catch (e) {
