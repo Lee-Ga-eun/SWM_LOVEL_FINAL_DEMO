@@ -1465,7 +1465,9 @@ class _BookIntroState extends State<BookIntro> {
                                                                       ])))
                                                       : GestureDetector(
                                                           onTap: () async {
-                                                            // 버튼 클릭 시 동작
+                                                            // print(clickedVoice!
+                                                            //     .voiceId);
+                                                            // // 버튼 클릭 시 동작
                                                             // _checkHaveRead();
                                                             (cvi ==
                                                                     inferenceId) // 원래는 cvi==inferenceId
@@ -1473,12 +1475,13 @@ class _BookIntroState extends State<BookIntro> {
                                                                         token)
                                                                     ? {
                                                                         _sendBookStartClickEvent(
-                                                                          cvi,
+                                                                          clickedVoice!
+                                                                              .voiceId,
                                                                           contentId,
                                                                           vi,
                                                                         ),
-                                                                        print(clickedVoice!
-                                                                            .voiceName),
+                                                                        // print(clickedVoice!
+                                                                        //     .voiceName),
                                                                         Navigator
                                                                             .push(
                                                                           context,
@@ -1504,7 +1507,8 @@ class _BookIntroState extends State<BookIntro> {
                                                                         .value
                                                                     ? {
                                                                         _sendBookStartClickEvent(
-                                                                          cvi,
+                                                                          clickedVoice!
+                                                                              .voiceId,
                                                                           contentId,
                                                                           vi,
                                                                         ),
