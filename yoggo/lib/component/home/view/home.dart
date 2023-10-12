@@ -1535,7 +1535,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         'Voice Profile',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 1.5 * SizeConfig.defaultSize!,
+                          fontSize: 1.8 *
+                              SizeConfig.defaultSize! *
+                              double.parse('font size control'.tr()),
                           fontFamily: 'font'.tr(),
                           fontWeight: FontWeight.w400,
                         ),
@@ -1683,7 +1685,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             'Invite Friends',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 1.5 * SizeConfig.defaultSize!,
+                              fontSize: 1.8 *
+                                  SizeConfig.defaultSize! *
+                                  double.parse('font size control'.tr()),
                               fontFamily: 'font'.tr(),
                               fontWeight: FontWeight.w400,
                             ),
@@ -1712,7 +1716,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 : 'Rate on AppStore',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 1.5 * SizeConfig.defaultSize!,
+                              fontSize: 1.8 *
+                                  SizeConfig.defaultSize! *
+                                  double.parse('font size control'.tr()),
                               fontFamily: 'font'.tr(),
                               fontWeight: FontWeight.w400,
                             ),
