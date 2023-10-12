@@ -218,6 +218,12 @@ class _HomeScreenState extends State<HomeScreen> {
         lastPointYMD = formattedDate;
         availableGetPoint = tmp + 1;
       });
+      if (multiple == 1 && lastPointDay >= 3) {
+        final InAppReview inAppReview = InAppReview.instance;
+        if (await inAppReview.isAvailable()) {
+          inAppReview.requestReview();
+        }
+      }
     }
   }
 
@@ -297,6 +303,9 @@ class _HomeScreenState extends State<HomeScreen> {
         body: jsonEncode({'point': plusPoint + 0}));
     if (response.statusCode == 200) {
       // UserCubit().fetchUser();
+
+      Amplitude.getInstance()
+          .setUserProperties({'point': json.decode(response.body)[0]['point']});
       context.read<UserCubit>().fetchUser();
       return response.statusCode.toString();
     } else if (response.statusCode == 400) {
@@ -1356,8 +1365,9 @@ class _HomeScreenState extends State<HomeScreen> {
     _rewardedAd!.show(
         onUserEarnedReward: (AdWithoutView ad, RewardItem reward) {
       print(reward.amount);
-      claimSuccess(2);
       print('User earned the reward.');
+
+      claimSuccess(2);
       // OneSignal.shared
       //     .promptUserForPushNotificationPermission()
       //     .then((accepted) {
