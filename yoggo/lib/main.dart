@@ -1,4 +1,4 @@
-import 'package:app_tracking_transparency/app_tracking_transparency.dart';
+//import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:amplitude_flutter/amplitude.dart';
@@ -41,8 +41,8 @@ void main() async {
   // Amplitude Event 수집을 위해서 꼭 개발 모드(dev)인지 릴리즈 모드(rel)인지 설정하고 앱을 실행하도록 해요
   // 디폴트 값은 dev입니다
 
-  //String mode = 'dev';
-  String mode = 'rel';
+  String mode = 'dev';
+  //String mode = 'rel';
 
   // 사용자 Cubit을 초기화합니다.
   await dotenv.load(fileName: ".env");
@@ -137,14 +137,15 @@ class _AppState extends State<App> {
   bool _initialized = false;
   Future<void>? anonymousLoginFuture;
   String? userToken;
+  String? token;
   bool? hasToken;
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => initPlugin());
+    // WidgetsBinding.instance.addPostFrameCallback((_) => initPlugin());
     initialize();
     context.read<UserCubit>().fetchUser();
-    getToken();
+    getToken().then((_) {});
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -152,17 +153,18 @@ class _AppState extends State<App> {
     ));
   }
 
-  Future<void> initPlugin() async {
-    final TrackingStatus status =
-        await AppTrackingTransparency.trackingAuthorizationStatus;
-    if (status == TrackingStatus.notDetermined) {
-      await Future.delayed((const Duration(milliseconds: 200)));
-      final TrackingStatus status =
-          await AppTrackingTransparency.requestTrackingAuthorization();
-    }
-    final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
-    print("UUID: $uuid");
-  }
+  // Future<void> initPlugin() async {
+  //   final TrackingStatus status =
+  //       await AppTrackingTransparency.trackingAuthorizationStatus;
+  //   if (status == TrackingStatus.notDetermined) {
+  //     await Future.delayed((const Duration(milliseconds: 200)));
+  //     final TrackingStatus status =
+  //         await AppTrackingTransparency.requestTrackingAuthorization();
+  //     //await ATTrackingManager.requestTrackingAuthorization();
+  //   }
+  //   final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+  //   print("UUID: $uuid");
+  // }
 
   Future<void> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -170,6 +172,26 @@ class _AppState extends State<App> {
       userToken = prefs.getString('token');
       hasToken = prefs.getBool('hasToken');
     });
+    if (userToken != null && token == null) {
+      var url = Uri.parse('${dotenv.get("API_SERVER")}user/id');
+      var response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $userToken'
+        },
+      );
+      if (response.statusCode == 200) {
+        print(userToken);
+        print('hello');
+        token = userToken;
+        return;
+      } else {
+        print('hi');
+        print(userToken);
+        anonymousLogin();
+      }
+    }
   }
 
   Future<void> initialize() async {
@@ -194,17 +216,18 @@ class _AppState extends State<App> {
       if (response.statusCode == 200 || response.statusCode == 201) {
         // 로그인 성공
         var responseData = json.decode(response.body);
-        var token = responseData['token'];
+        token = responseData['token'];
         var purchase = responseData['purchase'];
         var record = responseData['record'];
         var username = responseData['username'];
         var point = responseData['point'];
         var prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
+        await prefs.setString('token', token!);
         await prefs.setBool('purchase', purchase);
         await prefs.setBool('record', record);
         await prefs.setString('username', username);
         await prefs.setBool('hasToken', true);
+        print(responseData['token']);
 
         UserCubit userCubit = context.read<UserCubit>();
 
@@ -265,7 +288,7 @@ class _AppState extends State<App> {
                 {'subscribe': state.purchase, 'record': state.record});
             // 여기서 User Property 다시 한번 설정해주기 ~~
           }
-          if (userToken != null && hasToken == true) {
+          if (token != null && hasToken == true) {
             return const HomeScreen();
           } else {
             anonymousLoginFuture ??= anonymousLogin();
