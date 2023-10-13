@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  Runner
+
+  Created by 강경아 on 2023/10/12.
+  
+*/
+
+NSUserTrackingUsageDescription = "사용자의 데이터는 개인화된 광고 제공 목적으로 사용합니다.";
+
