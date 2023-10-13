@@ -58,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool showFairy = false;
   bool neverRequestedPermission = false;
   bool showToolTip = false;
+  bool _userEarnedReward = false;
   // 받을 수 있는 포인트 day : availableGetPoint // 1일차, 2일차 ...
   // 마지막으로 받은 날짜: lastPointYMD // 2023년9월22일
   // 마지막으로 받은 포인트의 일수: lastPointDay --> 1일차, 2일차, 3일차... --> 마지막 기록이 1일차이면 2일차 포인트를 받게 해야한다
@@ -908,14 +909,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                               right: SizeConfig.defaultSize! *
                                                   0.8),
                                           child: Text(
-                                            'You can earn points\nthrough attendance checks!',
+                                            "Calendar Onboarding",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontFamily: 'font'.tr(),
                                                 fontSize:
                                                     SizeConfig.defaultSize! *
                                                         2),
-                                          ),
+                                          ).tr(),
                                         )
                                       ]),
                                 ),
@@ -1323,11 +1324,19 @@ class _HomeScreenState extends State<HomeScreen> {
         onAdLoaded: (RewardedAd ad) {
           print('Ad was loaded.');
           _rewardedAd = ad;
+          _userEarnedReward = false;
 
           ad.fullScreenContentCallback = FullScreenContentCallback(
             onAdShowedFullScreenContent: (RewardedAd ad) =>
                 print('Ad showed fullscreen content.'),
             onAdDismissedFullScreenContent: (RewardedAd ad) {
+              if (_userEarnedReward) {
+                if (OneSignal.Notifications.permission != true &&
+                    neverRequestedPermission) {
+                  OneSignal.Notifications.requestPermission(true);
+                  neverRequestedPermission = false;
+                }
+              }
               print('Ad dismissed fullscreen content.');
               setState(() {
                 _isAdLoaded = false;
@@ -1373,11 +1382,8 @@ class _HomeScreenState extends State<HomeScreen> {
       //     .then((accepted) {
       //   print("Accepted permission: $accepted");
       // });
-      if (OneSignal.Notifications.permission != true &&
-          neverRequestedPermission) {
-        OneSignal.Notifications.requestPermission(true);
-        neverRequestedPermission = false;
-      }
+      _userEarnedReward = true;
+
       // 여기에서 reward를 처리할 수 있습니다.
     });
   }
