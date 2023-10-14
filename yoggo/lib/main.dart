@@ -1,4 +1,3 @@
-//import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:amplitude_flutter/amplitude.dart';
