@@ -564,20 +564,20 @@ class _PageWidgetState extends State<PageWidget> {
                                         child:
                                             Image.asset('lib/images/gray.png'),
                                       ),
-                                      Positioned.fill(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Image(
-                                              image: FileImage(File(nowImage))),
-                                          //File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png'))),
-                                          //   File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/51BD51C0-88A3-4805-BDEE-B9DA1AE95AEA/Library/Caches/libCachedImageData/c63ef170-5c10-11ee-bf53-17b03fffd053.png'))),
-                                          // CachedNetworkImage(
-                                          //   imageUrl: widget.imageUrl,
-                                          //   fit: BoxFit.cover,
-                                          // ),
-                                        ),
+                                      // Positioned.fill(
+                                      //   child:
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image(
+                                            image: FileImage(File(nowImage))),
+                                        //File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png'))),
+                                        //   File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/51BD51C0-88A3-4805-BDEE-B9DA1AE95AEA/Library/Caches/libCachedImageData/c63ef170-5c10-11ee-bf53-17b03fffd053.png'))),
+                                        // CachedNetworkImage(
+                                        //   imageUrl: widget.imageUrl,
+                                        //   fit: BoxFit.cover,
+                                        // ),
                                       ),
+                                      //),
                                     ],
                                   )
                                 : Padding(
@@ -625,21 +625,21 @@ class _PageWidgetState extends State<PageWidget> {
                                         child:
                                             Image.asset('lib/images/gray.png'),
                                       ),
-                                      Positioned.fill(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Image(
-                                              image: FileImage(File(
-                                            nowImage,
-                                            //'/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png',
-                                          ))),
-                                          // CachedNetworkImage(
-                                          //   imageUrl: widget.imageUrl,
-                                          //   fit: BoxFit.cover,
-                                          // ),
-                                        ),
+                                      //Positioned.fill(
+                                      //child:
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image(
+                                            image: FileImage(File(
+                                          nowImage,
+                                          //'/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png',
+                                        ))),
+                                        // CachedNetworkImage(
+                                        //   imageUrl: widget.imageUrl,
+                                        //   fit: BoxFit.cover,
+                                        // ),
                                       ),
+                                      //),
                                     ],
                                   )
                                 //그림을 2번 화면에 배치

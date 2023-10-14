@@ -414,7 +414,7 @@ class _BookEndState extends State<BookEnd> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'If you want to read a Book in the voice of your parents,',
+                          'If you want to read a book in the voice of your parents,',
                           style: TextStyle(
                               fontFamily: 'font'.tr(),
                               fontSize: SizeConfig.defaultSize! * 2.3),
