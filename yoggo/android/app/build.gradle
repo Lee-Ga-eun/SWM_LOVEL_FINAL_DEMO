@@ -104,8 +104,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //implementation 'com.google.android.material:material:1.9.0'
     implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
-  implementation 'com.amplitude:android-sdk:2.+'
-  implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.amplitude:android-sdk:2.+'
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
     implementation 'com.google.android.gms:play-services-ads:22.4.0'
+    // implementation 'com.appsflyer:af-android-sdk:6.12.3'
+    // implementation "com.android.installreferrer:installreferrer:2.2"
 
 }
