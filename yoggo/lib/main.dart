@@ -1,4 +1,3 @@
-//import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:amplitude_flutter/amplitude.dart';
@@ -22,6 +21,8 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'dart:io' show Platform;
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 
 Future<void> initPlatformState() async {
   await Purchases.setLogLevel(
@@ -48,7 +49,18 @@ void main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding
       .ensureInitialized(); // ensureInitialized()를 호출하여 바인딩 초기화
+  AppsFlyerOptions appsFlyerOptions = AppsFlyerOptions(
+      afDevKey: dotenv.get("AF_devKey"),
+      showDebug: true,
+      timeToWaitForATTUserAuthorization: 50, // for iOS 14.5
+      disableAdvertisingIdentifier: false, // Optional field
+      disableCollectASA: false); // Optional field
 
+  AppsflyerSdk appsflyerSdk = AppsflyerSdk(appsFlyerOptions);
+  appsflyerSdk.initSdk(
+      registerConversionDataCallback: true,
+      registerOnAppOpenAttributionCallback: true,
+      registerOnDeepLinkingCallback: true);
 //Remove this method to stop OneSignal Debugging
 
   //OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);

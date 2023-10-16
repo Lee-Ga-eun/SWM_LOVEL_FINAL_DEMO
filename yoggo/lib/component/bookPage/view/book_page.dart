@@ -45,6 +45,8 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   bool isPlaying = true;
   bool pauseFunction = false;
   AudioPlayer audioPlayer = AudioPlayer();
+  bool autoplayClicked = false;
+  Color iconColor = Colors.black;
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
@@ -151,6 +153,15 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
     final userState = userCubit.state;
     final dataRepository = RepositoryProvider.of<DataRepository>(context);
     SizeConfig().init(context);
+    audioPlayer.onPlayerComplete.listen((event) {
+      if (autoplayClicked) {
+        if (currentPageIndex != widget.lastPage - 1 && autoplayClicked) {
+          nextPage();
+        } else {
+          iconColor = Colors.green;
+        }
+      }
+    });
     return BlocProvider(create: (context) {
       final bookPageCubit = BookPageCubit(dataRepository);
       bookPageCubit.loadBookPageData(widget.contentVoiceId);
@@ -186,39 +197,40 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                 Visibility(
                   visible: true,
                   child: PageWidget(
-                      // page: currentPageIndex < widget.lastPage
-                      //     ? bookPage[currentPageIndex]
-                      //     : bookPage[widget.lastPage - 1],
-                      text: currentPageIndex < widget.lastPage
-                          ? bookPage[currentPageIndex].text
-                          : bookPage[widget.lastPage - 1].text,
-                      // imageUrl: currentPageIndex < widget.lastPage
-                      //     ? bookPage[currentPageIndex].imageUrl
-                      //     : bookPage[widget.lastPage - 1].imageUrl,
+                    // page: currentPageIndex < widget.lastPage
+                    //     ? bookPage[currentPageIndex]
+                    //     : bookPage[widget.lastPage - 1],
+                    text: currentPageIndex < widget.lastPage
+                        ? bookPage[currentPageIndex].text
+                        : bookPage[widget.lastPage - 1].text,
+                    // imageUrl: currentPageIndex < widget.lastPage
+                    //     ? bookPage[currentPageIndex].imageUrl
+                    //     : bookPage[widget.lastPage - 1].imageUrl,
 
-                      position: currentPageIndex < widget.lastPage
-                          ? bookPage[currentPageIndex].position
-                          : bookPage[widget.lastPage - 1].position,
-                      audioUrl: bookPage[currentPageIndex].audioUrl,
-                      audioPath: bookPage[currentPageIndex].audioLocalPath,
-                      filePath: currentPageIndex < widget.lastPage
-                          ? bookPage[currentPageIndex].imageLocalPath
-                          : bookPage[widget.lastPage - 1].imageLocalPath,
-                      realCurrent: true,
-                      currentPage: currentPageIndex,
-                      audioPlayer: audioPlayer,
-                      pauseFunction: pauseFunction,
-                      previousPage: previousPage,
-                      currentPageIndex: currentPageIndex,
-                      nextPage: nextPage,
-                      lastPage: widget.lastPage,
-                      voiceId: widget.voiceId,
-                      contentVoiceId: widget.contentVoiceId,
-                      contentId: widget.contentId,
-                      isSelected: widget.isSelected,
-                      dispose: dispose,
-                      stopAudio: stopAudio,
-                      title: widget.title),
+                    position: currentPageIndex < widget.lastPage
+                        ? bookPage[currentPageIndex].position
+                        : bookPage[widget.lastPage - 1].position,
+                    audioUrl: bookPage[currentPageIndex].audioUrl,
+                    audioPath: bookPage[currentPageIndex].audioLocalPath,
+                    filePath: currentPageIndex < widget.lastPage
+                        ? bookPage[currentPageIndex].imageLocalPath
+                        : bookPage[widget.lastPage - 1].imageLocalPath,
+                    realCurrent: true,
+                    currentPage: currentPageIndex,
+                    audioPlayer: audioPlayer,
+                    pauseFunction: pauseFunction,
+                    previousPage: previousPage,
+                    currentPageIndex: currentPageIndex,
+                    nextPage: nextPage,
+                    lastPage: widget.lastPage,
+                    voiceId: widget.voiceId,
+                    contentVoiceId: widget.contentVoiceId,
+                    contentId: widget.contentId,
+                    isSelected: widget.isSelected,
+                    dispose: dispose,
+                    stopAudio: stopAudio,
+                    title: widget.title,
+                  ),
                 ),
                 // 다음 페이지 위젯
                 Offstage(
@@ -443,12 +455,13 @@ class PageWidget extends StatefulWidget {
 class _PageWidgetState extends State<PageWidget> {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   final Amplitude amplitude = Amplitude.getInstance();
-
+  Color iconColor = Colors.black;
   @override
   Widget build(BuildContext context) {
     final userCubit = context.watch<UserCubit>();
     final userState = userCubit.state;
     SizeConfig().init(context);
+
     // print('지금 나와야하는 그림 ${widget.filePath}');
     // var nowImage = widget.filePath;
     var nowImage = '';
@@ -475,7 +488,9 @@ class _PageWidgetState extends State<PageWidget> {
 
     playAudio();
     //playAudio(widget.audioUrl);
-
+    widget.audioPlayer.onPlayerComplete.listen((event) {
+      iconColor = Colors.green;
+    });
     return Scaffold(
       body: Stack(
         children: [
@@ -564,20 +579,20 @@ class _PageWidgetState extends State<PageWidget> {
                                         child:
                                             Image.asset('lib/images/gray.png'),
                                       ),
-                                      Positioned.fill(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Image(
-                                              image: FileImage(File(nowImage))),
-                                          //File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png'))),
-                                          //   File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/51BD51C0-88A3-4805-BDEE-B9DA1AE95AEA/Library/Caches/libCachedImageData/c63ef170-5c10-11ee-bf53-17b03fffd053.png'))),
-                                          // CachedNetworkImage(
-                                          //   imageUrl: widget.imageUrl,
-                                          //   fit: BoxFit.cover,
-                                          // ),
-                                        ),
+                                      // Positioned.fill(
+                                      //   child:
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image(
+                                            image: FileImage(File(nowImage))),
+                                        //File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png'))),
+                                        //   File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/51BD51C0-88A3-4805-BDEE-B9DA1AE95AEA/Library/Caches/libCachedImageData/c63ef170-5c10-11ee-bf53-17b03fffd053.png'))),
+                                        // CachedNetworkImage(
+                                        //   imageUrl: widget.imageUrl,
+                                        //   fit: BoxFit.cover,
+                                        // ),
                                       ),
+                                      //),
                                     ],
                                   )
                                 : Padding(
@@ -625,21 +640,21 @@ class _PageWidgetState extends State<PageWidget> {
                                         child:
                                             Image.asset('lib/images/gray.png'),
                                       ),
-                                      Positioned.fill(
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          child: Image(
-                                              image: FileImage(File(
-                                            nowImage,
-                                            //'/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png',
-                                          ))),
-                                          // CachedNetworkImage(
-                                          //   imageUrl: widget.imageUrl,
-                                          //   fit: BoxFit.cover,
-                                          // ),
-                                        ),
+                                      //Positioned.fill(
+                                      //child:
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image(
+                                            image: FileImage(File(
+                                          nowImage,
+                                          //'/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png',
+                                        ))),
+                                        // CachedNetworkImage(
+                                        //   imageUrl: widget.imageUrl,
+                                        //   fit: BoxFit.cover,
+                                        // ),
                                       ),
+                                      //),
                                     ],
                                   )
                                 //그림을 2번 화면에 배치
@@ -762,8 +777,7 @@ class _PageWidgetState extends State<PageWidget> {
                                           child: IconButton(
                                             icon: Icon(
                                               Icons.check,
-                                              color: const Color.fromARGB(
-                                                  255, 0, 0, 0),
+                                              color: iconColor,
                                               size: 3 * SizeConfig.defaultSize!,
                                             ),
                                             // 결제와 목소리 등록을 완료한 사용자는 바로 종료시킨다

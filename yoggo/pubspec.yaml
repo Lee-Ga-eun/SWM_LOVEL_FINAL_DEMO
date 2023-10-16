@@ -17,7 +17,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
 
-version: 1.2.3+46
+version: 1.2.4+48
 
 environment:
   sdk: ">=3.0.2 <4.0.0"
@@ -33,15 +33,15 @@ dependencies:
     sdk: flutter
   bloc: ^8.0.0
   flutter_bloc: ^8.0.0
-  animated_background: ^2.0.0
-  flutter_native_splash: ^2.3.0
-  animated_text_kit: ^4.2.2
+  # animated_background: ^2.0.0
+  # flutter_native_splash: ^2.3.0
+  # animated_text_kit: ^4.2.2
   amplitude_flutter: ^3.13.0
   http: ^0.13.5
   audioplayers: ^4.1.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  #cupertino_icons: ^1.0.2
   firebase_core: ^2.13.1
   supabase_flutter: ^1.10.3
   flutter_dotenv: ^5.1.0
@@ -53,12 +53,12 @@ dependencies:
   sign_in_with_apple: ^4.3.0
   crypto: ^3.0.3
   record: ^4.4.4
-  logger: ^1.4.0
-  http_parser: ^4.0.2
-  provider: ^6.0.5
+  # logger: ^1.4.0
+  # http_parser: ^4.0.2
+  # provider: ^6.0.5
   firebase_analytics: ^10.4.4
-  flutter_animation_progress_bar: ^2.3.1
-  flutter_svg: ^2.0.7
+  # flutter_animation_progress_bar: ^2.3.1
+  # flutter_svg: ^2.0.7
   loading_animation_widget: ^1.2.0+4
   onesignal_flutter: ^5.0.3
   purchases_flutter: ^5.5.0
@@ -73,7 +73,7 @@ dependencies:
   google_mobile_ads: ^3.0.0
   #audioplayers: ^0.18.3
   easy_localization: ^3.0.0
-  app_tracking_transparency: ^2.0.4
+  appsflyer_sdk: ^6.12.2
 
 dev_dependencies:
   flutter_test:
@@ -120,32 +120,12 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: BreeSerif
-      fonts:
-        - asset: assets/fonts/BreeSerif-Regular.ttf
-    - family: Prata
-      fonts:
-        - asset: assets/fonts/Prata-Regular.ttf
-    - family: ChelaOne
-      fonts:
-        - asset: assets/fonts/ChelaOne-Regular.ttf
     - family: Modak
       fonts:
         - asset: assets/fonts/Modak-Regular.ttf
     - family: Molengo
       fonts:
         - asset: assets/fonts/Molengo-Regular.ttf
-    - family: Gloria
-      fonts:
-        - asset: assets/fonts/GloriaHallelujah-Regular.ttf
-    - family: NanumMyeongjo
-      fonts:
-        - asset: assets/fonts/NanumMyeongjo-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/NanumMyeongjo-Bold.ttf
-          weight: 700
-        - asset: assets/fonts/NanumMyeongjo-ExtraBold.ttf
-          weight: 800
     - family: Oxygen
       fonts:
         - asset: assets/fonts/Oxygen-Regular.ttf
@@ -154,38 +134,9 @@ flutter:
           weight: 400
         - asset: assets/fonts/Oxygen-Bold.ttf
           weight: 700
-    - family: Capriola
-      fonts:
-        - asset: assets/fonts/Capriola-Regular.ttf
-          weight: 400
-    - family: LoveYaLikeASister
-      fonts:
-        - asset: assets/fonts/LoveYaLikeASister-Regular.ttf
-          weight: 400
-    - family: Gaegu
-      fonts:
-        - asset: assets/fonts/Gaegu-Light.ttf
-          weight: 300
-        - asset: assets/fonts/Gaegu-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/Gaegu-Bold.ttf
-          weight: 700
-    - family: ComingSoon
-      fonts:
-        - asset: assets/fonts/ComingSoon-Regular.ttf
-          weight: 400
-    - family: DMSans
-      fonts:
-        - asset: assets/fonts/DMSans_36pt-Light.ttf
-          weight: 300
-        - asset: assets/fonts/DMSans_36pt-Regular.ttf
-          weight: 400
     - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto-Medium.ttf
-    - family: Libre
-      fonts:
-        - asset: assets/fonts/LibreBaskerville-Regular.ttf
     - family: EmilysCandy
       fonts:
         - asset: assets/fonts/EmilysCandy-Regular.ttf
@@ -196,9 +147,6 @@ flutter:
       fonts:
         - asset: assets/fonts/LilitaOne-Regular.ttf
           weight: 400
-    - family: IBM
-      fonts:
-        - asset: assets/fonts/IBMPlexSansKR-SemiBold.ttf
     - family: MapleRegular
       fonts:
         - asset: assets/fonts/SOYO Maple Regular.ttf
@@ -207,7 +155,15 @@ flutter:
       fonts:
         - asset: assets/fonts/SOYO Maple Bold.ttf
           weight: 700
-        # Prata-Regular.ttf
+    # - family: BreeSerif
+    #   fonts:
+    #     - asset: assets/fonts/BreeSerif-Regular.ttf
+    # - family: Prata
+    #   fonts:
+    #     - asset: assets/fonts/Prata-Regular.ttf
+    # - family: ChelaOne
+    #   fonts:
+    #     - asset: assets/fonts/ChelaOne-Regular.ttf
     # - family: Schyler
     #   fonts:
     #      - asset: fonts/Schyler-Regular.ttf
@@ -218,6 +174,49 @@ flutter:
     #     - asset: fonts/TrajanPro.ttf
     #     - asset: fonts/TrajanPro_Bold.ttf
     #       weight: 700
+    # - family: Gloria
+    #   fonts:
+    #     - asset: assets/fonts/GloriaHallelujah-Regular.ttf
+    # - family: NanumMyeongjo
+    #   fonts:
+    #     - asset: assets/fonts/NanumMyeongjo-Regular.ttf
+    #       weight: 400
+    #     - asset: assets/fonts/NanumMyeongjo-Bold.ttf
+    #       weight: 700
+    #     - asset: assets/fonts/NanumMyeongjo-ExtraBold.ttf
+    #       weight: 800
+    # - family: Capriola
+    #   fonts:
+    #     - asset: assets/fonts/Capriola-Regular.ttf
+    #       weight: 400
+    # - family: LoveYaLikeASister
+    #   fonts:
+    #     - asset: assets/fonts/LoveYaLikeASister-Regular.ttf
+    #       weight: 400
+    # - family: Gaegu
+    #   fonts:
+    #     - asset: assets/fonts/Gaegu-Light.ttf
+    #       weight: 300
+    #     - asset: assets/fonts/Gaegu-Regular.ttf
+    #       weight: 400
+    #     - asset: assets/fonts/Gaegu-Bold.ttf
+    #       weight: 700
+    # - family: ComingSoon
+    #   fonts:
+    #     - asset: assets/fonts/ComingSoon-Regular.ttf
+    #       weight: 400
+    # - family: DMSans
+    #   fonts:
+    #     - asset: assets/fonts/DMSans_36pt-Light.ttf
+    #       weight: 300
+    #     - asset: assets/fonts/DMSans_36pt-Regular.ttf
+    #       weight: 400
+    # - family: Libre
+    #   fonts:
+    #     - asset: assets/fonts/LibreBaskerville-Regular.ttf
+    # - family: IBM
+    #   fonts:
+    #     - asset: assets/fonts/IBMPlexSansKR-SemiBold.ttf
 
   #
   # For details regarding fonts from package dependencies,
