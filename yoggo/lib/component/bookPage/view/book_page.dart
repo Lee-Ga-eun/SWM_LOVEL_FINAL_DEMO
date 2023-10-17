@@ -48,6 +48,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   bool pauseFunction = false;
   AudioPlayer audioPlayer = AudioPlayer();
   bool autoplayClicked = false;
+  bool reportClicked = false;
   bool _isChanged = false;
 
   @override
@@ -172,6 +173,12 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
     final userCubit = context.watch<UserCubit>();
     final userState = userCubit.state;
     final dataRepository = RepositoryProvider.of<DataRepository>(context);
+    final sw = (MediaQuery.of(context).size.width -
+        MediaQuery.of(context).padding.left -
+        MediaQuery.of(context).padding.right);
+    final sh = (MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom);
     SizeConfig().init(context);
     audioPlayer.onPlayerComplete.listen((event) {
       if (autoplayClicked) {
@@ -214,7 +221,10 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
         _sendBookPageViewEvent(widget.contentVoiceId, widget.contentId,
             widget.voiceId, currentPageIndex + 1, widget.title);
         return Scaffold(
-          body: Stack(
+          resizeToAvoidBottomInset: false,
+          body: //SingleChildScrollView(
+              //child:
+              Stack(
             children: [
               Container(
                 decoration: const BoxDecoration(
@@ -225,8 +235,8 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                 ),
               ),
               SafeArea(
-                top: false,
-                bottom: false,
+                //top: false,
+                //bottom: false,
                 minimum: EdgeInsets.only(
                     left: SizeConfig.defaultSize!,
                     right: SizeConfig.defaultSize!),
@@ -329,6 +339,9 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                         size: SizeConfig.defaultSize! * 3),
                                     onTap: () {
                                       print('report');
+                                      setState(() {
+                                        reportClicked = true;
+                                      });
                                     }),
                               ]),
                             )
@@ -536,6 +549,104 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                   ),
                 ),
               ),
+              Positioned(
+                left: sw * 0.1,
+                top: sh * 0.1,
+                child: Visibility(
+                    visible: reportClicked,
+                    child: Container(
+                        width: sw * 0.8,
+                        height: sh * 0.8,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              SizeConfig.defaultSize! * 3),
+                          color: Colors.white.withOpacity(0.9),
+                        ),
+                        child: Stack(children: [
+                          Column(
+                              //mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(
+                                    top: SizeConfig.defaultSize! * 3,
+                                  ),
+                                  child: Text(
+                                    '오류 신고',
+                                    style: TextStyle(
+                                      fontSize: SizeConfig.defaultSize! * 2.5,
+                                      fontFamily: 'font'.tr(),
+                                    ),
+                                  ).tr(),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.all(
+                                    SizeConfig.defaultSize! * 3,
+                                  ),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.all(
+                                            10), // 입력 텍스트와 외곽선 사이의 간격 조정
+
+                                        hintText: '텍스트를 입력하세요',
+                                        filled: true,
+                                        fillColor: Colors.grey[200]),
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(
+                                    left: SizeConfig.defaultSize! * 10,
+                                    right: SizeConfig.defaultSize! * 10,
+                                    bottom: SizeConfig.defaultSize! * 3,
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop(true);
+                                    },
+                                    child: Container(
+                                      width: SizeConfig.defaultSize! * 24,
+                                      height: SizeConfig.defaultSize! * 4.5,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                            SizeConfig.defaultSize! * 3),
+                                        color: const Color(0xFFFFA91A),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '제출',
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontFamily: 'font'.tr(),
+                                            fontSize:
+                                                2.2 * SizeConfig.defaultSize!,
+                                          ),
+                                        ).tr(),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ]),
+                          Positioned(
+                            top: SizeConfig.defaultSize! * 2,
+                            right: SizeConfig.defaultSize! * 2,
+                            child: IconButton(
+                              padding:
+                                  EdgeInsets.all(0.2 * SizeConfig.defaultSize!),
+                              alignment: Alignment.centerLeft,
+                              icon: Icon(
+                                Icons.clear,
+                                color: Colors.black,
+                                size: 3 * SizeConfig.defaultSize!,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  reportClicked = false;
+                                });
+                                //고민
+                              },
+                            ),
+                          ),
+                        ]))),
+              )
             ],
           ),
         );
