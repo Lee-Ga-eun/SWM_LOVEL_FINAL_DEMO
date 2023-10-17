@@ -697,44 +697,62 @@ class _PageWidgetState extends State<PageWidget> {
                     child: Row(
                       children: [
                         Expanded(
-                            flex: 1,
-                            // bottom: 5,
-                            // left: 10,
-                            child: Container(
-                              // [<-]
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.start, // 아이콘을 맨 왼쪽으로 정렬
-                                children: [
-                                  IconButton(
-                                      padding: EdgeInsets.all(
-                                          0.2 * SizeConfig.defaultSize!),
-                                      icon: widget.currentPageIndex == 0
-                                          ? Icon(
-                                              Icons.arrow_back,
-                                              color:
-                                                  Colors.black.withOpacity(0),
-                                            )
-                                          : Icon(
-                                              Icons.arrow_back,
-                                              size: 3 * SizeConfig.defaultSize!,
-                                            ),
-                                      onPressed: () {
-                                        _sendBookBackClickEvent(
-                                            widget.contentVoiceId,
-                                            widget.contentId,
-                                            widget.voiceId,
-                                            widget.currentPageIndex + 1,
-                                            widget.title);
-                                        widget.previousPage();
-                                      })
-                                ],
-                              ),
-                            )),
+                          flex: 1,
+                          // bottom: 5,
+                          // left: 10,
+                          // [<-]
+                          child: Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.start, // 아이콘을 맨 왼쪽으로 정렬
+                            children: [
+                              IconButton(
+                                  padding: EdgeInsets.all(
+                                      0.2 * SizeConfig.defaultSize!),
+                                  icon: widget.currentPageIndex == 0
+                                      ? Icon(
+                                          Icons.arrow_back,
+                                          color: Colors.black.withOpacity(0),
+                                        )
+                                      : Icon(
+                                          Icons.arrow_back,
+                                          size: 3 * SizeConfig.defaultSize!,
+                                        ),
+                                  onPressed: () {
+                                    _sendBookBackClickEvent(
+                                        widget.contentVoiceId,
+                                        widget.contentId,
+                                        widget.voiceId,
+                                        widget.currentPageIndex + 1,
+                                        widget.title);
+                                    widget.previousPage();
+                                  })
+                            ],
+                          ),
+                        ),
                         Expanded(
-                            flex: 8,
-                            child: Container(
-                                color: const Color.fromARGB(0, 0, 0, 0))),
+                          flex: 8,
+                          child: IconButton(
+                              padding:
+                                  EdgeInsets.all(0.2 * SizeConfig.defaultSize!),
+                              icon: widget.currentPageIndex == 0
+                                  ? Icon(
+                                      Icons.arrow_back,
+                                      color: Colors.black.withOpacity(0),
+                                    )
+                                  : Icon(
+                                      Icons.arrow_back,
+                                      size: 3 * SizeConfig.defaultSize!,
+                                    ),
+                              onPressed: () {
+                                _sendBookBackClickEvent(
+                                    widget.contentVoiceId,
+                                    widget.contentId,
+                                    widget.voiceId,
+                                    widget.currentPageIndex + 1,
+                                    widget.title);
+                                widget.previousPage();
+                              }),
+                        ),
                         Expanded(
                             flex: 1,
                             child: widget.currentPageIndex !=

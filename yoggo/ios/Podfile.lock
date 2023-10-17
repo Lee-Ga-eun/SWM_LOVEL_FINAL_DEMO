@@ -13,6 +13,12 @@ PODS:
   - AppAuth/Core (1.6.2)
   - AppAuth/ExternalUserAgent (1.6.2):
     - AppAuth/Core
+  - appsflyer_sdk (6.8.0):
+    - AppsFlyerFramework (= 6.12.2)
+    - Flutter
+  - AppsFlyerFramework (6.12.2):
+    - AppsFlyerFramework/Main (= 6.12.2)
+  - AppsFlyerFramework/Main (6.12.2)
   - audioplayers_darwin (0.0.1):
     - Flutter
   - Firebase/Analytics (10.12.0):
@@ -218,6 +224,7 @@ PODS:
 DEPENDENCIES:
   - amplitude_flutter (from `.symlinks/plugins/amplitude_flutter/ios`)
   - app_links (from `.symlinks/plugins/app_links/ios`)
+  - appsflyer_sdk (from `.symlinks/plugins/appsflyer_sdk/ios`)
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
@@ -244,6 +251,7 @@ SPEC REPOS:
     - Amplitude
     - AnalyticsConnector
     - AppAuth
+    - AppsFlyerFramework
     - Firebase
     - FirebaseAnalytics
     - FirebaseAppCheckInterop
@@ -270,6 +278,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/amplitude_flutter/ios"
   app_links:
     :path: ".symlinks/plugins/app_links/ios"
+  appsflyer_sdk:
+    :path: ".symlinks/plugins/appsflyer_sdk/ios"
   audioplayers_darwin:
     :path: ".symlinks/plugins/audioplayers_darwin/ios"
   firebase_analytics:
@@ -315,6 +325,8 @@ SPEC CHECKSUMS:
   AnalyticsConnector: eccd7e1cd3dd18e6bd09ac2506e37d4ed43ba3f4
   app_links: 5ef33d0d295a89d9d16bb81b0e3b0d5f70d6c875
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
+  appsflyer_sdk: beae2edc91c51ca92cad637534b45b22ff35d287
+  AppsFlyerFramework: 6eb4d89d2eb9a6632317f1055b359d9fd85fd5ff
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   Firebase: 07150e75d142fb9399f6777fa56a187b17f833a0
   firebase_analytics: 3ff822ee2e90f95b61f0da300df20b378d380fbb

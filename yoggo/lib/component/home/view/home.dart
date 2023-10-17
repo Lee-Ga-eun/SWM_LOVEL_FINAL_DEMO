@@ -160,6 +160,97 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<bool> _showExitConfirmationDialog(BuildContext context) async {
+    bool? shouldExit = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          titlePadding: EdgeInsets.only(
+            top: SizeConfig.defaultSize! * 7,
+            bottom: SizeConfig.defaultSize! * 2,
+          ),
+          actionsPadding: EdgeInsets.only(
+            left: SizeConfig.defaultSize! * 5,
+            right: SizeConfig.defaultSize! * 5,
+            bottom: SizeConfig.defaultSize! * 5,
+            top: SizeConfig.defaultSize! * 3,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(SizeConfig.defaultSize! * 3),
+          ),
+          backgroundColor: Colors.white.withOpacity(0.9),
+          title: Center(
+            child: Text(
+              '앱 나가려고 할 때',
+              style: TextStyle(
+                fontSize: SizeConfig.defaultSize! * 2.5,
+                fontFamily: 'font'.tr(),
+              ),
+            ).tr(),
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Container(
+                    width: SizeConfig.defaultSize! * 24,
+                    height: SizeConfig.defaultSize! * 4.5,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.defaultSize! * 3),
+                      color: const Color(0xFFFFA91A),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'No',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'font'.tr(),
+                          fontSize: 2.2 * SizeConfig.defaultSize!,
+                        ),
+                      ).tr(),
+                    ),
+                  ),
+                ),
+                SizedBox(width: SizeConfig.defaultSize! * 4), // 간격 조정
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Container(
+                    width: SizeConfig.defaultSize! * 24,
+                    height: SizeConfig.defaultSize! * 4.5,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.defaultSize! * 3),
+                      color: const Color(0xFFFFA91A),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Yes',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'font'.tr(),
+                          fontSize: 2.2 * SizeConfig.defaultSize!,
+                        ),
+                      ).tr(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+
+    return shouldExit ?? false; // Return false if shouldExit is null
+  }
+
   void logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('token');
@@ -336,246 +427,261 @@ class _HomeScreenState extends State<HomeScreen> {
     SizeConfig().init(context);
     _sendHomeViewEvent();
 
-    return BlocProvider(
-        create: (context) =>
-            dataCubit..loadHomeBookData(), // DataCubit 생성 및 데이터 로드
-        // child: DataList(
-        //   record:
-        //   purchase:
-        // ),
-        //final userCubit = context.watch<UserCubit>();
-        //final userState = userCubit.state;
-        child: BlocBuilder<DataCubit, List<HomeScreenBookModel>>(
-          builder: (context, state) {
-            if (state.isEmpty) {
-              _sendHomeLoadingViewEvent();
-              return Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('lib/images/bkground.png'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Center(
-                  child: LoadingAnimationWidget.fourRotatingDots(
-                    color: const Color.fromARGB(255, 255, 169, 26),
-                    size: SizeConfig.defaultSize! * 10,
-                  ),
-                ),
-              );
-            } else {
-              return Scaffold(
-                key: _scaffoldKey,
-                drawer: SizedBox(
-                  width: 33 * SizeConfig.defaultSize!,
-                  child: _Drawer(userState, userCubit, context),
-                ),
-                body: Stack(children: [
-                  if (openCalendar)
-                    Positioned.fill(
-                      child: GestureDetector(
-                        onTap: _openCalendarFunc,
-                        child: Container(
-                          color: const Color.fromARGB(255, 251, 251, 251)
-                              .withOpacity(0.5), // 반투명 배경색 설정
-                        ),
-                      ),
-                    ),
-                  Container(
+    return WillPopScope(
+        onWillPop: () async {
+          bool shouldExit = await _showExitConfirmationDialog(context);
+          return shouldExit; // Return true to exit the app, false to stay in the app
+        },
+        child: BlocProvider(
+            create: (context) =>
+                dataCubit..loadHomeBookData(), // DataCubit 생성 및 데이터 로드
+            // child: DataList(
+            //   record:
+            //   purchase:
+            // ),
+            //final userCubit = context.watch<UserCubit>();
+            //final userState = userCubit.state;
+            child: BlocBuilder<DataCubit, List<HomeScreenBookModel>>(
+              builder: (context, state) {
+                if (state.isEmpty) {
+                  _sendHomeLoadingViewEvent();
+                  return Container(
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('lib/images/bkground.png'),
                         fit: BoxFit.cover,
                       ),
                     ),
-                    child: SafeArea(
-                      bottom: false,
-                      top: false,
-                      minimum: EdgeInsets.only(
-                          left: 2 * SizeConfig.defaultSize!,
-                          right: 2 * SizeConfig.defaultSize!),
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: SizeConfig.defaultSize!.toInt(),
-                            child: Stack(
-                              alignment: Alignment.centerLeft,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'LOVEL',
-                                      style: TextStyle(
-                                        fontFamily: 'Modak',
-                                        fontSize: SizeConfig.defaultSize! * 5,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Positioned(
-                                  //left: 20,
-                                  top: SizeConfig.defaultSize! * 2,
-                                  child: InkWell(
-                                    onTap: () {
-                                      userCubit.fetchUser();
-
-                                      _sendHbgClickEvent();
-                                      _scaffoldKey.currentState?.openDrawer();
-                                      userCubit.fetchUser();
-                                    },
-                                    child: Image.asset(
-                                      'lib/images/hamburger.png',
-                                      width: 3.5 *
-                                          SizeConfig.defaultSize!, // 이미지의 폭 설정
-                                      height: 3.5 *
-                                          SizeConfig.defaultSize!, // 이미지의 높이 설정
-                                    ),
-                                  ),
-                                ),
-                                userState.purchase // 구독이면 캘린더 보여주지 않음
-                                    ? Container()
-                                    : Positioned(
-                                        right: SizeConfig.defaultSize! * 12,
-                                        top: SizeConfig.defaultSize! * 2,
-                                        child: InkWell(
-                                          onTap: () {
-                                            lastPointYMD == formattedTime
-                                                ? _sendCalClickEvent(
-                                                    userState.point,
-                                                    availableGetPoint,
-                                                    'Already Claimed')
-                                                : _sendCalClickEvent(
-                                                    userState.point,
-                                                    availableGetPoint,
-                                                    'Not Claimed Yet');
-                                            _openCalendarFunc();
-                                          },
-                                          child: Image.asset(
-                                            'lib/images/calendar.png',
-                                            width: 4.7 *
-                                                SizeConfig
-                                                    .defaultSize!, // 이미지의 폭 설정
-                                            height: 4.7 *
-                                                SizeConfig
-                                                    .defaultSize!, // 이미지의 높이 설정
-                                          ),
-                                        ),
-                                      ),
-                                userState.purchase
-                                    ? Container()
-                                    : Positioned(
-                                        //구독이면 포인트 보여주지 않음
-                                        top: 2.2 * SizeConfig.defaultSize!,
-                                        right: 1 * SizeConfig.defaultSize!,
-                                        child: Stack(children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              _sendHomePointClickEvent(
-                                                  userState.point);
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const Purchase()),
-                                              );
-                                            },
-                                            child: Container(
-                                              width:
-                                                  10 * SizeConfig.defaultSize!,
-                                              height:
-                                                  4 * SizeConfig.defaultSize!,
-                                              decoration: BoxDecoration(
-                                                  color: const Color.fromARGB(
-                                                      128, 255, 255, 255),
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(SizeConfig
-                                                              .defaultSize! *
-                                                          1))),
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 0.5 *
-                                                          SizeConfig
-                                                              .defaultSize!,
-                                                    ),
-                                                    SizedBox(
-                                                        width: 2 *
-                                                            SizeConfig
-                                                                .defaultSize!,
-                                                        child: Image.asset(
-                                                            'lib/images/oneCoin.png')),
-                                                    Container(
-                                                      width: 7 *
-                                                          SizeConfig
-                                                              .defaultSize!,
-                                                      alignment:
-                                                          Alignment.center,
-                                                      // decoration: BoxDecoration(color: Colors.blue),
-                                                      child: Text(
-                                                        '${userState.point + 0}',
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'lilita',
-                                                            fontSize: SizeConfig
-                                                                    .defaultSize! *
-                                                                2),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                    )
-                                                  ]),
-                                            ),
-                                          ),
-                                        ]),
-                                      ),
-                              ],
+                    child: Center(
+                      child: LoadingAnimationWidget.fourRotatingDots(
+                        color: const Color.fromARGB(255, 255, 169, 26),
+                        size: SizeConfig.defaultSize! * 10,
+                      ),
+                    ),
+                  );
+                } else {
+                  return Scaffold(
+                    key: _scaffoldKey,
+                    drawer: SizedBox(
+                      width: 33 * SizeConfig.defaultSize!,
+                      child: _Drawer(userState, userCubit, context),
+                    ),
+                    body: Stack(children: [
+                      if (openCalendar)
+                        Positioned.fill(
+                          child: GestureDetector(
+                            onTap: _openCalendarFunc,
+                            child: Container(
+                              color: const Color.fromARGB(255, 251, 251, 251)
+                                  .withOpacity(0.5), // 반투명 배경색 설정
                             ),
                           ),
-                          Expanded(
-                            flex: SizeConfig.defaultSize!.toInt() * 4,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: SizeConfig.defaultSize! * 30,
-                                    child: BlocProvider(
-                                      create: (context) => dataCubit
-                                        ..loadHomeBookData(), // DataCubit 생성 및 데이터 로드
-                                      child: ListView.separated(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: state.length,
-                                        //  itemCount: 4,
-                                        itemBuilder: (context, index) {
-                                          var book = state[index];
-                                          return GestureDetector(
-                                            onTap: () async {
-                                              _sendBookClickEvent(book.id);
-                                              SharedPreferences prefs =
-                                                  await SharedPreferences
-                                                      .getInstance();
-                                              await prefs.setBool(
-                                                  'haveClickedBook', true);
-                                              setState(() {
-                                                showFairy = true;
-                                              });
-                                              // showFairy = true;
-                                              // print(showFairy);
-                                              // --------
-                                              // userState.purchase == true ||
-                                              //         book.lock == false ||
-                                              //         (book.title ==
-                                              //                 'Snow White and the Seven Dwarfs' ||
-                                              //             book.title ==
-                                              //                 'The Little Match Girl') // 구독자인지 확인하기 and 포인트로 푼 책인지 확인하기
-                                              //     ?
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder:
-                                                        (context) =>
+                        ),
+                      Container(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('lib/images/bkground.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: SafeArea(
+                          bottom: false,
+                          top: false,
+                          minimum: EdgeInsets.only(
+                              left: 2 * SizeConfig.defaultSize!,
+                              right: 2 * SizeConfig.defaultSize!),
+                          child: Column(
+                            children: [
+                              Expanded(
+                                flex: SizeConfig.defaultSize!.toInt(),
+                                child: Stack(
+                                  alignment: Alignment.centerLeft,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'LOVEL',
+                                          style: TextStyle(
+                                            fontFamily: 'Modak',
+                                            fontSize:
+                                                SizeConfig.defaultSize! * 5,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Positioned(
+                                      //left: 20,
+                                      top: SizeConfig.defaultSize! * 2,
+                                      child: InkWell(
+                                        onTap: () {
+                                          userCubit.fetchUser();
+
+                                          _sendHbgClickEvent();
+                                          _scaffoldKey.currentState
+                                              ?.openDrawer();
+                                          userCubit.fetchUser();
+                                        },
+                                        child: Image.asset(
+                                          'lib/images/hamburger.png',
+                                          width: 3.5 *
+                                              SizeConfig
+                                                  .defaultSize!, // 이미지의 폭 설정
+                                          height: 3.5 *
+                                              SizeConfig
+                                                  .defaultSize!, // 이미지의 높이 설정
+                                        ),
+                                      ),
+                                    ),
+                                    userState.purchase // 구독이면 캘린더 보여주지 않음
+                                        ? Container()
+                                        : Positioned(
+                                            right: SizeConfig.defaultSize! * 12,
+                                            top: SizeConfig.defaultSize! * 2,
+                                            child: InkWell(
+                                              onTap: () {
+                                                lastPointYMD == formattedTime
+                                                    ? _sendCalClickEvent(
+                                                        userState.point,
+                                                        availableGetPoint,
+                                                        'Already Claimed')
+                                                    : _sendCalClickEvent(
+                                                        userState.point,
+                                                        availableGetPoint,
+                                                        'Not Claimed Yet');
+                                                _openCalendarFunc();
+                                              },
+                                              child: Image.asset(
+                                                'lib/images/calendar.png',
+                                                width: 4.7 *
+                                                    SizeConfig
+                                                        .defaultSize!, // 이미지의 폭 설정
+                                                height: 4.7 *
+                                                    SizeConfig
+                                                        .defaultSize!, // 이미지의 높이 설정
+                                              ),
+                                            ),
+                                          ),
+                                    userState.purchase
+                                        ? Container()
+                                        : Positioned(
+                                            //구독이면 포인트 보여주지 않음
+                                            top: 2.2 * SizeConfig.defaultSize!,
+                                            right: 1 * SizeConfig.defaultSize!,
+                                            child: Stack(children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  _sendHomePointClickEvent(
+                                                      userState.point);
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const Purchase()),
+                                                  );
+                                                },
+                                                child: Container(
+                                                  width: 10 *
+                                                      SizeConfig.defaultSize!,
+                                                  height: 4 *
+                                                      SizeConfig.defaultSize!,
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                          const Color.fromARGB(
+                                                              128,
+                                                              255,
+                                                              255,
+                                                              255),
+                                                      borderRadius: BorderRadius
+                                                          .all(Radius.circular(
+                                                              SizeConfig
+                                                                      .defaultSize! *
+                                                                  1))),
+                                                  child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 0.5 *
+                                                              SizeConfig
+                                                                  .defaultSize!,
+                                                        ),
+                                                        SizedBox(
+                                                            width: 2 *
+                                                                SizeConfig
+                                                                    .defaultSize!,
+                                                            child: Image.asset(
+                                                                'lib/images/oneCoin.png')),
+                                                        Container(
+                                                          width: 7 *
+                                                              SizeConfig
+                                                                  .defaultSize!,
+                                                          alignment:
+                                                              Alignment.center,
+                                                          // decoration: BoxDecoration(color: Colors.blue),
+                                                          child: Text(
+                                                            '${userState.point + 0}',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'lilita',
+                                                                fontSize: SizeConfig
+                                                                        .defaultSize! *
+                                                                    2),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ),
+                                                        )
+                                                      ]),
+                                                ),
+                                              ),
+                                            ]),
+                                          ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: SizeConfig.defaultSize!.toInt() * 4,
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: SizeConfig.defaultSize! * 30,
+                                        child: BlocProvider(
+                                          create: (context) => dataCubit
+                                            ..loadHomeBookData(), // DataCubit 생성 및 데이터 로드
+                                          child: ListView.separated(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: state.length,
+                                            //  itemCount: 4,
+                                            itemBuilder: (context, index) {
+                                              var book = state[index];
+                                              return GestureDetector(
+                                                onTap: () async {
+                                                  _sendBookClickEvent(book.id);
+                                                  SharedPreferences prefs =
+                                                      await SharedPreferences
+                                                          .getInstance();
+                                                  await prefs.setBool(
+                                                      'haveClickedBook', true);
+                                                  setState(() {
+                                                    showFairy = true;
+                                                  });
+                                                  // showFairy = true;
+                                                  // print(showFairy);
+                                                  // --------
+                                                  // userState.purchase == true ||
+                                                  //         book.lock == false ||
+                                                  //         (book.title ==
+                                                  //                 'Snow White and the Seven Dwarfs' ||
+                                                  //             book.title ==
+                                                  //                 'The Little Match Girl') // 구독자인지 확인하기 and 포인트로 푼 책인지 확인하기
+                                                  //     ?
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
                                                             MultiBlocProvider(
                                                               providers: [
                                                                 BlocProvider<
@@ -603,685 +709,663 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     .summary,
                                                               ),
                                                             )),
+                                                  );
+                                                  // : Navigator.push(
+                                                  //     //구독자가 아니면 purchase로 보낸다?
+                                                  //     context,
+                                                  //     MaterialPageRoute(
+                                                  //       builder: (context) =>
+                                                  //           userState.purchase
+                                                  //               ? BlocProvider(
+                                                  //                   create: (context) =>
+                                                  //                       // BookIntroCubit(),
+                                                  //                       // DataCubit()..loadHomeBookData()
+                                                  //                       BookIntroCubit()..loadBookIntroData(book.id),
+                                                  //                   child:
+                                                  //                       BookIntro(
+                                                  //                     title: book
+                                                  //                         .title,
+                                                  //                     thumb: book
+                                                  //                         .thumbUrl,
+                                                  //                     id: book
+                                                  //                         .id,
+                                                  //                     summary: book
+                                                  //                         .summary,
+                                                  //                   ),
+                                                  //                 )
+                                                  //               : const Purchase(),
+                                                  //     ));
+                                                }, //onTap 종료
+                                                child: book.lock &&
+                                                        !userState.purchase
+                                                    // 사용자가 포인트로 책을 풀었거나, 무료 공개 책이면 lock 해제
+                                                    ? lockedBook(book)
+                                                    : unlockedBook(
+                                                        book), //구독자아님
                                               );
-                                              // : Navigator.push(
-                                              //     //구독자가 아니면 purchase로 보낸다?
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //       builder: (context) =>
-                                              //           userState.purchase
-                                              //               ? BlocProvider(
-                                              //                   create: (context) =>
-                                              //                       // BookIntroCubit(),
-                                              //                       // DataCubit()..loadHomeBookData()
-                                              //                       BookIntroCubit()..loadBookIntroData(book.id),
-                                              //                   child:
-                                              //                       BookIntro(
-                                              //                     title: book
-                                              //                         .title,
-                                              //                     thumb: book
-                                              //                         .thumbUrl,
-                                              //                     id: book
-                                              //                         .id,
-                                              //                     summary: book
-                                              //                         .summary,
-                                              //                   ),
-                                              //                 )
-                                              //               : const Purchase(),
-                                              //     ));
-                                            }, //onTap 종료
-                                            child: book.lock &&
-                                                    !userState.purchase
-                                                // 사용자가 포인트로 책을 풀었거나, 무료 공개 책이면 lock 해제
-                                                ? lockedBook(book)
-                                                : unlockedBook(book), //구독자아님
-                                          );
-                                        },
-                                        separatorBuilder: (context, index) =>
-                                            SizedBox(
-                                                width: 2 *
-                                                    SizeConfig.defaultSize!),
-                                      ),
-                                    ),
-                                  ), //첫 줄 종료
-                                  // SizedBox(
-                                  //   //두 번째 줄 시작
-                                  //   height: SizeConfig.defaultSize! * 36,
-                                  //   child: BlocProvider(
-                                  //       create: (context) => DataCubit(
-                                  //           dataRepository)
-                                  //         ..loadHomeBookData(), // DataCubit 생성 및 데이터 로드
-                                  //       child: ListView.separated(
-                                  //         scrollDirection: Axis.horizontal,
-                                  //         itemCount: state.length - 4,
-                                  //         itemBuilder: (context, index) {
-                                  //           var book = state[index + 4];
-                                  //           return GestureDetector(
-                                  //             onTap: () async {
-                                  //               _sendBookClickEvent(book.id);
-                                  //               SharedPreferences prefs =
-                                  //                   await SharedPreferences
-                                  //                       .getInstance();
-                                  //               await prefs.setBool(
-                                  //                   'haveClickedBook', true);
-                                  //               setState(() {
-                                  //                 showFairy = true;
-                                  //               });
+                                            },
+                                            separatorBuilder:
+                                                (context, index) => SizedBox(
+                                                    width: 2 *
+                                                        SizeConfig
+                                                            .defaultSize!),
+                                          ),
+                                        ),
+                                      ), //첫 줄 종료
+                                      // SizedBox(
+                                      //   //두 번째 줄 시작
+                                      //   height: SizeConfig.defaultSize! * 36,
+                                      //   child: BlocProvider(
+                                      //       create: (context) => DataCubit(
+                                      //           dataRepository)
+                                      //         ..loadHomeBookData(), // DataCubit 생성 및 데이터 로드
+                                      //       child: ListView.separated(
+                                      //         scrollDirection: Axis.horizontal,
+                                      //         itemCount: state.length - 4,
+                                      //         itemBuilder: (context, index) {
+                                      //           var book = state[index + 4];
+                                      //           return GestureDetector(
+                                      //             onTap: () async {
+                                      //               _sendBookClickEvent(book.id);
+                                      //               SharedPreferences prefs =
+                                      //                   await SharedPreferences
+                                      //                       .getInstance();
+                                      //               await prefs.setBool(
+                                      //                   'haveClickedBook', true);
+                                      //               setState(() {
+                                      //                 showFairy = true;
+                                      //               });
 
-                                  //               Navigator.push(
-                                  //                 context,
-                                  //                 MaterialPageRoute(
-                                  //                   builder: (context) =>
-                                  //                       BlocProvider(
-                                  //                     create: (context) =>
+                                      //               Navigator.push(
+                                      //                 context,
+                                      //                 MaterialPageRoute(
+                                      //                   builder: (context) =>
+                                      //                       BlocProvider(
+                                      //                     create: (context) =>
 
-                                  //                         BookIntroCubit(
-                                  //                             dataRepository)
-                                  //                           ..loadBookIntroData(
-                                  //                               book.id),
-                                  //                     child: BookIntro(
-                                  //                       title: book.title,
-                                  //                       thumb: book.thumbUrl,
-                                  //                       id: book.id,
-                                  //                       summary: book.summary,
-                                  //                     ),
-                                  //                   ),
-                                  //                 ),
-                                  //               );
+                                      //                         BookIntroCubit(
+                                      //                             dataRepository)
+                                      //                           ..loadBookIntroData(
+                                      //                               book.id),
+                                      //                     child: BookIntro(
+                                      //                       title: book.title,
+                                      //                       thumb: book.thumbUrl,
+                                      //                       id: book.id,
+                                      //                       summary: book.summary,
+                                      //                     ),
+                                      //                   ),
+                                      //                 ),
+                                      //               );
 
-                                  //             },
-                                  //             child: book.lock &&
-                                  //                     !userState.purchase
-                                  //                 // 사용자가 포인트로 책을 풀었거나, 무료 공개 책이면 lock 해제
-                                  //                 ? lockedBook(book)
-                                  //                 : unlockedBook(book), //구독자아님
-                                  //           );
-                                  //         },
-                                  //         separatorBuilder: (context, index) =>
-                                  //             SizedBox(
-                                  //                 width: 2 *
-                                  //                     SizeConfig.defaultSize!),
-                                  //       )),
-                                  // ),
-                                  // 아래 줄에 또 다른 책을 추가하고 싶으면 주석을 해지하면 됨
-                                  // Container(
-                                  //   color: Colors.yellow,
-                                  //   height: 300,
-                                  //   child: const Center(
-                                  //     child: Text(
-                                  //       'Scrollable Content 2',
-                                  //       style: TextStyle(fontSize: 24),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // Visibility(
-                  //   visible: wantDelete,
-                  //   child: AlertDialog(
-                  //     title: const Text('Delete Account'),
-                  //     content:
-                  //         const Text('Do you want to DELETE your account?'),
-                  //     actions: [
-                  //       TextButton(
-                  //         onPressed: () {
-                  //           // 1초 후에 다음 페이지로 이동
-                  //           userCubit.logout();
-                  //           OneSignal.shared.removeExternalUserId();
-                  //           deleteAccount();
-                  //           Future.delayed(const Duration(seconds: 1), () {
-                  //             setState(() {
-                  //               wantDelete = false;
-                  //             });
-                  //           });
-                  //         },
-                  //         child: const Text('YES'),
-                  //       ),
-                  //       TextButton(
-                  //         onPressed: () {
-                  //           // 1초 후에 다음 페이지로 이동
-                  //           setState(() {
-                  //             wantDelete = false;
-                  //           });
-                  //         },
-                  //         child: const Text('No'),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  // Container(
-                  //   color: Colors.white.withOpacity(0.6),
-                  //   child: GestureDetector(
-                  //     onTap: ,
-                  //   ),
-                  // )
-                  GestureDetector(
-                      onTap: () {
-                        _sendHomeFirstClickEvent();
-                        setState(() {
-                          // Toggle the value of showOverlay when the overlay is tapped
-                          showFirstOverlay = false;
-                          showSecondOverlay = true;
-                        });
-                        // OneSignal.Notifications.requestPermission(true);
-                      },
-                      child: Stack(children: [
-                        Visibility(
-                          visible: showFirstOverlay, // 첫번째 온보딩화면
-                          child: Stack(
-                            children: [
-                              Container(
-                                color: Colors.white.withOpacity(0.6),
-                              ),
-                              SafeArea(
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      flex: SizeConfig.defaultSize!.toInt(),
-                                      child: Container(),
-                                    ),
-                                    Expanded(
-                                        flex:
-                                            SizeConfig.defaultSize!.toInt() * 2,
-                                        child: Stack(
-                                          children: [
-                                            Positioned.fill(
-                                              left: SizeConfig.defaultSize!,
-                                              right: SizeConfig.defaultSize!,
-                                              // top: SizeConfig.defaultSize! * 10,
-                                              // 안내 글씨
-                                              child: Align(
-                                                alignment:
-                                                    Alignment.bottomCenter,
-                                                child: TextButton(
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all<Color>(
-                                                      const Color.fromARGB(
-                                                          255, 255, 169, 26),
-                                                    ),
-                                                    padding:
-                                                        MaterialStateProperty.all<
-                                                            EdgeInsetsGeometry>(
-                                                      EdgeInsets.symmetric(
-                                                        vertical: SizeConfig
-                                                                .defaultSize! *
-                                                            2.1, // 수직 방향 패딩
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  onPressed: null,
-                                                  child: Row(
-                                                    children: [
-                                                      SizedBox(
-                                                          width: SizeConfig
-                                                                  .defaultSize! *
-                                                              11),
-                                                      Text(
-                                                        "Onboarding",
-                                                        style: TextStyle(
-                                                            fontFamily:
-                                                                'font'.tr(),
-                                                            color: Colors.black,
-                                                            fontSize: SizeConfig
-                                                                    .defaultSize! *
-                                                                2),
-                                                      ).tr()
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              left: SizeConfig.defaultSize! * 0,
-                                              bottom:
-                                                  SizeConfig.defaultSize! * 6.8,
-                                              child: Image.asset(
-                                                'lib/images/fairy.png',
-                                                width: SizeConfig.defaultSize! *
-                                                    17,
-                                              ),
-                                            ),
-                                            Positioned(
-                                              left:
-                                                  SizeConfig.defaultSize! * 42,
-                                              top: SizeConfig.defaultSize! * 2,
-                                              child: Image.asset(
-                                                'lib/images/overlayClick.png',
-                                                width: SizeConfig.defaultSize! *
-                                                    10,
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Container(),
-                                    )
-                                  ],
+                                      //             },
+                                      //             child: book.lock &&
+                                      //                     !userState.purchase
+                                      //                 // 사용자가 포인트로 책을 풀었거나, 무료 공개 책이면 lock 해제
+                                      //                 ? lockedBook(book)
+                                      //                 : unlockedBook(book), //구독자아님
+                                      //           );
+                                      //         },
+                                      //         separatorBuilder: (context, index) =>
+                                      //             SizedBox(
+                                      //                 width: 2 *
+                                      //                     SizeConfig.defaultSize!),
+                                      //       )),
+                                      // ),
+                                      // 아래 줄에 또 다른 책을 추가하고 싶으면 주석을 해지하면 됨
+                                      // Container(
+                                      //   color: Colors.yellow,
+                                      //   height: 300,
+                                      //   child: const Center(
+                                      //     child: Text(
+                                      //       'Scrollable Content 2',
+                                      //       style: TextStyle(fontSize: 24),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ])),
-                  GestureDetector(
-                    onTap: () {
-                      _sendHomeCalTooltipClickEvent();
-                      // _sendHomeSecondClickEvent();
-                      _openCalendarFunc();
-                      setState(() {
-                        showSecondOverlay = false;
-                      });
-                    },
-                    child: Stack(children: [
-                      SafeArea(
-                          minimum: EdgeInsets.only(
-                            left: 3 * SizeConfig.defaultSize!,
-                            right: 3 * SizeConfig.defaultSize!,
-                          ),
-                          child: Visibility(
-                            visible: !showFirstOverlay &&
-                                showSecondOverlay, // 두번째 온보딩화면(캘린더 가르키기)
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  right: 5 * SizeConfig.defaultSize!,
-                                  top: 6.5 * SizeConfig.defaultSize!,
-                                  child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'lib/images/textOrangeBubble.png',
-                                          width: SizeConfig.defaultSize! * 27,
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.defaultSize! * 1.2,
-                                              right: SizeConfig.defaultSize! *
-                                                  0.8),
-                                          child: Text(
-                                            "Calendar Onboarding",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontFamily: 'font'.tr(),
-                                                fontSize:
-                                                    SizeConfig.defaultSize! *
-                                                        2),
-                                          ).tr(),
-                                        )
-                                      ]),
-                                ),
-                              ],
-                            ),
-                          )),
-                    ]),
-                  ),
-                  if (openCalendar)
-                    Positioned.fill(
-                      child: GestureDetector(
-                        onTap: _openCalendarFunc,
-                        child: Stack(children: [
-                          Container(
-                            color: const Color.fromARGB(255, 251, 251, 251)
-                                .withOpacity(0.5), // 반투명 배경색 설정
-                          ),
-                          Align(
-                              alignment: Alignment.center,
-                              child: SizedBox(
-                                width: 55 * SizeConfig.defaultSize!,
-                                height: 35 * SizeConfig.defaultSize!,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(
-                                            SizeConfig.defaultSize!)),
-                                    color:
-                                        const Color.fromARGB(255, 255, 255, 255)
-                                            .withOpacity(1),
+                      ),
+                      // Visibility(
+                      //   visible: wantDelete,
+                      //   child: AlertDialog(
+                      //     title: const Text('Delete Account'),
+                      //     content:
+                      //         const Text('Do you want to DELETE your account?'),
+                      //     actions: [
+                      //       TextButton(
+                      //         onPressed: () {
+                      //           // 1초 후에 다음 페이지로 이동
+                      //           userCubit.logout();
+                      //           OneSignal.shared.removeExternalUserId();
+                      //           deleteAccount();
+                      //           Future.delayed(const Duration(seconds: 1), () {
+                      //             setState(() {
+                      //               wantDelete = false;
+                      //             });
+                      //           });
+                      //         },
+                      //         child: const Text('YES'),
+                      //       ),
+                      //       TextButton(
+                      //         onPressed: () {
+                      //           // 1초 후에 다음 페이지로 이동
+                      //           setState(() {
+                      //             wantDelete = false;
+                      //           });
+                      //         },
+                      //         child: const Text('No'),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      // Container(
+                      //   color: Colors.white.withOpacity(0.6),
+                      //   child: GestureDetector(
+                      //     onTap: ,
+                      //   ),
+                      // )
+                      GestureDetector(
+                          onTap: () {
+                            _sendHomeFirstClickEvent();
+                            setState(() {
+                              // Toggle the value of showOverlay when the overlay is tapped
+                              showFirstOverlay = false;
+                              showSecondOverlay = true;
+                            });
+                            // OneSignal.Notifications.requestPermission(true);
+                          },
+                          child: Stack(children: [
+                            Visibility(
+                              visible: showFirstOverlay, // 첫번째 온보딩화면
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    color: Colors.white.withOpacity(0.6),
                                   ),
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        height: SizeConfig.defaultSize! * 4.5,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(
-                                                  SizeConfig.defaultSize!),
-                                              topLeft: Radius.circular(
-                                                  SizeConfig.defaultSize!)),
-                                          color: const Color.fromARGB(
-                                              255, 255, 167, 26),
+                                  SafeArea(
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          flex: SizeConfig.defaultSize!.toInt(),
+                                          child: Container(),
                                         ),
-                                      ),
-                                      Padding(
-                                        //첫줄가로
-                                        padding: EdgeInsets.only(
-                                          top: SizeConfig.defaultSize! * 0.9,
-                                          left: SizeConfig.defaultSize! * 1.5,
-                                        ),
-                                        child: Align(
-                                          alignment: Alignment.topLeft,
-                                          child: Text(
-                                            "Point_Info",
-                                            style: TextStyle(
-                                              fontFamily: 'font'.tr(),
-                                              fontSize:
-                                                  2.2 * SizeConfig.defaultSize!,
-                                            ),
-                                          ).tr(),
-                                        ),
-                                      ),
-                                      Padding(
-                                        //첫줄가로
-                                        padding: EdgeInsets.only(
-                                            top: SizeConfig.defaultSize! * 0.8,
-                                            right:
-                                                SizeConfig.defaultSize! * 1.5),
-                                        child: Align(
-                                          alignment: Alignment.topRight,
-                                          child: GestureDetector(
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                            .defaultSize! *
-                                                        1.5,
-                                                    bottom: SizeConfig
-                                                            .defaultSize! *
-                                                        1.5),
-                                                child: Icon(Icons.clear,
-                                                    size: 3 *
-                                                        SizeConfig
-                                                            .defaultSize!),
-                                              ),
-                                              onTap: () {
-                                                _sendCalXClickEvent(
-                                                    userState.point);
-                                                _closeCalendarFunc();
-                                              }),
-                                        ),
-                                      ),
-                                      Padding(
-                                        //첫번째줄가로
-                                        padding: EdgeInsets.only(
-                                            left: SizeConfig.defaultSize! * 6,
-                                            top: SizeConfig.defaultSize! * 11),
-                                        child: Container(
-                                          height: SizeConfig.defaultSize! * 0.5,
-                                          width: SizeConfig.defaultSize! * 30,
-                                          color: const Color.fromARGB(
-                                              255, 204, 165, 107),
-                                        ),
-                                      ),
-                                      Padding(
-                                        //두번째줄가로
-                                        padding: EdgeInsets.only(
-                                            left: SizeConfig.defaultSize! * 6,
-                                            top: SizeConfig.defaultSize! * 17),
-                                        child: Container(
-                                          height: SizeConfig.defaultSize! * 0.5,
-                                          width: SizeConfig.defaultSize! * 30,
-                                          color: const Color.fromARGB(
-                                              255, 204, 165, 107),
-                                        ),
-                                      ),
-                                      Padding(
-                                        //두번째줄세로
-                                        padding: EdgeInsets.only(
-                                            left: SizeConfig.defaultSize! * 36,
-                                            top: SizeConfig.defaultSize! * 10),
-                                        child: Container(
-                                          width: SizeConfig.defaultSize! * 0.5,
-                                          height: SizeConfig.defaultSize! * 7.5,
-                                          color: const Color.fromARGB(
-                                              255, 204, 165, 107),
-                                        ),
-                                      ),
-                                      Padding(
-                                        //두번째줄세로
-                                        padding: EdgeInsets.only(
-                                            left: SizeConfig.defaultSize! * 6,
-                                            top: SizeConfig.defaultSize! * 17),
-                                        child: Container(
-                                          width: SizeConfig.defaultSize! * 0.5,
-                                          height: SizeConfig.defaultSize! * 7,
-                                          color: const Color.fromARGB(
-                                              255, 204, 165, 107),
-                                        ),
-                                      ),
-                                      Padding(
-                                        //세번째줄가로
-                                        padding: EdgeInsets.only(
-                                            left: SizeConfig.defaultSize! * 6,
-                                            top:
-                                                SizeConfig.defaultSize! * 23.2),
-                                        child: Container(
-                                          height: SizeConfig.defaultSize! * 0.5,
-                                          width: SizeConfig.defaultSize! * 40,
-                                          color: const Color.fromARGB(
-                                              255, 204, 165, 107),
-                                        ),
-                                      ), //선 끝
-                                      //1일차
-                                      eachDayPoint(
-                                          top: 6,
-                                          left: 3,
-                                          coinImage: 'lib/images/oneCoin.png',
-                                          compare: 1,
-                                          height: 10,
-                                          point: '100',
-                                          topPadding: 0.5,
-                                          lastPointYMD: lastPointYMD),
-                                      //2일차
-                                      eachDayPoint(
-                                          top: 6,
-                                          left: 16,
-                                          coinImage: 'lib/images/oneCoin.png',
-                                          compare: 2,
-                                          height: 10,
-                                          point: '100',
-                                          topPadding: 0.5,
-                                          lastPointYMD: lastPointYMD),
-                                      //3일차
-                                      eachDayPoint(
-                                          top: 6,
-                                          left: 29,
-                                          coinImage:
-                                              'lib/images/threeCoins.png',
-                                          compare: 3,
-                                          height: 10,
-                                          point: '300',
-                                          topPadding: 0.5,
-                                          lastPointYMD: lastPointYMD),
-                                      eachDayPoint(
-                                          // 4일차
-                                          top: 18,
-                                          left: 3,
-                                          coinImage: 'lib/images/oneCoin.png',
-                                          compare: 4,
-                                          height: 10,
-                                          point: '100',
-                                          topPadding: 0.5,
-                                          lastPointYMD: lastPointYMD),
-                                      eachDayPoint(
-                                          // 5일차
-                                          top: 18,
-                                          left: 16,
-                                          coinImage: 'lib/images/oneCoin.png',
-                                          compare: 5,
-                                          height: 10,
-                                          point: '100',
-                                          topPadding: 0.5,
-                                          lastPointYMD: lastPointYMD),
-                                      eachDayPoint(
-                                          // 6일차
-                                          top: 18,
-                                          left: 29,
-                                          coinImage:
-                                              'lib/images/threeCoins.png',
-                                          compare: 6,
-                                          height: 10,
-                                          point: '300',
-                                          topPadding: 0.5,
-                                          lastPointYMD: lastPointYMD),
-                                      // 7일차
-                                      eachDayPoint(
-                                          // 6일차
-                                          top: 6,
-                                          left: 42,
-                                          coinImage: 'lib/images/treasure.png',
-                                          compare: 7,
-                                          height: 22,
-                                          point: '500',
-                                          topPadding: 6.5,
-                                          lastPointYMD: lastPointYMD),
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                          // top: SizeConfig.defaultSize! * 1,
-                                          bottom: SizeConfig.defaultSize! * 0.9,
-                                        ),
-                                        // left: SizeConfig.defaultSize! * 19),
-                                        child: Align(
-                                          alignment: Alignment.bottomCenter,
-                                          child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                        Expanded(
+                                            flex: SizeConfig.defaultSize!
+                                                    .toInt() *
+                                                2,
+                                            child: Stack(
                                               children: [
-                                                TextButton(
-                                                  style: ButtonStyle(
-                                                    shape: MaterialStateProperty.all<
-                                                            RoundedRectangleBorder>(
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        0.3 *
-                                                                            sh))),
-                                                    padding: MaterialStatePropertyAll(
-                                                        EdgeInsets.only(
-                                                            right: SizeConfig
+                                                Positioned.fill(
+                                                  left: SizeConfig.defaultSize!,
+                                                  right:
+                                                      SizeConfig.defaultSize!,
+                                                  // top: SizeConfig.defaultSize! * 10,
+                                                  // 안내 글씨
+                                                  child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: TextButton(
+                                                      style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all<Color>(
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              255,
+                                                              169,
+                                                              26),
+                                                        ),
+                                                        padding:
+                                                            MaterialStateProperty
+                                                                .all<
+                                                                    EdgeInsetsGeometry>(
+                                                          EdgeInsets.symmetric(
+                                                            vertical: SizeConfig
                                                                     .defaultSize! *
-                                                                3,
-                                                            left: SizeConfig
-                                                                    .defaultSize! *
-                                                                3,
-                                                            top: 0.018 * sh,
-                                                            bottom:
-                                                                0.018 * sh)),
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all<Color>(
-                                                      const Color.fromARGB(
-                                                          255, 255, 169, 26),
-                                                    ), // 배경색 설정
-                                                  ),
-                                                  onPressed: () async {
-                                                    _sendCalClaimClickEvent(
-                                                        userState.point);
-                                                    claimSuccess(1);
-                                                    // 원 시그널 permission request 어디서 보여줄지 고민하기
-                                                    // OneSignal.shared
-                                                    //     .promptUserForPushNotificationPermission()
-                                                    //     .then((accepted) {
-                                                    //   print(
-                                                    //       "Accepted permission: $accepted");
-                                                    // });
-                                                    if (OneSignal.Notifications
-                                                                .permission !=
-                                                            true &&
-                                                        neverRequestedPermission) {
-                                                      OneSignal.Notifications
-                                                          .requestPermission(
-                                                              true);
-                                                      neverRequestedPermission =
-                                                          false;
-                                                    }
-                                                  },
-                                                  child: Text(
-                                                    'CLAIM NOW',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: SizeConfig
-                                                              .defaultSize! *
-                                                          2.2,
-                                                      fontFamily:
-                                                          'font-point'.tr(),
-                                                    ),
-                                                  ).tr(),
-                                                ),
-                                                SizedBox(
-                                                  width: sh * 0.02,
-                                                ),
-                                                TextButton(
-                                                  style: ButtonStyle(
-                                                    shape: MaterialStateProperty.all<
-                                                            RoundedRectangleBorder>(
-                                                        RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        0.3 *
-                                                                            sh))),
-                                                    padding: MaterialStatePropertyAll(
-                                                        EdgeInsets.only(
-                                                            right: SizeConfig
-                                                                    .defaultSize! *
-                                                                3,
-                                                            left: SizeConfig
-                                                                    .defaultSize! *
-                                                                3,
-                                                            top: 0.018 * sh,
-                                                            bottom:
-                                                                0.018 * sh)),
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all<Color>(
-                                                      const Color.fromARGB(
-                                                          225, 255, 77, 0),
-                                                    ), // 배경색 설정
-                                                  ),
-                                                  onPressed: () async {
-                                                    _sendCalClaimAdClickEvent(
-                                                        userState.point);
-                                                    SharedPreferences prefs =
-                                                        await SharedPreferences
-                                                            .getInstance();
-                                                    DateTime currentDate =
-                                                        DateTime.now();
-                                                    String formattedDate =
-                                                        DateFormat('yyyy-MM-dd')
-                                                            .format(
-                                                                currentDate);
-                                                    int tmp = prefs.getInt(
-                                                        'availableGetPoint')!;
-
-                                                    if (formattedDate !=
-                                                            prefs.getString(
-                                                                'lastPointYMD') &&
-                                                        tmp != lastPointDay) {
-                                                      _isAdLoaded
-                                                          ? null
-                                                          : _loadRewardedAd();
-                                                    }
-                                                  },
-                                                  child: Row(
-                                                    children: [
-                                                      Image.asset(
-                                                        'lib/images/slate1.png',
-                                                        width: 0.03 * sw,
+                                                                2.1, // 수직 방향 패딩
+                                                          ),
+                                                        ),
                                                       ),
-                                                      Text(
-                                                        'DOUBLE REWARD',
+                                                      onPressed: null,
+                                                      child: Row(
+                                                        children: [
+                                                          SizedBox(
+                                                              width: SizeConfig
+                                                                      .defaultSize! *
+                                                                  11),
+                                                          Text(
+                                                            "Onboarding",
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'font'.tr(),
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: SizeConfig
+                                                                        .defaultSize! *
+                                                                    2),
+                                                          ).tr()
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  left:
+                                                      SizeConfig.defaultSize! *
+                                                          0,
+                                                  bottom:
+                                                      SizeConfig.defaultSize! *
+                                                          6.8,
+                                                  child: Image.asset(
+                                                    'lib/images/fairy.png',
+                                                    width: SizeConfig
+                                                            .defaultSize! *
+                                                        17,
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  left:
+                                                      SizeConfig.defaultSize! *
+                                                          42,
+                                                  top: SizeConfig.defaultSize! *
+                                                      2,
+                                                  child: Image.asset(
+                                                    'lib/images/overlayClick.png',
+                                                    width: SizeConfig
+                                                            .defaultSize! *
+                                                        10,
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ])),
+                      GestureDetector(
+                        onTap: () {
+                          _sendHomeCalTooltipClickEvent();
+                          // _sendHomeSecondClickEvent();
+                          _openCalendarFunc();
+                          setState(() {
+                            showSecondOverlay = false;
+                          });
+                        },
+                        child: Stack(children: [
+                          SafeArea(
+                              minimum: EdgeInsets.only(
+                                left: 3 * SizeConfig.defaultSize!,
+                                right: 3 * SizeConfig.defaultSize!,
+                              ),
+                              child: Visibility(
+                                visible: !showFirstOverlay &&
+                                    showSecondOverlay, // 두번째 온보딩화면(캘린더 가르키기)
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      right: 5 * SizeConfig.defaultSize!,
+                                      top: 6.5 * SizeConfig.defaultSize!,
+                                      child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Image.asset(
+                                              'lib/images/textOrangeBubble.png',
+                                              width:
+                                                  SizeConfig.defaultSize! * 27,
+                                            ),
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  top: SizeConfig.defaultSize! *
+                                                      1.2,
+                                                  right:
+                                                      SizeConfig.defaultSize! *
+                                                          0.8),
+                                              child: Text(
+                                                "Calendar Onboarding",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontFamily: 'font'.tr(),
+                                                    fontSize: SizeConfig
+                                                            .defaultSize! *
+                                                        2),
+                                              ).tr(),
+                                            )
+                                          ]),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                        ]),
+                      ),
+                      if (openCalendar)
+                        Positioned.fill(
+                          child: GestureDetector(
+                            onTap: _openCalendarFunc,
+                            child: Stack(children: [
+                              Container(
+                                color: const Color.fromARGB(255, 251, 251, 251)
+                                    .withOpacity(0.5), // 반투명 배경색 설정
+                              ),
+                              Align(
+                                  alignment: Alignment.center,
+                                  child: SizedBox(
+                                    width: 55 * SizeConfig.defaultSize!,
+                                    height: 35 * SizeConfig.defaultSize!,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(
+                                                SizeConfig.defaultSize!)),
+                                        color: const Color.fromARGB(
+                                                255, 255, 255, 255)
+                                            .withOpacity(1),
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Container(
+                                            height:
+                                                SizeConfig.defaultSize! * 4.5,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(
+                                                      SizeConfig.defaultSize!),
+                                                  topLeft: Radius.circular(
+                                                      SizeConfig.defaultSize!)),
+                                              color: const Color.fromARGB(
+                                                  255, 255, 167, 26),
+                                            ),
+                                          ),
+                                          Padding(
+                                            //첫줄가로
+                                            padding: EdgeInsets.only(
+                                              top:
+                                                  SizeConfig.defaultSize! * 0.9,
+                                              left:
+                                                  SizeConfig.defaultSize! * 1.5,
+                                            ),
+                                            child: Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                "Point_Info",
+                                                style: TextStyle(
+                                                  fontFamily: 'font'.tr(),
+                                                  fontSize: 2.2 *
+                                                      SizeConfig.defaultSize!,
+                                                ),
+                                              ).tr(),
+                                            ),
+                                          ),
+                                          Padding(
+                                            //첫줄가로
+                                            padding: EdgeInsets.only(
+                                                top: SizeConfig.defaultSize! *
+                                                    0.8,
+                                                right: SizeConfig.defaultSize! *
+                                                    1.5),
+                                            child: Align(
+                                              alignment: Alignment.topRight,
+                                              child: GestureDetector(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: SizeConfig
+                                                                .defaultSize! *
+                                                            1.5,
+                                                        bottom: SizeConfig
+                                                                .defaultSize! *
+                                                            1.5),
+                                                    child: Icon(Icons.clear,
+                                                        size: 3 *
+                                                            SizeConfig
+                                                                .defaultSize!),
+                                                  ),
+                                                  onTap: () {
+                                                    _sendCalXClickEvent(
+                                                        userState.point);
+                                                    _closeCalendarFunc();
+                                                  }),
+                                            ),
+                                          ),
+                                          Padding(
+                                            //첫번째줄가로
+                                            padding: EdgeInsets.only(
+                                                left:
+                                                    SizeConfig.defaultSize! * 6,
+                                                top: SizeConfig.defaultSize! *
+                                                    11),
+                                            child: Container(
+                                              height:
+                                                  SizeConfig.defaultSize! * 0.5,
+                                              width:
+                                                  SizeConfig.defaultSize! * 30,
+                                              color: const Color.fromARGB(
+                                                  255, 204, 165, 107),
+                                            ),
+                                          ),
+                                          Padding(
+                                            //두번째줄가로
+                                            padding: EdgeInsets.only(
+                                                left:
+                                                    SizeConfig.defaultSize! * 6,
+                                                top: SizeConfig.defaultSize! *
+                                                    17),
+                                            child: Container(
+                                              height:
+                                                  SizeConfig.defaultSize! * 0.5,
+                                              width:
+                                                  SizeConfig.defaultSize! * 30,
+                                              color: const Color.fromARGB(
+                                                  255, 204, 165, 107),
+                                            ),
+                                          ),
+                                          Padding(
+                                            //두번째줄세로
+                                            padding: EdgeInsets.only(
+                                                left: SizeConfig.defaultSize! *
+                                                    36,
+                                                top: SizeConfig.defaultSize! *
+                                                    10),
+                                            child: Container(
+                                              width:
+                                                  SizeConfig.defaultSize! * 0.5,
+                                              height:
+                                                  SizeConfig.defaultSize! * 7.5,
+                                              color: const Color.fromARGB(
+                                                  255, 204, 165, 107),
+                                            ),
+                                          ),
+                                          Padding(
+                                            //두번째줄세로
+                                            padding: EdgeInsets.only(
+                                                left:
+                                                    SizeConfig.defaultSize! * 6,
+                                                top: SizeConfig.defaultSize! *
+                                                    17),
+                                            child: Container(
+                                              width:
+                                                  SizeConfig.defaultSize! * 0.5,
+                                              height:
+                                                  SizeConfig.defaultSize! * 7,
+                                              color: const Color.fromARGB(
+                                                  255, 204, 165, 107),
+                                            ),
+                                          ),
+                                          Padding(
+                                            //세번째줄가로
+                                            padding: EdgeInsets.only(
+                                                left:
+                                                    SizeConfig.defaultSize! * 6,
+                                                top: SizeConfig.defaultSize! *
+                                                    23.2),
+                                            child: Container(
+                                              height:
+                                                  SizeConfig.defaultSize! * 0.5,
+                                              width:
+                                                  SizeConfig.defaultSize! * 40,
+                                              color: const Color.fromARGB(
+                                                  255, 204, 165, 107),
+                                            ),
+                                          ), //선 끝
+                                          //1일차
+                                          eachDayPoint(
+                                              top: 6,
+                                              left: 3,
+                                              coinImage:
+                                                  'lib/images/oneCoin.png',
+                                              compare: 1,
+                                              height: 10,
+                                              point: '100',
+                                              topPadding: 0.5,
+                                              lastPointYMD: lastPointYMD),
+                                          //2일차
+                                          eachDayPoint(
+                                              top: 6,
+                                              left: 16,
+                                              coinImage:
+                                                  'lib/images/oneCoin.png',
+                                              compare: 2,
+                                              height: 10,
+                                              point: '100',
+                                              topPadding: 0.5,
+                                              lastPointYMD: lastPointYMD),
+                                          //3일차
+                                          eachDayPoint(
+                                              top: 6,
+                                              left: 29,
+                                              coinImage:
+                                                  'lib/images/threeCoins.png',
+                                              compare: 3,
+                                              height: 10,
+                                              point: '300',
+                                              topPadding: 0.5,
+                                              lastPointYMD: lastPointYMD),
+                                          eachDayPoint(
+                                              // 4일차
+                                              top: 18,
+                                              left: 3,
+                                              coinImage:
+                                                  'lib/images/oneCoin.png',
+                                              compare: 4,
+                                              height: 10,
+                                              point: '100',
+                                              topPadding: 0.5,
+                                              lastPointYMD: lastPointYMD),
+                                          eachDayPoint(
+                                              // 5일차
+                                              top: 18,
+                                              left: 16,
+                                              coinImage:
+                                                  'lib/images/oneCoin.png',
+                                              compare: 5,
+                                              height: 10,
+                                              point: '100',
+                                              topPadding: 0.5,
+                                              lastPointYMD: lastPointYMD),
+                                          eachDayPoint(
+                                              // 6일차
+                                              top: 18,
+                                              left: 29,
+                                              coinImage:
+                                                  'lib/images/threeCoins.png',
+                                              compare: 6,
+                                              height: 10,
+                                              point: '300',
+                                              topPadding: 0.5,
+                                              lastPointYMD: lastPointYMD),
+                                          // 7일차
+                                          eachDayPoint(
+                                              // 6일차
+                                              top: 6,
+                                              left: 42,
+                                              coinImage:
+                                                  'lib/images/treasure.png',
+                                              compare: 7,
+                                              height: 22,
+                                              point: '500',
+                                              topPadding: 6.5,
+                                              lastPointYMD: lastPointYMD),
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                              // top: SizeConfig.defaultSize! * 1,
+                                              bottom:
+                                                  SizeConfig.defaultSize! * 0.9,
+                                            ),
+                                            // left: SizeConfig.defaultSize! * 19),
+                                            child: Align(
+                                              alignment: Alignment.bottomCenter,
+                                              child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    TextButton(
+                                                      style: ButtonStyle(
+                                                        shape: MaterialStateProperty.all<
+                                                                RoundedRectangleBorder>(
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(0.3 *
+                                                                            sh))),
+                                                        padding: MaterialStatePropertyAll(
+                                                            EdgeInsets.only(
+                                                                right: SizeConfig
+                                                                        .defaultSize! *
+                                                                    3,
+                                                                left: SizeConfig
+                                                                        .defaultSize! *
+                                                                    3,
+                                                                top: 0.018 * sh,
+                                                                bottom: 0.018 *
+                                                                    sh)),
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all<Color>(
+                                                          const Color.fromARGB(
+                                                              255,
+                                                              255,
+                                                              169,
+                                                              26),
+                                                        ), // 배경색 설정
+                                                      ),
+                                                      onPressed: () async {
+                                                        _sendCalClaimClickEvent(
+                                                            userState.point);
+                                                        claimSuccess(1);
+                                                        // 원 시그널 permission request 어디서 보여줄지 고민하기
+                                                        // OneSignal.shared
+                                                        //     .promptUserForPushNotificationPermission()
+                                                        //     .then((accepted) {
+                                                        //   print(
+                                                        //       "Accepted permission: $accepted");
+                                                        // });
+                                                        if (OneSignal
+                                                                    .Notifications
+                                                                    .permission !=
+                                                                true &&
+                                                            neverRequestedPermission) {
+                                                          OneSignal
+                                                                  .Notifications
+                                                              .requestPermission(
+                                                                  true);
+                                                          neverRequestedPermission =
+                                                              false;
+                                                        }
+                                                      },
+                                                      child: Text(
+                                                        'CLAIM NOW',
                                                         style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: SizeConfig
@@ -1291,26 +1375,103 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               'font-point'.tr(),
                                                         ),
                                                       ).tr(),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ]),
-                                        ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: sh * 0.02,
+                                                    ),
+                                                    TextButton(
+                                                      style: ButtonStyle(
+                                                        shape: MaterialStateProperty.all<
+                                                                RoundedRectangleBorder>(
+                                                            RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(0.3 *
+                                                                            sh))),
+                                                        padding: MaterialStatePropertyAll(
+                                                            EdgeInsets.only(
+                                                                right: SizeConfig
+                                                                        .defaultSize! *
+                                                                    3,
+                                                                left: SizeConfig
+                                                                        .defaultSize! *
+                                                                    3,
+                                                                top: 0.018 * sh,
+                                                                bottom: 0.018 *
+                                                                    sh)),
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all<Color>(
+                                                          const Color.fromARGB(
+                                                              225, 255, 77, 0),
+                                                        ), // 배경색 설정
+                                                      ),
+                                                      onPressed: () async {
+                                                        _sendCalClaimAdClickEvent(
+                                                            userState.point);
+                                                        SharedPreferences
+                                                            prefs =
+                                                            await SharedPreferences
+                                                                .getInstance();
+                                                        DateTime currentDate =
+                                                            DateTime.now();
+                                                        String formattedDate =
+                                                            DateFormat(
+                                                                    'yyyy-MM-dd')
+                                                                .format(
+                                                                    currentDate);
+                                                        int tmp = prefs.getInt(
+                                                            'availableGetPoint')!;
+
+                                                        if (formattedDate !=
+                                                                prefs.getString(
+                                                                    'lastPointYMD') &&
+                                                            tmp !=
+                                                                lastPointDay) {
+                                                          _isAdLoaded
+                                                              ? null
+                                                              : _loadRewardedAd();
+                                                        }
+                                                      },
+                                                      child: Row(
+                                                        children: [
+                                                          Image.asset(
+                                                            'lib/images/slate1.png',
+                                                            width: 0.03 * sw,
+                                                          ),
+                                                          Text(
+                                                            'DOUBLE REWARD',
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: SizeConfig
+                                                                      .defaultSize! *
+                                                                  2.2,
+                                                              fontFamily:
+                                                                  'font-point'
+                                                                      .tr(),
+                                                            ),
+                                                          ).tr(),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ]),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              )),
-                        ]),
-                      ),
-                    ),
-                ]
-                    //   ),
-                    ),
-              );
-            }
-          },
-        ));
+                                    ),
+                                  )),
+                            ]),
+                          ),
+                        ),
+                    ]
+                        //   ),
+                        ),
+                  );
+                }
+              },
+            )));
   }
 
   void _loadRewardedAd() {
