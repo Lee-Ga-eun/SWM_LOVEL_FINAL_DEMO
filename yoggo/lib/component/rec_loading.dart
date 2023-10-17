@@ -132,9 +132,9 @@ class _RecLoadingState extends State<RecLoading> {
               height: SizeConfig.defaultSize! * 2,
             ),
             Text(
-              'Do not exit the screen. Your precious voice is being transmitted. \nIf you leave the screen, the process will be erased.',
+              '녹음-화면이탈경고',
               style: TextStyle(
-                  fontFamily: 'font'.tr(),
+                  fontFamily: 'font-basic'.tr(),
                   fontSize: SizeConfig.defaultSize! * 2.5),
               textAlign: TextAlign.center,
             ).tr()

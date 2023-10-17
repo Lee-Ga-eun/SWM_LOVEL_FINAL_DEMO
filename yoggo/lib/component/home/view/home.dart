@@ -181,10 +181,10 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Colors.white.withOpacity(0.9),
           title: Center(
             child: Text(
-              '앱 나가려고 할 때',
+              '앱종료-질문',
               style: TextStyle(
                 fontSize: SizeConfig.defaultSize! * 2.5,
-                fontFamily: 'font'.tr(),
+                fontFamily: 'font-basic'.tr(),
               ),
             ).tr(),
           ),
@@ -206,10 +206,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        'No',
+                        '답변-부정',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'font'.tr(),
+                          fontFamily: 'font-basic'.tr(),
                           fontSize: 2.2 * SizeConfig.defaultSize!,
                         ),
                       ).tr(),
@@ -231,10 +231,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        'Yes',
+                        '답변-긍정',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'font'.tr(),
+                          fontFamily: 'font-basic'.tr(),
                           fontSize: 2.2 * SizeConfig.defaultSize!,
                         ),
                       ).tr(),
@@ -849,7 +849,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       //             });
                       //           });
                       //         },
-                      //         child: const Text('YES'),
+                      //         child: const Text('답변-긍정-대문자'),
                       //       ),
                       //       TextButton(
                       //         onPressed: () {
@@ -858,7 +858,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       //             wantDelete = false;
                       //           });
                       //         },
-                      //         child: const Text('No'),
+                      //         child: const Text('답변-부정'),
                       //       ),
                       //     ],
                       //   ),
@@ -939,10 +939,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       .defaultSize! *
                                                                   11),
                                                           Text(
-                                                            "Onboarding",
+                                                            "온보딩",
                                                             style: TextStyle(
                                                                 fontFamily:
-                                                                    'font'.tr(),
+                                                                    'font-basic'
+                                                                        .tr(),
                                                                 color: Colors
                                                                     .black,
                                                                 fontSize: SizeConfig
@@ -1033,10 +1034,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       SizeConfig.defaultSize! *
                                                           0.8),
                                               child: Text(
-                                                "Calendar Onboarding",
+                                                "달력-툴팁",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontFamily: 'font'.tr(),
+                                                    fontFamily:
+                                                        'font-basic'.tr(),
                                                     fontSize: SizeConfig
                                                             .defaultSize! *
                                                         2),
@@ -1098,9 +1100,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Align(
                                               alignment: Alignment.topLeft,
                                               child: Text(
-                                                "Point_Info",
+                                                "달력-안내",
                                                 style: TextStyle(
-                                                  fontFamily: 'font'.tr(),
+                                                  fontFamily: 'font-basic'.tr(),
                                                   fontSize: 2.2 *
                                                       SizeConfig.defaultSize!,
                                                 ),
@@ -1365,7 +1367,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         }
                                                       },
                                                       child: Text(
-                                                        'CLAIM NOW',
+                                                        '출첵-일반',
                                                         style: TextStyle(
                                                           color: Colors.black,
                                                           fontSize: SizeConfig
@@ -1440,7 +1442,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             width: 0.03 * sw,
                                                           ),
                                                           Text(
-                                                            'DOUBLE REWARD',
+                                                            '출첵-광고',
                                                             style: TextStyle(
                                                               color:
                                                                   Colors.black,
@@ -1654,10 +1656,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     SizedBox(height: SizeConfig.defaultSize! * 2),
                     Text(
-                      'Welcome',
+                      '햄버거-인사',
                       style: TextStyle(
                           fontSize: SizeConfig.defaultSize! * 1.8,
-                          fontFamily: 'font'.tr()),
+                          fontFamily: 'font-basic'.tr()),
                     ).tr(),
                     SizedBox(height: SizeConfig.defaultSize!),
                     Padding(
@@ -1699,13 +1701,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 2 * SizeConfig.defaultSize!,
                       ),
                       Text(
-                        'Voice Profile',
+                        '프로필',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 1.8 *
                               SizeConfig.defaultSize! *
-                              double.parse('font size control'.tr()),
-                          fontFamily: 'font'.tr(),
+                              double.parse('font-ratio'.tr()),
+                          fontFamily: 'font-basic'.tr(),
                           fontWeight: FontWeight.w400,
                         ),
                       ).tr(),
@@ -1795,12 +1797,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  'Edit this voice',
+                                                  '프로필-수정',
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 1.4 *
                                                         SizeConfig.defaultSize!,
-                                                    fontFamily: 'font'.tr(),
+                                                    fontFamily:
+                                                        'font-basic'.tr(),
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ).tr(),
@@ -1849,21 +1852,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               top: 0.5 * SizeConfig.defaultSize!,
                               bottom: 0.5 * SizeConfig.defaultSize!),
                           child: Text(
-                            'Invite Friends',
+                            '친구초대',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 1.8 *
                                   SizeConfig.defaultSize! *
-                                  double.parse('font size control'.tr()),
-                              fontFamily: 'font'.tr(),
+                                  double.parse('font-ratio'.tr()),
+                              fontFamily: 'font-basic'.tr(),
                               fontWeight: FontWeight.w400,
                             ),
                           ).tr(),
                         ),
                         onTap: () async {
                           _sendInviteFriendsClickEvent(userState.point);
-                          final result = await Share.shareWithResult(
-                              "Invite Friends Script".tr());
+                          final result =
+                              await Share.shareWithResult("친구초대문구".tr());
                           if (result.status == ShareResultStatus.success) {
                             print('Thank you for sharing our application!');
                           }
@@ -1878,15 +1881,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               top: 0.5 * SizeConfig.defaultSize!,
                               bottom: 0.5 * SizeConfig.defaultSize!),
                           child: Text(
-                            Platform.isAndroid
-                                ? 'Rate on PlayStore'
-                                : 'Rate on AppStore',
+                            Platform.isAndroid ? '별점-구글플레이' : '별점-앱스토어',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 1.8 *
                                   SizeConfig.defaultSize! *
-                                  double.parse('font size control'.tr()),
-                              fontFamily: 'font'.tr(),
+                                  double.parse('font-ratio'.tr()),
+                              fontFamily: 'font-basic'.tr(),
                               fontWeight: FontWeight.w400,
                             ),
                           ).tr(),

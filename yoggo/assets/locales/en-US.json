@@ -1,66 +1,90 @@
 {
-  "font size control": "1.0",
-  "font": "Molengo",
+  "font-ratio": "1.0",
+
+  "font-basic": "Molengo",
   "font-thin": "Molengo",
   "font-book": "GenBkBasR",
   "font-point": "Lilita",
-  "YES": "YES",
-  "Yes": "Yes",
-  "No": "No",
-  "앱 나가려고 할 때": "Are you sure you want to exit?",
 
-  "Voice Profile": "Voice Profile",
-  "Invite Friends": "Invite Friends",
-  "Invite Friends Script": "LOVEL - Fairy Tales with Your Voice\n📚 The best app for busy parents 👨‍👩‍👧‍👦\n\nPlayStore : https://play.google.com/store/apps/details?id=com.sayit.yoggo\n\nAppStore : https://apps.apple.com/us/app/LOVEL/id6454792622",
-  "Edit this voice": "Edit this voice",
-  "Rate on AppStore": "Rate on AppStore",
-  "Rate on PlayStore": "Rate on PlayStore",
-  "Welcome": " Welcome! ",
-  "Onboarding": "Hello, Welcome to LOVEL! \nHere, you can discover free books to read and 4,500 points that can \nunlock premium books. Please click on a book you like and start reading!",
-  "Calendar Onboarding": "You can earn points\nthrough attendance checks!",
-  "CLAIM NOW": "CLAIM NOW",
-  "DOUBLE REWARD": "  DOUBLE REWARD",
-  "Point_Info": "Attend daily and claim your rewards!",
+  "답변-긍정-대문자": "YES",
+  "답변-긍정": "Yes",
+  "답변-부정": "No",
+  "답변-나중에": "Later",
+  "답변-재녹음": "No, Re-make",
 
-  "Already Subscribed?": "Already Subscribed?",
-  "sub_details": "✅ Read with your voice\n✅ Unlock all books\n✅ 7-day FREE trial",
-  "sub price": "$5.99",
-  "/mo": "/mo",
-  "3000 price": "$ 2.99",
-  "6000 price": "$ 4.99",
-  "10000 price": "$ 8.99",
-  "15000 price": "$ 9.99",
-  "before discount": "$19.99",
-  "LOVEL SUBSCRIPTION": "LOVEL SUBSCRIPTION",
-  "Subscription Terms Text": "Subscription Terms: After 7-day free trial, LOVEL monthly subscription is $5.99, automatically renews unless turned off in Account Settings at least 24h before current period ends. Payment is charged to your iTunes account. By tapping Continue, you agree to our ",
-  "Terms": "Terms",
-  "Terms_and": " and ",
-  "Privacy Policy": "Privacy Policy.",
-  "Subscription Terms Android": "After 7-day free trial, LOVEL monthly subscription is $5.99. You can cancel this subscription at any time if you wish.",
 
-  "READ NOW": "READ NOW",
+  "프로필": "Voice Profile",
+  "친구초대": "Invite Friends",
+  "친구초대-문구": "LOVEL - Fairy Tales with Your Voice\n📚 The best app for busy parents 👨‍👩‍👧‍👦\n\nPlayStore : https://play.google.com/store/apps/details?id=com.sayit.yoggo\n\nAppStore : https://apps.apple.com/us/app/LOVEL/id6454792622",
 
-  "Congratulations on \n completing the READING": "Congratulations on \n completing the READING",
-  "If you want to read a book in the voice of your parents,": "If you want to read a book in the voice of your parents,",
-  "Go to Record": "Go to Record",
+  "프로필-수정": "Edit this voice",
+  "별점-앱스토어": "Rate on AppStore",
+  "별점-구글플레이": "Rate on PlayStore",
 
-  "We are making your voice!": "We are making your voice!",
-  "Re-make your voice": "Re-make your voice",
-  "If you record again, the previous voice will be deleted.\nyou'll need to recreate the books using the new voice\nDo you want to continue?": "If you record again, the previous voice will be deleted.\nyou'll need to recreate the books using the new voice\nDo you want to continue?",
+  "햄버거-인사": " Welcome! ",
+  "온보딩": "Hello, Welcome to LOVEL! \nHere, you can discover free books to read and 4,500 points that can \nunlock premium books. Please click on a book you like and start reading!",
 
-  "Congratulations on \n completing the RECORDING": "Congratulations on \n completing the RECORDING",
-  "Your voice is well recorded \n We'll let you know by PUSH when it's done": "Your voice is well recorded \n We'll let you know by PUSH when it's done",
+  "달력-툴팁": "You can earn points\nthrough attendance checks!",
+  "출첵-일반": "CLAIM NOW",
+  "출첵-광고": "  DOUBLE REWARD",
+  "달력-안내": "Attend daily and claim your rewards!",
 
-  "script": "As she emerges from the sea onto the shore, she realizes that\nher voice is gone, but she still recognizes its immeasurable beauty\nand preciousness. She expresses it in the following way:\n\"Voice is an ineffable beauty. It is the purest and most precious gift.\nThough I have lost this cherished gift, I will embark on a journey\nto find true love through other means. Even without my voice,\nthe emotions and passions within me will not easily fade away.\nLove transcends language. In this quest to reclaim my precious voice,\nI will discover my true self and learn the ways of love and freedom.\"",
-  "Are you sure?": "Are you sure?",
-  "Waiting to record": "Waiting to record",
-  "No, Re-make": "No, Re-make",
+  "구독여부확인": "Already Subscribed?",
 
-  "Do not exit the screen. Your precious voice is being transmitted. \nIf you leave the screen, the process will be erased.": "Do not exit the screen. Your precious voice is being transmitted. \nIf you leave the screen, the process will be erased.",
+  "구독-설명": "✅ Read with your voice\n✅ Unlock all books\n✅ 7-day FREE trial",
+  "구독-가격": "$5.99",
+  "가격-단위": "/mo",
 
-  "Now it's your turn to make your voice heard!": "Now it's your turn to make your voice heard!",
-  "Eliminate\nambient noise\nand focus on\nyour voice": "Eliminate\nambient noise\nand focus on\nyour voice",
-  "The more of\n your voice \nwithout gaps \nthe better quality": "The more of\n your voice \nwithout gaps \nthe better quality",
-  "The best quality\nwhen recorded\nfor about\n40 seconds": "The best quality\nwhen recorded\nfor about\n40 seconds",
-  "You can try again\nuntil you want": "You can try again\nuntil you want"
+  "포인트-가격-3000": "$ 2.99",
+  "포인트-가격-6000": "$ 4.99",
+  "포인트-가격-10000": "$ 8.99",
+  "포인트-가격-15000": "$ 9.99",
+
+  "구독-가격-할인전": "$19.99",
+  "구독-이름": "LOVEL SUBSCRIPTION",
+  "구독-약관설명-iOS": "Subscription Terms: After 7-day free trial, LOVEL monthly subscription is $5.99, automatically renews unless turned off in Account Settings at least 24h before current period ends. Payment is charged to your iTunes account. By tapping Continue, you agree to our ",
+  "구독-약관": "Terms",
+  "구독-그리고": " and ",
+  "구독-개인정보처리방침": "Privacy Policy.",
+  "구독-약관설명-안드로이드": "After 7-day free trial, LOVEL monthly subscription is $5.99. You can cancel this subscription at any time if you wish.",
+
+  "책-시작": "READ NOW",
+
+  "인트로-구독": "Register your voice!",
+
+  "인트로-포인트부족": " points are insufficient.\nYou need to purchase additional points.",
+
+  "인트로-목소리녹음": "Record your voice!\nAfter registering your voice, you can listen to the book using your voice.",
+
+  "인퍼런스중": "Please wait a moment.",
+  "인퍼런스중-내용": "We're making a book with your voice.\nIf you want to listen to it now, please select a different voice actor!",
+
+  "책만들어봐": "You can listen to this book with your voice.\nWould you like to proceed?",
+
+
+  "완독-축하": "Congratulations on \n completing the READING",
+  "완독-목소리": "If you want to read a book in the voice of your parents,",
+  "완독-녹음": "Go to Record",
+
+  "목소리-제작중": "We are making your voice!",
+  "재녹음": "Re-make your voice",
+  "재녹음-경고": "If you record again, the previous voice will be deleted.\nyou'll need to recreate the books using the new voice\nDo you want to continue?",
+
+  "녹음-축하": "Congratulations on \n completing the RECORDING",
+  "녹음-푸쉬알림": "Your voice is well recorded \n We'll let you know by PUSH when it's done",
+
+  "녹음-대본": "As she emerges from the sea onto the shore, she realizes that\nher voice is gone, but she still recognizes its immeasurable beauty\nand preciousness. She expresses it in the following way:\n\"Voice is an ineffable beauty. It is the purest and most precious gift.\nThough I have lost this cherished gift, I will embark on a journey\nto find true love through other means. Even without my voice,\nthe emotions and passions within me will not easily fade away.\nLove transcends language. In this quest to reclaim my precious voice,\nI will discover my true self and learn the ways of love and freedom.\"",
+  "녹음-완료문의": "Are you sure?",
+  "녹음-대기": "Waiting to record",
+
+  "녹음-화면이탈경고": "Do not exit the screen. Your precious voice is being transmitted. \nIf you leave the screen, the process will be erased.",
+
+  "녹음-안내": "Now it's your turn to make your voice heard!",
+  "녹음-안내-1": "Eliminate\nambient noise\nand focus on\nyour voice",
+  "녹음-안내-2": "The more of\n your voice \nwithout gaps \nthe better quality",
+  "녹음-안내-3": "The best quality\nwhen recorded\nfor about\n40 seconds",
+  "녹음-안내-4": "You can try again\nuntil you want",
+  
+  "앱종료-질문": "Are you sure you want to exit?"
+
 }

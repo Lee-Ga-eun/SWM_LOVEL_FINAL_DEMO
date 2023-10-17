@@ -350,7 +350,7 @@ class _PurchaseState extends State<Purchase> {
 
                           //     // return AlertDialog(
                           //     //   // title: Text('Sorry'),
-                          //     //   content: const Text('No subscription found.'),
+                          //     //   content: const Text('답변-부정 subscription found.'),
                           //     //   actions: <Widget>[
                           //     //     TextButton(
                           //     //       child: const Text('Close'),
@@ -374,7 +374,7 @@ class _PurchaseState extends State<Purchase> {
                         //   builder: (BuildContext context) {
                         //     return AlertDialog(
                         //       // title: Text('Sorry'),
-                        //       content: const Text('No subscription found.'),
+                        //       content: const Text('답변-부정 subscription found.'),
                         //       actions: <Widget>[
                         //         TextButton(
                         //           child: const Text('Close'),
@@ -396,7 +396,7 @@ class _PurchaseState extends State<Purchase> {
                       //   builder: (BuildContext context) {
                       //     return AlertDialog(
                       //       // title: Text('Sorry'),
-                      //       content: const Text('No subscription found.'),
+                      //       content: const Text('답변-부정 subscription found.'),
                       //       actions: <Widget>[
                       //         TextButton(
                       //           child: const Text('Close'),
@@ -421,9 +421,9 @@ class _PurchaseState extends State<Purchase> {
                             Radius.circular(SizeConfig.defaultSize! * 1))),
                     child: Center(
                       child: Text(
-                        'Already Subscribed?',
+                        '구독여부확인',
                         style: TextStyle(
-                            fontFamily: 'font'.tr(),
+                            fontFamily: 'font-basic'.tr(),
                             fontSize: SizeConfig.defaultSize! * 1.6),
                       ).tr(),
                     ),
@@ -502,7 +502,7 @@ class _PurchaseState extends State<Purchase> {
                                   child: Align(
                                     alignment: Alignment.center,
                                     child: Text(
-                                      'LOVEL SUBSCRIPTION',
+                                      '구독-이름',
                                       style: TextStyle(
                                           fontFamily: 'font-book'.tr(),
                                           fontSize:
@@ -538,10 +538,10 @@ class _PurchaseState extends State<Purchase> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              Text("sub_details",
+                                              Text("구독-설명",
                                                       style: TextStyle(
                                                           fontFamily:
-                                                              'font'.tr(),
+                                                              'font-basic'.tr(),
                                                           fontSize: 1.5 *
                                                               SizeConfig
                                                                   .defaultSize!))
@@ -570,7 +570,7 @@ class _PurchaseState extends State<Purchase> {
                                                                 .center,
                                                         children: [
                                                           Text(
-                                                            'sub price',
+                                                            '구독-가격',
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: TextStyle(
@@ -580,10 +580,11 @@ class _PurchaseState extends State<Purchase> {
                                                                   SizeConfig
                                                                       .defaultSize! *
                                                                   double.parse(
-                                                                      'font size control'
+                                                                      'font-ratio'
                                                                           .tr()),
                                                               fontFamily:
-                                                                  'font'.tr(),
+                                                                  'font-basic'
+                                                                      .tr(),
                                                             ),
                                                           ).tr(),
                                                           Padding(
@@ -592,7 +593,7 @@ class _PurchaseState extends State<Purchase> {
                                                                         .defaultSize! *
                                                                     1.8),
                                                             child: Text(
-                                                              '/mo',
+                                                              '가격-단위',
                                                               //  textAlign: TextAlign.start,
                                                               style: TextStyle(
                                                                 color: Colors
@@ -601,23 +602,28 @@ class _PurchaseState extends State<Purchase> {
                                                                     SizeConfig
                                                                         .defaultSize! *
                                                                     double.parse(
-                                                                        'font size control'
+                                                                        'font-ratio'
                                                                             .tr()),
                                                                 fontFamily:
-                                                                    'font'.tr(),
+                                                                    'font-basic'
+                                                                        .tr(),
                                                               ),
                                                             ).tr(),
                                                           ),
                                                         ],
                                                       ),
                                                       Text(
-                                                        'before discount',
+                                                        '구독-가격-할인전',
                                                         style: TextStyle(
                                                             color: const Color
                                                                     .fromARGB(
-                                                                136, 0, 0, 0),
+                                                                136,
+                                                                0,
+                                                                0,
+                                                                0),
                                                             fontFamily:
-                                                                'font'.tr(),
+                                                                'font-basic'
+                                                                    .tr(),
                                                             decoration:
                                                                 TextDecoration
                                                                     .lineThrough,
@@ -651,11 +657,11 @@ class _PurchaseState extends State<Purchase> {
                                                                   .center,
                                                           children: [
                                                               Text(
-                                                                "Subscription Terms Android",
+                                                                "구독-약관설명-안드로이드",
                                                                 style:
                                                                     TextStyle(
                                                                   fontFamily:
-                                                                      'font'
+                                                                      'font-basic'
                                                                           .tr(),
                                                                   fontSize:
                                                                       SizeConfig
@@ -680,14 +686,14 @@ class _PurchaseState extends State<Purchase> {
                                                                         fontSize:
                                                                             1 * SizeConfig.defaultSize!,
                                                                         fontFamily:
-                                                                            'font'.tr(),
+                                                                            'font-basic'.tr(),
                                                                         color: Colors
                                                                             .black,
                                                                       ),
-                                                                      text: "Subscription Terms Text"
+                                                                      text: "구독-약관설명-iOS"
                                                                           .tr()),
                                                                   TextSpan(
-                                                                    text: "Terms"
+                                                                    text: "구독-약관"
                                                                         .tr(),
                                                                     style:
                                                                         TextStyle(
@@ -695,7 +701,7 @@ class _PurchaseState extends State<Purchase> {
                                                                           SizeConfig
                                                                               .defaultSize!,
                                                                       fontFamily:
-                                                                          'font'
+                                                                          'font-basic'
                                                                               .tr(),
                                                                       color: Colors
                                                                           .black,
@@ -711,7 +717,7 @@ class _PurchaseState extends State<Purchase> {
                                                                           },
                                                                   ),
                                                                   TextSpan(
-                                                                    text: "Terms_and"
+                                                                    text: "구독-그리고"
                                                                         .tr(),
                                                                     style:
                                                                         TextStyle(
@@ -719,14 +725,14 @@ class _PurchaseState extends State<Purchase> {
                                                                           SizeConfig
                                                                               .defaultSize!,
                                                                       fontFamily:
-                                                                          'font'
+                                                                          'font-basic'
                                                                               .tr(),
                                                                       color: Colors
                                                                           .black,
                                                                     ),
                                                                   ),
                                                                   TextSpan(
-                                                                    text: "Privacy Policy"
+                                                                    text: "구독-개인정보처리방침"
                                                                         .tr(),
                                                                     style:
                                                                         TextStyle(
@@ -734,7 +740,7 @@ class _PurchaseState extends State<Purchase> {
                                                                           SizeConfig
                                                                               .defaultSize!,
                                                                       fontFamily:
-                                                                          'font'
+                                                                          'font-basic'
                                                                               .tr(),
                                                                       color: Colors
                                                                           .black,
@@ -813,7 +819,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'oneCoin',
                                           coinWid: 6.5,
                                           coinNum: 3000,
-                                          price: '3000 price',
+                                          price: '포인트-가격-3000',
                                           pointNow: userState.point,
                                           flag: ''),
                                       pointGood(
@@ -824,7 +830,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'twoCoins',
                                           coinWid: 8.5,
                                           coinNum: 6000,
-                                          price: '6000 price',
+                                          price: '포인트-가격-6000',
                                           pointNow: userState.point,
                                           flag: 'mostPopular'),
                                     ],
@@ -844,7 +850,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'threeCoins',
                                           coinWid: 10,
                                           coinNum: 10000,
-                                          price: '10000 price',
+                                          price: '포인트-가격-10000',
                                           pointNow: userState.point,
                                           flag: ''),
                                       pointGood(
@@ -855,7 +861,7 @@ class _PurchaseState extends State<Purchase> {
                                           coinImage: 'fiveCoins',
                                           coinWid: 14.5,
                                           coinNum: 15000,
-                                          price: '15000 price',
+                                          price: '포인트-가격-15000',
                                           pointNow: userState.point,
                                           flag: 'specialPromotion'),
                                     ],
@@ -999,11 +1005,9 @@ class _PurchaseState extends State<Purchase> {
                     Text(
                       '$price',
                       style: TextStyle(
-                        fontFamily: 'font'.tr(),
-                        fontSize: 2.5 /
-                            100 *
-                            sw *
-                            double.parse('font size control'.tr()),
+                        fontFamily: 'font-basic'.tr(),
+                        fontSize:
+                            2.5 / 100 * sw * double.parse('font-ratio'.tr()),
                       ),
                     ).tr()
                   ]),

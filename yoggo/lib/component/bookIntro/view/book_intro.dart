@@ -25,6 +25,7 @@ import '../viewModel/book_intro_model.dart';
 import '../viewModel/book_intro_cubit.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'dart:io' show Platform;
+import 'dart:math';
 
 class BookIntro extends StatefulWidget {
   final String title, thumb, summary;
@@ -367,6 +368,166 @@ class _BookIntroState extends State<BookIntro> {
     }
   }
 
+  Future<void> _sendBookIntroRecordLaterClickEvent(
+      contentId, title, voiceId) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_intro_record_later_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+      await amplitude.logEvent(
+        'book_intro_record_later_click',
+        eventProperties: {
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookIntroRecordOkClickEvent(
+      contentId, title, voiceId) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_intro_record_ok_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+      await amplitude.logEvent(
+        'book_intro_record_ok_click',
+        eventProperties: {
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookIntroBuyPointLaterClickEvent(
+      lackingPoint, contentId, title, voiceId) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_intro_buy_point_later_click',
+        parameters: <String, dynamic>{
+          'lackingPoint': lackingPoint,
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+      await amplitude.logEvent(
+        'book_intro_buy_point_later_click',
+        eventProperties: {
+          'lackingPoint': lackingPoint,
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookIntroBuyPointOkClickEvent(
+      lackingPoint, contentId, title, voiceId) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_intro_buy_point_ok_click',
+        parameters: <String, dynamic>{
+          'lackingPoint': lackingPoint,
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+      await amplitude.logEvent(
+        'book_intro_buy_point_ok_click',
+        eventProperties: {
+          'lackingPoint': lackingPoint,
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookIntroMakeBookLaterClickEvent(
+      contentId, title, voiceId) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_intro_make_book_later_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+      await amplitude.logEvent(
+        'book_intro_make_book_later_click',
+        eventProperties: {
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookIntroMakeBookOkClickEvent(
+      contentId, title, voiceId) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_intro_make_book_ok_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+      await amplitude.logEvent(
+        'book_intro_not_make_book_ok_click',
+        eventProperties: {
+          'contentId': contentId,
+          'title': title,
+          'voiceId': voiceId
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
   Future<void> _sendBookBuyClickEvent(pointNow, contentId, title) async {
     try {
       // 이벤트 로깅
@@ -532,6 +693,13 @@ class _BookIntroState extends State<BookIntro> {
 
   @override
   Widget build(BuildContext context) {
+    final sw = (MediaQuery.of(context).size.width -
+        MediaQuery.of(context).padding.left -
+        MediaQuery.of(context).padding.right);
+    final sh = (MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom);
+    double thumbSize = min(0.7 * sh, 0.4 * sw);
     final bookIntroCubit = context.watch<BookIntroCubit>();
     final bookVoiceCubit = context.watch<BookVoiceCubit>();
     final dataCubit = context.read<DataCubit>();
@@ -670,8 +838,8 @@ class _BookIntroState extends State<BookIntro> {
                                             builder: (context, value, child) {
                                               return Stack(children: [
                                                 Container(
-                                                  //  width: 20,
-                                                  //height: 20,
+                                                  width: thumbSize,
+                                                  height: thumbSize,
                                                   clipBehavior: Clip.hardEdge,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
@@ -1498,9 +1666,9 @@ class _BookIntroState extends State<BookIntro> {
                                                                           child: animation
                                                                               //? Text('')
                                                                               ? Text(
-                                                                                  'READ NOW',
+                                                                                  '책-시작',
                                                                                   textAlign: TextAlign.center,
-                                                                                  style: TextStyle(color: Colors.black, fontSize: 2.3 * SizeConfig.defaultSize! * double.parse('font size control'.tr()), fontFamily: 'font-book'.tr()),
+                                                                                  style: TextStyle(color: Colors.black, fontSize: 2.3 * SizeConfig.defaultSize! * double.parse('font-ratio'.tr()), fontFamily: 'font-book'.tr()),
                                                                                 ).tr()
                                                                               : Row(
                                                                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -1634,7 +1802,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                     Center(
                                                                       child:
                                                                           Text(
-                                                                        'READ NOW',
+                                                                        '책-시작',
                                                                         textAlign:
                                                                             TextAlign.center,
                                                                         style: TextStyle(
@@ -1642,7 +1810,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                                 .black,
                                                                             fontSize: 2.3 *
                                                                                 SizeConfig.defaultSize! *
-                                                                                double.parse('font size control'.tr()),
+                                                                                double.parse('font-ratio'.tr()),
                                                                             fontFamily: 'font-book'.tr()),
                                                                       ).tr(),
                                                                     ),
@@ -1752,37 +1920,100 @@ class _BookIntroState extends State<BookIntro> {
                 Visibility(
                   visible: wantPurchase,
                   child: AlertDialog(
-                    title: const Text('Register your voice!'),
-                    content: const Text(
-                        'After purchasing a subscription, you can register your voice.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          _sendBookIntroRegisterLaterClickEvent(
-                              contentId, title, vi);
-                          // 1초 후에 다음 페이지로 이동
-                          Future.delayed(const Duration(seconds: 1), () {
-                            setState(() {
-                              wantPurchase = false;
-                            });
-                          });
-                        },
-                        child: const Text('Dismiss'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          _sendBookIntroRegisterOkClickEvent(
-                              contentId, title, vi);
-                          // 1초 후에 다음 페이지로 이동
-                          Future.delayed(const Duration(seconds: 1), () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Purchase()),
-                            );
-                          });
-                        },
-                        child: const Text('Subscribe'),
+                    titlePadding: EdgeInsets.only(
+                      top: SizeConfig.defaultSize! * 7,
+                      bottom: SizeConfig.defaultSize! * 2,
+                    ),
+                    actionsPadding: EdgeInsets.only(
+                      left: SizeConfig.defaultSize! * 5,
+                      right: SizeConfig.defaultSize! * 5,
+                      bottom: SizeConfig.defaultSize! * 5,
+                      top: SizeConfig.defaultSize! * 3,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.defaultSize! * 3),
+                    ),
+                    backgroundColor: Colors.white.withOpacity(0.9),
+                    title: Center(
+                      child: Text(
+                        '인트로-구독',
+                        style: TextStyle(
+                          fontSize: SizeConfig.defaultSize! * 2.5,
+                          fontFamily: 'font-basic'.tr(),
+                        ),
+                      ).tr(),
+                    ),
+                    actions: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _sendBookIntroRegisterLaterClickEvent(
+                                  contentId, title, vi);
+                              // 1초 후에 다음 페이지로 이동
+                              // Future.delayed(const Duration(seconds: 1), () {
+                              setState(() {
+                                wantPurchase = false;
+                              });
+                              //});
+                            },
+                            child: Container(
+                              width: SizeConfig.defaultSize! * 24,
+                              height: SizeConfig.defaultSize! * 4.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 3),
+                                color: const Color(0xFFFFA91A),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '답변-부정',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'font-basic'.tr(),
+                                    fontSize: 2.2 * SizeConfig.defaultSize!,
+                                  ),
+                                ).tr(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: SizeConfig.defaultSize! * 4), // 간격 조정
+                          GestureDetector(
+                            onTap: () {
+                              _sendBookIntroRegisterOkClickEvent(
+                                  contentId, title, vi);
+                              // 1초 후에 다음 페이지로 이동
+                              ///Future.delayed(const Duration(seconds: 1), () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Purchase()),
+                              );
+                            },
+                            //},
+                            child: Container(
+                              width: SizeConfig.defaultSize! * 24,
+                              height: SizeConfig.defaultSize! * 4.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 3),
+                                color: const Color(0xFFFFA91A),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '답변-긍정',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'font-basic'.tr(),
+                                    fontSize: 2.2 * SizeConfig.defaultSize!,
+                                  ),
+                                ).tr(),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -1790,36 +2021,111 @@ class _BookIntroState extends State<BookIntro> {
                 Visibility(
                   visible: buyPoints,
                   child: AlertDialog(
-                    title: const Text('Insufficient Points'),
-                    content: Text(
-                        'You require an additional $lackingPoint points.\nPlease consider purchasing additional points.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          _sendBookIntroRegisterLaterClickEvent(
-                              contentId, title, vi);
-                          // 1초 후에 다음 페이지로 이동
-                          Future.delayed(const Duration(seconds: 1), () {
-                            setState(() {
-                              buyPoints = false;
-                            });
-                          });
-                        },
-                        child: const Text('Dismiss'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          //_sendBookIntroRegisterOkClickEvent(contentId, title, voiceId);
-                          // 1초 후에 다음 페이지로 이동
-                          Future.delayed(const Duration(seconds: 1), () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Purchase()),
-                            );
-                          });
-                        },
-                        child: const Text('Purchase'),
+                    titlePadding: EdgeInsets.only(
+                      top: SizeConfig.defaultSize! * 7,
+                      bottom: SizeConfig.defaultSize! * 2,
+                    ),
+                    actionsPadding: EdgeInsets.only(
+                      left: SizeConfig.defaultSize! * 5,
+                      right: SizeConfig.defaultSize! * 5,
+                      bottom: SizeConfig.defaultSize! * 5,
+                      top: SizeConfig.defaultSize! * 3,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.defaultSize! * 3),
+                    ),
+                    backgroundColor: Colors.white.withOpacity(0.9),
+                    title: Center(
+                        child: Column(children: [
+                      RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            style: TextStyle(
+                              fontSize: 2.5 * SizeConfig.defaultSize!,
+                              fontFamily: 'font-basic'.tr(),
+                              color: Colors.black,
+                            ),
+                            text: "$lackingPoint"),
+                        TextSpan(
+                            style: TextStyle(
+                              fontSize: 2.5 * SizeConfig.defaultSize!,
+                              fontFamily: 'font-basic'.tr(),
+                              color: Colors.black,
+                            ),
+                            text: "인트로-포인트부족".tr()),
+                      ]))
+                    ])),
+                    actions: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _sendBookIntroBuyPointLaterClickEvent(
+                                  lackingPoint, contentId, title, vi);
+                              // 1초 후에 다음 페이지로 이동
+                              //Future.delayed(const Duration(seconds: 1), () {
+                              setState(() {
+                                buyPoints = false;
+                              });
+                              //});
+                            },
+                            child: Container(
+                              width: SizeConfig.defaultSize! * 24,
+                              height: SizeConfig.defaultSize! * 4.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 3),
+                                color: const Color(0xFFFFA91A),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '답변-부정',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'font-basic'.tr(),
+                                    fontSize: 2.2 * SizeConfig.defaultSize!,
+                                  ),
+                                ).tr(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: SizeConfig.defaultSize! * 4), // 간격 조정
+                          GestureDetector(
+                            onTap: () {
+                              _sendBookIntroBuyPointOkClickEvent(
+                                  lackingPoint, contentId, title, vi);
+                              // 1초 후에 다음 페이지로 이동
+                              //Future.delayed(const Duration(seconds: 1), () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Purchase()),
+                              );
+                              //});
+                            },
+                            child: Container(
+                              width: SizeConfig.defaultSize! * 24,
+                              height: SizeConfig.defaultSize! * 4.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 3),
+                                color: const Color(0xFFFFA91A),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '답변-긍정',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'font-basic'.tr(),
+                                    fontSize: 2.2 * SizeConfig.defaultSize!,
+                                  ),
+                                ).tr(),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -1830,33 +2136,91 @@ class _BookIntroState extends State<BookIntro> {
                     return Visibility(
                       visible: value,
                       child: AlertDialog(
-                        title: const Text('Register your voice!'),
-                        content: const Text(
-                            'After registering your voice, you can listen to the book using your voice.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              _sendBookIntroRegisterLaterClickEvent(
-                                  contentId, title, vi);
-                              Future.delayed(const Duration(seconds: 1), () {
-                                wantRecord.value = false;
-                              });
-                            },
-                            child: const Text('Dismiss'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              _sendBookIntroRegisterOkClickEvent(
-                                  contentId, title, vi);
-                              Future.delayed(const Duration(seconds: 1), () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const RecInfo()),
-                                );
-                              });
-                            },
-                            child: const Text('Register'),
+                        titlePadding: EdgeInsets.only(
+                          top: SizeConfig.defaultSize! * 7,
+                          bottom: SizeConfig.defaultSize! * 2,
+                        ),
+                        actionsPadding: EdgeInsets.only(
+                          left: SizeConfig.defaultSize! * 5,
+                          right: SizeConfig.defaultSize! * 5,
+                          bottom: SizeConfig.defaultSize! * 5,
+                          top: SizeConfig.defaultSize! * 3,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              SizeConfig.defaultSize! * 3),
+                        ),
+                        backgroundColor: Colors.white.withOpacity(0.9),
+                        title: Center(child: Text('인트로-목소리녹음'.tr())),
+                        actions: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  _sendBookIntroRecordLaterClickEvent(
+                                      contentId, title, vi);
+                                  //Future.delayed(const Duration(seconds: 1),
+                                  //   () {
+                                  wantRecord.value = false;
+                                  //});
+                                },
+                                child: Container(
+                                  width: SizeConfig.defaultSize! * 24,
+                                  height: SizeConfig.defaultSize! * 4.5,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        SizeConfig.defaultSize! * 3),
+                                    color: const Color(0xFFFFA91A),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '답변-부정',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'font-basic'.tr(),
+                                        fontSize: 2.2 * SizeConfig.defaultSize!,
+                                      ),
+                                    ).tr(),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                  width: SizeConfig.defaultSize! * 4), // 간격 조정
+                              GestureDetector(
+                                onTap: () {
+                                  _sendBookIntroRecordOkClickEvent(
+                                      contentId, title, vi);
+                                  //Future.delayed(const Duration(seconds: 1),
+                                  //   () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const RecInfo()),
+                                  );
+                                  //});
+                                },
+                                child: Container(
+                                  width: SizeConfig.defaultSize! * 24,
+                                  height: SizeConfig.defaultSize! * 4.5,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        SizeConfig.defaultSize! * 3),
+                                    color: const Color(0xFFFFA91A),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '답변-긍정',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'font-basic'.tr(),
+                                        fontSize: 2.2 * SizeConfig.defaultSize!,
+                                      ),
+                                    ).tr(),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -1866,18 +2230,89 @@ class _BookIntroState extends State<BookIntro> {
                 Visibility(
                   visible: !completeInference,
                   child: AlertDialog(
-                    title: const Text('Please wait a moment.'),
-                    content: const Text(
-                        "We're making a book with your voice. \nIf you want to listen to it now, please select a different voice actor!"),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          // 1초 후에 다음 페이지로 이동
-                          setState(() {
-                            completeInference = true;
-                          });
-                        },
-                        child: const Text('OK'),
+                    titlePadding: EdgeInsets.only(
+                      top: SizeConfig.defaultSize! * 7,
+                      bottom: SizeConfig.defaultSize! * 2,
+                    ),
+                    actionsPadding: EdgeInsets.only(
+                      left: SizeConfig.defaultSize! * 5,
+                      right: SizeConfig.defaultSize! * 5,
+                      bottom: SizeConfig.defaultSize! * 5,
+                      top: SizeConfig.defaultSize! * 3,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.defaultSize! * 3),
+                    ),
+                    backgroundColor: Colors.white.withOpacity(0.9),
+                    title: Center(child: Text('책만들어봐'.tr())),
+                    // content: Text('책만들어봐-내용').tr(),
+                    actions: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              _sendBookIntroMakeBookLaterClickEvent(
+                                  contentId, title, vi);
+                              setState(() {
+                                completeInference = true;
+                              });
+                            },
+                            child: Container(
+                              width: SizeConfig.defaultSize! * 24,
+                              height: SizeConfig.defaultSize! * 4.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 3),
+                                color: const Color(0xFFFFA91A),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '답변-부정',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'font-basic'.tr(),
+                                    fontSize: 2.2 * SizeConfig.defaultSize!,
+                                  ),
+                                ).tr(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: SizeConfig.defaultSize! * 4), // 간격 조정
+                          GestureDetector(
+                            onTap: () {
+                              _sendBookIntroMakeBookOkClickEvent(
+                                  contentId, title, vi);
+                              //Future.delayed(const Duration(seconds: 1), () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const RecInfo()),
+                              );
+                              //});
+                            },
+                            child: Container(
+                              width: SizeConfig.defaultSize! * 24,
+                              height: SizeConfig.defaultSize! * 4.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 3),
+                                color: const Color(0xFFFFA91A),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '답변-긍정',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'font-basic'.tr(),
+                                    fontSize: 2.2 * SizeConfig.defaultSize!,
+                                  ),
+                                ).tr(),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -1888,30 +2323,86 @@ class _BookIntroState extends State<BookIntro> {
                     return Visibility(
                       visible: value,
                       child: AlertDialog(
-                        title:
-                            const Text('Create an Audiobook with Your Voice'),
-                        content: const Text(
-                          "You can listen to this book with your voice.\nWould you like to proceed?",
+                        titlePadding: EdgeInsets.only(
+                          top: SizeConfig.defaultSize! * 7,
+                          bottom: SizeConfig.defaultSize! * 2,
                         ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Future.delayed(const Duration(seconds: 1), () {
-                                wantInference.value = false;
-                              });
-                            },
-                            child: const Text('No'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              // 1초 후에 다음 페이지로 이동
-                              startInference(token);
-                              cvi = clickedVoice!.contentVoiceId;
-                              //   setState(() {
-                              wantInference.value = false;
-                              // });
-                            },
-                            child: const Text('YES'),
+                        actionsPadding: EdgeInsets.only(
+                          left: SizeConfig.defaultSize! * 5,
+                          right: SizeConfig.defaultSize! * 5,
+                          bottom: SizeConfig.defaultSize! * 5,
+                          top: SizeConfig.defaultSize! * 3,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              SizeConfig.defaultSize! * 3),
+                        ),
+                        backgroundColor: Colors.white.withOpacity(0.9),
+                        title: Center(child: Text('인퍼런스중'.tr())),
+                        content: Text('인퍼런스중-내용').tr(),
+                        actions: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  //Future.delayed(const Duration(seconds: 1),
+                                  //   () {
+                                  wantInference.value = false;
+                                  //});
+                                },
+                                child: Container(
+                                  width: SizeConfig.defaultSize! * 24,
+                                  height: SizeConfig.defaultSize! * 4.5,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        SizeConfig.defaultSize! * 3),
+                                    color: const Color(0xFFFFA91A),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '답변-부정',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'font-basic'.tr(),
+                                        fontSize: 2.2 * SizeConfig.defaultSize!,
+                                      ),
+                                    ).tr(),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                  width: SizeConfig.defaultSize! * 4), // 간격 조정
+                              GestureDetector(
+                                onTap: () {
+                                  // 1초 후에 다음 페이지로 이동
+                                  startInference(token);
+                                  cvi = clickedVoice!.contentVoiceId;
+                                  //   setState(() {
+                                  wantInference.value = false;
+                                  // });
+                                },
+                                child: Container(
+                                  width: SizeConfig.defaultSize! * 24,
+                                  height: SizeConfig.defaultSize! * 4.5,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        SizeConfig.defaultSize! * 3),
+                                    color: const Color(0xFFFFA91A),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '답변-긍정',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'font-basic'.tr(),
+                                        fontSize: 2.2 * SizeConfig.defaultSize!,
+                                      ),
+                                    ).tr(),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

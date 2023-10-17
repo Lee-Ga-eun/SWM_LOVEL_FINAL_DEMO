@@ -192,10 +192,10 @@ class _BookEndState extends State<BookEnd> {
                     width: SizeConfig.defaultSize! * 1.5,
                   ),
                   Text(
-                    'Congratulations on \n completing the READING',
+                    '완독-축하',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: 'font'.tr(),
+                        fontFamily: 'font-basic'.tr(),
                         fontSize: SizeConfig.defaultSize! * 2.5),
                   ).tr(),
                   SizedBox(
@@ -234,10 +234,10 @@ class _BookEndState extends State<BookEnd> {
                     width: SizeConfig.defaultSize! * 1.5,
                   ),
                   Text(
-                    'Congratulations on \n completing the READING',
+                    '완독-축하',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: 'font'.tr(),
+                        fontFamily: 'font-basic'.tr(),
                         fontSize: SizeConfig.defaultSize! * 2.5),
                   ).tr(),
                   SizedBox(
@@ -280,9 +280,9 @@ class _BookEndState extends State<BookEnd> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'If you want to read a book in the voice of your parents,',
+                          '완독-목소리',
                           style: TextStyle(
-                              fontFamily: 'font'.tr(),
+                              fontFamily: 'font-basic'.tr(),
                               fontSize: SizeConfig.defaultSize! * 2.3),
                         ).tr(),
                         SizedBox(
@@ -326,9 +326,9 @@ class _BookEndState extends State<BookEnd> {
                                 //     bottom: SizeConchild: fig.defaultSize! * 0.5,
                                 //   ),
                                 child: Text(
-                                  'Go to Record',
+                                  '완독-녹음',
                                   style: TextStyle(
-                                    fontFamily: 'font'.tr(),
+                                    fontFamily: 'font-basic'.tr(),
                                     fontSize: SizeConfig.defaultSize! * 2.3,
                                     color: Colors.black,
                                   ),
@@ -368,10 +368,10 @@ class _BookEndState extends State<BookEnd> {
                     width: SizeConfig.defaultSize! * 1.5,
                   ),
                   Text(
-                    'Congratulations on \n completing the READING',
+                    '완독-축하',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontFamily: 'font'.tr(),
+                        fontFamily: 'font-basic'.tr(),
                         fontSize: SizeConfig.defaultSize! * 2.5),
                   ).tr(),
                   SizedBox(
@@ -414,9 +414,9 @@ class _BookEndState extends State<BookEnd> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'If you want to read a book in the voice of your parents,',
+                          '완독-목소리',
                           style: TextStyle(
-                              fontFamily: 'font'.tr(),
+                              fontFamily: 'font-basic'.tr(),
                               fontSize: SizeConfig.defaultSize! * 2.3),
                         ).tr(),
                         SizedBox(
@@ -460,9 +460,9 @@ class _BookEndState extends State<BookEnd> {
                                 //     bottom: SizeConchild: fig.defaultSize! * 0.5,
                                 //   ),
                                 child: Text(
-                                  'Go to Record',
+                                  '완독-녹음',
                                   style: TextStyle(
-                                    fontFamily: 'font'.tr(),
+                                    fontFamily: 'font-basic'.tr(),
                                     fontSize: SizeConfig.defaultSize! * 2.3,
                                     color: Colors.black,
                                   ),

@@ -251,13 +251,14 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                                 MainAxisAlignment.center,
                                             children: [
                                                 Text(
-                                                  "We are making your voice!",
+                                                  "목소리-제작중",
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 3 *
                                                         SizeConfig.defaultSize!,
-                                                    fontFamily: 'font'.tr(),
+                                                    fontFamily:
+                                                        'font-basic'.tr(),
                                                     fontWeight: FontWeight.w400,
                                                   ),
                                                 ).tr(),
@@ -363,7 +364,7 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                                                     Center(
                                                                       child:
                                                                           Text(
-                                                                        'Re-make your voice',
+                                                                        '재녹음',
                                                                         textAlign:
                                                                             TextAlign.center,
                                                                         style:
@@ -373,7 +374,7 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                                                           fontSize:
                                                                               2.3 * SizeConfig.defaultSize!,
                                                                           fontFamily:
-                                                                              'font'.tr(),
+                                                                              'font-basic'.tr(),
                                                                           fontWeight:
                                                                               FontWeight.w400,
                                                                         ),
@@ -448,10 +449,10 @@ class _VoiceProfileState extends State<VoiceProfile> {
           ),
           backgroundColor: Colors.white.withOpacity(0.9),
           title: Text(
-            "If you record again, the previous voice will be deleted.\nyou'll need to recreate the books using the new voice\nDo you want to continue?",
+            "재녹음-경고",
             style: TextStyle(
               fontSize: SizeConfig.defaultSize! * 2.5,
-              fontFamily: 'font'.tr(),
+              fontFamily: 'font-basic'.tr(),
             ),
           ).tr(),
           actions: [
@@ -479,10 +480,10 @@ class _VoiceProfileState extends State<VoiceProfile> {
                     ),
                     child: Center(
                       child: Text(
-                        'YES',
+                        '답변-긍정-대문자',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'font'.tr(),
+                          fontFamily: 'font-basic'.tr(),
                           fontSize: 2.2 * SizeConfig.defaultSize!,
                         ),
                       ).tr(),
@@ -507,10 +508,10 @@ class _VoiceProfileState extends State<VoiceProfile> {
                     ),
                     child: Center(
                       child: Text(
-                        'No',
+                        '답변-부정',
                         style: TextStyle(
                           color: Colors.black,
-                          fontFamily: 'font'.tr(),
+                          fontFamily: 'font-basic'.tr(),
                           fontSize: 2.2 * SizeConfig.defaultSize!,
                         ),
                       ).tr(),
