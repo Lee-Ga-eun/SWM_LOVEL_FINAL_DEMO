@@ -1099,14 +1099,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             child: Align(
                                               alignment: Alignment.topLeft,
-                                              child: Text(
-                                                "달력-안내",
-                                                style: TextStyle(
-                                                  fontFamily: 'font-basic'.tr(),
-                                                  fontSize: 2.2 *
-                                                      SizeConfig.defaultSize!,
-                                                ),
-                                              ).tr(),
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 0.006 * sh),
+                                                child: Text(
+                                                  "달력-안내",
+                                                  style: TextStyle(
+                                                    fontFamily:
+                                                        'font-basic'.tr(),
+                                                    fontSize: 2.2 *
+                                                        SizeConfig
+                                                            .defaultSize! *
+                                                        double.parse(
+                                                            'font-ratio'.tr()),
+                                                  ),
+                                                ).tr(),
+                                              ),
                                             ),
                                           ),
                                           Padding(
@@ -1329,9 +1337,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 left: SizeConfig
                                                                         .defaultSize! *
                                                                     3,
-                                                                top: 0.018 * sh,
-                                                                bottom: 0.018 *
-                                                                    sh)),
+                                                                top: 0.0 * sh,
+                                                                bottom:
+                                                                    0.0 * sh)),
                                                         backgroundColor:
                                                             MaterialStateProperty
                                                                 .all<Color>(
@@ -1372,14 +1380,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           color: Colors.black,
                                                           fontSize: SizeConfig
                                                                   .defaultSize! *
-                                                              2.2,
+                                                              2.2 *
+                                                              double.parse(
+                                                                  'font-ratio'
+                                                                      .tr()),
                                                           fontFamily:
                                                               'font-point'.tr(),
                                                         ),
                                                       ).tr(),
                                                     ),
                                                     SizedBox(
-                                                      width: sh * 0.02,
+                                                      width: sw * 0.01,
                                                     ),
                                                     TextButton(
                                                       style: ButtonStyle(
@@ -1398,9 +1409,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 left: SizeConfig
                                                                         .defaultSize! *
                                                                     3,
-                                                                top: 0.018 * sh,
-                                                                bottom: 0.018 *
-                                                                    sh)),
+                                                                top: 0.00 * sh,
+                                                                bottom:
+                                                                    0.00 * sh)),
                                                         backgroundColor:
                                                             MaterialStateProperty
                                                                 .all<Color>(
@@ -1448,7 +1459,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   Colors.black,
                                                               fontSize: SizeConfig
                                                                       .defaultSize! *
-                                                                  2.2,
+                                                                  2.2 *
+                                                                  double.parse(
+                                                                      'font-ratio'
+                                                                          .tr()),
                                                               fontFamily:
                                                                   'font-point'
                                                                       .tr(),

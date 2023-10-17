@@ -51,7 +51,7 @@
 
   "인트로-구독": "Register your voice!",
 
-  "인트로-포인트부족": " points are insufficient.\nYou need to purchase additional points.",
+  "인트로-포인트부족": " points are insufficient.\n You need to purchase additional points.",
 
   "인트로-목소리녹음": "Record your voice!\nAfter registering your voice, you can listen to the book using your voice.",
 
@@ -84,10 +84,10 @@
   "녹음-안내-3": "The best quality\nwhen recorded\nfor about\n40 seconds",
   "녹음-안내-4": "You can try again\nuntil you want",
   
-  "앱종료-질문": "Are you sure you want to exit?"
+  "앱종료-질문": "Are you sure you want to exit?",
   
   
   "자동 재생 켬": "Autoplay is on",
-  "자동 재생 끔": "Autoplay is off",
+  "자동 재생 끔": "Autoplay is off"
 
 }
