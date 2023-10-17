@@ -225,7 +225,7 @@ class _RecState extends State<Rec> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              'script',
+                              '녹음-대본',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 2.1 * SizeConfig.defaultSize!,
@@ -292,10 +292,10 @@ class _RecState extends State<Rec> {
                           backgroundColor: Colors.white.withOpacity(0.9),
                           title: Center(
                             child: Text(
-                              'Are you sure?',
+                              '녹음-완료문의',
                               style: TextStyle(
                                 fontSize: SizeConfig.defaultSize! * 2.5,
-                                fontFamily: 'font'.tr(),
+                                fontFamily: 'font-basic'.tr(),
                               ),
                             ).tr(),
                           ),
@@ -324,10 +324,10 @@ class _RecState extends State<Rec> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'No',
+                                        '답변-부정',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'font'.tr(),
+                                          fontFamily: 'font-basic'.tr(),
                                           fontSize:
                                               2.2 * SizeConfig.defaultSize!,
                                         ),
@@ -371,10 +371,10 @@ class _RecState extends State<Rec> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'Yes',
+                                        '답변-긍정',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'font'.tr(),
+                                          fontFamily: 'font-basic'.tr(),
                                           fontSize:
                                               2.2 * SizeConfig.defaultSize!,
                                         ),
@@ -484,10 +484,10 @@ class _RecState extends State<Rec> {
     }
 
     return Text(
-      "Waiting to record",
+      "녹음-대기",
       style: TextStyle(
         fontSize: SizeConfig.defaultSize! * 1.8,
-        fontFamily: 'font'.tr(),
+        fontFamily: 'font-basic'.tr(),
       ),
     ).tr();
   }

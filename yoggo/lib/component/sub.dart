@@ -419,7 +419,7 @@
 //                                                   top: SizeConfig.defaultSize! *
 //                                                       1.8),
 //                                               child: Text(
-//                                                 '/mo',
+//                                                 '가격-단위',
 //                                                 //  textAlign: TextAlign.start,
 //                                                 style: TextStyle(
 //                                                   color: Colors.black,
@@ -554,7 +554,7 @@
 //                                   text:
 //                                       "to your iTunes account. By tapping Continue, you agree to our "),
 //                               TextSpan(
-//                                   text: "Terms",
+//                                   text: "구독-약관",
 //                                   style: TextStyle(
 //                                     fontSize: 1.5 * SizeConfig.defaultSize!,
 //                                     fontFamily: 'Molengo',
@@ -574,7 +574,7 @@
 //                                     color: Colors.black),
 //                               ),
 //                               TextSpan(
-//                                   text: "Privacy Policy.",
+//                                   text: "구독-개인정보처리방침.",
 //                                   style: TextStyle(
 //                                     fontSize: 1.5 * SizeConfig.defaultSize!,
 //                                     fontFamily: 'Molengo',

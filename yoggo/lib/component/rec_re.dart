@@ -305,7 +305,7 @@ class _RecReState extends State<RecRe> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              'script',
+                              '녹음-대본',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 2.1 * SizeConfig.defaultSize!,
@@ -372,10 +372,10 @@ class _RecReState extends State<RecRe> {
                           backgroundColor: Colors.white.withOpacity(0.9),
                           title: Center(
                               child: Text(
-                            'Are you sure?',
+                            '녹음-완료문의',
                             style: TextStyle(
                               fontSize: SizeConfig.defaultSize! * 2.5,
-                              fontFamily: 'font'.tr(),
+                              fontFamily: 'font-basic'.tr(),
                             ),
                           ).tr()),
                           actions: [
@@ -403,10 +403,10 @@ class _RecReState extends State<RecRe> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'No, Re-make',
+                                        '답변-재녹음',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'font'.tr(),
+                                          fontFamily: 'font-basic'.tr(),
                                           fontSize:
                                               2.2 * SizeConfig.defaultSize!,
                                         ),
@@ -451,10 +451,10 @@ class _RecReState extends State<RecRe> {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        'Yes',
+                                        '답변-긍정',
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontFamily: 'font'.tr(),
+                                          fontFamily: 'font-basic'.tr(),
                                           fontSize:
                                               2.2 * SizeConfig.defaultSize!,
                                         ),
@@ -563,9 +563,9 @@ class _RecReState extends State<RecRe> {
     }
 
     return Text(
-      "Waiting to record",
+      "녹음-대기",
       style: TextStyle(
-        fontFamily: 'font'.tr(),
+        fontFamily: 'font-basic'.tr(),
         fontSize: SizeConfig.defaultSize! * 1.8,
       ),
     ).tr();

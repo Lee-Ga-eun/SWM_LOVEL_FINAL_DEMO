@@ -98,10 +98,10 @@ class _RecEndState extends State<RecEnd> {
                               width: SizeConfig.defaultSize! * 1.5,
                             ),
                             Text(
-                              'Congratulations on \n completing the RECORDING',
+                              '녹음-축하',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontFamily: 'font'.tr(),
+                                  fontFamily: 'font-basic'.tr(),
                                   fontSize: SizeConfig.defaultSize! * 2.5),
                             ).tr(),
                             SizedBox(
@@ -124,7 +124,7 @@ class _RecEndState extends State<RecEnd> {
                               'Your voice is well recorded \n We\'ll let you know by PUSH when it\'s done',
                               style: TextStyle(
                                 fontSize: SizeConfig.defaultSize! * 2.5,
-                                fontFamily: 'font'.tr(),
+                                fontFamily: 'font-basic'.tr(),
                                 color: Colors.black,
                               ),
                             ).tr()
@@ -172,7 +172,7 @@ class _RecEndState extends State<RecEnd> {
                                     child: Text(
                                       'OK',
                                       style: TextStyle(
-                                        fontFamily: 'font'.tr(),
+                                        fontFamily: 'font-basic'.tr(),
                                         fontSize: SizeConfig.defaultSize! * 2.3,
                                         color: Colors.black,
                                       ),

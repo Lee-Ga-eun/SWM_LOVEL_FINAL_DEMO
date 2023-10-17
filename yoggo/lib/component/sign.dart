@@ -232,7 +232,7 @@ class _LoginState extends State<Login> {
                     style: TextStyle(
                       fontSize: 2.2 * SizeConfig.defaultSize!,
                       color: Colors.black,
-                      fontFamily: 'molengo',
+                      fontFamily: 'font-basic',
                     ),
                     textAlign: TextAlign.center,
                   ),

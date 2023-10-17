@@ -112,7 +112,7 @@ class _RecInfoState extends State<RecInfo> {
                             'Now it\'s your turn to make your voice heard!',
                             style: TextStyle(
                               fontSize: SizeConfig.defaultSize! * 2.2,
-                              fontFamily: 'font'.tr(),
+                              fontFamily: 'font-basic'.tr(),
                             ),
                           ).tr(),
                           SizedBox(
@@ -133,14 +133,13 @@ class _RecInfoState extends State<RecInfo> {
                                       height: SizeConfig.defaultSize! * 2,
                                     ),
                                     Text(
-                                      "Eliminate\nambient noise\nand focus on\nyour voice",
+                                      "녹음-안내-1",
                                       style: TextStyle(
                                           fontSize: SizeConfig.defaultSize! *
                                               2 *
-                                              double.parse(
-                                                  'font size control'.tr()),
+                                              double.parse('font-ratio'.tr()),
                                           fontWeight: FontWeight.w400,
-                                          fontFamily: 'font'.tr()),
+                                          fontFamily: 'font-basic'.tr()),
                                       textAlign: TextAlign.center,
                                     ).tr()
                                   ],
@@ -158,14 +157,13 @@ class _RecInfoState extends State<RecInfo> {
                                       height: SizeConfig.defaultSize! * 2,
                                     ),
                                     Text(
-                                      "The more of\n your voice \nwithout gaps \nthe better quality",
+                                      "녹음-안내-2",
                                       style: TextStyle(
                                         fontSize: SizeConfig.defaultSize! *
                                             2 *
-                                            double.parse(
-                                                'font size control'.tr()),
+                                            double.parse('font-ratio'.tr()),
                                         fontWeight: FontWeight.w400,
-                                        fontFamily: 'font'.tr(),
+                                        fontFamily: 'font-basic'.tr(),
                                       ),
                                       textAlign: TextAlign.center,
                                     ).tr()
@@ -184,14 +182,13 @@ class _RecInfoState extends State<RecInfo> {
                                       height: SizeConfig.defaultSize! * 2,
                                     ),
                                     Text(
-                                      "The best quality\nwhen recorded\nfor about\n40 seconds",
+                                      "녹음-안내-3",
                                       style: TextStyle(
                                         fontSize: SizeConfig.defaultSize! *
                                             2 *
-                                            double.parse(
-                                                'font size control'.tr()),
+                                            double.parse('font-ratio'.tr()),
                                         fontWeight: FontWeight.w400,
-                                        fontFamily: 'font'.tr(),
+                                        fontFamily: 'font-basic'.tr(),
                                       ),
                                       textAlign: TextAlign.center,
                                     ).tr()
@@ -210,14 +207,13 @@ class _RecInfoState extends State<RecInfo> {
                                       height: SizeConfig.defaultSize! * 2,
                                     ),
                                     Text(
-                                      "You can try again\nuntil you want",
+                                      "녹음-안내-4",
                                       style: TextStyle(
                                         fontSize: SizeConfig.defaultSize! *
                                             2 *
-                                            double.parse(
-                                                'font size control'.tr()),
+                                            double.parse('font-ratio'.tr()),
                                         fontWeight: FontWeight.w400,
-                                        fontFamily: 'font'.tr(),
+                                        fontFamily: 'font-basic'.tr(),
                                       ),
                                       textAlign: TextAlign.center,
                                     ).tr(),
