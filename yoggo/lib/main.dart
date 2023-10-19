@@ -92,6 +92,15 @@ void main() async {
       : dotenv.get("AMPLITUDE_API_dev");
 
   print(amplitudeApi);
+  // ab테스트
+  // final remoteConfig = FirebaseRemoteConfig.instance;
+  // await remoteConfig.setConfigSettings(RemoteConfigSettings(
+  //   fetchTimeout: const Duration(minutes: 1),
+  //   minimumFetchInterval: const Duration(hours: 1),
+  // ));
+  // await remoteConfig.setDefaults(const {
+  //   "is_loading_text_enabled": 'A',
+  // });
 
   // Initialize SDK
   await amplitude.init(amplitudeApi);
