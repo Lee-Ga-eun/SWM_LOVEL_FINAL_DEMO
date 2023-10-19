@@ -295,7 +295,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                           // mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Expanded(
-                              flex: 6,
+                              flex: 3,
                               child: IconButton(
                                 padding: EdgeInsets.all(
                                     0.2 * SizeConfig.defaultSize!),
@@ -321,7 +321,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                               ),
                             ),
                             Expanded(
-                              flex: 11,
+                              flex: 1,
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Text(
@@ -333,26 +333,30 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                               ),
                             ),
                             Expanded(
-                                flex: 3,
-                                child: _isChanged
-                                    ? autoplayClicked
-                                        ? Text('자동 재생 켬',
-                                                style: TextStyle(
-                                                    fontFamily: 'font'.tr(),
-                                                    fontSize: SizeConfig
-                                                            .defaultSize! *
-                                                        1.5))
-                                            .tr()
-                                        : Text('자동 재생 끔',
-                                                style: TextStyle(
-                                                    fontFamily: 'font'.tr(),
-                                                    fontSize: SizeConfig
-                                                            .defaultSize! *
-                                                        1.5))
-                                            .tr()
-                                    : Container()),
+                                flex: 2,
+                                child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: _isChanged
+                                        ? autoplayClicked
+                                            ? Text('자동 재생 켬',
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'font-basic'.tr(),
+                                                        fontSize: SizeConfig
+                                                                .defaultSize! *
+                                                            1.5))
+                                                .tr()
+                                            : Text('자동 재생 끔',
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'font-basic'.tr(),
+                                                        fontSize: SizeConfig
+                                                                .defaultSize! *
+                                                            1.5))
+                                                .tr()
+                                        : Container())),
                             Expanded(
-                              flex: 3,
+                              flex: 1,
                               child: Row(children: [
                                 SizedBox(
                                   width: SizeConfig.defaultSize! * 5,
@@ -361,6 +365,19 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                     value: autoplayClicked,
                                     activeColor: CupertinoColors.activeOrange,
                                     onChanged: (bool? value) {
+                                      autoplayClicked
+                                          ? _sendBookAutoPlayOnClickEvent(
+                                              widget.contentId,
+                                              widget.voiceId,
+                                              widget.contentVoiceId,
+                                              currentPageIndex,
+                                              widget.title)
+                                          : _sendBookAutoPlayOffClickEvent(
+                                              widget.contentId,
+                                              widget.voiceId,
+                                              widget.contentVoiceId,
+                                              currentPageIndex,
+                                              widget.title);
                                       setState(() {
                                         autoplayClicked = value ?? false;
                                         _isChanged = true;
@@ -381,7 +398,13 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                         color: Colors.black,
                                         size: SizeConfig.defaultSize! * 3),
                                     onTap: () {
-                                      print('report');
+                                      // print('report');
+                                      _sendBookErrorReportClickEvent(
+                                          widget.contentId,
+                                          widget.voiceId,
+                                          widget.contentVoiceId,
+                                          currentPageIndex,
+                                          widget.title);
                                       setState(() {
                                         reportClicked = true;
                                       });
@@ -649,6 +672,12 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                         Container(
                                           child: GestureDetector(
                                             onTap: () {
+                                              _sendBookErrorReportSendClickEvent(
+                                                  widget.contentId,
+                                                  widget.voiceId,
+                                                  widget.contentVoiceId,
+                                                  currentPageIndex,
+                                                  widget.title);
                                               sendReport();
                                               setState(() {
                                                 reportClicked = false;
@@ -699,6 +728,12 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                       size: 3 * SizeConfig.defaultSize!,
                                     ),
                                     onPressed: () {
+                                      _sendBookErrorReportXClickEvent(
+                                          widget.contentId,
+                                          widget.voiceId,
+                                          widget.contentVoiceId,
+                                          currentPageIndex,
+                                          widget.title);
                                       setState(() {
                                         reportClicked = false;
                                       });
@@ -714,6 +749,156 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
         );
       }
     }));
+  }
+
+  Future<void> _sendBookAutoPlayOnClickEvent(
+      contentId, voiceId, contentVoiceId, pageId, title) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_autoplay_on_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+      amplitude.logEvent(
+        'book_autoplay_on_click',
+        eventProperties: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookErrorReportClickEvent(
+      contentId, voiceId, contentVoiceId, pageId, title) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_error_report_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+      amplitude.logEvent(
+        'book_error_report_click',
+        eventProperties: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookErrorReportSendClickEvent(
+      contentId, voiceId, contentVoiceId, pageId, title) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_error_report_send_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+      amplitude.logEvent(
+        'book_error_report_send_click',
+        eventProperties: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookErrorReportXClickEvent(
+      contentId, voiceId, contentVoiceId, pageId, title) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_error_report_x_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+      amplitude.logEvent(
+        'book_error_report_x_click',
+        eventProperties: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookAutoPlayOffClickEvent(
+      contentId, voiceId, contentVoiceId, pageId, title) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_autoplay_off_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+      amplitude.logEvent(
+        'book_autoplay_off_click',
+        eventProperties: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
   }
 
   Future<void> _sendBookPageViewEvent(
