@@ -49,6 +49,7 @@
 
   "책-시작": "READ NOW",
 
+
   "인트로-구독": "Register your voice!",
 
   "인트로-포인트부족": " points are insufficient.\n You need to purchase additional points.",
@@ -60,6 +61,8 @@
 
   "책만들어봐": "You can listen to this book with your voice.\nWould you like to proceed?",
 
+  "오류제보": "Please report any errors you find. Thank you!",
+  "오류제출": "Send",
 
   "완독-축하": "Congratulations on \n completing the READING",
   "완독-목소리": "If you want to read a book in the voice of your parents,",
