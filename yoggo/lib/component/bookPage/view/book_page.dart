@@ -253,12 +253,31 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                 fit: BoxFit.cover,
               ),
             ),
-            child: Center(
-              // 로딩 화면
-              child: LoadingAnimationWidget.fourRotatingDots(
-                color: const Color.fromARGB(255, 255, 169, 26),
-                size: SizeConfig.defaultSize! * 10,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  // 로딩 화면
+                  child: LoadingAnimationWidget.fourRotatingDots(
+                    color: const Color.fromARGB(255, 255, 169, 26),
+                    size: SizeConfig.defaultSize! * 10,
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.defaultSize! * 2,
+                ),
+                // widget.remoteConfig == "A" && Platform.isAndroid
+                //     ?
+                Text(
+                  '책-페이지-로딩',
+                  style: TextStyle(
+                      fontFamily: 'font-basic'.tr(),
+                      fontSize: SizeConfig.defaultSize! * 2.5),
+                  textAlign: TextAlign.center,
+                ).tr()
+                //     : Container()
+              ],
             ),
           ),
         );
