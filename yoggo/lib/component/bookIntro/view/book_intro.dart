@@ -1,5 +1,6 @@
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -1693,6 +1694,38 @@ class _BookIntroState extends State<BookIntro> {
                                                             //     .voiceId);
                                                             // // 버튼 클릭 시 동작
                                                             // _checkHaveRead();
+                                                            final remoteConfig =
+                                                                FirebaseRemoteConfig
+                                                                    .instance;
+                                                            await remoteConfig
+                                                                .setConfigSettings(
+                                                                    RemoteConfigSettings(
+                                                              fetchTimeout:
+                                                                  const Duration(
+                                                                      minutes:
+                                                                          1),
+                                                              minimumFetchInterval:
+                                                                  const Duration(
+                                                                      hours: 1),
+                                                            ));
+
+                                                            await remoteConfig
+                                                                .fetchAndActivate();
+                                                            remoteConfig
+                                                                .onConfigUpdated
+                                                                .listen(
+                                                                    (event) async {
+                                                              await remoteConfig
+                                                                  .activate();
+
+                                                              // Use the new config values here.
+                                                            });
+                                                            var abTest =
+                                                                remoteConfig
+                                                                    .getString(
+                                                                        "is_loading_text_enabled");
+                                                            print(abTest);
+
                                                             (cvi ==
                                                                     inferenceId) // 원래는 cvi==inferenceId
                                                                 ? await checkInference(
@@ -1708,6 +1741,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                         ),
                                                                         // print(clickedVoice!
                                                                         //     .voiceName),
+
                                                                         Navigator
                                                                             .push(
                                                                           context,
@@ -1721,6 +1755,8 @@ class _BookIntroState extends State<BookIntro> {
                                                                               lastPage: lastPage,
                                                                               isSelected: true,
                                                                               title: widget.title,
+
+                                                                              remoteConfig: abTest,
                                                                             ),
                                                                           ),
                                                                         )
@@ -1754,7 +1790,8 @@ class _BookIntroState extends State<BookIntro> {
                                                                                 contentId: contentId,
                                                                                 lastPage: lastPage,
                                                                                 isSelected: true,
-                                                                                title: widget.title),
+                                                                                title: widget.title,
+                                                                                remoteConfig: abTest),
                                                                           ),
                                                                         ),
                                                                         audioPlayer
@@ -2046,7 +2083,7 @@ class _BookIntroState extends State<BookIntro> {
                               fontFamily: 'font-basic'.tr(),
                               color: Colors.black,
                             ),
-                            text: "$lackingPoint"),
+                            text: lackingPoint),
                         TextSpan(
                             style: TextStyle(
                               fontSize: 2.5 * SizeConfig.defaultSize!,
@@ -2357,6 +2394,7 @@ class _BookIntroState extends State<BookIntro> {
                               SizeConfig.defaultSize! * 3),
                         ),
                         backgroundColor: Colors.white.withOpacity(0.9),
+
                         title: Center(
                             child: Text(
                           '책만들어봐'.tr(),
@@ -2367,6 +2405,7 @@ class _BookIntroState extends State<BookIntro> {
                           ),
                         )),
                         //content: Text('인퍼런스중-내용').tr(),
+
                         actions: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

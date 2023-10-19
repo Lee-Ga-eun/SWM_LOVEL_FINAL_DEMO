@@ -27,6 +27,7 @@ class BookPage extends StatefulWidget {
   final int voiceId;
   final int contentId;
   final String title;
+  final String remoteConfig;
 
   const BookPage(
       {super.key,
@@ -35,7 +36,8 @@ class BookPage extends StatefulWidget {
       required this.contentId, // detail_screen에서 받아오는 것들 초기화
       required this.isSelected,
       required this.lastPage,
-      required this.title});
+      required this.title,
+      required this.remoteConfig});
 
   @override
   _BookPageState createState() => _BookPageState();
@@ -70,6 +72,9 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _sendAbBookLoadingEvent();
+    //print(a);
+    //print('😀😀');
   }
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -253,13 +258,39 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                 fit: BoxFit.cover,
               ),
             ),
-            child: Center(
-              // 로딩 화면
-              child: LoadingAnimationWidget.fourRotatingDots(
-                color: const Color.fromARGB(255, 255, 169, 26),
-                size: SizeConfig.defaultSize! * 10,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  // 로딩 화면
+                  child: LoadingAnimationWidget.fourRotatingDots(
+                    color: const Color.fromARGB(255, 255, 169, 26),
+                    size: SizeConfig.defaultSize! * 10,
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.defaultSize! * 2,
+                ),
+                widget.remoteConfig == "A" && Platform.isAndroid
+                    ? Text(
+                        '책-페이지-로딩',
+                        style: TextStyle(
+                            fontFamily: 'font-basic'.tr(),
+                            fontSize: SizeConfig.defaultSize! * 2.5),
+                        textAlign: TextAlign.center,
+                      ).tr()
+                    : Container()
+              ],
             ),
+            // child:
+            // Center(
+            //   // 로딩 화면
+            //   child: LoadingAnimationWidget.fourRotatingDots(
+            //     color: const Color.fromARGB(255, 255, 169, 26),
+            //     size: SizeConfig.defaultSize! * 10,
+            //   ),
+            // ),
           ),
         );
       } else {
@@ -558,8 +589,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                       currentPageIndex + 1,
                                                       widget.title);
 
-                                                  if (userState.record != null &&
-                                                      userState.record ==
+                                                  if (userState.record ==
                                                           true &&
                                                       userState.purchase ==
                                                           true) {
@@ -580,6 +610,8 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                           isSelected:
                                                               widget.isSelected,
                                                           title: widget.title,
+                                                          remoteConfig: widget
+                                                              .remoteConfig,
                                                         ),
                                                       ),
                                                     );
@@ -588,19 +620,22 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                       context,
                                                       //결제가 끝나면 RecInfo로 가야 함
                                                       MaterialPageRoute(
-                                                        builder: (context) => BookEnd(
-                                                            contentVoiceId: widget
-                                                                .contentVoiceId,
-                                                            contentId: widget
-                                                                .contentId,
-                                                            voiceId:
-                                                                widget.voiceId,
-                                                            lastPage:
-                                                                widget.lastPage,
-                                                            isSelected: widget
-                                                                .isSelected,
-                                                            title:
-                                                                widget.title),
+                                                        builder: (context) =>
+                                                            BookEnd(
+                                                          contentVoiceId: widget
+                                                              .contentVoiceId,
+                                                          contentId:
+                                                              widget.contentId,
+                                                          voiceId:
+                                                              widget.voiceId,
+                                                          lastPage:
+                                                              widget.lastPage,
+                                                          isSelected:
+                                                              widget.isSelected,
+                                                          title: widget.title,
+                                                          remoteConfig: widget
+                                                              .remoteConfig,
+                                                        ),
                                                       ),
                                                     );
                                                   }
@@ -659,7 +694,8 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                           });
                                         },
                                         decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.all(
+                                            contentPadding: const EdgeInsets
+                                                    .all(
                                                 10), // 입력 텍스트와 외곽선 사이의 간격 조정
                                             hintText: '오류제보'.tr(),
                                             filled: true,
@@ -889,6 +925,15 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
       // 이벤트 로깅 실패 시 에러 출력
       print('Failed to log event: $e');
     }
+  }
+
+  Future<void> _sendAbBookLoadingEvent() async {
+    try {
+      await analytics.logEvent(
+        name: 'ab_book_loading',
+        parameters: <String, dynamic>{},
+      );
+    } catch (e) {}
   }
 
   Future<void> _sendBookPageViewEvent(
@@ -1132,7 +1177,7 @@ class PageWidget extends StatefulWidget {
 class _PageWidgetState extends State<PageWidget> {
   final Amplitude amplitude = Amplitude.getInstance();
   Color iconColor = Colors.black;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     final userCubit = context.watch<UserCubit>();
@@ -1182,12 +1227,12 @@ class _PageWidgetState extends State<PageWidget> {
                         right: 1 * SizeConfig.defaultSize!,
                         left: 1 * SizeConfig.defaultSize!),
                     child: Scrollbar(
-                      controller: _scrollController,
+                      controller: scrollController,
                       thumbVisibility: true,
                       trackVisibility: true,
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: SingleChildScrollView(
-                          controller: _scrollController,
+                          controller: scrollController,
                           child: Center(
                             //alignment: Alignment.centerLeft,
                             child: Padding(
