@@ -92,15 +92,6 @@ void main() async {
       : dotenv.get("AMPLITUDE_API_dev");
 
   print(amplitudeApi);
-  // ab테스트
-  // final remoteConfig = FirebaseRemoteConfig.instance;
-  // await remoteConfig.setConfigSettings(RemoteConfigSettings(
-  //   fetchTimeout: const Duration(minutes: 1),
-  //   minimumFetchInterval: const Duration(hours: 1),
-  // ));
-  // await remoteConfig.setDefaults(const {
-  //   "is_loading_text_enabled": 'A',
-  // });
 
   // Initialize SDK
   await amplitude.init(amplitudeApi);
@@ -124,8 +115,7 @@ void main() async {
       .then((_) {
     runApp(
       EasyLocalization(
-        // supportedLocales: const [Locale('ko', 'KR')], //Locale('en', 'US'),
-        supportedLocales: const [Locale('en', 'US')], //Locale('en', 'US'),
+        supportedLocales: const [Locale('ko', 'KR')], //Locale('en', 'US'),
         path: 'assets/locales',
         fallbackLocale: const Locale('en', 'US'),
         // startLocale: const Locale('en', 'US'), // 초기 로캘 설정 (선택 사항)
