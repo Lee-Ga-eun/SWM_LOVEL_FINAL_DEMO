@@ -1888,7 +1888,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Container(
               width: 30 * SizeConfig.defaultSize!,
-              height: 11 * SizeConfig.defaultSize!,
+              height: 13 * SizeConfig.defaultSize!,
               decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
               child: SafeArea(
                 minimum: EdgeInsets.only(
@@ -1943,7 +1943,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       // ),
                       SizedBox(
-                        height: 2 * SizeConfig.defaultSize!,
+                        height: 1 * SizeConfig.defaultSize!,
                       ),
                       Text(
                         '프로필',
@@ -2084,7 +2084,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ))),
 
                       SizedBox(
-                        height: 2 * SizeConfig.defaultSize!,
+                        height: 1.5 * SizeConfig.defaultSize!,
                       ),
                       // 친구에게 string 공유
                       GestureDetector(
@@ -2107,13 +2107,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () async {
                           _sendInviteFriendsClickEvent(userState.point);
                           final result =
-                              await Share.shareWithResult("친구초대문구".tr());
+                              await Share.shareWithResult('친구초대문구'.tr());
                           if (result.status == ShareResultStatus.success) {
                             _sendInviteFriendsSuccessEvent(userState.point);
                           }
                         },
                       ),
-
+                      SizedBox(
+                        height: 1.5 * SizeConfig.defaultSize!,
+                      ),
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         child: Padding(
@@ -2140,6 +2142,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 appStoreId: '6454792622');
                           }
                         },
+                      ),
+                      SizedBox(
+                        height: 1.5 * SizeConfig.defaultSize!,
                       ),
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
