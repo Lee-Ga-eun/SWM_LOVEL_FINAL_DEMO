@@ -101,30 +101,32 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
     // API에서 모든 책 페이지 데이터를 불러와 pages 리스트에 저장
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token')!;
-    final url = Uri.parse('${dotenv.get("API_SERVER")}user/report');
-    final body = jsonEncode({
-      'contentId': widget.contentId,
-      'voiceId': widget.voiceId,
-      'pageNum': currentPageIndex + 1,
-      'report': reportContent
-    });
+    if (reportContent != '') {
+      final url = Uri.parse('${dotenv.get("API_SERVER")}user/report');
+      final body = jsonEncode({
+        'contentId': widget.contentId,
+        'voiceId': widget.voiceId,
+        'pageNum': currentPageIndex + 1,
+        'report': reportContent
+      });
 
-    var response = await http.post(url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: body);
-    if (response.statusCode == 200) {
-      final jsonData = json.decode(response.body);
-      // if (jsonData is List<dynamic>) {
-      //   setState(() {
-      //     // pages = List<Map<String, dynamic>>.from(jsonData);
-      //   });
+      var response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          body: body);
+      // if (response.statusCode == 200) {
+      //   final jsonData = json.decode(response.body);
+      //   // if (jsonData is List<dynamic>) {
+      //   //   setState(() {
+      //   //     // pages = List<Map<String, dynamic>>.from(jsonData);
+      //   //   });
+      //   // }
+      //   //print(jsonData);
+      // } else {
+      //   // 에러 처리
       // }
-      print(jsonData);
-    } else {
-      // 에러 처리
     }
   }
 
@@ -616,134 +618,122 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                 ),
               ),
               SafeArea(
-                  //top: false,
-                  //bottom: false,
-                  minimum: EdgeInsets.only(
-                      left: SizeConfig.defaultSize!,
-                      right: SizeConfig.defaultSize!),
-                  child: Positioned(
+                minimum: EdgeInsets.only(
+                    left: SizeConfig.defaultSize!,
+                    right: SizeConfig.defaultSize!),
+                child: Padding(
+                    padding: EdgeInsets.only(
+                      left: sw * 0.1,
+                      top: isKeyboardVisible ? sh * 0.1 : sh * 0.3,
+                    ),
                     child: Visibility(
-                        visible: reportClicked,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: sw * 0.1,
-                            top: isKeyboardVisible ? sh * 0.1 : sh * 0.3,
+                      visible: reportClicked,
+                      child: Container(
+                          width: sw * 0.8,
+                          height: sh * 0.3,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                                SizeConfig.defaultSize! * 2),
+                            color: Colors.white.withOpacity(0.9),
                           ),
-                          child: Container(
-                              width: sw * 0.8,
-                              height: sh * 0.3,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    SizeConfig.defaultSize! * 2),
-                                color: Colors.white.withOpacity(0.9),
-                              ),
-                              child: Stack(children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      // right: SizeConfig.defaultSize!,
-                                      top: sh * 0.12,
-                                      bottom: sh * 0.05),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.only(
-                                            // left: SizeConfig.defaultSize! * 3,
-                                            right: SizeConfig.defaultSize! * 2,
-                                          ),
-                                          width: 0.6 * sw,
-                                          child: TextField(
-                                            onChanged: (value) {
-                                              setState(() {
-                                                reportContent = value;
-                                              });
-                                            },
-                                            decoration: InputDecoration(
-                                                contentPadding: EdgeInsets.all(
-                                                    10), // 입력 텍스트와 외곽선 사이의 간격 조정
-                                                hintText: '오류제보'.tr(),
-                                                filled: true,
-                                                fillColor: Colors.grey[200]),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              _sendBookErrorReportSendClickEvent(
-                                                  widget.contentId,
-                                                  widget.voiceId,
-                                                  widget.contentVoiceId,
-                                                  currentPageIndex,
-                                                  widget.title);
-                                              sendReport();
-                                              setState(() {
-                                                reportClicked = false;
-                                              });
-                                            },
-                                            child: Container(
-                                              width:
-                                                  SizeConfig.defaultSize! * 10,
-                                              height:
-                                                  SizeConfig.defaultSize! * 4.5,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        SizeConfig
-                                                                .defaultSize! *
-                                                            1),
-                                                color: const Color(0xFFFFA91A),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  '오류제출'.tr(),
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontFamily:
-                                                        'font-basic'.tr(),
-                                                    fontSize: 2 *
-                                                        SizeConfig
-                                                            .defaultSize! *
-                                                        double.parse(
-                                                            'font-ratio'.tr()),
-                                                  ),
-                                                ).tr(),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ]),
-                                ),
-                                Positioned(
-                                  top: sh * 0.00,
-                                  right: sw * 0.000,
-                                  child: IconButton(
-                                    padding: EdgeInsets.all(sh * 0.01),
-                                    alignment: Alignment.centerLeft,
-                                    icon: Icon(
-                                      Icons.clear,
-                                      color: Colors.black,
-                                      size: 3 * SizeConfig.defaultSize!,
+                          child: Stack(children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  // right: SizeConfig.defaultSize!,
+                                  top: sh * 0.12,
+                                  bottom: sh * 0.05),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                        // left: SizeConfig.defaultSize! * 3,
+                                        right: SizeConfig.defaultSize! * 2,
+                                      ),
+                                      width: 0.6 * sw,
+                                      child: TextField(
+                                        onChanged: (value) {
+                                          setState(() {
+                                            reportContent = value;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                            contentPadding: EdgeInsets.all(
+                                                10), // 입력 텍스트와 외곽선 사이의 간격 조정
+                                            hintText: '오류제보'.tr(),
+                                            filled: true,
+                                            fillColor: Colors.grey[200]),
+                                      ),
                                     ),
-                                    onPressed: () {
-                                      _sendBookErrorReportXClickEvent(
-                                          widget.contentId,
-                                          widget.voiceId,
-                                          widget.contentVoiceId,
-                                          currentPageIndex,
-                                          widget.title);
-                                      setState(() {
-                                        reportClicked = false;
-                                      });
-                                      //고민
-                                    },
-                                  ),
+                                    Container(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          _sendBookErrorReportSendClickEvent(
+                                              widget.contentId,
+                                              widget.voiceId,
+                                              widget.contentVoiceId,
+                                              currentPageIndex,
+                                              widget.title);
+                                          sendReport();
+                                          setState(() {
+                                            reportClicked = false;
+                                          });
+                                        },
+                                        child: Container(
+                                          width: SizeConfig.defaultSize! * 10,
+                                          height: SizeConfig.defaultSize! * 4.5,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                SizeConfig.defaultSize! * 1),
+                                            color: const Color(0xFFFFA91A),
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              '오류제출'.tr(),
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: 'font-basic'.tr(),
+                                                fontSize: 2 *
+                                                    SizeConfig.defaultSize! *
+                                                    double.parse(
+                                                        'font-ratio'.tr()),
+                                              ),
+                                            ).tr(),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                            ),
+                            Positioned(
+                              top: sh * 0.00,
+                              right: sw * 0.000,
+                              child: IconButton(
+                                padding: EdgeInsets.all(sh * 0.01),
+                                alignment: Alignment.centerLeft,
+                                icon: Icon(
+                                  Icons.clear,
+                                  color: Colors.black,
+                                  size: 3 * SizeConfig.defaultSize!,
                                 ),
-                              ])),
-                        )),
-                  ))
+                                onPressed: () {
+                                  _sendBookErrorReportXClickEvent(
+                                      widget.contentId,
+                                      widget.voiceId,
+                                      widget.contentVoiceId,
+                                      currentPageIndex,
+                                      widget.title);
+                                  setState(() {
+                                    reportClicked = false;
+                                  });
+                                  //고민
+                                },
+                              ),
+                            ),
+                          ])),
+                    )),
+              )
             ],
           ),
         );
@@ -1142,6 +1132,7 @@ class PageWidget extends StatefulWidget {
 class _PageWidgetState extends State<PageWidget> {
   final Amplitude amplitude = Amplitude.getInstance();
   Color iconColor = Colors.black;
+  ScrollController _scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     final userCubit = context.watch<UserCubit>();
@@ -1191,25 +1182,26 @@ class _PageWidgetState extends State<PageWidget> {
                         right: 1 * SizeConfig.defaultSize!,
                         left: 1 * SizeConfig.defaultSize!),
                     child: Scrollbar(
-                      controller: ScrollController(),
+                      controller: _scrollController,
                       thumbVisibility: true,
                       trackVisibility: true,
                       scrollbarOrientation: ScrollbarOrientation.right,
                       child: SingleChildScrollView(
+                          controller: _scrollController,
                           child: Center(
-                        //alignment: Alignment.centerLeft,
-                        child: Padding(
-                            padding: EdgeInsets.only(
-                                right: 1 * SizeConfig.defaultSize!),
-                            child: Text(
-                              widget.text,
-                              style: TextStyle(
-                                  fontSize: 2.1 * SizeConfig.defaultSize!,
-                                  height: 1.4,
-                                  fontFamily: 'GenBkBasR',
-                                  fontWeight: FontWeight.w400),
-                            )),
-                      )),
+                            //alignment: Alignment.centerLeft,
+                            child: Padding(
+                                padding: EdgeInsets.only(
+                                    right: 1 * SizeConfig.defaultSize!),
+                                child: Text(
+                                  widget.text,
+                                  style: TextStyle(
+                                      fontSize: 2.1 * SizeConfig.defaultSize!,
+                                      height: 1.4,
+                                      fontFamily: 'GenBkBasR',
+                                      fontWeight: FontWeight.w400),
+                                )),
+                          )),
                     ),
                   ),
             // ), // 글자를 2번 화면에 배치

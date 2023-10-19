@@ -11,7 +11,6 @@
   "답변-나중에": "Later",
   "답변-재녹음": "No, Re-make",
 
-
   "프로필": "Voice Profile",
   "친구초대": "Invite Friends",
   "친구초대-문구": "LOVEL - Fairy Tales with Your Voice\n📚 The best app for busy parents 👨‍👩‍👧‍👦\n\nPlayStore : https://play.google.com/store/apps/details?id=com.sayit.yoggo\n\nAppStore : https://apps.apple.com/us/app/LOVEL/id6454792622",
@@ -49,7 +48,6 @@
 
   "책-시작": "READ NOW",
 
-
   "인트로-구독": "Register your voice!",
 
   "인트로-포인트부족": " points are insufficient.\n You need to purchase additional points.",
@@ -86,11 +84,9 @@
   "녹음-안내-2": "The more of\n your voice \nwithout gaps \nthe better quality",
   "녹음-안내-3": "The best quality\nwhen recorded\nfor about\n40 seconds",
   "녹음-안내-4": "You can try again\nuntil you want",
-  
+
   "앱종료-질문": "Are you sure you want to exit?",
-  
-  
+
   "자동 재생 켬": "Autoplay is on",
   "자동 재생 끔": "Autoplay is off"
-
 }
