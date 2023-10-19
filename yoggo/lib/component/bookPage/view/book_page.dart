@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yoggo/component/bookPage/viewModel/book_page_cubit.dart';
 import 'package:yoggo/component/bookPage/viewModel/book_page_model.dart';
 import 'dart:convert';
@@ -50,6 +51,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   bool autoplayClicked = false;
   bool reportClicked = false;
   bool _isChanged = false;
+  String reportContent = '';
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -87,6 +89,38 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
           // pages = List<Map<String, dynamic>>.from(jsonData);
         });
       }
+    } else {
+      // 에러 처리
+    }
+  }
+
+  Future<void> sendReport() async {
+    await dotenv.load(fileName: ".env");
+    // API에서 모든 책 페이지 데이터를 불러와 pages 리스트에 저장
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token')!;
+    final url = Uri.parse('${dotenv.get("API_SERVER")}user/report');
+    final body = jsonEncode({
+      'contentId': widget.contentId,
+      'voiceId': widget.voiceId,
+      'pageNum': currentPageIndex + 1,
+      'report': reportContent
+    });
+
+    var response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: body);
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      // if (jsonData is List<dynamic>) {
+      //   setState(() {
+      //     // pages = List<Map<String, dynamic>>.from(jsonData);
+      //   });
+      // }
+      print(jsonData);
     } else {
       // 에러 처리
     }
@@ -583,6 +617,11 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                     SizeConfig.defaultSize! * 3,
                                   ),
                                   child: TextField(
+                                    onChanged: (value) {
+                                      setState(() {
+                                        reportContent = value;
+                                      });
+                                    },
                                     decoration: InputDecoration(
                                         contentPadding: EdgeInsets.all(
                                             10), // 입력 텍스트와 외곽선 사이의 간격 조정
@@ -600,7 +639,10 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                   ),
                                   child: GestureDetector(
                                     onTap: () {
-                                      Navigator.of(context).pop(true);
+                                      sendReport();
+                                      setState(() {
+                                        reportClicked = false;
+                                      });
                                     },
                                     child: Container(
                                       width: SizeConfig.defaultSize! * 24,
@@ -657,7 +699,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   Future<void> _sendBookPageViewEvent(
       contentVoiceId, contentId, voiceId, pageId, title) async {
     try {
-      // 이벤트 로깅
+      // 이벤트 로깅ㄱ
       await analytics.logEvent(
         name: 'book_page_view',
         parameters: <String, dynamic>{
