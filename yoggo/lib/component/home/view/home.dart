@@ -333,13 +333,13 @@ class _HomeScreenState extends State<HomeScreen> {
       // 첫사용자인 경우
       prefs.setInt('availableGetPoint', 1); // 1일차 포인트를 받을 수 있음
       availableGetPoint = 1;
-      prefs.setStringList('claim', ['0', '0', '0', '0', '0', '0', '0'])!;
+      prefs.setStringList('claim', ['0', '0', '0', '0', '0', '0', '0']);
     } else {
       availableGetPoint = prefs.getInt('availableGetPoint')!;
     }
     if (prefs.getStringList('claim') == null) {
       // 첫사용자인 경우
-      prefs.setStringList('claim', ['0', '0', '0', '0', '0', '0', '0'])!;
+      prefs.setStringList('claim', ['0', '0', '0', '0', '0', '0', '0']);
       claim = ['0', '0', '0', '0', '0', '0', '0'];
     } else {
       claim = prefs.getStringList('claim')!;
@@ -1512,6 +1512,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ]),
                                             ),
                                           ),
+                                          Visibility(
+                                              visible: _isAdLoading,
+                                              child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: SizedBox(
+                                                    width: sw * 0.08,
+                                                    height: sw * 0.08,
+                                                    child:
+                                                        const CircularProgressIndicator(
+                                                      color: Color(0xFFF39E09),
+                                                    ),
+                                                  )))
                                         ],
                                       ),
                                     ),
@@ -1528,7 +1540,12 @@ class _HomeScreenState extends State<HomeScreen> {
             )));
   }
 
+  bool _isAdLoading = false; // 광고 로딩 중 여부를 나타내는 변수
+
   void _loadRewardedAd() {
+    setState(() {
+      _isAdLoading = true; // 광고 로딩 중임을 나타내도록 상태를 업데이트
+    });
     RewardedAd.load(
       adUnitId: Platform.isIOS
           ? dotenv.get("ADMOB_ios")
@@ -1537,6 +1554,9 @@ class _HomeScreenState extends State<HomeScreen> {
       request: const AdRequest(),
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (RewardedAd ad) {
+          setState(() {
+            _isAdLoading = false;
+          });
           print('Ad was loaded.');
           _rewardedAd = ad;
           _userEarnedReward = false;
@@ -1652,7 +1672,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     top: SizeConfig.defaultSize! * topPadding,
                     bottom: compare != 7 ? SizeConfig.defaultSize! * 0 : 0),
                 child: Stack(alignment: Alignment.topCenter, children: [
-                  Container(
+                  SizedBox(
                     // color: Colors.blue,
                     width: SizeConfig.defaultSize! * 9,
                     height: SizeConfig.defaultSize! * 9,
