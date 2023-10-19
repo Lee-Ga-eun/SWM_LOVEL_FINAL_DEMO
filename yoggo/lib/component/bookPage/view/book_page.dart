@@ -272,15 +272,16 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                 SizedBox(
                   height: SizeConfig.defaultSize! * 2,
                 ),
-                widget.remoteConfig == "A" && Platform.isAndroid
-                    ? Text(
-                        '책-페이지-로딩',
-                        style: TextStyle(
-                            fontFamily: 'font-basic'.tr(),
-                            fontSize: SizeConfig.defaultSize! * 2.5),
-                        textAlign: TextAlign.center,
-                      ).tr()
-                    : Container()
+                // widget.remoteConfig == "A" && Platform.isAndroid
+                //     ?
+                Text(
+                  '책-페이지-로딩',
+                  style: TextStyle(
+                      fontFamily: 'font-basic'.tr(),
+                      fontSize: SizeConfig.defaultSize! * 2.5),
+                  textAlign: TextAlign.center,
+                ).tr()
+                //     : Container()
               ],
             ),
             // child:

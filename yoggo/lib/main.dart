@@ -124,7 +124,8 @@ void main() async {
       .then((_) {
     runApp(
       EasyLocalization(
-        supportedLocales: const [Locale('ko', 'KR')], //Locale('en', 'US'),
+        // supportedLocales: const [Locale('ko', 'KR')], //Locale('en', 'US'),
+        supportedLocales: const [Locale('en', 'US')], //Locale('en', 'US'),
         path: 'assets/locales',
         fallbackLocale: const Locale('en', 'US'),
         // startLocale: const Locale('en', 'US'), // 초기 로캘 설정 (선택 사항)
