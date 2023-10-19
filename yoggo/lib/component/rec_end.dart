@@ -120,14 +120,16 @@ class _RecEndState extends State<RecEnd> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              'Your voice is well recorded \n We\'ll let you know by PUSH when it\'s done',
-                              style: TextStyle(
-                                fontSize: SizeConfig.defaultSize! * 2.5,
-                                fontFamily: 'font-basic'.tr(),
-                                color: Colors.black,
-                              ),
-                            ).tr()
+                            Center(
+                              child: Text(
+                                '녹음-푸쉬알림',
+                                style: TextStyle(
+                                  fontSize: SizeConfig.defaultSize! * 2.5,
+                                  fontFamily: 'font-basic'.tr(),
+                                  color: Colors.black,
+                                ),
+                              ).tr(),
+                            )
                           ],
                         ),
                         SizedBox(

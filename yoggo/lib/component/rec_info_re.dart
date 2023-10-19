@@ -111,7 +111,7 @@ class _RecInfoState extends State<RecReInfo> {
                         height: 2 * SizeConfig.defaultSize!,
                       ),
                       Text(
-                        'Now it\'s your turn to make your voice heard!',
+                        '녹음-안내',
                         style: TextStyle(
                           fontSize: SizeConfig.defaultSize! * 2.2,
                           fontFamily: 'font-basic'.tr(),

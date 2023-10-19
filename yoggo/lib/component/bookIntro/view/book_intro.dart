@@ -2231,21 +2231,37 @@ class _BookIntroState extends State<BookIntro> {
                   visible: !completeInference,
                   child: AlertDialog(
                     titlePadding: EdgeInsets.only(
-                      top: SizeConfig.defaultSize! * 7,
-                      bottom: SizeConfig.defaultSize! * 2,
+                      top: SizeConfig.defaultSize! * 4,
+                      bottom: SizeConfig.defaultSize! * 0,
                     ),
                     actionsPadding: EdgeInsets.only(
                       left: SizeConfig.defaultSize! * 5,
                       right: SizeConfig.defaultSize! * 5,
                       bottom: SizeConfig.defaultSize! * 5,
-                      top: SizeConfig.defaultSize! * 3,
+                      top: SizeConfig.defaultSize! * 1,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(SizeConfig.defaultSize! * 3),
                     ),
                     backgroundColor: Colors.white.withOpacity(0.9),
-                    title: Center(child: Text('책만들어봐'.tr())),
+                    title: Center(
+                        child: Text(
+                      '인퍼런스중'.tr(),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'font-basic'.tr(),
+                        fontSize: 2.2 * SizeConfig.defaultSize!,
+                      ),
+                    )),
+                    content: Text(
+                      '인퍼런스중-내용',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'font-basic'.tr(),
+                        fontSize: 2.2 * SizeConfig.defaultSize!,
+                      ),
+                    ).tr(),
                     // content: Text('책만들어봐-내용').tr(),
                     actions: <Widget>[
                       Row(
@@ -2284,12 +2300,15 @@ class _BookIntroState extends State<BookIntro> {
                             onTap: () {
                               _sendBookIntroMakeBookOkClickEvent(
                                   contentId, title, vi);
+                              setState(() {
+                                completeInference = true;
+                              });
                               //Future.delayed(const Duration(seconds: 1), () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const RecInfo()),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => const RecInfo()),
+                              // );
                               //});
                             },
                             child: Container(
@@ -2338,8 +2357,16 @@ class _BookIntroState extends State<BookIntro> {
                               SizeConfig.defaultSize! * 3),
                         ),
                         backgroundColor: Colors.white.withOpacity(0.9),
-                        title: Center(child: Text('인퍼런스중'.tr())),
-                        content: Text('인퍼런스중-내용').tr(),
+                        title: Center(
+                            child: Text(
+                          '책만들어봐'.tr(),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'font-basic'.tr(),
+                            fontSize: 2.2 * SizeConfig.defaultSize!,
+                          ),
+                        )),
+                        //content: Text('인퍼런스중-내용').tr(),
                         actions: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
