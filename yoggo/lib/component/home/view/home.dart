@@ -63,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // 마지막으로 받은 날짜: lastPointYMD // 2023년9월22일
   // 마지막으로 받은 포인트의 일수: lastPointDay --> 1일차, 2일차, 3일차... --> 마지막 기록이 1일차이면 2일차 포인트를 받게 해야한다
   late int availableGetPoint;
+  late List<String> claim;
   String lastPointYMD = '';
   int lastPointDay = -1;
   String formattedTime = '';
@@ -298,12 +299,15 @@ class _HomeScreenState extends State<HomeScreen> {
       prefs.setInt('availableGetPoint', tmp + 1);
       prefs.setString('lastPointYMD', formattedDate); // 시간 현재 시간으로 업데이트
       prefs.setInt('lastPointDay', lastPointDay + 1);
+      prefs.setStringList('claim', claim);
       var userState = context.read<UserCubit>().state;
       multiple == 1
           ? _sendCalClaimSuccessEvent(
               userState.point, lastPointDay, scores[lastPointDay] * multiple)
           : _sendCalClaimAdSuccessEvent(
               userState.point, lastPointDay, scores[lastPointDay] * multiple);
+      claim[lastPointDay] = multiple.toString();
+      prefs.setStringList('claim', claim);
       plusPoint(scores[lastPointDay] * multiple);
       setState(() {
         lastPointDay += 1;
@@ -329,8 +333,16 @@ class _HomeScreenState extends State<HomeScreen> {
       // 첫사용자인 경우
       prefs.setInt('availableGetPoint', 1); // 1일차 포인트를 받을 수 있음
       availableGetPoint = 1;
+      prefs.setStringList('claim', ['0', '0', '0', '0', '0', '0', '0'])!;
     } else {
       availableGetPoint = prefs.getInt('availableGetPoint')!;
+    }
+    if (prefs.getStringList('claim') == null) {
+      // 첫사용자인 경우
+      prefs.setStringList('claim', ['0', '0', '0', '0', '0', '0', '0'])!;
+      claim = ['0', '0', '0', '0', '0', '0', '0'];
+    } else {
+      claim = prefs.getStringList('claim')!;
     }
 
     if (prefs.getString('lastPointYMD') == null) {
@@ -361,12 +373,16 @@ class _HomeScreenState extends State<HomeScreen> {
     formattedTime = DateFormat('yyyy-MM-dd').format(currentTime);
     lastPointYMD = prefs.getString('lastPointYMD')!;
     availableGetPoint = prefs.getInt('availableGetPoint')!;
+    claim = prefs.getStringList('claim')!;
+
     // print(lastPointYMD);
     // print(formattedTime);
     if (lastPointDay == 7 && prefs.getString('lastPointYMD') != formattedTime) {
       //저장된 lastPointDay가 7이고 다음 날 들어왔으면 --> 즉 포인트 다시 리셋되어야 하면
       setState(() {
         lastPointDay = 0;
+        claim = ['0', '0', '0', '0', '0', '0', '0'];
+        prefs.setStringList("claim", claim);
         prefs.setInt('lastPointDay', 0);
         prefs.setInt('availableGetPoint', 1);
         lastPointDay = prefs.getInt('lastPointDay')!;
@@ -1077,8 +1093,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Stack(
                                         children: [
                                           Container(
-                                            height:
-                                                SizeConfig.defaultSize! * 4.5,
+                                            height: sh *
+                                                0.1, //SizeConfig.defaultSize! * 4.5,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(
                                                   topRight: Radius.circular(
@@ -1343,36 +1359,46 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         backgroundColor:
                                                             MaterialStateProperty
                                                                 .all<Color>(
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              255,
-                                                              169,
-                                                              26),
+                                                          lastPointYMD !=
+                                                                  formattedTime
+                                                              ? const Color
+                                                                      .fromARGB(
+                                                                  255,
+                                                                  255,
+                                                                  169,
+                                                                  26)
+                                                              : Colors.grey,
                                                         ), // 배경색 설정
                                                       ),
                                                       onPressed: () async {
                                                         _sendCalClaimClickEvent(
                                                             userState.point);
-                                                        claimSuccess(1);
-                                                        // 원 시그널 permission request 어디서 보여줄지 고민하기
-                                                        // OneSignal.shared
-                                                        //     .promptUserForPushNotificationPermission()
-                                                        //     .then((accepted) {
-                                                        //   print(
-                                                        //       "Accepted permission: $accepted");
-                                                        // });
-                                                        if (OneSignal
-                                                                    .Notifications
-                                                                    .permission !=
-                                                                true &&
-                                                            neverRequestedPermission) {
-                                                          OneSignal
-                                                                  .Notifications
-                                                              .requestPermission(
-                                                                  true);
-                                                          neverRequestedPermission =
-                                                              false;
-                                                        }
+                                                        lastPointYMD !=
+                                                                formattedTime
+                                                            ? {
+                                                                claimSuccess(1),
+                                                                // 원 시그널 permission request 어디서 보여줄지 고민하기
+                                                                // OneSignal.shared
+                                                                //     .promptUserForPushNotificationPermission()
+                                                                //     .then((accepted) {
+                                                                //   print(
+                                                                //       "Accepted permission: $accepted");
+                                                                // });
+                                                                if (OneSignal
+                                                                            .Notifications
+                                                                            .permission !=
+                                                                        true &&
+                                                                    neverRequestedPermission)
+                                                                  {
+                                                                    OneSignal
+                                                                            .Notifications
+                                                                        .requestPermission(
+                                                                            true),
+                                                                    neverRequestedPermission =
+                                                                        false,
+                                                                  }
+                                                              }
+                                                            : null;
                                                       },
                                                       child: Text(
                                                         '출첵-일반',
@@ -1415,8 +1441,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         backgroundColor:
                                                             MaterialStateProperty
                                                                 .all<Color>(
-                                                          const Color.fromARGB(
-                                                              225, 255, 77, 0),
+                                                          lastPointYMD !=
+                                                                  formattedTime
+                                                              ? const Color
+                                                                      .fromARGB(
+                                                                  225,
+                                                                  255,
+                                                                  77,
+                                                                  0)
+                                                              : Colors.grey,
                                                         ), // 배경색 설정
                                                       ),
                                                       onPressed: () async {
@@ -1435,16 +1468,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     currentDate);
                                                         int tmp = prefs.getInt(
                                                             'availableGetPoint')!;
-
-                                                        if (formattedDate !=
-                                                                prefs.getString(
-                                                                    'lastPointYMD') &&
-                                                            tmp !=
-                                                                lastPointDay) {
-                                                          _isAdLoaded
-                                                              ? null
-                                                              : _loadRewardedAd();
-                                                        }
+                                                        lastPointYMD !=
+                                                                formattedTime
+                                                            ? {
+                                                                if (formattedDate !=
+                                                                        prefs.getString(
+                                                                            'lastPointYMD') &&
+                                                                    tmp !=
+                                                                        lastPointDay)
+                                                                  {
+                                                                    _isAdLoaded
+                                                                        ? null
+                                                                        : _loadRewardedAd(),
+                                                                  }
+                                                              }
+                                                            : null;
                                                       },
                                                       child: Row(
                                                         children: [
@@ -1614,6 +1652,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     top: SizeConfig.defaultSize! * topPadding,
                     bottom: compare != 7 ? SizeConfig.defaultSize! * 0 : 0),
                 child: Stack(alignment: Alignment.topCenter, children: [
+                  Container(
+                    // color: Colors.blue,
+                    width: SizeConfig.defaultSize! * 9,
+                    height: SizeConfig.defaultSize! * 9,
+                  ),
                   Image.asset(
                     coinImage,
                     height: SizeConfig.defaultSize! * 6,
@@ -1622,6 +1665,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? Image.asset(
                           'lib/images/completed.png',
                           width: SizeConfig.defaultSize! * 8,
+                        )
+                      : Container(),
+                  claim[compare - 1] == '2'
+                      ? Positioned(
+                          left: 0,
+                          child: Image.asset(
+                            'lib/images/double.png',
+                            width: SizeConfig.defaultSize! * 3.2,
+                          ),
                         )
                       : Container(),
                   Align(
