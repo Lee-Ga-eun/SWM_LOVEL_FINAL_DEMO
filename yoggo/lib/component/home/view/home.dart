@@ -1670,11 +1670,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     SizedBox(height: SizeConfig.defaultSize! * 2),
                     Text(
-                      '햄버거-인사',
+                      '햄버거-인사'.tr(),
                       style: TextStyle(
                           fontSize: SizeConfig.defaultSize! * 1.8,
                           fontFamily: 'font-basic'.tr()),
-                    ).tr(),
+                    ),
                     SizedBox(height: SizeConfig.defaultSize!),
                     Padding(
                       padding:
@@ -1814,7 +1814,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   '프로필-수정',
                                                   style: TextStyle(
                                                     color: Colors.black,
-                                                    fontSize: 1.4 *
+                                                    fontSize: 1.8 *
                                                         SizeConfig.defaultSize!,
                                                     fontFamily:
                                                         'font-basic'.tr(),
@@ -1869,9 +1869,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             '친구초대',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 1.8 *
-                                  SizeConfig.defaultSize! *
-                                  double.parse('font-ratio'.tr()),
+                              fontSize: 1.8 * SizeConfig.defaultSize!,
                               fontFamily: 'font-basic'.tr(),
                               fontWeight: FontWeight.w400,
                             ),
@@ -1882,7 +1880,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           final result =
                               await Share.shareWithResult("친구초대문구".tr());
                           if (result.status == ShareResultStatus.success) {
-                            print('Thank you for sharing our application!');
+                            _sendInviteFriendsSuccessEvent(userState.point);
                           }
                         },
                       ),
@@ -1898,9 +1896,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Platform.isAndroid ? '별점-구글플레이' : '별점-앱스토어',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 1.8 *
-                                  SizeConfig.defaultSize! *
-                                  double.parse('font-ratio'.tr()),
+                              fontSize: 1.8 * SizeConfig.defaultSize!,
                               fontFamily: 'font-basic'.tr(),
                               fontWeight: FontWeight.w400,
                             ),
@@ -2571,6 +2567,25 @@ class _HomeScreenState extends State<HomeScreen> {
       });
       await amplitude.logEvent(
         'invite_friends_click',
+        eventProperties: {
+          'point_now': pointNow,
+        },
+      );
+    } catch (e) {
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendInviteFriendsSuccessEvent(pointNow) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+          name: 'invite_friends_success',
+          parameters: <String, dynamic>{
+            'point_now': pointNow,
+          });
+      await amplitude.logEvent(
+        'invite_friends_success',
         eventProperties: {
           'point_now': pointNow,
         },
