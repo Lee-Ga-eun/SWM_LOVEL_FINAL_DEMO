@@ -5,11 +5,14 @@
   "font-thin": "Molengo",
   "font-book": "GenBkBasR",
   "font-point": "Lilita",
+
   "답변-긍정-대문자": "YES",
   "답변-긍정": "Yes",
   "답변-부정": "No",
   "답변-나중에": "Later",
   "답변-재녹음": "No, Re-make",
+
+  "앱종료-질문": "Are you sure you want to exit?",
 
   "프로필": "Voice Profile",
   "친구초대": "Invite Friends",
@@ -84,8 +87,6 @@
   "녹음-안내-2": "The more of\n your voice \nwithout gaps \nthe better quality",
   "녹음-안내-3": "The best quality\nwhen recorded\nfor about\n40 seconds",
   "녹음-안내-4": "You can try again\nuntil you want",
-
-  "앱종료-질문": "Are you sure you want to exit?",
 
   "자동 재생 켬": "Autoplay is on",
   "자동 재생 끔": "Autoplay is off"
