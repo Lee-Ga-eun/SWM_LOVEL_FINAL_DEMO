@@ -2357,6 +2357,7 @@ class _BookIntroState extends State<BookIntro> {
                               SizeConfig.defaultSize! * 3),
                         ),
                         backgroundColor: Colors.white.withOpacity(0.9),
+
                         title: Center(
                             child: Text(
                           '책만들어봐'.tr(),
@@ -2367,6 +2368,7 @@ class _BookIntroState extends State<BookIntro> {
                           ),
                         )),
                         //content: Text('인퍼런스중-내용').tr(),
+
                         actions: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
