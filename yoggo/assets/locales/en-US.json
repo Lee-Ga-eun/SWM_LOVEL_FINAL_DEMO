@@ -90,5 +90,7 @@
   "녹음-안내-4": "You can try again\nuntil you want",
 
   "자동 재생 켬": "Autoplay is on",
-  "자동 재생 끔": "Autoplay is off"
+  "자동 재생 끔": "Autoplay is off",
+
+  "책-페이지-로딩":"Downloading the book, please wait a little while! 📚✨"
 }

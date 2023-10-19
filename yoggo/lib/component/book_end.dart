@@ -1,12 +1,7 @@
-import 'dart:ffi';
-
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yoggo/component/globalCubit/user/user_state.dart';
-import 'package:yoggo/component/home/view/home.dart';
 import 'package:yoggo/component/bookPage/view/book_page.dart';
 import 'package:yoggo/component/rec_info.dart';
 import 'package:yoggo/size_config.dart';
@@ -21,15 +16,17 @@ class BookEnd extends StatefulWidget {
   final bool isSelected;
   final int lastPage;
   final String title;
-  const BookEnd({
-    super.key,
-    required this.voiceId, // detail_screen에서 받아오는 것들 초기화
-    required this.contentVoiceId, // detail_screen에서 받아오는 것들 초기화
-    required this.contentId, // detail_screen에서 받아오는 것들 초기화
-    required this.isSelected,
-    required this.lastPage,
-    required this.title,
-  });
+  final String remoteConfig;
+
+  const BookEnd(
+      {super.key,
+      required this.voiceId, // detail_screen에서 받아오는 것들 초기화
+      required this.contentVoiceId, // detail_screen에서 받아오는 것들 초기화
+      required this.contentId, // detail_screen에서 받아오는 것들 초기화
+      required this.isSelected,
+      required this.lastPage,
+      required this.title,
+      required this.remoteConfig});
 
   @override
   _BookEndState createState() => _BookEndState();
@@ -128,7 +125,8 @@ class _BookEndState extends State<BookEnd> {
                                   voiceId: widget.voiceId,
                                   lastPage: widget.lastPage,
                                   isSelected: widget.isSelected,
-                                  title: widget.title),
+                                  title: widget.title,
+                                  remoteConfig: widget.remoteConfig),
                             ),
                           );
                         },
