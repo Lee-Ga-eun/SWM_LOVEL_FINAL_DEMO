@@ -18,6 +18,7 @@ import 'package:easy_localization/easy_localization.dart';
 import '../../globalCubit/user/user_cubit.dart';
 import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class BookPage extends StatefulWidget {
   final int contentVoiceId; //detail_screen에서 받아오는 것들
@@ -52,6 +53,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   bool reportClicked = false;
   bool _isChanged = false;
   String reportContent = '';
+  bool isKeyboardVisible = false;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -214,6 +216,13 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
         MediaQuery.of(context).padding.top -
         MediaQuery.of(context).padding.bottom);
     SizeConfig().init(context);
+
+    KeyboardVisibilityController().onChange.listen((bool visible) {
+      setState(() {
+        isKeyboardVisible = visible;
+      });
+    });
+
     audioPlayer.onPlayerComplete.listen((event) {
       if (autoplayClicked) {
         if (currentPageIndex != widget.lastPage - 1 && autoplayClicked) {
@@ -270,7 +279,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
               ),
               SafeArea(
                 //top: false,
-                //bottom: false,
+                bottom: false,
                 minimum: EdgeInsets.only(
                     left: SizeConfig.defaultSize!,
                     right: SizeConfig.defaultSize!),
@@ -583,112 +592,123 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                   ),
                 ),
               ),
-              Positioned(
-                left: sw * 0.1,
-                top: sh * 0.1,
-                child: Visibility(
-                    visible: reportClicked,
-                    child: Container(
-                        width: sw * 0.8,
-                        height: sh * 0.8,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                              SizeConfig.defaultSize! * 3),
-                          color: Colors.white.withOpacity(0.9),
-                        ),
-                        child: Stack(children: [
-                          Column(
-                              //mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
+              SafeArea(
+                  //top: false,
+                  //bottom: false,
+                  minimum: EdgeInsets.only(
+                      left: SizeConfig.defaultSize!,
+                      right: SizeConfig.defaultSize!),
+                  child: Positioned(
+                    child: Visibility(
+                        visible: reportClicked,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: sw * 0.1,
+                            top: isKeyboardVisible ? sh * 0.1 : sh * 0.3,
+                          ),
+                          child: Container(
+                              width: sw * 0.8,
+                              height: sh * 0.3,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 2),
+                                color: Colors.white.withOpacity(0.9),
+                              ),
+                              child: Stack(children: [
+                                Padding(
                                   padding: EdgeInsets.only(
-                                    top: SizeConfig.defaultSize! * 3,
-                                  ),
-                                  child: Text(
-                                    '오류 신고',
-                                    style: TextStyle(
-                                      fontSize: SizeConfig.defaultSize! * 2.5,
-                                      fontFamily: 'font'.tr(),
+                                      // right: SizeConfig.defaultSize!,
+                                      top: sh * 0.12,
+                                      bottom: sh * 0.05),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                            // left: SizeConfig.defaultSize! * 3,
+                                            right: SizeConfig.defaultSize! * 2,
+                                          ),
+                                          width: 0.6 * sw,
+                                          child: TextField(
+                                            onChanged: (value) {
+                                              setState(() {
+                                                reportContent = value;
+                                              });
+                                            },
+                                            decoration: InputDecoration(
+                                                contentPadding: EdgeInsets.all(
+                                                    10), // 입력 텍스트와 외곽선 사이의 간격 조정
+                                                hintText: '오류제보'.tr(),
+                                                filled: true,
+                                                fillColor: Colors.grey[200]),
+                                          ),
+                                        ),
+                                        Container(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              sendReport();
+                                              setState(() {
+                                                reportClicked = false;
+                                              });
+                                            },
+                                            child: Container(
+                                              width:
+                                                  SizeConfig.defaultSize! * 10,
+                                              height:
+                                                  SizeConfig.defaultSize! * 4.5,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        SizeConfig
+                                                                .defaultSize! *
+                                                            1),
+                                                color: const Color(0xFFFFA91A),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '오류제출'.tr(),
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily:
+                                                        'font-basic'.tr(),
+                                                    fontSize: 2 *
+                                                        SizeConfig
+                                                            .defaultSize! *
+                                                        double.parse(
+                                                            'font-ratio'.tr()),
+                                                  ),
+                                                ).tr(),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                ),
+                                Positioned(
+                                  top: sh * 0.00,
+                                  right: sw * 0.000,
+                                  child: IconButton(
+                                    padding: EdgeInsets.all(sh * 0.01),
+                                    alignment: Alignment.centerLeft,
+                                    icon: Icon(
+                                      Icons.clear,
+                                      color: Colors.black,
+                                      size: 3 * SizeConfig.defaultSize!,
                                     ),
-                                  ).tr(),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.all(
-                                    SizeConfig.defaultSize! * 3,
-                                  ),
-                                  child: TextField(
-                                    onChanged: (value) {
-                                      setState(() {
-                                        reportContent = value;
-                                      });
-                                    },
-                                    decoration: InputDecoration(
-                                        contentPadding: EdgeInsets.all(
-                                            10), // 입력 텍스트와 외곽선 사이의 간격 조정
-
-                                        hintText: '텍스트를 입력하세요',
-                                        filled: true,
-                                        fillColor: Colors.grey[200]),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(
-                                    left: SizeConfig.defaultSize! * 10,
-                                    right: SizeConfig.defaultSize! * 10,
-                                    bottom: SizeConfig.defaultSize! * 3,
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      sendReport();
+                                    onPressed: () {
                                       setState(() {
                                         reportClicked = false;
                                       });
+                                      //고민
                                     },
-                                    child: Container(
-                                      width: SizeConfig.defaultSize! * 24,
-                                      height: SizeConfig.defaultSize! * 4.5,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(
-                                            SizeConfig.defaultSize! * 3),
-                                        color: const Color(0xFFFFA91A),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          '제출',
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'font'.tr(),
-                                            fontSize:
-                                                2.2 * SizeConfig.defaultSize!,
-                                          ),
-                                        ).tr(),
-                                      ),
-                                    ),
                                   ),
                                 ),
-                              ]),
-                          Positioned(
-                            top: SizeConfig.defaultSize! * 2,
-                            right: SizeConfig.defaultSize! * 2,
-                            child: IconButton(
-                              padding:
-                                  EdgeInsets.all(0.2 * SizeConfig.defaultSize!),
-                              alignment: Alignment.centerLeft,
-                              icon: Icon(
-                                Icons.clear,
-                                color: Colors.black,
-                                size: 3 * SizeConfig.defaultSize!,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  reportClicked = false;
-                                });
-                                //고민
-                              },
-                            ),
-                          ),
-                        ]))),
-              )
+                              ])),
+                        )),
+                  ))
             ],
           ),
         );
