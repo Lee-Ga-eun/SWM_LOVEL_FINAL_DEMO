@@ -32,6 +32,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -59,6 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
   bool neverRequestedPermission = false;
   bool showToolTip = false;
   bool _userEarnedReward = false;
+  bool reportClicked = false;
+  bool isKeyboardVisible = false;
+  String reportContent = '';
+
   // 받을 수 있는 포인트 day : availableGetPoint // 1일차, 2일차 ...
   // 마지막으로 받은 날짜: lastPointYMD // 2023년9월22일
   // 마지막으로 받은 포인트의 일수: lastPointDay --> 1일차, 2일차, 3일차... --> 마지막 기록이 1일차이면 2일차 포인트를 받게 해야한다
@@ -361,6 +366,34 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> sendReport() async {
+    await dotenv.load(fileName: ".env");
+    // API에서 모든 책 페이지 데이터를 불러와 pages 리스트에 저장
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token')!;
+    final url = Uri.parse('${dotenv.get("API_SERVER")}user/report');
+    final body = jsonEncode(
+        {'contentId': 0, 'voiceId': 0, 'pageNum': 0, 'report': reportContent});
+
+    var response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: body);
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      // if (jsonData is List<dynamic>) {
+      //   setState(() {
+      //     // pages = List<Map<String, dynamic>>.from(jsonData);
+      //   });
+      // }
+      print(jsonData);
+    } else {
+      // 에러 처리
+    }
+  }
+
   bool openCalendar = false;
 
   void _openCalendarFunc() async {
@@ -429,13 +462,19 @@ class _HomeScreenState extends State<HomeScreen> {
     //final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     final userCubit = context.watch<UserCubit>();
     final dataCubit = context.watch<DataCubit>();
-
     final sw = (MediaQuery.of(context).size.width -
         MediaQuery.of(context).padding.left -
         MediaQuery.of(context).padding.right);
     final sh = (MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top -
         MediaQuery.of(context).padding.bottom);
+    SizeConfig().init(context);
+
+    KeyboardVisibilityController().onChange.listen((bool visible) {
+      setState(() {
+        isKeyboardVisible = visible;
+      });
+    });
 
     final userState = userCubit.state;
     final dataRepository = RepositoryProvider.of<DataRepository>(context);
@@ -477,6 +516,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 } else {
                   return Scaffold(
+                    resizeToAvoidBottomInset: false,
                     key: _scaffoldKey,
                     drawer: SizedBox(
                       width: 33 * SizeConfig.defaultSize!,
@@ -1067,6 +1107,125 @@ class _HomeScreenState extends State<HomeScreen> {
                               )),
                         ]),
                       ),
+                      SafeArea(
+                        child: Visibility(
+                            visible: reportClicked,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: sw * 0.1,
+                                top: isKeyboardVisible ? sh * 0.1 : sh * 0.3,
+                              ),
+                              child: Container(
+                                  width: sw * 0.8,
+                                  height: sh * 0.3,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        SizeConfig.defaultSize! * 2),
+                                    color: Colors.white.withOpacity(0.9),
+                                  ),
+                                  child: Stack(children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          // right: SizeConfig.defaultSize!,
+                                          top: sh * 0.12,
+                                          bottom: sh * 0.05),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                // left: SizeConfig.defaultSize! * 3,
+                                                right:
+                                                    SizeConfig.defaultSize! * 2,
+                                              ),
+                                              width: 0.6 * sw,
+                                              child: TextField(
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    reportContent = value;
+                                                  });
+                                                },
+                                                decoration: InputDecoration(
+                                                    contentPadding: EdgeInsets.all(
+                                                        10), // 입력 텍스트와 외곽선 사이의 간격 조정
+                                                    hintText: '오류제보'.tr(),
+                                                    filled: true,
+                                                    fillColor:
+                                                        Colors.grey[200]),
+                                              ),
+                                            ),
+                                            Container(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  _sendErrorReportSendClickEvent();
+                                                  sendReport();
+                                                  setState(() {
+                                                    reportClicked = false;
+                                                  });
+                                                },
+                                                child: Container(
+                                                  width:
+                                                      SizeConfig.defaultSize! *
+                                                          10,
+                                                  height:
+                                                      SizeConfig.defaultSize! *
+                                                          4.5,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius
+                                                        .circular(SizeConfig
+                                                                .defaultSize! *
+                                                            1),
+                                                    color:
+                                                        const Color(0xFFFFA91A),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      '오류제출'.tr(),
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontFamily:
+                                                            'font-basic'.tr(),
+                                                        fontSize: 2 *
+                                                            SizeConfig
+                                                                .defaultSize! *
+                                                            double.parse(
+                                                                'font-ratio'
+                                                                    .tr()),
+                                                      ),
+                                                    ).tr(),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ]),
+                                    ),
+                                    Positioned(
+                                      top: sh * 0.00,
+                                      right: sw * 0.000,
+                                      child: IconButton(
+                                        padding: EdgeInsets.all(sh * 0.01),
+                                        alignment: Alignment.centerLeft,
+                                        icon: Icon(
+                                          Icons.clear,
+                                          color: Colors.black,
+                                          size: 3 * SizeConfig.defaultSize!,
+                                        ),
+                                        onPressed: () {
+                                          _sendErrorReportXClickEvent();
+                                          setState(() {
+                                            reportClicked = false;
+                                          });
+                                          //고민
+                                        },
+                                      ),
+                                    ),
+                                  ])),
+                            )),
+                      ),
+
                       if (openCalendar)
                         Positioned.fill(
                           child: GestureDetector(
@@ -1523,7 +1682,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         const CircularProgressIndicator(
                                                       color: Color(0xFFF39E09),
                                                     ),
-                                                  )))
+                                                  ))),
                                         ],
                                       ),
                                     ),
@@ -1790,9 +1949,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         '프로필',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 1.8 *
-                              SizeConfig.defaultSize! *
-                              double.parse('font-ratio'.tr()),
+                          fontSize: 1.8 * SizeConfig.defaultSize!,
                           fontFamily: 'font-basic'.tr(),
                           fontWeight: FontWeight.w400,
                         ),
@@ -1886,7 +2043,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   '프로필-수정',
                                                   style: TextStyle(
                                                     color: Colors.black,
-                                                    fontSize: 1.8 *
+                                                    fontSize: 1.4 *
                                                         SizeConfig.defaultSize!,
                                                     fontFamily:
                                                         'font-basic'.tr(),
@@ -1983,7 +2140,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                 appStoreId: '6454792622');
                           }
                         },
-                      )
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        child: Padding(
+                            padding: EdgeInsets.only(
+                                right: 0.5 * SizeConfig.defaultSize!,
+                                top: 0.5 * SizeConfig.defaultSize!,
+                                bottom: 0.5 * SizeConfig.defaultSize!),
+                            child: Text(
+                              '리포트'.tr(),
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 1.8 * SizeConfig.defaultSize!,
+                                fontFamily: 'font-basic'.tr(),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            )),
+                        onTap: () async {
+                          _sendErrorReportClickEvent();
+                          setState(() {
+                            _scaffoldKey.currentState?.closeDrawer();
+
+                            reportClicked = true;
+                          });
+                        },
+                      ),
+
                       // IconButton(
                       //     onPressed: () {
                       //       Navigator.push(
@@ -2218,6 +2401,57 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
+  }
+
+  Future<void> _sendErrorReportClickEvent() async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'error_report_click',
+        parameters: <String, dynamic>{},
+      );
+      amplitude.logEvent(
+        'error_report_click',
+        eventProperties: <String, dynamic>{},
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendErrorReportSendClickEvent() async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'error_report_send_click',
+        parameters: <String, dynamic>{},
+      );
+      amplitude.logEvent(
+        'error_report_send_click',
+        eventProperties: <String, dynamic>{},
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendErrorReportXClickEvent() async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'error_report_x_click',
+        parameters: <String, dynamic>{},
+      );
+      amplitude.logEvent(
+        'error_report_x_click',
+        eventProperties: <String, dynamic>{},
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
   }
 
   Future<void> _sendSignOutReallyClickEvent() async {
