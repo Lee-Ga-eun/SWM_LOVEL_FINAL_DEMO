@@ -1,5 +1,6 @@
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,6 +31,7 @@ import 'dart:math';
 class BookIntro extends StatefulWidget {
   final String title, thumb, summary;
   final int id;
+  final FirebaseRemoteConfig abTest;
 
   const BookIntro({
     // super.key,
@@ -38,6 +40,7 @@ class BookIntro extends StatefulWidget {
     required this.thumb,
     required this.id,
     required this.summary,
+    required this.abTest,
   }) : super(key: key);
 
   @override
@@ -1712,16 +1715,15 @@ class _BookIntroState extends State<BookIntro> {
                                                                             .push(
                                                                           context,
                                                                           MaterialPageRoute(
-                                                                            builder: (context) =>
-                                                                                BookPage(
-                                                                              // 다음 화면으로 contetnVoiceId를 가지고 이동
-                                                                              contentVoiceId: clickedVoice!.contentVoiceId,
-                                                                              voiceId: clickedVoice!.voiceId,
-                                                                              contentId: contentId,
-                                                                              lastPage: lastPage,
-                                                                              isSelected: true,
-                                                                              title: widget.title,
-                                                                            ),
+                                                                            builder: (context) => BookPage(
+                                                                                // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                                                                contentVoiceId: clickedVoice!.contentVoiceId,
+                                                                                voiceId: clickedVoice!.voiceId,
+                                                                                contentId: contentId,
+                                                                                lastPage: lastPage,
+                                                                                isSelected: true,
+                                                                                title: widget.title,
+                                                                                abTest: widget.abTest),
                                                                           ),
                                                                         )
                                                                       }
@@ -1749,6 +1751,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                           MaterialPageRoute(
                                                                             builder: (context) => BookPage(
                                                                                 // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                                                                abTest: widget.abTest,
                                                                                 contentVoiceId: clickedVoice!.contentVoiceId,
                                                                                 voiceId: clickedVoice!.voiceId,
                                                                                 contentId: contentId,
@@ -1989,7 +1992,9 @@ class _BookIntroState extends State<BookIntro> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Purchase()),
+                                    builder: (context) =>  Purchase(
+                                          abTest: widget.abTest,
+                                        )),
                               );
                             },
                             //},
@@ -2101,7 +2106,9 @@ class _BookIntroState extends State<BookIntro> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Purchase()),
+                                    builder: (context) => Purchase(
+                                          abTest: widget.abTest,
+                                        )),
                               );
                               //});
                             },
@@ -2196,7 +2203,9 @@ class _BookIntroState extends State<BookIntro> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const RecInfo()),
+                                        builder: (context) => RecInfo(
+                                              abTest: widget.abTest,
+                                            )),
                                   );
                                   //});
                                 },

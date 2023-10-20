@@ -17,7 +17,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
 
-version: 1.2.4+48
+version: 1.2.5+50
 
 environment:
   sdk: ">=3.0.2 <4.0.0"
@@ -75,7 +75,7 @@ dependencies:
   easy_localization: ^3.0.0
   appsflyer_sdk: ^6.12.2
   flutter_keyboard_visibility: ^5.0.3 # 패키지 버전은 업데이트 될 수 있습니다.
-
+  firebase_remote_config: ^4.3.1
 
 dev_dependencies:
   flutter_test:

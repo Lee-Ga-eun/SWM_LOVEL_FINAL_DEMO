@@ -1,5 +1,6 @@
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class BookPage extends StatefulWidget {
+  final FirebaseRemoteConfig abTest;
   final int contentVoiceId; //detail_screen에서 받아오는 것들
   final bool isSelected;
   final int lastPage;
@@ -35,7 +37,8 @@ class BookPage extends StatefulWidget {
       required this.contentId, // detail_screen에서 받아오는 것들 초기화
       required this.isSelected,
       required this.lastPage,
-      required this.title});
+      required this.title,
+      required this.abTest});
 
   @override
   _BookPageState createState() => _BookPageState();
@@ -267,8 +270,9 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                 SizedBox(
                   height: SizeConfig.defaultSize! * 2,
                 ),
-                // widget.remoteConfig == "A" && Platform.isAndroid
-                //     ?
+                // widget.abTest.getString("is_loading_text_enabled") == "A" &&
+                //         Platform.isAndroid
+                //?
                 Text(
                   '책-페이지-로딩',
                   style: TextStyle(
@@ -276,7 +280,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                       fontSize: SizeConfig.defaultSize! * 2.5),
                   textAlign: TextAlign.center,
                 ).tr()
-                //     : Container()
+                //: Container()
               ],
             ),
           ),
@@ -588,6 +592,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                       MaterialPageRoute(
                                                         builder: (context) =>
                                                             BookEnd(
+                                                          abTest: widget.abTest,
                                                           voiceId:
                                                               widget.voiceId,
                                                           contentVoiceId: widget
@@ -608,6 +613,8 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                       //결제가 끝나면 RecInfo로 가야 함
                                                       MaterialPageRoute(
                                                         builder: (context) => BookEnd(
+                                                            abTest:
+                                                                widget.abTest,
                                                             contentVoiceId: widget
                                                                 .contentVoiceId,
                                                             contentId: widget

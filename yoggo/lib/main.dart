@@ -21,6 +21,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'dart:io' show Platform;
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 
@@ -42,8 +43,8 @@ void main() async {
   // Amplitude Event 수집을 위해서 꼭 개발 모드(dev)인지 릴리즈 모드(rel)인지 설정하고 앱을 실행하도록 해요
   // 디폴트 값은 dev입니다
 
-  String mode = 'dev';
-  //String mode = 'rel';
+  //String mode = 'dev';
+  String mode = 'rel';
 
   // 사용자 Cubit을 초기화합니다.
   await dotenv.load(fileName: ".env");
@@ -151,6 +152,7 @@ class _AppState extends State<App> {
   String? userToken;
   String? token;
   bool? hasToken;
+  late FirebaseRemoteConfig abTest;
   @override
   void initState() {
     super.initState();
@@ -211,6 +213,17 @@ class _AppState extends State<App> {
     setState(() {
       _initialized = true; // 초기화 완료 상태 업데이트
     });
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(seconds: 10),
+      minimumFetchInterval: const Duration(hours: 1),
+    ));
+    await remoteConfig.setDefaults(const {
+      "is_loading_text_enabled": "A",
+    });
+    await remoteConfig.fetchAndActivate();
+    abTest = remoteConfig;
+    print("🥨 ${abTest.getString("is_loading_text_enabled")}");
   }
 
   Future<void> anonymousLogin() async {
@@ -251,8 +264,12 @@ class _AppState extends State<App> {
 
           //OneSignal.shared.setExternalUserId(state.userId.toString());
           Amplitude.getInstance().setUserId(state.userId.toString());
-          Amplitude.getInstance().setUserProperties(
-              {'point': point, 'subscribe': purchase, 'record': record});
+          Amplitude.getInstance().setUserProperties({
+            'point': point,
+            'subscribe': purchase,
+            'record': record,
+            'ab_book_loading': abTest.getString("is_loading_text_enabled")
+          });
           LogInResult result = await Purchases.logIn(state.userId.toString());
         }
       } else {
@@ -301,14 +318,16 @@ class _AppState extends State<App> {
             // 여기서 User Property 다시 한번 설정해주기 ~~
           }
           if (token != null && hasToken == true) {
-            return const HomeScreen();
+            return HomeScreen(
+              abTest: abTest,
+            );
           } else {
             anonymousLoginFuture ??= anonymousLogin();
             return FutureBuilder(
               future: anonymousLoginFuture,
               builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return const HomeScreen();
+                  return HomeScreen(abTest: abTest);
                 } else {
                   return Container(
                     decoration: const BoxDecoration(

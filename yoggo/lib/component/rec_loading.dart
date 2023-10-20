@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yoggo/component/rec_end.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class RecLoading extends StatefulWidget {
+  final FirebaseRemoteConfig abTest;
   final void Function(String path)? onStop;
   final String path;
   bool? retry; // retry페이지에서 넘어왔을 경우
@@ -21,6 +23,7 @@ class RecLoading extends StatefulWidget {
     this.onStop,
     required this.path,
     this.retry,
+    required this.abTest,
   }) : super(key: key);
 
   @override
@@ -102,7 +105,10 @@ class _RecLoadingState extends State<RecLoading> {
       await _callQueuebitFunction();
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const RecEnd()),
+        MaterialPageRoute(
+            builder: (context) => RecEnd(
+                  abTest: widget.abTest,
+                )),
       );
     } catch (e) {
       print("Error occurred during loading: $e");

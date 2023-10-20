@@ -1,4 +1,5 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yoggo/size_config.dart';
@@ -7,7 +8,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:amplitude_flutter/amplitude.dart';
 
 class RecReInfo extends StatefulWidget {
-  const RecReInfo({super.key});
+  final FirebaseRemoteConfig abTest;
+
+  const RecReInfo({super.key, required this.abTest});
 
   @override
   _RecInfoState createState() => _RecInfoState();

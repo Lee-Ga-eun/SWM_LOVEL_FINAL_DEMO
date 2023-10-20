@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +25,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class Purchase extends StatefulWidget {
-  const Purchase({super.key});
+  final FirebaseRemoteConfig abTest;
+  const Purchase({super.key, required this.abTest});
 
   @override
   _PurchaseState createState() => _PurchaseState();
@@ -90,14 +92,18 @@ class _PurchaseState extends State<Purchase> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
+                    builder: (context) => HomeScreen(
+                      abTest: widget.abTest,
+                    ),
                   ),
                 );
               } else {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const RecInfo(),
+                    builder: (context) => RecInfo(
+                      abTest: widget.abTest,
+                    ),
                   ),
                 );
               }
@@ -328,14 +334,18 @@ class _PurchaseState extends State<Purchase> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const HomeScreen(),
+                                builder: (context) => HomeScreen(
+                                  abTest: widget.abTest,
+                                ),
                               ),
                             );
                           } else {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RecInfo(),
+                                builder: (context) => RecInfo(
+                                  abTest: widget.abTest,
+                                ),
                               ),
                             );
                           }

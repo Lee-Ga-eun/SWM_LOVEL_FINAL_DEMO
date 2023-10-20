@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yoggo/component/rec_info_re.dart';
@@ -20,9 +21,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class RecRe extends StatefulWidget {
+  final FirebaseRemoteConfig abTest;
   final void Function(String path)? onStop;
 
-  const RecRe({Key? key, this.onStop}) : super(key: key);
+  const RecRe({Key? key, this.onStop, required this.abTest}) : super(key: key);
 
   @override
   State<RecRe> createState() => _RecReState();
@@ -262,8 +264,9 @@ class _RecReState extends State<RecRe> {
                                           await Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const RecReInfo()),
+                                                builder: (context) => RecReInfo(
+                                                      abTest: widget.abTest,
+                                                    )),
                                           );
                                           // showDialog를 통해 팝업 창을 띄웁니다.
                                           // await showDialog(
@@ -390,7 +393,9 @@ class _RecReState extends State<RecRe> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const RecRe()),
+                                          builder: (context) => RecRe(
+                                                abTest: widget.abTest,
+                                              )),
                                     );
                                   },
                                   child: Container(
@@ -434,6 +439,7 @@ class _RecReState extends State<RecRe> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => RecLoading(
+                                                abTest: widget.abTest,
                                                 onStop: widget.onStop,
                                                 path: path!,
                                                 retry: true,
