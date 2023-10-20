@@ -21,6 +21,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'dart:io' show Platform;
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 
 import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 
@@ -151,6 +152,7 @@ class _AppState extends State<App> {
   String? userToken;
   String? token;
   bool? hasToken;
+  late FirebaseRemoteConfig abTest;
   @override
   void initState() {
     super.initState();
@@ -211,6 +213,17 @@ class _AppState extends State<App> {
     setState(() {
       _initialized = true; // 초기화 완료 상태 업데이트
     });
+    final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.setConfigSettings(RemoteConfigSettings(
+      fetchTimeout: const Duration(seconds: 10),
+      minimumFetchInterval: const Duration(hours: 1),
+    ));
+    await remoteConfig.setDefaults(const {
+      "is_loading_text_enabled": "A",
+    });
+    await remoteConfig.fetchAndActivate();
+    abTest = remoteConfig;
+    print("🥨 ${abTest.getString("is_loading_text_enabled")}");
   }
 
   Future<void> anonymousLogin() async {
@@ -251,8 +264,11 @@ class _AppState extends State<App> {
 
           //OneSignal.shared.setExternalUserId(state.userId.toString());
           Amplitude.getInstance().setUserId(state.userId.toString());
-          Amplitude.getInstance().setUserProperties(
-              {'point': point, 'subscribe': purchase, 'record': record});
+          Amplitude.getInstance().setUserProperties({
+            'point': point,
+            'subscribe': purchase,
+            'record': record,
+          });
           LogInResult result = await Purchases.logIn(state.userId.toString());
         }
       } else {
@@ -301,14 +317,16 @@ class _AppState extends State<App> {
             // 여기서 User Property 다시 한번 설정해주기 ~~
           }
           if (token != null && hasToken == true) {
-            return const HomeScreen();
+            return HomeScreen(
+              abTest: abTest,
+            );
           } else {
             anonymousLoginFuture ??= anonymousLogin();
             return FutureBuilder(
               future: anonymousLoginFuture,
               builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return const HomeScreen();
+                  return HomeScreen(abTest: abTest);
                 } else {
                   return Container(
                     decoration: const BoxDecoration(

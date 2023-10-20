@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:amplitude_flutter/amplitude.dart';
@@ -35,7 +36,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final FirebaseRemoteConfig abTest;
+  const HomeScreen({Key? key, required this.abTest}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -82,6 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    Amplitude.getInstance().setUserProperties({
+      'ab_book_loading': widget.abTest.getString("is_loading_text_enabled")
+    });
     getToken();
     _checkFirstTimeAccess(); // 앱 최초 사용 접속 : 온보딩 화면 보여주기
     Future.delayed(Duration.zero, () async {
@@ -634,7 +639,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            const Purchase()),
+                                                            Purchase(
+                                                              abTest:
+                                                                  widget.abTest,
+                                                            )),
                                                   );
                                                 },
                                                 child: Container(
@@ -756,6 +764,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 )
                                                               ],
                                                               child: BookIntro(
+                                                                abTest: widget
+                                                                    .abTest,
                                                                 title:
                                                                     book.title,
                                                                 thumb: book
@@ -2022,7 +2032,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const VoiceProfile(),
+                                                    VoiceProfile(
+                                                  abTest: widget.abTest,
+                                                ),
                                               ),
                                             );
                                           },
@@ -2063,8 +2075,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => userState.purchase
-                                        ? const RecInfo()
-                                        : const Purchase(),
+                                        ? RecInfo(
+                                            abTest: widget.abTest,
+                                          )
+                                        : Purchase(
+                                            abTest: widget.abTest,
+                                          ),
                                   ),
                                 );
                               },

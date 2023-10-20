@@ -1,6 +1,7 @@
 import 'package:amplitude_flutter/amplitude.dart';
 import 'dart:convert';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -16,11 +17,11 @@ import 'package:easy_localization/easy_localization.dart';
 
 class VoiceProfile extends StatefulWidget {
   // final String infenrencedVoice;
+  final FirebaseRemoteConfig abTest;
 
-  const VoiceProfile({
-    super.key,
-    // required this.infenrencedVoice,
-  });
+  const VoiceProfile({super.key, required this.abTest
+      // required this.infenrencedVoice,
+      });
 
   @override
   _VoiceProfileState createState() => _VoiceProfileState();
@@ -466,7 +467,9 @@ class _VoiceProfileState extends State<VoiceProfile> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RecRe(),
+                        builder: (context) => RecRe(
+                          abTest: widget.abTest,
+                        ),
                       ),
                     );
                   },

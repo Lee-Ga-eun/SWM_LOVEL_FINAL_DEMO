@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yoggo/component/rec_loading.dart';
@@ -20,11 +21,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class Rec extends StatefulWidget {
+  final FirebaseRemoteConfig abTest;
   final void Function(String path)? onStop;
-  const Rec({
-    Key? key,
-    this.onStop,
-  }) : super(key: key);
+  const Rec({Key? key, this.onStop, required this.abTest}) : super(key: key);
 
   @override
   State<Rec> createState() => _RecState();
@@ -311,7 +310,9 @@ class _RecState extends State<Rec> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const Rec()),
+                                          builder: (context) => Rec(
+                                                abTest: widget.abTest,
+                                              )),
                                     );
                                   },
                                   child: Container(
@@ -355,6 +356,7 @@ class _RecState extends State<Rec> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => RecLoading(
+                                                abTest: widget.abTest,
                                                 onStop: widget.onStop,
                                                 path: path!,
                                               )),

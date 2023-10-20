@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,8 @@ class BookEnd extends StatefulWidget {
   final bool isSelected;
   final int lastPage;
   final String title;
+  final FirebaseRemoteConfig abTest;
+
   const BookEnd({
     super.key,
     required this.voiceId, // detail_screen에서 받아오는 것들 초기화
@@ -29,6 +32,7 @@ class BookEnd extends StatefulWidget {
     required this.isSelected,
     required this.lastPage,
     required this.title,
+    required this.abTest,
   });
 
   @override
@@ -123,6 +127,7 @@ class _BookEndState extends State<BookEnd> {
                             MaterialPageRoute(
                               builder: (context) => BookPage(
                                   // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                  abTest: widget.abTest,
                                   contentId: widget.contentId,
                                   contentVoiceId: widget.contentVoiceId,
                                   voiceId: widget.voiceId,
@@ -296,7 +301,9 @@ class _BookEndState extends State<BookEnd> {
                               context,
                               //결제가 끝나면 RecInfo로 가야 함
                               MaterialPageRoute(
-                                builder: (context) => const Purchase(),
+                                builder: (context) => Purchase(
+                                  abTest: widget.abTest,
+                                ),
                               ),
                             );
                           },
@@ -430,7 +437,9 @@ class _BookEndState extends State<BookEnd> {
                               context,
                               //결제가 끝나면 RecInfo로 가야 함
                               MaterialPageRoute(
-                                builder: (context) => const RecInfo(),
+                                builder: (context) => RecInfo(
+                                  abTest: widget.abTest,
+                                ),
                               ),
                             );
                           },
