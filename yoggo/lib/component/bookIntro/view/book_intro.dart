@@ -65,6 +65,7 @@ class _BookIntroState extends State<BookIntro> {
   bool isPurchased = false;
   bool isLoading = false;
   bool wantPurchase = false;
+  bool wantBuyBook = false;
   bool buyPoints = false;
   bool animation = false;
   String lackingPoint = '';
@@ -537,6 +538,31 @@ class _BookIntroState extends State<BookIntro> {
     }
   }
 
+  Future<void> _sendBook3000ClickEvent(pointNow, contentId, title) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_3000_click',
+        parameters: <String, dynamic>{
+          'point_now': pointNow,
+          'contentId': contentId,
+          'title': title,
+        },
+      );
+      amplitude.logEvent(
+        'book_3000_click',
+        eventProperties: {
+          'point_now': pointNow,
+          'contentId': contentId,
+          'title': title,
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
   Future<void> _sendBookBuyClickEvent(pointNow, contentId, title) async {
     try {
       // 이벤트 로깅
@@ -550,6 +576,31 @@ class _BookIntroState extends State<BookIntro> {
       );
       amplitude.logEvent(
         'book_buy_click',
+        eventProperties: {
+          'point_now': pointNow,
+          'contentId': contentId,
+          'title': title,
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookBuyLaterClickEvent(pointNow, contentId, title) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'book_buy_later_click',
+        parameters: <String, dynamic>{
+          'point_now': pointNow,
+          'contentId': contentId,
+          'title': title,
+        },
+      );
+      amplitude.logEvent(
+        'book_buy_later_click',
         eventProperties: {
           'point_now': pointNow,
           'contentId': contentId,
@@ -968,8 +1019,8 @@ class _BookIntroState extends State<BookIntro> {
                                                                         // no start Inference
                                                                         onTap:
                                                                             () {
-                                                                          bookVoiceCubit
-                                                                              .changeBookVoiceData(contentId);
+                                                                          // bookVoiceCubit
+                                                                          //     .changeBookVoiceData(contentId);
                                                                           _sendBookMyVoiceClickEvent(
                                                                             contentId,
                                                                             title,
@@ -1008,7 +1059,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                                 title,
                                                                               );
 
-                                                                              bookVoiceCubit.changeBookVoiceData(contentId);
+                                                                              //bookVoiceCubit.changeBookVoiceData(contentId);
                                                                               setState(() {
                                                                                 canChanged.value = false;
                                                                                 completeInference = false;
@@ -1116,13 +1167,14 @@ class _BookIntroState extends State<BookIntro> {
                                                                           Column(
                                                                         children: [
                                                                           Padding(
-                                                                            padding:
-                                                                                EdgeInsets.only(right: 0 * SizeConfig.defaultSize!, left: 0 * SizeConfig.defaultSize!),
-                                                                            child: Image.asset('lib/images/icons/grinning-face-c.png',
+                                                                              padding: EdgeInsets.only(right: 0 * SizeConfig.defaultSize!, left: 0 * SizeConfig.defaultSize!),
+                                                                              child: Image.asset(
+                                                                                'lib/images/icons/grinning-face-uc.png',
                                                                                 height: SizeConfig.defaultSize! * 6.5,
-                                                                                colorBlendMode: BlendMode.srcATop,
-                                                                                color: voiceState[0].clicked ? null : const Color.fromARGB(200, 255, 255, 255)),
-                                                                          ),
+                                                                              )
+                                                                              // colorBlendMode: BlendMode.srcATop,
+                                                                              // color: voiceState[0].clicked ? null : const Color.fromARGB(200, 255, 255, 255)),
+                                                                              ),
                                                                           SizedBox(
                                                                               height: SizeConfig.defaultSize! * 0.3),
                                                                           Text(
@@ -1132,12 +1184,13 @@ class _BookIntroState extends State<BookIntro> {
                                                                       ),
                                                                     ))
                                                             : GestureDetector(
+                                                                //책 안 산 사람
                                                                 onTap: () {
                                                                   _sendBookMyVoiceClickEvent(
                                                                       contentId,
                                                                       title);
                                                                   setState(() {
-                                                                    wantPurchase =
+                                                                    wantBuyBook =
                                                                         true;
                                                                   });
                                                                 },
@@ -1149,16 +1202,23 @@ class _BookIntroState extends State<BookIntro> {
                                                                           padding: EdgeInsets.only(
                                                                               right: 0 * SizeConfig.defaultSize!,
                                                                               left: 0 * SizeConfig.defaultSize!),
-                                                                          child: Image.asset(
-                                                                            'lib/images/locked_face.png',
-                                                                            height:
-                                                                                SizeConfig.defaultSize! * 6.5,
-                                                                          )),
+                                                                          child: userState.record
+                                                                              ? Image.asset(
+                                                                                  'lib/images/icons/${userState.voiceIcon}-uc.png',
+                                                                                  height: SizeConfig.defaultSize! * 7,
+                                                                                )
+                                                                              : Image.asset(
+                                                                                  'lib/images/locked_face.png',
+                                                                                  height: SizeConfig.defaultSize! * 6.5,
+                                                                                )),
                                                                       SizedBox(
                                                                           height:
                                                                               SizeConfig.defaultSize! * 0.3),
                                                                       Text(
-                                                                          'My voice',
+                                                                          userState.record
+                                                                              ? userState
+                                                                                  .voiceName!
+                                                                              : 'My voice',
                                                                           style: TextStyle(
                                                                               fontFamily: 'GenBkBasR',
                                                                               fontSize: 1.8 * SizeConfig.defaultSize!))
@@ -1611,41 +1671,14 @@ class _BookIntroState extends State<BookIntro> {
                                                   child: bookIntro.first.lock
                                                       ? InkWell(
                                                           onTap: () async {
-                                                            _sendBookBuyClickEvent(
+                                                            _sendBook3000ClickEvent(
                                                                 userState.point,
                                                                 contentId,
                                                                 title);
-                                                            userCubit
-                                                                .fetchUser();
-                                                            if (userState
-                                                                    .point <
-                                                                3000) {
-                                                              lackingPoint = (3000 -
-                                                                      userState
-                                                                          .point)
-                                                                  .toString();
-                                                              setState(() {
-                                                                buyPoints =
-                                                                    true;
-                                                              });
-                                                            }
-                                                            var result =
-                                                                await buyContent();
-                                                            if (result ==
-                                                                '200') {
-                                                              setState(() {
-                                                                animation =
-                                                                    true;
-                                                              });
-                                                              bookIntroCubit
-                                                                  .changeBookIntroData(
-                                                                      widget
-                                                                          .id);
-                                                              userCubit
-                                                                  .fetchUser();
-                                                              dataCubit
-                                                                  .changeHomeBookData();
-                                                            }
+                                                            setState(() {
+                                                              wantBuyBook =
+                                                                  true;
+                                                            });
                                                           },
                                                           child:
                                                               AnimatedContainer(
@@ -2051,6 +2084,123 @@ class _BookIntroState extends State<BookIntro> {
                   ),
                 ),
                 Visibility(
+                  visible: wantBuyBook,
+                  child: AlertDialog(
+                    titlePadding: EdgeInsets.only(
+                      top: SizeConfig.defaultSize! * 7,
+                      bottom: SizeConfig.defaultSize! * 2,
+                    ),
+                    actionsPadding: EdgeInsets.only(
+                      left: SizeConfig.defaultSize! * 5,
+                      right: SizeConfig.defaultSize! * 5,
+                      bottom: SizeConfig.defaultSize! * 5,
+                      top: SizeConfig.defaultSize! * 3,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(SizeConfig.defaultSize! * 3),
+                    ),
+                    backgroundColor: Colors.white.withOpacity(0.9),
+                    title: Center(
+                      child: Text(
+                        '인트로-책구매',
+                        style: TextStyle(
+                          fontSize: SizeConfig.defaultSize! * 2.5,
+                          fontFamily: 'font-basic'.tr(),
+                        ),
+                      ).tr(),
+                    ),
+                    actions: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // 1초 후에 다음 페이지로 이동
+                              // Future.delayed(const Duration(seconds: 1), () {
+                              _sendBookBuyLaterClickEvent(
+                                  userState.point, contentId, title);
+                              setState(() {
+                                wantBuyBook = false;
+                              });
+                              //});
+                            },
+                            child: Container(
+                              width: SizeConfig.defaultSize! * 24,
+                              height: SizeConfig.defaultSize! * 4.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 3),
+                                color: const Color(0xFFFFA91A),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '답변-부정',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'font-basic'.tr(),
+                                    fontSize: 2.2 * SizeConfig.defaultSize!,
+                                  ),
+                                ).tr(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: SizeConfig.defaultSize! * 4), // 간격 조정
+                          GestureDetector(
+                            onTap: () async {
+                              _sendBookBuyClickEvent(
+                                  userState.point, contentId, title);
+
+                              userCubit.fetchUser();
+                              setState(() {
+                                wantBuyBook = false;
+                              });
+                              if (userState.point < 3000) {
+                                lackingPoint =
+                                    (3000 - userState.point).toString();
+                                setState(() {
+                                  buyPoints = true;
+                                });
+                              }
+                              var result = await buyContent();
+                              if (result == '200') {
+                                setState(() {
+                                  animation = true;
+                                });
+                                bookIntroCubit.changeBookIntroData(widget.id);
+                                userCubit.fetchUser();
+                                dataCubit.changeHomeBookData();
+                              }
+                              // 1초 후에 다음 페이지로 이동
+                              ///Future.delayed(const Duration(seconds: 1), () {
+                            },
+                            //},
+                            child: Container(
+                              width: SizeConfig.defaultSize! * 24,
+                              height: SizeConfig.defaultSize! * 4.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 3),
+                                color: const Color(0xFFFFA91A),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '답변-긍정',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'font-basic'.tr(),
+                                    fontSize: 2.2 * SizeConfig.defaultSize!,
+                                  ),
+                                ).tr(),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Visibility(
                   visible: buyPoints,
                   child: AlertDialog(
                     titlePadding: EdgeInsets.only(
@@ -2189,9 +2339,14 @@ class _BookIntroState extends State<BookIntro> {
                         ),
                         backgroundColor: Colors.white.withOpacity(0.9),
                         title: Center(
-                            child: Text('인트로-목소리녹음'.tr(),
-                                style:
-                                    TextStyle(fontFamily: 'font-basic'.tr()))),
+                            child: Text(
+                          '인트로-목소리녹음'.tr(),
+                          style: TextStyle(
+                            fontSize: 2.5 * SizeConfig.defaultSize!,
+                            fontFamily: 'font-basic'.tr(),
+                            color: Colors.black,
+                          ),
+                        )),
                         actions: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
