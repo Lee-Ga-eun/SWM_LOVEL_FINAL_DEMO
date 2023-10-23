@@ -157,6 +157,8 @@ class DataRepository {
     );
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body) as List<dynamic>;
+      jsonData[0]["thumbUrl"] = await getCachedOrFetch(jsonData[0]["thumbUrl"]);
+
       final data =
           jsonData.map((item) => BookIntroModel.fromJson(item)).toList();
       _loadedBookIntroData.addAll(data); // 로드한 데이터를 저장
@@ -183,6 +185,7 @@ class DataRepository {
     );
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body) as List<dynamic>;
+      jsonData[0]["thumbUrl"] = await getCachedOrFetch(jsonData[0]["thumbUrl"]);
       final data =
           jsonData.map((item) => BookIntroModel.fromJson(item)).toList();
       _loadedBookIntroData.addAll(data);
