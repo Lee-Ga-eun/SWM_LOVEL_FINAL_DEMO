@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yoggo/component/bookIntro/viewModel/book_voice_cubit.dart';
 import 'package:yoggo/component/bookIntro/viewModel/book_voice_model.dart';
 import 'package:yoggo/component/home/viewModel/home_screen_cubit.dart';
+import 'package:yoggo/component/point.dart';
 import 'package:yoggo/component/rec_info.dart';
 import '../../../Repositories/Repository.dart';
 import '../../bookPage/view/book_page.dart';
@@ -21,9 +22,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../globalCubit/user/user_cubit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-// import '../../shop.dart';
-import 'package:yoggo/component/point.dart';
-
+import '../../shop.dart';
 import '../viewModel/book_intro_model.dart';
 import '../viewModel/book_intro_cubit.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -81,7 +80,7 @@ class _BookIntroState extends State<BookIntro> {
   //String voices='';
   // List<dynamic> voices = [];
   //int cvi = 21; // 여기를 성우의 디폴트 값을 넣어줘야 함
-  int vi = 0;
+  //int vi = 0;
   //bool canChanged = true;
   // int lastPage = 0;
   final audioPlayer = AudioPlayer();
@@ -188,6 +187,7 @@ class _BookIntroState extends State<BookIntro> {
       contentVoiceId, contentId, title, voiceId) async {
     try {
       // 이벤트 로깅
+      print('book voice click: $contentVoiceId, $voiceId');
       await analytics.logEvent(
         name: 'book_voice_click',
         parameters: <String, dynamic>{
@@ -197,6 +197,7 @@ class _BookIntroState extends State<BookIntro> {
           'voiceId': voiceId,
         },
       );
+
       await amplitude.logEvent(
         'book_voice_click',
         eventProperties: {
@@ -218,7 +219,8 @@ class _BookIntroState extends State<BookIntro> {
     title,
     voiceId,
   ) async {
-    print(voiceId);
+    print('book start click: $contentVoiceId, $voiceId');
+
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -321,8 +323,7 @@ class _BookIntroState extends State<BookIntro> {
   //   }
   // }
 
-  Future<void> _sendBookIntroRegisterLaterClickEvent(
-      contentId, title, voiceId) async {
+  Future<void> _sendBookIntroRegisterLaterClickEvent(contentId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -330,7 +331,6 @@ class _BookIntroState extends State<BookIntro> {
         parameters: <String, dynamic>{
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
       await amplitude.logEvent(
@@ -338,7 +338,6 @@ class _BookIntroState extends State<BookIntro> {
         eventProperties: {
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
     } catch (e) {
@@ -348,7 +347,9 @@ class _BookIntroState extends State<BookIntro> {
   }
 
   Future<void> _sendBookIntroRegisterOkClickEvent(
-      contentId, title, voiceId) async {
+    contentId,
+    title,
+  ) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -356,7 +357,6 @@ class _BookIntroState extends State<BookIntro> {
         parameters: <String, dynamic>{
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
       await amplitude.logEvent(
@@ -364,7 +364,6 @@ class _BookIntroState extends State<BookIntro> {
         eventProperties: {
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
     } catch (e) {
@@ -374,7 +373,9 @@ class _BookIntroState extends State<BookIntro> {
   }
 
   Future<void> _sendBookIntroRecordLaterClickEvent(
-      contentId, title, voiceId) async {
+    contentId,
+    title,
+  ) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -382,7 +383,6 @@ class _BookIntroState extends State<BookIntro> {
         parameters: <String, dynamic>{
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
       await amplitude.logEvent(
@@ -390,7 +390,6 @@ class _BookIntroState extends State<BookIntro> {
         eventProperties: {
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
     } catch (e) {
@@ -400,7 +399,9 @@ class _BookIntroState extends State<BookIntro> {
   }
 
   Future<void> _sendBookIntroRecordOkClickEvent(
-      contentId, title, voiceId) async {
+    contentId,
+    title,
+  ) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -408,7 +409,6 @@ class _BookIntroState extends State<BookIntro> {
         parameters: <String, dynamic>{
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
       await amplitude.logEvent(
@@ -416,7 +416,6 @@ class _BookIntroState extends State<BookIntro> {
         eventProperties: {
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
     } catch (e) {
@@ -426,9 +425,15 @@ class _BookIntroState extends State<BookIntro> {
   }
 
   Future<void> _sendBookIntroBuyPointLaterClickEvent(
-      lackingPoint, contentId, title, voiceId) async {
+    lackingPoint,
+    contentId,
+    title,
+    voiceId,
+  ) async {
     try {
       // 이벤트 로깅
+      print('buy point later click: $voiceId');
+
       await analytics.logEvent(
         name: 'book_intro_buy_point_later_click',
         parameters: <String, dynamic>{
@@ -456,6 +461,8 @@ class _BookIntroState extends State<BookIntro> {
   Future<void> _sendBookIntroBuyPointOkClickEvent(
       lackingPoint, contentId, title, voiceId) async {
     try {
+      print('buy point ok: $voiceId');
+
       // 이벤트 로깅
       await analytics.logEvent(
         name: 'book_intro_buy_point_ok_click',
@@ -481,8 +488,7 @@ class _BookIntroState extends State<BookIntro> {
     }
   }
 
-  Future<void> _sendBookIntroMakeBookLaterClickEvent(
-      contentId, title, voiceId) async {
+  Future<void> _sendBookIntroMakeBookLaterClickEvent(contentId, title) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -490,7 +496,6 @@ class _BookIntroState extends State<BookIntro> {
         parameters: <String, dynamic>{
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
       await amplitude.logEvent(
@@ -498,7 +503,6 @@ class _BookIntroState extends State<BookIntro> {
         eventProperties: {
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
     } catch (e) {
@@ -508,7 +512,9 @@ class _BookIntroState extends State<BookIntro> {
   }
 
   Future<void> _sendBookIntroMakeBookOkClickEvent(
-      contentId, title, voiceId) async {
+    contentId,
+    title,
+  ) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
@@ -516,7 +522,6 @@ class _BookIntroState extends State<BookIntro> {
         parameters: <String, dynamic>{
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
       await amplitude.logEvent(
@@ -524,7 +529,6 @@ class _BookIntroState extends State<BookIntro> {
         eventProperties: {
           'contentId': contentId,
           'title': title,
-          'voiceId': voiceId
         },
       );
     } catch (e) {
@@ -741,7 +745,7 @@ class _BookIntroState extends State<BookIntro> {
           List<dynamic> voices = [];
           voices = bookIntro.first.voice;
 
-          int cvi = clickedVoice!.contentVoiceId;
+          //int cvi = clickedVoice!.contentVoiceId;
 
           final int lastPage = bookIntro.first.last;
           return Scaffold(
@@ -952,9 +956,10 @@ class _BookIntroState extends State<BookIntro> {
                                                 child: Row(
                                                   //  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    GestureDetector(onTap:(){}, child: Column(children:[]))
+                                                    //GestureDetector(onTap:(){}, child: Column(children:[]))
                                                     userState.purchase
-                                                        ? !bookIntro.first.lock
+                                                        ? !bookIntro.first
+                                                                .lock //한시적인 코드
                                                             ? userState.record
                                                                 ? inferenceId ==
                                                                         0
@@ -1056,8 +1061,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                               //     false;
 
                                                                               canChanged.value = true;
-                                                                              cvi = inferenceId;
-                                                                              vi = userState.voiceId!;
+
                                                                               canChanged.value = true; // 인퍼런스가 완료됐을 때 바로 화살표가 넘어갈 수 있도록
                                                                               //   });
                                                                             },
@@ -1127,47 +1131,40 @@ class _BookIntroState extends State<BookIntro> {
                                                                         ],
                                                                       ),
                                                                     ))
-                                                            : GestureDetector( onTap: () {
-                                                              _sendBookMyVoiceClickEvent(
-                                                                  contentId,
-                                                                  title);
-                                                              setState(() {
-                                                                wantPurchase =
-                                                                    true;
-                                                              });
-                                                            },
-                                                            child: Center(
-                                                              child: Column(
-                                                                // 결제 안 한 사람
-                                                                children: [
-                                                                  Padding(
-                                                                      padding: EdgeInsets.only(
-                                                                          right: 0 *
-                                                                              SizeConfig
-                                                                                  .defaultSize!,
-                                                                          left: 0 *
-                                                                              SizeConfig
-                                                                                  .defaultSize!),
-                                                                      child: Image
-                                                                          .asset(
-                                                                        'lib/images/locked_face.png',
-                                                                        height: SizeConfig.defaultSize! *
-                                                                            6.5,
-                                                                      )),
-                                                                  SizedBox(
-                                                                      height: SizeConfig
-                                                                              .defaultSize! *
-                                                                          0.3),
-                                                                  Text(
-                                                                      'My voice',
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'GenBkBasR',
-                                                                          fontSize:
-                                                                              1.8 * SizeConfig.defaultSize!))
-                                                                ],
-                                                              ),
-                                                            ))
+                                                            : GestureDetector(
+                                                                onTap: () {
+                                                                  _sendBookMyVoiceClickEvent(
+                                                                      contentId,
+                                                                      title);
+                                                                  setState(() {
+                                                                    wantPurchase =
+                                                                        true;
+                                                                  });
+                                                                },
+                                                                child: Center(
+                                                                  child: Column(
+                                                                    // 결제 안 한 사람
+                                                                    children: [
+                                                                      Padding(
+                                                                          padding: EdgeInsets.only(
+                                                                              right: 0 * SizeConfig.defaultSize!,
+                                                                              left: 0 * SizeConfig.defaultSize!),
+                                                                          child: Image.asset(
+                                                                            'lib/images/locked_face.png',
+                                                                            height:
+                                                                                SizeConfig.defaultSize! * 6.5,
+                                                                          )),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              SizeConfig.defaultSize! * 0.3),
+                                                                      Text(
+                                                                          'My voice',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'GenBkBasR',
+                                                                              fontSize: 1.8 * SizeConfig.defaultSize!))
+                                                                    ],
+                                                                  ),
+                                                                ))
                                                         : GestureDetector(
                                                             //no Purchase
                                                             onTap: () {
@@ -1220,10 +1217,10 @@ class _BookIntroState extends State<BookIntro> {
                                                     GestureDetector(
                                                       //Jolly
                                                       onTap: () async {
-                                                        cvi = voiceState[1]
-                                                            .contentVoiceId;
-                                                        vi = voiceState[1]
-                                                            .voiceId;
+                                                        // cvi = voiceState[1]
+                                                        //     .contentVoiceId;
+                                                        // vi = voiceState[1]
+                                                        //     .voiceId;
 
                                                         bookVoiceCubit
                                                             .clickBookVoiceData(
@@ -1244,10 +1241,12 @@ class _BookIntroState extends State<BookIntro> {
                                                                     '${widget.id % 2 + 1}.flac'));
 
                                                         _sendBookVoiceClickEvent(
-                                                            cvi,
+                                                            clickedVoice!
+                                                                .contentVoiceId,
                                                             contentId,
                                                             title,
-                                                            vi);
+                                                            clickedVoice!
+                                                                .voiceId);
                                                         // isClicked.value = false;
                                                         // isClicked0.value = true;
                                                         // isClicked1.value =
@@ -1333,14 +1332,14 @@ class _BookIntroState extends State<BookIntro> {
                                                     // Morgan
                                                     GestureDetector(
                                                       onTap: () async {
-                                                        cvi = voiceState[2]
-                                                            .contentVoiceId;
+                                                        // cvi = voiceState[2]
+                                                        //     .contentVoiceId;
 
-                                                        vi = voiceState[2]
-                                                            .voiceId;
+                                                        // vi = voiceState[2]
+                                                        //     .voiceId;
                                                         bookVoiceCubit
                                                             .clickBookVoiceData(
-                                                                contentId, vi);
+                                                                contentId, 2);
                                                         clickedVoice =
                                                             await bookVoiceCubit
                                                                     .loadClickedBookVoiceData(
@@ -1357,10 +1356,12 @@ class _BookIntroState extends State<BookIntro> {
                                                                     '${widget.id % 2 + 1}.flac'));
 
                                                         _sendBookVoiceClickEvent(
-                                                            cvi,
+                                                            clickedVoice!
+                                                                .contentVoiceId,
                                                             contentId,
                                                             title,
-                                                            vi);
+                                                            clickedVoice!
+                                                                .voiceId);
                                                         // isClicked.value = false;
                                                         // isClicked0.value =
                                                         //     false;
@@ -1447,15 +1448,14 @@ class _BookIntroState extends State<BookIntro> {
                                                     // Eric
                                                     GestureDetector(
                                                         onTap: () async {
-                                                          cvi = voiceState[3]
-                                                              .contentVoiceId;
-                                                          vi = voiceState[3]
-                                                              .voiceId;
+                                                          // cvi = voiceState[3]
+                                                          //     .contentVoiceId;
+                                                          // vi = voiceState[3]
+                                                          //     .voiceId;
                                                           // clicked는 유지하고 voice 정보만 바꾸기
                                                           bookVoiceCubit
                                                               .clickBookVoiceData(
-                                                                  contentId,
-                                                                  vi);
+                                                                  contentId, 3);
                                                           clickedVoice = await bookVoiceCubit
                                                                   .loadClickedBookVoiceData(
                                                                       contentId)
@@ -1471,10 +1471,12 @@ class _BookIntroState extends State<BookIntro> {
                                                                       '${widget.id % 2 + 1}.flac'));
 
                                                           _sendBookVoiceClickEvent(
-                                                              cvi,
+                                                              clickedVoice!
+                                                                  .contentVoiceId,
                                                               contentId,
                                                               title,
-                                                              vi);
+                                                              clickedVoice!
+                                                                  .voiceId);
                                                           // isClicked.value = false;
                                                           // isClicked0.value =
                                                           //     false;
@@ -1720,7 +1722,8 @@ class _BookIntroState extends State<BookIntro> {
                                                             //     .voiceId);
                                                             // // 버튼 클릭 시 동작
                                                             // _checkHaveRead();
-                                                            (cvi ==
+                                                            (clickedVoice!
+                                                                        .contentVoiceId ==
                                                                     inferenceId) // 원래는 cvi==inferenceId
                                                                 ? await checkInference(
                                                                         token)
@@ -1978,7 +1981,7 @@ class _BookIntroState extends State<BookIntro> {
                           GestureDetector(
                             onTap: () {
                               _sendBookIntroRegisterLaterClickEvent(
-                                  contentId, title, vi);
+                                  contentId, title);
                               // 1초 후에 다음 페이지로 이동
                               // Future.delayed(const Duration(seconds: 1), () {
                               setState(() {
@@ -2010,7 +2013,7 @@ class _BookIntroState extends State<BookIntro> {
                           GestureDetector(
                             onTap: () {
                               _sendBookIntroRegisterOkClickEvent(
-                                  contentId, title, vi);
+                                  contentId, title);
                               // 1초 후에 다음 페이지로 이동
                               ///Future.delayed(const Duration(seconds: 1), () {
                               Navigator.push(
@@ -2092,7 +2095,10 @@ class _BookIntroState extends State<BookIntro> {
                           GestureDetector(
                             onTap: () {
                               _sendBookIntroBuyPointLaterClickEvent(
-                                  lackingPoint, contentId, title, vi);
+                                  lackingPoint,
+                                  contentId,
+                                  title,
+                                  clickedVoice!.voiceId);
                               // 1초 후에 다음 페이지로 이동
                               //Future.delayed(const Duration(seconds: 1), () {
                               setState(() {
@@ -2123,8 +2129,8 @@ class _BookIntroState extends State<BookIntro> {
                           SizedBox(width: SizeConfig.defaultSize! * 4), // 간격 조정
                           GestureDetector(
                             onTap: () {
-                              _sendBookIntroBuyPointOkClickEvent(
-                                  lackingPoint, contentId, title, vi);
+                              _sendBookIntroBuyPointOkClickEvent(lackingPoint,
+                                  contentId, title, clickedVoice!.voiceId);
                               // 1초 후에 다음 페이지로 이동
                               //Future.delayed(const Duration(seconds: 1), () {
                               Navigator.push(
@@ -2193,7 +2199,7 @@ class _BookIntroState extends State<BookIntro> {
                               GestureDetector(
                                 onTap: () {
                                   _sendBookIntroRecordLaterClickEvent(
-                                      contentId, title, vi);
+                                      contentId, title);
                                   //Future.delayed(const Duration(seconds: 1),
                                   //   () {
                                   wantRecord.value = false;
@@ -2224,7 +2230,7 @@ class _BookIntroState extends State<BookIntro> {
                               GestureDetector(
                                 onTap: () {
                                   _sendBookIntroRecordOkClickEvent(
-                                      contentId, title, vi);
+                                      contentId, title);
                                   //Future.delayed(const Duration(seconds: 1),
                                   //   () {
                                   Navigator.push(
@@ -2306,7 +2312,7 @@ class _BookIntroState extends State<BookIntro> {
                           GestureDetector(
                             onTap: () {
                               _sendBookIntroMakeBookLaterClickEvent(
-                                  contentId, title, vi);
+                                  contentId, title);
                               setState(() {
                                 completeInference = true;
                               });
@@ -2335,7 +2341,7 @@ class _BookIntroState extends State<BookIntro> {
                           GestureDetector(
                             onTap: () {
                               _sendBookIntroMakeBookOkClickEvent(
-                                  contentId, title, vi);
+                                  contentId, title);
                               setState(() {
                                 completeInference = true;
                               });
@@ -2442,7 +2448,7 @@ class _BookIntroState extends State<BookIntro> {
                                 onTap: () {
                                   // 1초 후에 다음 페이지로 이동
                                   startInference(token);
-                                  cvi = clickedVoice!.contentVoiceId;
+
                                   //   setState(() {
                                   wantInference.value = false;
                                   // });
