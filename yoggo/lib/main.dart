@@ -157,7 +157,7 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     // WidgetsBinding.instance.addPostFrameCallback((_) => initPlugin());
-    initialize();
+    initialize().then((_) {});
     context.read<UserCubit>().fetchUser();
     getToken().then((_) {});
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);

@@ -30,19 +30,20 @@ import 'dart:io' show File, Platform;
 import 'dart:math';
 
 class BookIntro extends StatefulWidget {
-  final String title, thumb, summary;
+  final String title;
   final int id;
   final FirebaseRemoteConfig abTest;
+  final bool showOnboarding;
 
-  const BookIntro({
-    // super.key,
-    Key? key,
-    required this.title,
-    required this.thumb,
-    required this.id,
-    required this.summary,
-    required this.abTest,
-  }) : super(key: key);
+  const BookIntro(
+      {
+      // super.key,
+      Key? key,
+      required this.title,
+      required this.id,
+      required this.abTest,
+      required this.showOnboarding})
+      : super(key: key);
 
   @override
   _BookIntroState createState() => _BookIntroState();
@@ -658,8 +659,9 @@ class _BookIntroState extends State<BookIntro> {
     print(response.statusCode);
     if (response.statusCode == 200) {
       UserCubit().fetchUser();
-      _sendBookBuySuccessEvent(
-          json.decode(response.body)[0]['point'], contentId, widget.title);
+      final bookIntro = context.read<BookIntroCubit>().state;
+      _sendBookBuySuccessEvent(json.decode(response.body)[0]['point'],
+          contentId, bookIntro.first.title);
       Amplitude.getInstance()
           .setUserProperties({'point': json.decode(response.body)[0]['point']});
       return response.statusCode.toString();
@@ -942,8 +944,8 @@ class _BookIntroState extends State<BookIntro> {
                                               ]);
                                             },
                                             child: Image(
-                                                image: FileImage(File(widget
-                                                    .thumb
+                                                image: FileImage(File(bookIntro
+                                                    .first.thumbUrl
                                                     .replaceAll("'", "")))),
 
                                             // child: CachedNetworkImage(
@@ -1644,7 +1646,7 @@ class _BookIntroState extends State<BookIntro> {
                                                         SizeConfig.defaultSize!,
                                                   ),
                                                   child: Text(
-                                                    widget.summary,
+                                                    bookIntro.first.summary,
                                                     style: TextStyle(
                                                         fontFamily: 'GenBkBasR',
                                                         fontWeight:
@@ -1782,7 +1784,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                                 contentId: contentId,
                                                                                 lastPage: lastPage,
                                                                                 isSelected: true,
-                                                                                title: widget.title,
+                                                                                title: bookIntro.first.title,
                                                                                 abTest: widget.abTest),
                                                                           ),
                                                                         )
@@ -1817,7 +1819,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                                 contentId: contentId,
                                                                                 lastPage: lastPage,
                                                                                 isSelected: true,
-                                                                                title: widget.title),
+                                                                                title: bookIntro.first.title),
                                                                           ),
                                                                         ),
                                                                         audioPlayer

@@ -783,16 +783,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 )
                                                               ],
                                                               child: BookIntro(
-                                                                abTest: widget
-                                                                    .abTest,
-                                                                title:
-                                                                    book.title,
-                                                                thumb: book
-                                                                    .thumbUrl,
-                                                                id: book.id,
-                                                                summary: book
-                                                                    .summary,
-                                                              ),
+                                                                  abTest: widget
+                                                                      .abTest,
+                                                                  id: book.id,
+                                                                  title: book
+                                                                      .title,
+                                                                  showOnboarding:
+                                                                      false),
                                                             )),
                                                   );
                                                   // : Navigator.push(
@@ -954,7 +951,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       //   ),
                       // )
                       GestureDetector(
-                          onTap: () {
+                          onTap: () async {
                             _sendHomeFirstClickEvent();
                             setState(() {
                               // Toggle the value of showOverlay when the overlay is tapped
@@ -962,14 +959,67 @@ class _HomeScreenState extends State<HomeScreen> {
                               showSecondOverlay = true;
                             });
                             // OneSignal.Notifications.requestPermission(true);
+
+                            _sendBookClickEvent(10);
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            await prefs.setBool('haveClickedBook', true);
+                            setState(() {
+                              showFairy = true;
+                            });
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MultiBlocProvider(
+                                          providers: [
+                                            BlocProvider<BookVoiceCubit>(
+                                              create: (context) =>
+                                                  BookVoiceCubit(dataRepository)
+                                                    ..loadBookVoiceData(10),
+                                            ),
+                                            BlocProvider<BookIntroCubit>(
+                                              create: (context) =>
+                                                  // BookIntroCubit(),
+                                                  // DataCubit()..loadHomeBookData()
+                                                  BookIntroCubit(dataRepository)
+                                                    ..loadBookIntroData(10),
+                                            )
+                                          ],
+                                          child: BookIntro(
+                                              abTest: widget.abTest,
+                                              id: 10,
+                                              title: 'The Sun and the Wind',
+                                              showOnboarding: true))),
+                            );
                           },
                           child: Stack(children: [
                             Visibility(
-                              visible: showFirstOverlay, // 첫번째 온보딩화면
+                              // visible: showFirstOverlay, // 첫번째 온보딩화면
+                              visible: false,
                               child: Stack(
                                 children: [
                                   Container(
                                     color: Colors.white.withOpacity(0.6),
+                                  ),
+                                  Positioned(
+                                    left: SizeConfig.defaultSize! * 28.2,
+                                    top: SizeConfig.defaultSize! * 7.8,
+                                    child: InkWell(
+                                      onTap: () async {},
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            12), // 원하는 둥근 정도를 조절합니다.
+                                        child: Image.asset(
+                                          'lib/images/10-0.png',
+                                          width: 25 *
+                                              SizeConfig
+                                                  .defaultSize!, // 이미지의 폭 설정
+                                          height: 25 *
+                                              SizeConfig
+                                                  .defaultSize!, // 이미지의 높이 설정
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                   SafeArea(
                                     child: Column(
@@ -1060,7 +1110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   top: SizeConfig.defaultSize! *
                                                       2,
                                                   child: Image.asset(
-                                                    'lib/images/overlayClick.png',
+                                                    'lib/images/finger.png',
                                                     width: SizeConfig
                                                             .defaultSize! *
                                                         10,
