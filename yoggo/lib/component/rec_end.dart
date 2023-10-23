@@ -126,6 +126,7 @@ class _RecEndState extends State<RecEnd> {
                             Center(
                               child: Text(
                                 '녹음-푸쉬알림',
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: SizeConfig.defaultSize! * 2.5,
                                   fontFamily: 'font-basic'.tr(),

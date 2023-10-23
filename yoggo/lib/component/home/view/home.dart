@@ -2016,25 +2016,55 @@ class _HomeScreenState extends State<HomeScreen> {
                                         //         0.5,
                                         //         -0.7 *
                                         //             SizeConfig.defaultSize!),
-                                        child: Image.asset(
-                                          'lib/images/icons/${userState.voiceIcon}-c.png',
-                                          height: SizeConfig.defaultSize! * 8,
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            userCubit.fetchUser();
+                                            _sendHbgVoiceClickEvent();
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    VoiceProfile(
+                                                  abTest: widget.abTest,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          child: Image.asset(
+                                            'lib/images/icons/${userState.voiceIcon}-c.png',
+                                            height: SizeConfig.defaultSize! * 8,
+                                          ),
                                         )),
                                     Positioned(
                                       left: 9.5 * SizeConfig.defaultSize!,
                                       top: 2.3 * SizeConfig.defaultSize!,
-                                      child: SizedBox(
-                                        width: 12.2 * SizeConfig.defaultSize!,
-                                        height: 2 * SizeConfig.defaultSize!,
-                                        child: Text(
-                                          userState.voiceName!,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize:
-                                                2 * SizeConfig.defaultSize!,
-                                            fontFamily: 'Molengo',
-                                            fontWeight: FontWeight.w400,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          userCubit.fetchUser();
+                                          _sendHbgVoiceClickEvent();
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  VoiceProfile(
+                                                abTest: widget.abTest,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: SizedBox(
+                                          width: 12.2 * SizeConfig.defaultSize!,
+                                          height: 2 * SizeConfig.defaultSize!,
+                                          child: Text(
+                                            userState.voiceName!,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize:
+                                                  2 * SizeConfig.defaultSize!,
+                                              fontFamily: 'Molengo',
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
                                         ),
                                       ),
