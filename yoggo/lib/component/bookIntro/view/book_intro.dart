@@ -952,7 +952,7 @@ class _BookIntroState extends State<BookIntro> {
                                                 child: Row(
                                                   //  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
-                                                    GestureDetector(onTap:(){}, child: Column(children:[]))
+                                                    // GestureDetector(onTap:(){}, child: Column(children:[]))
                                                     userState.purchase
                                                         ? !bookIntro.first.lock
                                                             ? userState.record
@@ -1127,47 +1127,40 @@ class _BookIntroState extends State<BookIntro> {
                                                                         ],
                                                                       ),
                                                                     ))
-                                                            : GestureDetector( onTap: () {
-                                                              _sendBookMyVoiceClickEvent(
-                                                                  contentId,
-                                                                  title);
-                                                              setState(() {
-                                                                wantPurchase =
-                                                                    true;
-                                                              });
-                                                            },
-                                                            child: Center(
-                                                              child: Column(
-                                                                // 결제 안 한 사람
-                                                                children: [
-                                                                  Padding(
-                                                                      padding: EdgeInsets.only(
-                                                                          right: 0 *
-                                                                              SizeConfig
-                                                                                  .defaultSize!,
-                                                                          left: 0 *
-                                                                              SizeConfig
-                                                                                  .defaultSize!),
-                                                                      child: Image
-                                                                          .asset(
-                                                                        'lib/images/locked_face.png',
-                                                                        height: SizeConfig.defaultSize! *
-                                                                            6.5,
-                                                                      )),
-                                                                  SizedBox(
-                                                                      height: SizeConfig
-                                                                              .defaultSize! *
-                                                                          0.3),
-                                                                  Text(
-                                                                      'My voice',
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'GenBkBasR',
-                                                                          fontSize:
-                                                                              1.8 * SizeConfig.defaultSize!))
-                                                                ],
-                                                              ),
-                                                            ))
+                                                            : GestureDetector(
+                                                                onTap: () {
+                                                                  _sendBookMyVoiceClickEvent(
+                                                                      contentId,
+                                                                      title);
+                                                                  setState(() {
+                                                                    wantPurchase =
+                                                                        true;
+                                                                  });
+                                                                },
+                                                                child: Center(
+                                                                  child: Column(
+                                                                    // 결제 안 한 사람
+                                                                    children: [
+                                                                      Padding(
+                                                                          padding: EdgeInsets.only(
+                                                                              right: 0 * SizeConfig.defaultSize!,
+                                                                              left: 0 * SizeConfig.defaultSize!),
+                                                                          child: Image.asset(
+                                                                            'lib/images/locked_face.png',
+                                                                            height:
+                                                                                SizeConfig.defaultSize! * 6.5,
+                                                                          )),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              SizeConfig.defaultSize! * 0.3),
+                                                                      Text(
+                                                                          'My voice',
+                                                                          style: TextStyle(
+                                                                              fontFamily: 'GenBkBasR',
+                                                                              fontSize: 1.8 * SizeConfig.defaultSize!))
+                                                                    ],
+                                                                  ),
+                                                                ))
                                                         : GestureDetector(
                                                             //no Purchase
                                                             onTap: () {

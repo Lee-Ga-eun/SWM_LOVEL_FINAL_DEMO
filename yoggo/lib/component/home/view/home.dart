@@ -600,8 +600,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                     //userState.purchase // 구독이면 캘린더 보여주지 않음
                                     // ? Container()
                                     //:
+                                    // Positioned(
+                                    //     right: SizeConfig.defaultSize! * 10,
+                                    //     top: SizeConfig.defaultSize! * 0.2,
+                                    //     child: SizedBox(
+                                    //         width: 8 * SizeConfig.defaultSize!,
+                                    //         height: 8 * SizeConfig.defaultSize!,
+                                    //         child: Container(
+                                    //             decoration: BoxDecoration(
+                                    //                 gradient: RadialGradient(
+                                    //                     radius: 0.5,
+                                    //                     // begin: Alignment.topCenter,
+                                    //                     // end: Alignment.bottomCenter,
+                                    //                     colors: [
+                                    //               const Color.fromARGB(255, 255,
+                                    //                   0, 0), // 흐린 배경의 시작 색상
+                                    //               Color.fromARGB(0, 255, 255,
+                                    //                   255), // 투명한 중간 색상
+                                    //             ]))))),
                                     Positioned(
-                                      right: SizeConfig.defaultSize! * 12,
+                                      right: SizeConfig.defaultSize! * 12.5,
                                       top: SizeConfig.defaultSize! * 2,
                                       child: InkWell(
                                         onTap: () {
@@ -617,16 +635,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                           _openCalendarFunc();
                                         },
                                         child: Image.asset(
-                                          'lib/images/calendar.png',
-                                          width: 4.7 *
+                                          'lib/images/calendarOrange.png',
+                                          width: 4 *
                                               SizeConfig
                                                   .defaultSize!, // 이미지의 폭 설정
-                                          height: 4.7 *
+                                          height: 4 *
                                               SizeConfig
                                                   .defaultSize!, // 이미지의 높이 설정
                                         ),
                                       ),
                                     ),
+
+                                    Visibility(
+                                        visible: lastPointYMD != formattedTime,
+                                        child: Positioned(
+                                            right: SizeConfig.defaultSize! * 12,
+                                            top: 0.05 * sh,
+                                            child: Image.asset(
+                                              'lib/images/redButton.png',
+                                              width: 0.02 * sw,
+                                            ))),
                                     //userState.purchase
                                     // ? Container()
                                     //:
