@@ -40,15 +40,17 @@ class DataRepository {
         },
       );
       _isChanged = false;
+
       //
 
       // // dev 버전
       // await http.get(Uri.parse('${dotenv.get("API_SERVER")}content/dev'));
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body) as List<dynamic>;
-        final data =
-            jsonData.map((item) => HomeScreenBookModel.fromJson(item)).toList();
-        data.sort((a, b) {
+
+        final bookThumb = await fetchBookThumb(jsonData);
+        //print(bookThumb);
+        bookThumb.sort((a, b) {
           if (a.lock == b.lock) {
             return 0;
           } else if (a.lock) {
@@ -58,7 +60,7 @@ class DataRepository {
           }
         });
 
-        _loadedHomeScreenData = data;
+        _loadedHomeScreenData = bookThumb;
         _isLoaded = true;
       }
     }
@@ -90,9 +92,10 @@ class DataRepository {
     // await http.get(Uri.parse('${dotenv.get("API_SERVER")}content/dev'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body) as List<dynamic>;
-      final data =
-          jsonData.map((item) => HomeScreenBookModel.fromJson(item)).toList();
-      data.sort((a, b) {
+
+      final bookThumb = await fetchBookThumb(jsonData);
+      //print(bookThumb);
+      bookThumb.sort((a, b) {
         if (a.lock == b.lock) {
           return 0;
         } else if (a.lock) {
@@ -102,7 +105,7 @@ class DataRepository {
         }
       });
 
-      _loadedHomeScreenData = data;
+      _loadedHomeScreenData = bookThumb;
       _isLoaded = true;
     }
 
@@ -287,6 +290,35 @@ class DataRepository {
       filePath = filePath.replaceFirst("LocalFile: ", "");
     }
     return filePath;
+  }
+
+  Future<List<HomeScreenBookModel>> fetchBookThumb(dynamic jsonData) async {
+    final futures = <Future<String>>[];
+    final data = <HomeScreenBookModel>[];
+
+    for (var element in jsonData) {
+      futures.add(getCachedOrFetch(element["thumbUrl"]));
+    }
+
+    final result = await Future.wait(futures);
+    for (var i = 0; i < jsonData.length; i++) {
+      var element = jsonData[i];
+
+      var homeScreenBookModel = HomeScreenBookModel(
+        id: element["id"],
+        title: element["title"],
+        thumbUrl: result[i],
+        summary: element["summary"],
+        createdAt: element["createdAt"],
+        last: element["last"],
+        age: element["age"],
+        visible: element["visible"],
+        sequence: element["sequence"],
+        lock: element["lock"],
+      );
+      data.add(homeScreenBookModel);
+    }
+    return data;
   }
 
   Future<BookPageModel> fetchBookPage(dynamic element) async {

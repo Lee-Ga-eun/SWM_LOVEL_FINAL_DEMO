@@ -595,113 +595,102 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                     ),
-                                    userState.purchase // 구독이면 캘린더 보여주지 않음
-                                        ? Container()
-                                        : Positioned(
-                                            right: SizeConfig.defaultSize! * 12,
-                                            top: SizeConfig.defaultSize! * 2,
-                                            child: InkWell(
-                                              onTap: () {
-                                                lastPointYMD == formattedTime
-                                                    ? _sendCalClickEvent(
-                                                        userState.point,
-                                                        availableGetPoint,
-                                                        'Already Claimed')
-                                                    : _sendCalClickEvent(
-                                                        userState.point,
-                                                        availableGetPoint,
-                                                        'Not Claimed Yet');
-                                                _openCalendarFunc();
-                                              },
-                                              child: Image.asset(
-                                                'lib/images/calendar.png',
-                                                width: 4.7 *
-                                                    SizeConfig
-                                                        .defaultSize!, // 이미지의 폭 설정
-                                                height: 4.7 *
-                                                    SizeConfig
-                                                        .defaultSize!, // 이미지의 높이 설정
-                                              ),
-                                            ),
+                                    //userState.purchase // 구독이면 캘린더 보여주지 않음
+                                    // ? Container()
+                                    //:
+                                    Positioned(
+                                      right: SizeConfig.defaultSize! * 12,
+                                      top: SizeConfig.defaultSize! * 2,
+                                      child: InkWell(
+                                        onTap: () {
+                                          lastPointYMD == formattedTime
+                                              ? _sendCalClickEvent(
+                                                  userState.point,
+                                                  availableGetPoint,
+                                                  'Already Claimed')
+                                              : _sendCalClickEvent(
+                                                  userState.point,
+                                                  availableGetPoint,
+                                                  'Not Claimed Yet');
+                                          _openCalendarFunc();
+                                        },
+                                        child: Image.asset(
+                                          'lib/images/calendar.png',
+                                          width: 4.7 *
+                                              SizeConfig
+                                                  .defaultSize!, // 이미지의 폭 설정
+                                          height: 4.7 *
+                                              SizeConfig
+                                                  .defaultSize!, // 이미지의 높이 설정
+                                        ),
+                                      ),
+                                    ),
+                                    //userState.purchase
+                                    // ? Container()
+                                    //:
+                                    Positioned(
+                                      //구독이면 포인트 보여주지 않음
+                                      top: 2.2 * SizeConfig.defaultSize!,
+                                      right: 1 * SizeConfig.defaultSize!,
+                                      child: Stack(children: [
+                                        GestureDetector(
+                                          onTap: () {
+                                            _sendHomePointClickEvent(
+                                                userState.point);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Purchase(
+                                                        abTest: widget.abTest,
+                                                      )),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: 10 * SizeConfig.defaultSize!,
+                                            height: 4 * SizeConfig.defaultSize!,
+                                            decoration: BoxDecoration(
+                                                color: const Color.fromARGB(
+                                                    128, 255, 255, 255),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(SizeConfig
+                                                            .defaultSize! *
+                                                        1))),
+                                            child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  SizedBox(
+                                                    width: 0.5 *
+                                                        SizeConfig.defaultSize!,
+                                                  ),
+                                                  SizedBox(
+                                                      width: 2 *
+                                                          SizeConfig
+                                                              .defaultSize!,
+                                                      child: Image.asset(
+                                                          'lib/images/oneCoin.png')),
+                                                  Container(
+                                                    width: 7 *
+                                                        SizeConfig.defaultSize!,
+                                                    alignment: Alignment.center,
+                                                    // decoration: BoxDecoration(color: Colors.blue),
+                                                    child: Text(
+                                                      '${userState.point + 0}',
+                                                      style: TextStyle(
+                                                          fontFamily: 'lilita',
+                                                          fontSize: SizeConfig
+                                                                  .defaultSize! *
+                                                              2),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                  )
+                                                ]),
                                           ),
-                                    userState.purchase
-                                        ? Container()
-                                        : Positioned(
-                                            //구독이면 포인트 보여주지 않음
-                                            top: 2.2 * SizeConfig.defaultSize!,
-                                            right: 1 * SizeConfig.defaultSize!,
-                                            child: Stack(children: [
-                                              GestureDetector(
-                                                onTap: () {
-                                                  _sendHomePointClickEvent(
-                                                      userState.point);
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            Purchase(
-                                                              abTest:
-                                                                  widget.abTest,
-                                                            )),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: 10 *
-                                                      SizeConfig.defaultSize!,
-                                                  height: 4 *
-                                                      SizeConfig.defaultSize!,
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              128,
-                                                              255,
-                                                              255,
-                                                              255),
-                                                      borderRadius: BorderRadius
-                                                          .all(Radius.circular(
-                                                              SizeConfig
-                                                                      .defaultSize! *
-                                                                  1))),
-                                                  child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        SizedBox(
-                                                          width: 0.5 *
-                                                              SizeConfig
-                                                                  .defaultSize!,
-                                                        ),
-                                                        SizedBox(
-                                                            width: 2 *
-                                                                SizeConfig
-                                                                    .defaultSize!,
-                                                            child: Image.asset(
-                                                                'lib/images/oneCoin.png')),
-                                                        Container(
-                                                          width: 7 *
-                                                              SizeConfig
-                                                                  .defaultSize!,
-                                                          alignment:
-                                                              Alignment.center,
-                                                          // decoration: BoxDecoration(color: Colors.blue),
-                                                          child: Text(
-                                                            '${userState.point + 0}',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'lilita',
-                                                                fontSize: SizeConfig
-                                                                        .defaultSize! *
-                                                                    2),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          ),
-                                                        )
-                                                      ]),
-                                                ),
-                                              ),
-                                            ]),
-                                          ),
+                                        ),
+                                      ]),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -802,8 +791,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   //               : const Purchase(),
                                                   //     ));
                                                 }, //onTap 종료
-                                                child: book.lock &&
-                                                        !userState.purchase
+                                                child: book.lock
                                                     // 사용자가 포인트로 책을 풀었거나, 무료 공개 책이면 lock 해제
                                                     ? lockedBook(book)
                                                     : unlockedBook(
@@ -2344,9 +2332,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: SizeConfig.defaultSize! * 22,
                     color: Colors.white.withOpacity(0.6),
                   ),
-                  CachedNetworkImage(
-                    imageUrl: book.thumbUrl,
-                  ),
+                  Image(
+                      image:
+                          FileImage(File(book.thumbUrl.replaceAll("'", "")))),
+                  // CachedNetworkImage(
+                  //   imageUrl: book.thumbUrl,
+                  // ),
                 ])),
           ),
         ),
@@ -2383,9 +2374,12 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Stack(children: [
-                CachedNetworkImage(
-                  imageUrl: book.thumbUrl,
-                ),
+                Image(
+                    image: FileImage(File(book.thumbUrl.replaceAll("'", "")))),
+
+                // CachedNetworkImage(
+                //   imageUrl: book.thumbUrl,
+                // ),
                 Container(
                   width: SizeConfig.defaultSize! * 22,
                   color: Colors.white.withOpacity(0.6),

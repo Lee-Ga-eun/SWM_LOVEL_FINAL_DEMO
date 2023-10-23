@@ -25,7 +25,7 @@ import '../../shop.dart';
 import '../viewModel/book_intro_model.dart';
 import '../viewModel/book_intro_cubit.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'dart:io' show Platform;
+import 'dart:io' show File, Platform;
 import 'dart:math';
 
 class BookIntro extends StatefulWidget {
@@ -884,11 +884,16 @@ class _BookIntroState extends State<BookIntro> {
                                                 )
                                               ]);
                                             },
-                                            child: CachedNetworkImage(
-                                              imageUrl: widget.thumb,
-                                              fit: BoxFit
-                                                  .cover, // 이미지를 컨테이너에 맞게 조절
-                                            ),
+                                            child: Image(
+                                                image: FileImage(File(widget
+                                                    .thumb
+                                                    .replaceAll("'", "")))),
+
+                                            // child: CachedNetworkImage(
+                                            //   imageUrl: widget.thumb,
+                                            //   fit: BoxFit
+                                            //       .cover, // 이미지를 컨테이너에 맞게 조절
+                                            // ),
                                           ),
                                         )),
                                   ],
@@ -945,70 +950,65 @@ class _BookIntroState extends State<BookIntro> {
                                                 child: Row(
                                                   //  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
+                                                    GestureDetector(onTap:(){}, child: Column(children:[]))
                                                     userState.purchase
-                                                        ? userState.record
-                                                            ? inferenceId == 0
-                                                                ? GestureDetector(
-                                                                    // purchase & record
-                                                                    // no start Inference
-                                                                    onTap: () {
-                                                                      bookVoiceCubit
-                                                                          .changeBookVoiceData(
-                                                                              contentId);
-                                                                      _sendBookMyVoiceClickEvent(
-                                                                        contentId,
-                                                                        title,
-                                                                      );
-                                                                      //    setState(() {
-                                                                      canChanged
-                                                                              .value =
-                                                                          false;
-                                                                      wantInference
-                                                                              .value =
-                                                                          true;
-                                                                      //   });
-                                                                    },
-                                                                    child: Column(
-                                                                        children: [
-                                                                          Padding(
-                                                                              padding: EdgeInsets.only(right: 0 * SizeConfig.defaultSize!),
-                                                                              child: Image.asset(
-                                                                                'lib/images/icons/${userState.voiceIcon}-uc.png',
-                                                                                height: SizeConfig.defaultSize! * 7,
-                                                                              )),
-                                                                          SizedBox(
-                                                                              height: SizeConfig.defaultSize! * 0.3),
-                                                                          Text(
-                                                                              userState.voiceName!,
-                                                                              style: TextStyle(
-                                                                                  fontFamily: 'GenBkBasR',
-                                                                                  // fontWeight:
-                                                                                  //     FontWeight.w800,
-                                                                                  fontSize: 1.8 * SizeConfig.defaultSize!))
-                                                                        ]))
-                                                                : isLoading
+                                                        ? !bookIntro.first.lock
+                                                            ? userState.record
+                                                                ? inferenceId ==
+                                                                        0
                                                                     ? GestureDetector(
                                                                         // purchase & record
-                                                                        // no complete inference
+                                                                        // no start Inference
                                                                         onTap:
                                                                             () {
+                                                                          bookVoiceCubit
+                                                                              .changeBookVoiceData(contentId);
                                                                           _sendBookMyVoiceClickEvent(
                                                                             contentId,
                                                                             title,
                                                                           );
-
-                                                                          bookVoiceCubit
-                                                                              .changeBookVoiceData(contentId);
-                                                                          setState(
-                                                                              () {
-                                                                            canChanged.value =
-                                                                                false;
-                                                                            completeInference =
-                                                                                false;
-                                                                          });
+                                                                          //    setState(() {
+                                                                          canChanged.value =
+                                                                              false;
+                                                                          wantInference.value =
+                                                                              true;
+                                                                          //   });
                                                                         },
                                                                         child: Column(
                                                                             children: [
+                                                                              Padding(
+                                                                                  padding: EdgeInsets.only(right: 0 * SizeConfig.defaultSize!),
+                                                                                  child: Image.asset(
+                                                                                    'lib/images/icons/${userState.voiceIcon}-uc.png',
+                                                                                    height: SizeConfig.defaultSize! * 7,
+                                                                                  )),
+                                                                              SizedBox(height: SizeConfig.defaultSize! * 0.3),
+                                                                              Text(userState.voiceName!,
+                                                                                  style: TextStyle(
+                                                                                      fontFamily: 'GenBkBasR',
+                                                                                      // fontWeight:
+                                                                                      //     FontWeight.w800,
+                                                                                      fontSize: 1.8 * SizeConfig.defaultSize!))
+                                                                            ]))
+                                                                    : isLoading
+                                                                        ? GestureDetector(
+                                                                            // purchase & record
+                                                                            // no complete inference
+                                                                            onTap:
+                                                                                () {
+                                                                              _sendBookMyVoiceClickEvent(
+                                                                                contentId,
+                                                                                title,
+                                                                              );
+
+                                                                              bookVoiceCubit.changeBookVoiceData(contentId);
+                                                                              setState(() {
+                                                                                canChanged.value = false;
+                                                                                completeInference = false;
+                                                                              });
+                                                                            },
+                                                                            child:
+                                                                                Column(children: [
                                                                               Stack(children: [
                                                                                 Image.asset(
                                                                                   'lib/images/icons/${userState.voiceIcon}-uc.png',
@@ -1032,53 +1032,43 @@ class _BookIntroState extends State<BookIntro> {
                                                                                       //     FontWeight.w800,
                                                                                       fontSize: 1.8 * SizeConfig.defaultSize!))
                                                                             ]))
-                                                                    : GestureDetector(
-                                                                        // purchase & record
-                                                                        // complete Inference : 책 인퍼런스 완료된 상태
-                                                                        onTap:
-                                                                            () async {
-                                                                          bookVoiceCubit
-                                                                              .changeBookVoiceData(contentId);
-                                                                          bookVoiceCubit.clickBookVoiceData(
-                                                                              contentId,
-                                                                              voiceState[0].voiceId);
-                                                                          clickedVoice =
-                                                                              await bookVoiceCubit.loadClickedBookVoiceData(contentId) as BookVoiceModel;
-                                                                          _sendBookMyVoiceClickEvent(
-                                                                            contentId,
-                                                                            title,
-                                                                          );
-                                                                          // setState(() {
-                                                                          // isClicked.value =
-                                                                          //     !isClicked.value;
-                                                                          // isClicked0.value =
-                                                                          //     false;
-                                                                          // isClicked1.value =
-                                                                          //     false;
-                                                                          // isClicked2.value =
-                                                                          //     false;
+                                                                        : GestureDetector(
+                                                                            // purchase & record
+                                                                            // complete Inference : 책 인퍼런스 완료된 상태
+                                                                            onTap: () async {
+                                                                              bookVoiceCubit.changeBookVoiceData(contentId);
+                                                                              bookVoiceCubit.clickBookVoiceData(contentId, voiceState[0].voiceId);
+                                                                              clickedVoice = await bookVoiceCubit.loadClickedBookVoiceData(contentId) as BookVoiceModel;
+                                                                              _sendBookMyVoiceClickEvent(
+                                                                                contentId,
+                                                                                title,
+                                                                              );
+                                                                              // setState(() {
+                                                                              // isClicked.value =
+                                                                              //     !isClicked.value;
+                                                                              // isClicked0.value =
+                                                                              //     false;
+                                                                              // isClicked1.value =
+                                                                              //     false;
+                                                                              // isClicked2.value =
+                                                                              //     false;
 
-                                                                          canChanged.value =
-                                                                              true;
-                                                                          cvi =
-                                                                              inferenceId;
-                                                                          vi = userState
-                                                                              .voiceId!;
-                                                                          canChanged.value =
-                                                                              true; // 인퍼런스가 완료됐을 때 바로 화살표가 넘어갈 수 있도록
-                                                                          //   });
-                                                                        },
-                                                                        child:
-                                                                            // ValueListenableBuilder<
-                                                                            //         bool>(
-                                                                            //     valueListenable:
-                                                                            //         isClicked,
-                                                                            //     builder: (context,
-                                                                            //         value,
-                                                                            //         child) {
-                                                                            //       return
-                                                                            Column(
-                                                                                children: [
+                                                                              canChanged.value = true;
+                                                                              cvi = inferenceId;
+                                                                              vi = userState.voiceId!;
+                                                                              canChanged.value = true; // 인퍼런스가 완료됐을 때 바로 화살표가 넘어갈 수 있도록
+                                                                              //   });
+                                                                            },
+                                                                            child:
+                                                                                // ValueListenableBuilder<
+                                                                                //         bool>(
+                                                                                //     valueListenable:
+                                                                                //         isClicked,
+                                                                                //     builder: (context,
+                                                                                //         value,
+                                                                                //         child) {
+                                                                                //       return
+                                                                                Column(children: [
                                                                               Padding(
                                                                                 padding: EdgeInsets.only(right: 0 * SizeConfig.defaultSize!),
                                                                                 child: voiceState[0].clicked //isClicked.value
@@ -1099,50 +1089,83 @@ class _BookIntroState extends State<BookIntro> {
                                                                                       //     FontWeight.w800,
                                                                                       fontSize: 1.8 * SizeConfig.defaultSize!))
                                                                             ])
-                                                                        //})
-                                                                        )
-                                                            : GestureDetector(
-                                                                // no record
-                                                                onTap: () {
-                                                                  _sendBookMyVoiceClickEvent(
-                                                                      contentId,
-                                                                      title);
-                                                                  setState(() {
-                                                                    // wantRecord = true;
-                                                                  });
-                                                                  wantRecord
-                                                                          .value =
-                                                                      true;
-                                                                },
-                                                                child: Center(
-                                                                  child: Column(
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: EdgeInsets.only(
-                                                                            right:
-                                                                                0 * SizeConfig.defaultSize!,
-                                                                            left: 0 * SizeConfig.defaultSize!),
-                                                                        child: Image.asset(
-                                                                            'lib/images/icons/grinning-face-c.png',
-                                                                            height: SizeConfig.defaultSize! *
-                                                                                6.5,
-                                                                            colorBlendMode: BlendMode
-                                                                                .srcATop,
-                                                                            color: voiceState[0].clicked
-                                                                                ? null
-                                                                                : const Color.fromARGB(200, 255, 255, 255)),
+                                                                            //})
+                                                                            )
+                                                                : GestureDetector(
+                                                                    // no record
+                                                                    onTap: () {
+                                                                      _sendBookMyVoiceClickEvent(
+                                                                          contentId,
+                                                                          title);
+                                                                      setState(
+                                                                          () {
+                                                                        // wantRecord = true;
+                                                                      });
+                                                                      wantRecord
+                                                                              .value =
+                                                                          true;
+                                                                    },
+                                                                    child: Center(
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Padding(
+                                                                            padding:
+                                                                                EdgeInsets.only(right: 0 * SizeConfig.defaultSize!, left: 0 * SizeConfig.defaultSize!),
+                                                                            child: Image.asset('lib/images/icons/grinning-face-c.png',
+                                                                                height: SizeConfig.defaultSize! * 6.5,
+                                                                                colorBlendMode: BlendMode.srcATop,
+                                                                                color: voiceState[0].clicked ? null : const Color.fromARGB(200, 255, 255, 255)),
+                                                                          ),
+                                                                          SizedBox(
+                                                                              height: SizeConfig.defaultSize! * 0.3),
+                                                                          Text(
+                                                                              'My voice',
+                                                                              style: TextStyle(fontFamily: 'GenBkBasR', fontSize: 1.8 * SizeConfig.defaultSize!))
+                                                                        ],
                                                                       ),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              SizeConfig.defaultSize! * 0.3),
-                                                                      Text(
-                                                                          'My voice',
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'GenBkBasR',
-                                                                              fontSize: 1.8 * SizeConfig.defaultSize!))
-                                                                    ],
-                                                                  ),
-                                                                ))
+                                                                    ))
+                                                            : GestureDetector( onTap: () {
+                                                              _sendBookMyVoiceClickEvent(
+                                                                  contentId,
+                                                                  title);
+                                                              setState(() {
+                                                                wantPurchase =
+                                                                    true;
+                                                              });
+                                                            },
+                                                            child: Center(
+                                                              child: Column(
+                                                                // 결제 안 한 사람
+                                                                children: [
+                                                                  Padding(
+                                                                      padding: EdgeInsets.only(
+                                                                          right: 0 *
+                                                                              SizeConfig
+                                                                                  .defaultSize!,
+                                                                          left: 0 *
+                                                                              SizeConfig
+                                                                                  .defaultSize!),
+                                                                      child: Image
+                                                                          .asset(
+                                                                        'lib/images/locked_face.png',
+                                                                        height: SizeConfig.defaultSize! *
+                                                                            6.5,
+                                                                      )),
+                                                                  SizedBox(
+                                                                      height: SizeConfig
+                                                                              .defaultSize! *
+                                                                          0.3),
+                                                                  Text(
+                                                                      'My voice',
+                                                                      style: TextStyle(
+                                                                          fontFamily:
+                                                                              'GenBkBasR',
+                                                                          fontSize:
+                                                                              1.8 * SizeConfig.defaultSize!))
+                                                                ],
+                                                              ),
+                                                            ))
                                                         : GestureDetector(
                                                             //no Purchase
                                                             onTap: () {
@@ -1581,8 +1604,7 @@ class _BookIntroState extends State<BookIntro> {
                                                       Alignment.topCenter,
                                                   // right: SizeConfig.defaultSize! * 12,
                                                   // top: SizeConfig.defaultSize! * 1.4,
-                                                  child: bookIntro.first.lock &&
-                                                          !userState.purchase
+                                                  child: bookIntro.first.lock
                                                       ? InkWell(
                                                           onTap: () async {
                                                             _sendBookBuyClickEvent(
@@ -1992,7 +2014,7 @@ class _BookIntroState extends State<BookIntro> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>  Purchase(
+                                    builder: (context) => Purchase(
                                           abTest: widget.abTest,
                                         )),
                               );
@@ -2158,7 +2180,10 @@ class _BookIntroState extends State<BookIntro> {
                               SizeConfig.defaultSize! * 3),
                         ),
                         backgroundColor: Colors.white.withOpacity(0.9),
-                        title: Center(child: Text('인트로-목소리녹음'.tr())),
+                        title: Center(
+                            child: Text('인트로-목소리녹음'.tr(),
+                                style:
+                                    TextStyle(fontFamily: 'font-basic'.tr()))),
                         actions: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
