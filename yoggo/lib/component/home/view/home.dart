@@ -12,7 +12,9 @@ import 'package:yoggo/component/bookIntro/view/book_intro.dart';
 import 'package:yoggo/component/globalCubit/user/user_state.dart';
 import 'package:yoggo/component/home/viewModel/home_screen_book_model.dart';
 // import 'package:yoggo/component/sub.dart';
-import 'package:yoggo/component/shop.dart';
+// import 'package:yoggo/component/shop.dart';
+import 'package:yoggo/component/point.dart';
+
 import 'package:yoggo/component/rec_info.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yoggo/size_config.dart';

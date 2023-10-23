@@ -11,7 +11,8 @@ import 'package:yoggo/component/home/view/home.dart';
 import 'package:yoggo/component/bookPage/view/book_page.dart';
 import 'package:yoggo/component/rec_info.dart';
 import 'package:yoggo/size_config.dart';
-import 'package:yoggo/component/shop.dart';
+// import 'package:yoggo/component/shop.dart';
+import 'package:yoggo/component/point.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'globalCubit/user/user_cubit.dart';
 

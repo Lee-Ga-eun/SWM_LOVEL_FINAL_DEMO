@@ -21,7 +21,9 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../globalCubit/user/user_cubit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../../shop.dart';
+// import '../../shop.dart';
+import 'package:yoggo/component/point.dart';
+
 import '../viewModel/book_intro_model.dart';
 import '../viewModel/book_intro_cubit.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -1992,7 +1994,7 @@ class _BookIntroState extends State<BookIntro> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>  Purchase(
+                                    builder: (context) => Purchase(
                                           abTest: widget.abTest,
                                         )),
                               );
