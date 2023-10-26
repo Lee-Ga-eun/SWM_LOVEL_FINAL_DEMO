@@ -145,7 +145,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
     // contentId = widget.id; // contentId는 init에서
     // fetchPageData();
     getToken();
-    _sendBookIntroViewEvent(contentId, widget.title);
+    _sendBookIntroInOnboardingViewEvent(contentId, widget.title);
   }
 
   Future<void> fetchClickedVoice(int id) async {
@@ -249,7 +249,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
     }
   }
 
-  Future<void> _sendBookIntroViewEvent(
+  Future<void> _sendBookIntroInOnboardingViewEvent(
     contentId,
     title,
   ) async {
@@ -275,21 +275,21 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
     }
   }
 
-  Future<void> _sendBookIntroXClickEvent(
+  Future<void> _sendBookIntroXInOnboardingClickEvent(
     contentId,
     title,
   ) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
-        name: 'book_intro_x_click',
+        name: 'book_intro_x_in_onboarding_click',
         parameters: <String, dynamic>{
           'contentId': contentId,
           'title': title,
         },
       );
       await amplitude.logEvent(
-        'book_intro_x_click',
+        'book_intro_x_in_onboarding_click',
         eventProperties: {
           'contentId': contentId,
           'title': title,
@@ -847,7 +847,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                                 size: 3 *
                                                     SizeConfig.defaultSize!),
                                             onPressed: () {
-                                              _sendBookIntroXClickEvent(
+                                              _sendBookIntroXInOnboardingClickEvent(
                                                   widget.id, title);
                                               audioPlayer.stop();
                                               Navigator.popUntil(context,
@@ -1045,7 +1045,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                                                                 .defaultSize!),
                                                                     child: Image
                                                                         .asset(
-                                                                      'lib/images/icons/${userState.voiceIcon}-c.png',
+                                                                      'lib/images/icons/grinning-face-c.png',
                                                                       height:
                                                                           SizeConfig.defaultSize! *
                                                                               7,
