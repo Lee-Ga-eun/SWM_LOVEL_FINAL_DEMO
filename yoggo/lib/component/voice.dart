@@ -256,7 +256,7 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     color: Colors.black,
-                                                    fontSize: 3 *
+                                                    fontSize: 2.5 *
                                                         SizeConfig.defaultSize!,
                                                     fontFamily:
                                                         'font-basic'.tr(),
@@ -264,7 +264,7 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                                   ),
                                                 ).tr(),
                                                 SizedBox(
-                                                  height:
+                                                  height: 2 *
                                                       SizeConfig.defaultSize!,
                                                 ),
                                                 const CircularProgressIndicator(

@@ -77,6 +77,7 @@ dependencies:
   flutter_keyboard_visibility: ^5.0.3 # 패키지 버전은 업데이트 될 수 있습니다.
   firebase_remote_config: ^4.3.1
   firebase_messaging: ^14.7.2
+  percent_indicator: ^4.2.3
 
 dev_dependencies:
   flutter_test:
