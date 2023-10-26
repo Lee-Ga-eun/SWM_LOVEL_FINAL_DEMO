@@ -31,7 +31,7 @@ import 'dart:io' show File, Platform;
 import 'dart:math';
 
 class BookIntro extends StatefulWidget {
-  final String title;
+  final String title, thumbUrl;
   final int id;
   final FirebaseRemoteConfig abTest;
   final bool showOnboarding;
@@ -43,6 +43,7 @@ class BookIntro extends StatefulWidget {
       required this.title,
       required this.id,
       required this.abTest,
+      required this.thumbUrl,
       required this.showOnboarding})
       : super(key: key);
 
@@ -923,7 +924,7 @@ class _BookIntroState extends State<BookIntro> {
                                               return Stack(children: [
                                                 Container(
                                                   width: thumbSize,
-                                                  height: thumbSize,
+                                                  //height: thumbSize,
                                                   clipBehavior: Clip.hardEdge,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
@@ -966,8 +967,8 @@ class _BookIntroState extends State<BookIntro> {
                                               ]);
                                             },
                                             child: Image(
-                                                image: FileImage(File(bookIntro
-                                                    .first.thumbUrl
+                                                image: FileImage(File(widget
+                                                    .thumbUrl
                                                     .replaceAll("'", "")))),
 
                                             // child: CachedNetworkImage(
