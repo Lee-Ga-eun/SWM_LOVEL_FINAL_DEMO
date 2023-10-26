@@ -2213,6 +2213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   MaterialPageRoute(
                                     builder: (context) => userState.purchase
                                         ? RecInfo(
+                                            contentId: 0,
                                             abTest: widget.abTest,
                                           )
                                         : Purchase(

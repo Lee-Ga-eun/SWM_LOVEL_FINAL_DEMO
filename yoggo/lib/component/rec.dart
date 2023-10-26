@@ -22,8 +22,11 @@ import 'package:easy_localization/easy_localization.dart';
 
 class Rec extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
+  final int contentId;
   final void Function(String path)? onStop;
-  const Rec({Key? key, this.onStop, required this.abTest}) : super(key: key);
+  const Rec(
+      {Key? key, this.onStop, required this.abTest, required this.contentId})
+      : super(key: key);
 
   @override
   State<Rec> createState() => _RecState();
@@ -311,6 +314,7 @@ class _RecState extends State<Rec> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Rec(
+                                                contentId: widget.contentId,
                                                 abTest: widget.abTest,
                                               )),
                                     );
@@ -356,6 +360,7 @@ class _RecState extends State<Rec> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => RecLoading(
+                                                contentId: widget.contentId,
                                                 abTest: widget.abTest,
                                                 onStop: widget.onStop,
                                                 path: path!,

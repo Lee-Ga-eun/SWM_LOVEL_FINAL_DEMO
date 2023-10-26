@@ -443,6 +443,7 @@ class _RecReState extends State<RecRe> {
                                                 onStop: widget.onStop,
                                                 path: path!,
                                                 retry: true,
+                                                contentId: 0,
                                               )),
                                     );
                                     // });
