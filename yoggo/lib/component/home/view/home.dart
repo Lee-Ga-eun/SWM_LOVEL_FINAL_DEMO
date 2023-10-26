@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool wantDelete = false;
   double dropdownHeight = 0.0;
   bool isDataFetched = false; // 데이터를 받아온 여부를 나타내는 플래그
-  bool showFirstOverlay = false; // Initially show the overlay
+  bool showFirstOverlay = true; // Initially show the overlay
   bool showSecondOverlay = false; // Initially show the overlay
   bool showBanner = false;
   bool showFairy = false;
@@ -93,6 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _checkFirstTimeAccess(); // 앱 최초 사용 접속 : 온보딩 화면 보여주기
     Future.delayed(Duration.zero, () async {
       await saveRewardStatus();
+      showFirstOverlay ? null : _openCalendarFunc();
     });
     // _loadAd();
   }
@@ -541,8 +542,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           image: DecorationImage(
+                            opacity: showFirstOverlay ? 0.6 : 1.0,
                             image: AssetImage('lib/images/bkground.png'),
                             fit: BoxFit.cover,
                           ),
@@ -570,6 +572,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                             fontFamily: 'Modak',
                                             fontSize:
                                                 SizeConfig.defaultSize! * 5,
+                                            color: showFirstOverlay
+                                                ? Colors.grey
+                                                : Colors.black,
                                           ),
                                         ),
                                       ],
@@ -591,9 +596,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                           width: 3.5 *
                                               SizeConfig
                                                   .defaultSize!, // 이미지의 폭 설정
-                                          height: 3.5 *
-                                              SizeConfig
-                                                  .defaultSize!, // 이미지의 높이 설정
+                                          height: // 이미지의 높이 설정
+                                              3.5 * SizeConfig.defaultSize!,
+                                          colorBlendMode: BlendMode.srcATop,
+                                          color: showFirstOverlay
+                                              ? Color.fromARGB(
+                                                  153, 255, 255, 255)
+                                              : null,
                                         ),
                                       ),
                                     ),
@@ -639,9 +648,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           width: 4 *
                                               SizeConfig
                                                   .defaultSize!, // 이미지의 폭 설정
-                                          height: 4 *
-                                              SizeConfig
-                                                  .defaultSize!, // 이미지의 높이 설정
+                                          height: 4 * SizeConfig.defaultSize!,
+                                          colorBlendMode: BlendMode.srcATop,
+                                          color: showFirstOverlay
+                                              ? Color.fromARGB(
+                                                  153, 255, 255, 255)
+                                              : null, // 이미지의 높이 설정
                                         ),
                                       ),
                                     ),
@@ -699,7 +711,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           SizeConfig
                                                               .defaultSize!,
                                                       child: Image.asset(
-                                                          'lib/images/oneCoin.png')),
+                                                        'lib/images/oneCoin.png',
+                                                        colorBlendMode:
+                                                            BlendMode.srcATop,
+                                                        color: showFirstOverlay
+                                                            ? Color.fromARGB(
+                                                                153,
+                                                                255,
+                                                                255,
+                                                                255)
+                                                            : null,
+                                                      )),
                                                   Container(
                                                     width: 7 *
                                                         SizeConfig.defaultSize!,
@@ -711,7 +733,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           fontFamily: 'lilita',
                                                           fontSize: SizeConfig
                                                                   .defaultSize! *
-                                                              2),
+                                                              2,
+                                                          color:
+                                                              showFirstOverlay
+                                                                  ? Colors.grey
+                                                                  : Colors
+                                                                      .black),
                                                       textAlign:
                                                           TextAlign.center,
                                                     ),
@@ -994,33 +1021,33 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           child: Stack(children: [
                             Visibility(
-                              // visible: showFirstOverlay, // 첫번째 온보딩화면
-                              visible: false,
+                              visible: showFirstOverlay, // 첫번째 온보딩화면
+                              //visible: //true,
                               child: Stack(
                                 children: [
                                   Container(
-                                    color: Colors.white.withOpacity(0.6),
+                                    color: Colors.white.withOpacity(0),
                                   ),
-                                  Positioned(
-                                    left: SizeConfig.defaultSize! * 28.2,
-                                    top: SizeConfig.defaultSize! * 7.8,
-                                    child: InkWell(
-                                      onTap: () async {},
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(
-                                            12), // 원하는 둥근 정도를 조절합니다.
-                                        child: Image.asset(
-                                          'lib/images/10-0.png',
-                                          width: 25 *
-                                              SizeConfig
-                                                  .defaultSize!, // 이미지의 폭 설정
-                                          height: 25 *
-                                              SizeConfig
-                                                  .defaultSize!, // 이미지의 높이 설정
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  // Positioned(
+                                  //   left: SizeConfig.defaultSize! * 28.2,
+                                  //   top: SizeConfig.defaultSize! * 7.8,
+                                  //   child: InkWell(
+                                  //     onTap: () async {},
+                                  //     child: ClipRRect(
+                                  //       borderRadius: BorderRadius.circular(
+                                  //           12), // 원하는 둥근 정도를 조절합니다.
+                                  //       child: Image.asset(
+                                  //         'lib/images/10-0.png',
+                                  //         width: 25 *
+                                  //             SizeConfig
+                                  //                 .defaultSize!, // 이미지의 폭 설정
+                                  //         height: 25 *
+                                  //             SizeConfig
+                                  //                 .defaultSize!, // 이미지의 높이 설정
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                   SafeArea(
                                     child: Column(
                                       children: [
@@ -2445,6 +2472,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   Image(
                       image:
                           FileImage(File(book.thumbUrl.replaceAll("'", "")))),
+                  showFirstOverlay && book.id != 10
+                      ? Container(
+                          width: SizeConfig.defaultSize! * 22,
+                          color: Colors.white.withOpacity(0.6),
+                        )
+                      : Container()
                   // CachedNetworkImage(
                   //   imageUrl: book.thumbUrl,
                   // ),
@@ -2504,7 +2537,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         'lib/images/locked.png',
                         width: SizeConfig.defaultSize! * 6,
                       )),
-                )
+                ),
+                showFirstOverlay && book.id != 10
+                    ? Container(
+                        width: SizeConfig.defaultSize! * 22,
+                        color: Colors.white.withOpacity(0.6),
+                      )
+                    : Container()
+                // CachedNetworkIma
               ]),
             ),
           ),

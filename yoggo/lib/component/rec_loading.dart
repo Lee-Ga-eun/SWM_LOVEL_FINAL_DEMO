@@ -62,7 +62,7 @@ class _RecLoadingState extends State<RecLoading> {
   }
 
   Future<void> retryRecord() async {
-    var url = Uri.parse('https://yoggo-server.fly.dev/user/retryRecord');
+    var url = Uri.parse('${dotenv.get("API_SERVER")}user/retryRecord');
 
     var request = http.MultipartRequest('GET', url);
     request.headers['Authorization'] = 'Bearer $token';
