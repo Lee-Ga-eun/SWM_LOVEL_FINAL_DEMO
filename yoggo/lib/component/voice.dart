@@ -289,12 +289,12 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                                       SizeConfig.defaultSize!,
                                                   child: Center(
                                                     child: Text(
-                                                      "This dialogue highlights the mermaid's realization\nof the value of her voice, its intangible beauty,\nand its role in her pursuit of true love and self-discovery.\nDespite losing her voice, she finds the strength to communicate\nthrough her heart and believes that love goes beyond words.\nThe journey becomes an opportunity for her to uncover\nher true essence and understand the essence of love and freedom.",
+                                                      "Raising a child can be such a beautiful gift.\nWhen we share with them, it's not just simple tales,\nbut ways to see life and feel deep love.\nWith your unique sound, whisper to them,\n\"You are the most precious treasure in the world.\"",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 1.8 *
+                                                        fontSize: 2.2 *
                                                             SizeConfig
                                                                 .defaultSize!,
                                                         fontFamily: 'Molengo',
