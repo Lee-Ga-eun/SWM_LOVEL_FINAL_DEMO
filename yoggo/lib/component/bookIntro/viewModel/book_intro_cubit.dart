@@ -13,19 +13,18 @@ class BookIntroCubit extends Cubit<List<BookIntroModel>> {
 
   void loadBookIntroData(int? contentId) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //final cachedData = prefs.getStringList('cached_book_$contentId');
+    final cachedData = prefs.getStringList('cached_book_$contentId');
     if (contentId == null) {
       return;
     }
-    if (_dataMap.containsKey(contentId)) {
-      //if (cachedData != [] && cachedData != null) {
+    // if (_dataMap.containsKey(contentId)) {
+    if (cachedData != [] && cachedData != null) {
       // 이미 데이터가 로드되어 있다면, 저장된 데이터를 사용하여 emit합니다.
-      print(_dataMap[contentId]);
       //  emit(_dataMap[contentId]!);
-      //   final cachedBookIntroData = cachedData
-      //       .map((item) => BookIntroModel.fromJson(json.decode(item)))
-      //       .toList();
-      emit(_dataMap[contentId]!);
+      final cachedBookIntroData = cachedData
+          .map((item) => BookIntroModel.fromJson(json.decode(item)))
+          .toList();
+      emit(cachedBookIntroData);
       return;
     }
 
