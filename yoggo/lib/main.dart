@@ -107,11 +107,11 @@ void main() async {
   FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
   print('🤖token ${await FirebaseMessaging.instance.getToken()}');
   await remoteConfig.setConfigSettings(RemoteConfigSettings(
-    fetchTimeout: const Duration(minutes: 1),
-    minimumFetchInterval: const Duration(hours: 0),
+    fetchTimeout: const Duration(minutes: 10),
+    minimumFetchInterval: const Duration(hours: 1),
   ));
-  var result = await remoteConfig.fetchAndActivate();
-  print('🍎📚: ${remoteConfig.getString('is_loading_text_enabled')}');
+  //var result = await remoteConfig.fetchAndActivate();
+  //print('🍎📚: ${remoteConfig.getString('is_loading_text_enabled')}');
   final userCubit = UserCubit();
   final dataRepository = DataRepository();
   final dataCubit = DataCubit(dataRepository);

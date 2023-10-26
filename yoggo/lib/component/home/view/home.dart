@@ -822,6 +822,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   id: book.id,
                                                                   title: book
                                                                       .title,
+                                                                  thumbUrl: book
+                                                                      .thumbUrl,
                                                                   showOnboarding:
                                                                       false),
                                                             )),
