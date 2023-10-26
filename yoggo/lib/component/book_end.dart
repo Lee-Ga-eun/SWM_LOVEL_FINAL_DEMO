@@ -439,6 +439,7 @@ class _BookEndState extends State<BookEnd> {
                               //결제가 끝나면 RecInfo로 가야 함
                               MaterialPageRoute(
                                 builder: (context) => RecInfo(
+                                  contentId: widget.contentId,
                                   abTest: widget.abTest,
                                 ),
                               ),

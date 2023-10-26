@@ -16,17 +16,19 @@ import 'dart:convert';
 
 class RecLoading extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
+  final int contentId;
   final void Function(String path)? onStop;
   final String path;
   bool? retry; // retry페이지에서 넘어왔을 경우
 
-  RecLoading({
-    Key? key,
-    this.onStop,
-    required this.path,
-    this.retry,
-    required this.abTest,
-  }) : super(key: key);
+  RecLoading(
+      {Key? key,
+      this.onStop,
+      required this.path,
+      this.retry,
+      required this.abTest,
+      required this.contentId})
+      : super(key: key);
 
   @override
   _RecLoadingState createState() => _RecLoadingState();
@@ -60,14 +62,16 @@ class _RecLoadingState extends State<RecLoading> {
     var response = await request.send();
     if (response.statusCode == 200) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      var url = Uri.parse('${dotenv.get("API_SERVER")}producer/book');
-      Map data = {'contentId': 10};
-      var response = await http.post(url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: json.encode(data));
+      if (widget.contentId != 0) {
+        var url = Uri.parse('${dotenv.get("API_SERVER")}producer/book');
+        Map data = {'contentId': widget.contentId};
+        var response = await http.post(url,
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+            body: json.encode(data));
+      }
       if (response.statusCode == 200) {
       } else {
         throw Exception('Failed to start inference');

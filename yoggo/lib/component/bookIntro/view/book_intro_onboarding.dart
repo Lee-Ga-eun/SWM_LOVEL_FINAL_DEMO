@@ -1029,6 +1029,8 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                                                   builder:
                                                                       (context) =>
                                                                           RecInfo(
+                                                                            contentId:
+                                                                                10,
                                                                             abTest:
                                                                                 widget.abTest,
                                                                           )),

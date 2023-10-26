@@ -10,7 +10,8 @@ import '../component/rec.dart';
 
 class RecInfo extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
-  const RecInfo({super.key, required this.abTest});
+  final int contentId;
+  const RecInfo({super.key, required this.abTest, required this.contentId});
 
   @override
   _RecInfoState createState() => _RecInfoState();
@@ -307,6 +308,8 @@ class _RecInfoState extends State<RecInfo> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => Rec(
+                        contentId: widget.contentId,
+
                         // 다음 화면으로 contetnVoiceId를 가지고 이동
                         abTest: widget.abTest,
                       ),
