@@ -9,6 +9,7 @@ import 'globalCubit/user/user_cubit.dart';
 import 'home/view/home.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:yoggo/component/voice.dart';
 
 class RecEnd extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
@@ -162,6 +163,13 @@ class _RecEndState extends State<RecEnd> {
 
                                 Navigator.of(context)
                                     .popUntil((route) => route.isFirst);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => VoiceProfile(
+                                        abTest: widget.abTest,
+                                      ),
+                                    ));
 
                                 //    }
                               },
