@@ -52,7 +52,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   bool isPlaying = false;
   bool pauseFunction = false;
   AudioPlayer audioPlayer = AudioPlayer();
-  bool autoplayClicked = false;
+  bool autoplayClicked = true;
   bool reportClicked = false;
   bool _isChanged = false;
   String reportContent = '';
