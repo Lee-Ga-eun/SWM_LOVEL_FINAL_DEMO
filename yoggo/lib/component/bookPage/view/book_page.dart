@@ -20,6 +20,7 @@ import '../../globalCubit/user/user_cubit.dart';
 import 'dart:io';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class BookPage extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
@@ -256,32 +257,69 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                 fit: BoxFit.cover,
               ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  // 로딩 화면
-                  child: LoadingAnimationWidget.fourRotatingDots(
-                    color: const Color.fromARGB(255, 255, 169, 26),
-                    size: SizeConfig.defaultSize! * 10,
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 0.15 * sw, right: 0.15 * sw),
+                    child: widget.abTest.getString("is_loading_text_enabled") ==
+                            "A"
+                        ? Stack(children: [
+                            Positioned(
+                              left: 0.2 * sw,
+                              child: LinearPercentIndicator(
+                                curve: Curves.fastOutSlowIn,
+                                width: 0.5 * sw,
+                                animation: true,
+                                lineHeight: 0.05 * sh,
+                                animationDuration: 6000,
+                                percent: 1,
+                                center: Text(""),
+                                linearStrokeCap: LinearStrokeCap.roundAll,
+                                progressColor:
+                                    Color.fromARGB(255, 255, 169, 26),
+                              ),
+                            ),
+                            Positioned(
+                              child: LinearPercentIndicator(
+                                curve: Curves.fastOutSlowIn,
+                                width: 0.5 * sw,
+                                animation: true,
+                                lineHeight: 0.05 * sh,
+                                animationDuration: 2000,
+                                percent: 1,
+                                center: Text(""),
+                                linearStrokeCap: LinearStrokeCap.roundAll,
+                                progressColor:
+                                    Color.fromARGB(255, 255, 169, 26),
+                              ),
+                            ),
+                          ])
+                        : Center(
+                            // 로딩 화면
+                            child: LoadingAnimationWidget.fourRotatingDots(
+                              color: const Color.fromARGB(255, 255, 169, 26),
+                              size: SizeConfig.defaultSize! * 10,
+                            ),
+                          ),
                   ),
-                ),
-                SizedBox(
-                  height: SizeConfig.defaultSize! * 2,
-                ),
-                // widget.abTest.getString("is_loading_text_enabled") == "A" &&
-                //         Platform.isAndroid
-                //?
-                Text(
-                  '책-페이지-로딩',
-                  style: TextStyle(
-                      fontFamily: 'font-basic'.tr(),
-                      fontSize: SizeConfig.defaultSize! * 2.5),
-                  textAlign: TextAlign.center,
-                ).tr()
-                //: Container()
-              ],
+
+                  SizedBox(
+                    height: SizeConfig.defaultSize! * 2,
+                  ),
+
+                  Text(
+                    '책-페이지-로딩',
+                    style: TextStyle(
+                        fontFamily: 'font-basic'.tr(),
+                        fontSize: SizeConfig.defaultSize! * 2.5),
+                    textAlign: TextAlign.center,
+                  ).tr()
+                  //: Container()
+                ],
+              ),
             ),
           ),
         );
