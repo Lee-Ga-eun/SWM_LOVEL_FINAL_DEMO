@@ -241,7 +241,7 @@ class _AppState extends State<App> {
         anonymousId: userCredential.user!.uid,
       );
 
-      var url = Uri.parse('${dotenv.get("API_SERVER")}auth/anonymousLogin');
+      var url = Uri.parse('${dotenv.get("API_SERVER")}auth/anonymousLogin/v2');
       var response = await http.post(url,
           headers: {'Content-Type': 'application/json'},
           body: json.encode(user.toJson()));
