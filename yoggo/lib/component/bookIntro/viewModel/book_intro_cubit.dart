@@ -13,7 +13,7 @@ class BookIntroCubit extends Cubit<List<BookIntroModel>> {
 
   void loadBookIntroData(int? contentId) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final cachedData = prefs.getStringList('book_data_$contentId');
+    final cachedData = prefs.getStringList('cached_book_$contentId');
     if (contentId == null) {
       return;
     }
@@ -35,7 +35,7 @@ class BookIntroCubit extends Cubit<List<BookIntroModel>> {
     final serializedData =
         data.map((item) => json.encode(item.toJson())).toList();
     _dataMap[contentId] = data; // 가져온 데이터를 Map에 저장합니다.
-    prefs.setStringList('book_data_$contentId', serializedData);
+    prefs.setStringList('cached_book_$contentId', serializedData);
 
     emit(data);
   }
@@ -51,7 +51,7 @@ class BookIntroCubit extends Cubit<List<BookIntroModel>> {
     final serializedData =
         data.map((item) => json.encode(item.toJson())).toList();
     _dataMap[contentId] = data; // 가져온 데이터를 Map에 저장합니다.
-    prefs.setStringList('book_data_$contentId', serializedData);
+    prefs.setStringList('cached_book_$contentId', serializedData);
     emit(data);
   }
 }
