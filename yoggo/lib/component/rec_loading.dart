@@ -1,6 +1,7 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yoggo/Repositories/Repository.dart';
 import 'package:yoggo/component/rec_end.dart';
 import 'package:yoggo/size_config.dart';
 import 'globalCubit/user/user_cubit.dart';
@@ -97,6 +98,8 @@ class _RecLoadingState extends State<RecLoading> {
       }
     }
     await sendRecord();
+    final dataRepository = RepositoryProvider.of<DataRepository>(context);
+    await dataRepository.bookVoiceResetRepository();
     Amplitude.getInstance()
         .setUserProperties({'subscribe': true, 'record': true});
   }

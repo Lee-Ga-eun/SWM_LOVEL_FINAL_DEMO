@@ -197,7 +197,12 @@ class DataRepository {
     }
   }
 
-  static final Map<int, List<BookVoiceModel>> _loadedBookVoiceData = {};
+  Map<int, List<BookVoiceModel>> _loadedBookVoiceData = {};
+
+  Future<void> bookVoiceResetRepository() async {
+    _loadedBookVoiceData = {};
+    print('reset');
+  }
 
   Future<List<BookVoiceModel>> bookVoiceRepository(int contentId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
