@@ -53,16 +53,17 @@ class _HomeScreenState extends State<HomeScreen> {
   late String token;
   late int userId;
   bool showEmail = false;
+  bool openCalendar = false;
   bool showSignOutConfirmation = false;
   bool wantDelete = false;
   double dropdownHeight = 0.0;
   bool isDataFetched = false; // 데이터를 받아온 여부를 나타내는 플래그
-  bool showFirstOverlay = true; // Initially show the overlay
-  bool showSecondOverlay = false; // Initially show the overlay
-  bool showBanner = false;
-  bool showFairy = false;
+  bool showFirstOverlay = false; // Initially show the overlay
+  //bool showSecondOverlay = false; // Initially show the overlay
+  //bool showBanner = false;
+  //bool showFairy = false;
   bool neverRequestedPermission = false;
-  bool showToolTip = false;
+  //bool showToolTip = false;
   bool _userEarnedReward = false;
   bool reportClicked = false;
   bool isKeyboardVisible = false;
@@ -93,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _checkFirstTimeAccess(); // 앱 최초 사용 접속 : 온보딩 화면 보여주기
     Future.delayed(Duration.zero, () async {
       await saveRewardStatus();
-      showFirstOverlay ? null : _openCalendarFunc();
+      //showFirstOverlay ? null : _openCalendarFunc();
     });
     // _loadAd();
   }
@@ -156,18 +157,18 @@ class _HomeScreenState extends State<HomeScreen> {
     // 앱 최초 사용 접속 : 온보딩 화면 보여주기
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
-    bool haveClickedBook = prefs.getBool('haveClickedBook') ?? false;
+    //bool haveClickedBook = prefs.getBool('haveClickedBook') ?? false;
     neverRequestedPermission = true;
     // bool haveClickedFairy = prefs.getBool('haveClickedFairy') ?? false;
-    if (haveClickedBook) {
-      setState(() {
-        showFairy = haveClickedBook;
-      });
-    }
+    // if (haveClickedBook) {
+    //   setState(() {
+    //     showFairy = haveClickedBook;
+    //   });
+    // }
     if (isFirstTime) {
       setState(() {
         showFirstOverlay = true;
-        showSecondOverlay = false;
+        //showSecondOverlay = false;
       });
       // Set isFirstTime to false after showing overlay
       await prefs.setBool('isFirstTime', false);
@@ -372,6 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       lastPointDay = prefs.getInt('lastPointDay')!;
     }
+    openCalendar = lastPointYMD != formattedTime && !showFirstOverlay;
   }
 
   Future<void> sendReport() async {
@@ -402,13 +404,11 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  bool openCalendar = false;
-
   void _openCalendarFunc() async {
     print(token);
-    setState(() {
-      showSecondOverlay = false;
-    });
+    // setState(() {
+    //   showSecondOverlay = false;
+    // });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     DateTime currentTime = DateTime.now();
     formattedTime = DateFormat('yyyy-MM-dd').format(currentTime);
@@ -531,16 +531,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: _Drawer(userState, userCubit, context),
                     ),
                     body: Stack(children: [
-                      if (openCalendar)
-                        Positioned.fill(
-                          child: GestureDetector(
-                            onTap: _openCalendarFunc,
-                            child: Container(
-                              color: const Color.fromARGB(255, 251, 251, 251)
-                                  .withOpacity(0.5), // 반투명 배경색 설정
-                            ),
-                          ),
-                        ),
+                      // if (openCalendar)
+                      //   Positioned.fill(
+                      //     child: GestureDetector(
+                      //       onTap: _openCalendarFunc,
+                      //       child: Container(
+                      //         color: const Color.fromARGB(255, 251, 251, 251)
+                      //             .withOpacity(0.5), // 반투명 배경색 설정
+                      //       ),
+                      //     ),
+                      //   ),
                       Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -666,6 +666,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Image.asset(
                                               'lib/images/redButton.png',
                                               width: 0.02 * sw,
+                                              colorBlendMode: BlendMode.srcATop,
+                                              color: showFirstOverlay
+                                                  ? Color.fromARGB(
+                                                      153, 255, 255, 255)
+                                                  : null,
                                             ))),
                                     //userState.purchase
                                     // ? Container()
@@ -773,11 +778,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   SharedPreferences prefs =
                                                       await SharedPreferences
                                                           .getInstance();
-                                                  await prefs.setBool(
-                                                      'haveClickedBook', true);
-                                                  setState(() {
-                                                    showFairy = true;
-                                                  });
+                                                  // await prefs.setBool(
+                                                  //     'haveClickedBook', true);
+                                                  // setState(() {
+                                                  //   showFairy = true;
+                                                  // });
                                                   // showFairy = true;
                                                   // print(showFairy);
                                                   // --------
@@ -983,16 +988,21 @@ class _HomeScreenState extends State<HomeScreen> {
                             setState(() {
                               // Toggle the value of showOverlay when the overlay is tapped
                               showFirstOverlay = false;
-                              showSecondOverlay = true;
+                              //showSecondOverlay = true;
                             });
                             // OneSignal.Notifications.requestPermission(true);
 
                             _sendBookClickEvent(10);
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            await prefs.setBool('haveClickedBook', true);
-                            setState(() {
-                              showFairy = true;
+                            // SharedPreferences prefs =
+                            //     await SharedPreferences.getInstance();
+                            // await prefs.setBool('haveClickedBook', true);
+                            // setState(() {
+                            //   showFairy = true;
+                            // });
+                            Future.delayed(const Duration(seconds: 1), () {
+                              setState(() {
+                                openCalendar = true;
+                              });
                             });
                             Navigator.push(
                               context,
@@ -1156,62 +1166,63 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           ])),
-                      GestureDetector(
-                        onTap: () {
-                          _sendHomeCalTooltipClickEvent();
-                          // _sendHomeSecondClickEvent();
-                          _openCalendarFunc();
-                          setState(() {
-                            showSecondOverlay = false;
-                          });
-                        },
-                        child: Stack(children: [
-                          SafeArea(
-                              minimum: EdgeInsets.only(
-                                left: 3 * SizeConfig.defaultSize!,
-                                right: 3 * SizeConfig.defaultSize!,
-                              ),
-                              child: Visibility(
-                                visible: !showFirstOverlay &&
-                                    showSecondOverlay, // 두번째 온보딩화면(캘린더 가르키기)
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      right: 5 * SizeConfig.defaultSize!,
-                                      top: 6.5 * SizeConfig.defaultSize!,
-                                      child: Stack(
-                                          alignment: Alignment.center,
-                                          children: [
-                                            Image.asset(
-                                              'lib/images/textOrangeBubble.png',
-                                              width:
-                                                  SizeConfig.defaultSize! * 27,
-                                            ),
-                                            Container(
-                                              padding: EdgeInsets.only(
-                                                  top: SizeConfig.defaultSize! *
-                                                      1.2,
-                                                  right:
-                                                      SizeConfig.defaultSize! *
-                                                          0.8),
-                                              child: Text(
-                                                "달력-툴팁",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontFamily:
-                                                        'font-basic'.tr(),
-                                                    fontSize: SizeConfig
-                                                            .defaultSize! *
-                                                        2),
-                                              ).tr(),
-                                            )
-                                          ]),
-                                    ),
-                                  ],
-                                ),
-                              )),
-                        ]),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     _sendHomeCalTooltipClickEvent();
+                      //     // _sendHomeSecondClickEvent();
+                      //     _openCalendarFunc();
+                      //     setState(() {
+                      //       showSecondOverlay = false;
+                      //     });
+                      //   },
+                      //   child: Stack(children: [
+                      //     // SafeArea(
+                      //     //     minimum: EdgeInsets.only(
+                      //     //       left: 3 * SizeConfig.defaultSize!,
+                      //     //       right: 3 * SizeConfig.defaultSize!,
+                      //     //     ),
+                      //     //     child: Visibility(
+                      //     //       visible: !showFirstOverlay &&
+                      //     //           showSecondOverlay, // 두번째 온보딩화면(캘린더 가르키기)
+                      //     //       child: Stack(
+                      //     //         children: [
+                      //     //           Positioned(
+                      //     //             right: 5 * SizeConfig.defaultSize!,
+                      //     //             top: 6.5 * SizeConfig.defaultSize!,
+                      //     //             child: Stack(
+                      //     //                 alignment: Alignment.center,
+                      //     //                 children: [
+                      //     //                   Image.asset(
+                      //     //                     'lib/images/textOrangeBubble.png',
+                      //     //                     width:
+                      //     //                         SizeConfig.defaultSize! * 27,
+                      //     //                   ),
+                      //     //                   Container(
+                      //     //                     padding: EdgeInsets.only(
+                      //     //                         top: SizeConfig.defaultSize! *
+                      //     //                             1.2,
+                      //     //                         right:
+                      //     //                             SizeConfig.defaultSize! *
+                      //     //                                 0.8),
+                      //     //                     child: Text(
+                      //     //                       "달력-툴팁",
+                      //     //                       textAlign: TextAlign.center,
+                      //     //                       style: TextStyle(
+                      //     //                           fontFamily:
+                      //     //                               'font-basic'.tr(),
+                      //     //                           fontSize: SizeConfig
+                      //     //                                   .defaultSize! *
+                      //     //                               2),
+                      //     //                     ).tr(),
+                      //     //                   )
+                      //     //                 ]),
+                      //     //           ),
+                      //     //         ],
+                      //     //       ),
+                      //     //     )),
+                      //   ]),
+                      // ),
+                      // 오류 제보
                       SafeArea(
                         child: Visibility(
                             visible: reportClicked,
