@@ -25,6 +25,7 @@
 
   "햄버거-인사": " Welcome! ",
   "온보딩": "Hello, Welcome to LOVEL! \nHere, you can discover free books to read and 4,500 points that can \nunlock premium books. Please click on a book you like and start reading!",
+  "온보딩-뉴": "  In LOVEL, you can read fairytales in your own voice. \n  Now, let's go ahead and record your voice!",
 
   "달력-툴팁": "You can earn points\nthrough attendance checks!",
   "출첵-일반": "CLAIM NOW",
@@ -57,7 +58,7 @@
   "인트로-책구매": "Unlock the book for 3000 points?",
   "인트로-포인트부족": " points are insufficient.\n You need to purchase additional points.",
 
-  "인트로-목소리녹음": "Record your voice!\nAfter registering your voice, you can listen to the book using your voice.",
+  "인트로-목소리녹음": "Record your voice!\nYou can listen to the book with your voice after recording.",
 
   "인퍼런스중": "Please wait a moment.",
   "인퍼런스중-내용": "We're making a book with your voice.\nIf you want to listen to it now, please select a different voice actor!",
@@ -78,11 +79,11 @@
   "녹음-축하": "Congratulations on \n completing the RECORDING",
   "녹음-푸쉬알림": "Your voice is well recorded \n We'll let you know by PUSH when it's done",
 
-  "녹음-대본": "As she emerges from the sea onto the shore, she realizes that\nher voice is gone, but she still recognizes its immeasurable beauty\nand preciousness. She expresses it in the following way:\n\"Voice is an ineffable beauty. It is the purest and most precious gift.\nThough I have lost this cherished gift, I will embark on a journey\nto find true love through other means. Even without my voice,\nthe emotions and passions within me will not easily fade away.\nLove transcends language. In this quest to reclaim my precious voice,\nI will discover my true self and learn the ways of love and freedom.\"",
+  "녹음-대본": "According to Stanford research, children can recognize our voice\nin less than a second. Isn't that amazing?\nThe voice is one of the most vital tools in human communication.\nThrough our voices, children learn about\nsocial interactions and emotional development.\nWhen we read to them, it's not just about the words in a book,\nbut teaching them to understand the world, and conveying our deep love.\nWith your unique voice that's one of a kind in this world, tell your child,\n\"You are the most precious treasure in the world.\"",
   "녹음-완료문의": "Are you sure?",
   "녹음-대기": "Waiting to record",
 
-  "녹음-화면이탈경고": "Do not exit the screen. Your precious voice is being transmitted. \nIf you leave the screen, the process will be erased.",
+  "녹음-화면이탈경고": "Do not exit the screen. Your precious voice is being transmitted.\nIf you leave the screen, the process will be erased.",
 
   "녹음-안내": "Now it's your turn to make your voice heard!",
   "녹음-안내-1": "Eliminate\nambient noise\nand focus on\nyour voice",

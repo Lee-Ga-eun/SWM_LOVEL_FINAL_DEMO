@@ -664,7 +664,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         visible: lastPointYMD != formattedTime,
                                         child: Positioned(
                                             right: SizeConfig.defaultSize! * 12,
-                                            top: 0.04 * sh,
+                                            top: 0.05 * sh,
                                             child: Image.asset(
                                               'lib/images/redButton.png',
                                               width: 0.02 * sw,
