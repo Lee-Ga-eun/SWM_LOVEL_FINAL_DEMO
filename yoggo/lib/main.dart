@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:amplitude_flutter/amplitude.dart';
@@ -11,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yoggo/Repositories/Repository.dart';
 import 'package:yoggo/component/home/view/home.dart';
 import 'package:yoggo/component/home/viewModel/home_screen_cubit.dart';
+import 'package:yoggo/firebase_options.dart';
 import 'package:yoggo/models/anonymous.dart';
 import 'package:yoggo/size_config.dart';
 import 'component/globalCubit/user/user_cubit.dart';
@@ -98,10 +100,18 @@ void main() async {
   await amplitude.init(amplitudeApi);
 
   await amplitude.logEvent('startup');
-
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
+  FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+  print('🤖token ${await FirebaseMessaging.instance.getToken()}');
+  await remoteConfig.setConfigSettings(RemoteConfigSettings(
+    fetchTimeout: const Duration(minutes: 1),
+    minimumFetchInterval: const Duration(hours: 0),
+  ));
+  var result = await remoteConfig.fetchAndActivate();
+  print('🍎📚: ${remoteConfig.getString('is_loading_text_enabled')}');
   final userCubit = UserCubit();
   final dataRepository = DataRepository();
   final dataCubit = DataCubit(dataRepository);
@@ -138,7 +148,7 @@ void main() async {
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
+  static FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
   static FirebaseAnalyticsObserver observer =
       FirebaseAnalyticsObserver(analytics: analytics);
 
@@ -149,11 +159,11 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   bool _initialized = false;
   Future<void>? anonymousLoginFuture;
-  final remoteConfig = FirebaseRemoteConfig.instance;
   String? userToken;
   String? token;
   bool? hasToken;
-  late FirebaseRemoteConfig abTest;
+  static FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
+
   @override
   void initState() {
     super.initState();
@@ -162,6 +172,7 @@ class _AppState extends State<App> {
     context.read<UserCubit>().fetchUser();
     getToken().then((_) {});
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white.withOpacity(0), // 투명한 배경 색상으로 설정
@@ -214,15 +225,12 @@ class _AppState extends State<App> {
     setState(() {
       _initialized = true; // 초기화 완료 상태 업데이트
     });
-    await remoteConfig.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: const Duration(seconds: 10),
-      minimumFetchInterval: const Duration(hours: 1),
-    ));
-    await remoteConfig.setDefaults(const {
-      "is_loading_text_enabled": "A",
-    });
-    await remoteConfig.fetchAndActivate();
-    print("🥨 ${abTest.getString("is_loading_text_enabled")}");
+
+    // await remoteConfig.setDefaults(const {
+    //   "is_loading_text_enabled": "A",
+    // });
+
+    //print("🥨 ${abTest.getString("is_loading_text_enabled")}");
   }
 
   Future<void> anonymousLogin() async {
@@ -247,11 +255,26 @@ class _AppState extends State<App> {
         var point = responseData['point'];
         var prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token!);
-        await prefs.setBool('purchase', purchase);
+        //await prefs.setBool('purchase', purchase);
         await prefs.setBool('record', record);
         await prefs.setString('username', username);
         await prefs.setBool('hasToken', true);
         print(responseData['token']);
+        await prefs.setBool('purchase', true);
+        var url = Uri.parse('${dotenv.get("API_SERVER")}user/successPurchase');
+        var response2 = await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        );
+        if (response2.statusCode == 200) {
+          // _sendSubSuccessEvent();
+          print('구독 성공 완료');
+        } else {
+          throw Exception('Failed to start inference');
+        }
 
         UserCubit userCubit = context.read<UserCubit>();
 
@@ -268,7 +291,8 @@ class _AppState extends State<App> {
             'subscribe': purchase,
             'record': record,
           });
-          await remoteConfig.fetchAndActivate();
+
+          //await remoteConfig.fetchAndActivate();
           LogInResult result = await Purchases.logIn(state.userId.toString());
         }
       } else {
