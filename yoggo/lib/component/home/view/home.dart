@@ -1102,7 +1102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           EdgeInsets.symmetric(
                                                             vertical: SizeConfig
                                                                     .defaultSize! *
-                                                                2.1, // 수직 방향 패딩
+                                                                2, // 수직 방향 패딩
                                                           ),
                                                         ),
                                                       ),
@@ -1114,7 +1114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       .defaultSize! *
                                                                   11),
                                                           Text(
-                                                            "온보딩",
+                                                            "온보딩-뉴",
                                                             style: TextStyle(
                                                                 fontFamily:
                                                                     'font-basic'
@@ -1136,7 +1136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           0,
                                                   bottom:
                                                       SizeConfig.defaultSize! *
-                                                          6.8,
+                                                          4.5,
                                                   child: Image.asset(
                                                     'lib/images/fairy.png',
                                                     width: SizeConfig
