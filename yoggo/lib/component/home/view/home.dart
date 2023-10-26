@@ -88,9 +88,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    Amplitude.getInstance().setUserProperties({
-      'ab_book_loading': widget.abTest.getString("is_loading_text_enabled")
-    });
+
+    // Amplitude.getInstance().setUserProperties({
+    //   'ab_book_loading': widget.abTest.getString("is_loading_text_enabled")
+    // });
     getToken();
     _checkFirstTimeAccess(); // 앱 최초 사용 접속 : 온보딩 화면 보여주기
     Future.delayed(Duration.zero, () async {
