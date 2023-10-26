@@ -11,6 +11,8 @@ import 'package:http_parser/http_parser.dart';
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RecLoading extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
@@ -58,6 +60,18 @@ class _RecLoadingState extends State<RecLoading> {
     var response = await request.send();
     if (response.statusCode == 200) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      var url = Uri.parse('${dotenv.get("API_SERVER")}producer/book');
+      Map data = {'contentId': 10};
+      var response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          body: json.encode(data));
+      if (response.statusCode == 200) {
+      } else {
+        throw Exception('Failed to start inference');
+      }
     } else {}
   }
 
