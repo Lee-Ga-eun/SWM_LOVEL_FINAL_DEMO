@@ -149,6 +149,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   bool _initialized = false;
   Future<void>? anonymousLoginFuture;
+  final remoteConfig = FirebaseRemoteConfig.instance;
   String? userToken;
   String? token;
   bool? hasToken;
@@ -213,7 +214,6 @@ class _AppState extends State<App> {
     setState(() {
       _initialized = true; // 초기화 완료 상태 업데이트
     });
-    final remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(seconds: 10),
       minimumFetchInterval: const Duration(hours: 1),
@@ -222,7 +222,6 @@ class _AppState extends State<App> {
       "is_loading_text_enabled": "A",
     });
     await remoteConfig.fetchAndActivate();
-    abTest = remoteConfig;
     print("🥨 ${abTest.getString("is_loading_text_enabled")}");
   }
 
@@ -269,6 +268,7 @@ class _AppState extends State<App> {
             'subscribe': purchase,
             'record': record,
           });
+          await remoteConfig.fetchAndActivate();
           LogInResult result = await Purchases.logIn(state.userId.toString());
         }
       } else {
@@ -318,7 +318,7 @@ class _AppState extends State<App> {
           }
           if (token != null && hasToken == true) {
             return HomeScreen(
-              abTest: abTest,
+              abTest: remoteConfig,
             );
           } else {
             anonymousLoginFuture ??= anonymousLogin();
@@ -326,7 +326,7 @@ class _AppState extends State<App> {
               future: anonymousLoginFuture,
               builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return HomeScreen(abTest: abTest);
+                  return HomeScreen(abTest: remoteConfig);
                 } else {
                   return Container(
                     decoration: const BoxDecoration(
