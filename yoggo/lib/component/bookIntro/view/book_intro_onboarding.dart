@@ -904,7 +904,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                             return Stack(children: [
                                               Container(
                                                 width: thumbSize,
-                                                height: thumbSize,
+                                                // height: thumbSize,
                                                 clipBehavior: Clip.hardEdge,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
