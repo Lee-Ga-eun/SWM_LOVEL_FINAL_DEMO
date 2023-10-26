@@ -289,7 +289,7 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                                       SizeConfig.defaultSize!,
                                                   child: Center(
                                                     child: Text(
-                                                      "Raising a child can be such a beautiful gift.\nWhen we share with them, it's not just simple tales,\nbut ways to see life and feel deep love.\nWith your unique sound, whisper to them,\n\"You are the most precious treasure in the world.\"",
+                                                      "The most beautiful things in the world\ncannot be seen or touched,\nthey are felt with the heart.",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(

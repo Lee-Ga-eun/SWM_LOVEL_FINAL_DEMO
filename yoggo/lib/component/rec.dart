@@ -224,7 +224,8 @@ class _RecState extends State<Rec> {
                         child: Container(
                             // color: Color.fromARGB(250, 0, 100, 0),
                             child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // crossAxisAlignment: CrossAxisAlignment.,
                           children: [
                             Text(
                               '녹음-대본',
