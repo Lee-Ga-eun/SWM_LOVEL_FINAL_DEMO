@@ -13,19 +13,19 @@ class BookIntroCubit extends Cubit<List<BookIntroModel>> {
 
   void loadBookIntroData(int? contentId) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final cachedData = prefs.getStringList('cached_book_$contentId');
+    // final cachedData = prefs.getStringList('cached_book_$contentId');
     if (contentId == null) {
       return;
     }
-    // if (_dataMap.containsKey(contentId)) {
-    if (cachedData != [] && cachedData != null) {
-      // 이미 데이터가 로드되어 있다면, 저장된 데이터를 사용하여 emit합니다.
-      //  emit(_dataMap[contentId]!);
-      final cachedBookIntroData = cachedData
-          .map((item) => BookIntroModel.fromJson(json.decode(item)))
-          .toList();
-      emit(cachedBookIntroData);
-      return;
+    if (_dataMap.containsKey(contentId)) {
+      // if (cachedData != [] && cachedData != null) {
+      //   // 이미 데이터가 로드되어 있다면, 저장된 데이터를 사용하여 emit합니다.
+      emit(_dataMap[contentId]!);
+      //   final cachedBookIntroData = cachedData
+      //       .map((item) => BookIntroModel.fromJson(json.decode(item)))
+      //       .toList();
+      //   emit(cachedBookIntroData);
+      //   return;
     }
 
     // 현재 contentId에 대한 데이터가 없으면, 다른 contentId로 저장된 데이터가 있는지 확인합니다.
@@ -35,23 +35,33 @@ class BookIntroCubit extends Cubit<List<BookIntroModel>> {
     final serializedData =
         data.map((item) => json.encode(item.toJson())).toList();
     _dataMap[contentId] = data; // 가져온 데이터를 Map에 저장합니다.
-    prefs.setStringList('cached_book_$contentId', serializedData);
+    //prefs.setStringList('cached_book_$contentId', serializedData);
 
     emit(data);
   }
 
-  void changeBookIntroData(int? contentId) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    //final cachedData = prefs.getStringList('book_contentId_$contentId');
-    if (contentId == null) {
-      return;
+  // void changeBookIntroData(int? contentId) async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   //final cachedData = prefs.getStringList('book_contentId_$contentId');
+  //   if (contentId == null) {
+  //     return;
+  //   }
+  //   // if (_dataMap.containsKey(contentId)) {
+  //   final data = await dataRepository.bookIntroRepository2(contentId);
+  //   final serializedData =
+  //       data.map((item) => json.encode(item.toJson())).toList();
+  //   _dataMap[contentId] = data; // 가져온 데이터를 Map에 저장합니다.
+  //   prefs.setStringList('cached_book_$contentId', serializedData);
+  //   emit(data);
+  // }
+
+  //voice 클릭 시
+  void changeBookIntroData(int contentId) async {
+    List<BookIntroModel> data = state;
+    for (var item in data) {
+      item.lock = false;
     }
-    // if (_dataMap.containsKey(contentId)) {
-    final data = await dataRepository.bookIntroRepository2(contentId);
-    final serializedData =
-        data.map((item) => json.encode(item.toJson())).toList();
-    _dataMap[contentId] = data; // 가져온 데이터를 Map에 저장합니다.
-    prefs.setStringList('cached_book_$contentId', serializedData);
+    //print(clickedVoice);
     emit(data);
   }
 }

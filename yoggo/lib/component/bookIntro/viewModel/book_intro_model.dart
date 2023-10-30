@@ -12,9 +12,9 @@ class BookIntroModel extends Equatable {
   final int last;
   final List voice;
   final String font;
-  final bool lock;
+  bool lock;
 
-  const BookIntroModel({
+  BookIntroModel({
     required this.contentId,
     required this.title,
     required this.thumbUrl,
@@ -22,7 +22,7 @@ class BookIntroModel extends Equatable {
     required this.last,
     required this.voice,
     required this.font,
-    required this.lock,
+    this.lock = true,
   });
 
   factory BookIntroModel.fromJson(Map<String, dynamic> json) =>
