@@ -1079,7 +1079,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                                           color: Color(0xFFFFA91A),
                                                                                         ),
                                                                                       )
-                                                                                    : Container(),
+                                                                                    : Image.asset('lib/images/download.png', height: SizeConfig.defaultSize! * 2.5),
                                                                               ]),
                                                                               SizedBox(height: SizeConfig.defaultSize! * 0.3),
                                                                               Text(userState.voiceName!,
@@ -1206,10 +1206,13 @@ class _BookIntroState extends State<BookIntro> {
                                                                               right: 0 * SizeConfig.defaultSize!,
                                                                               left: 0 * SizeConfig.defaultSize!),
                                                                           child: userState.record
-                                                                              ? Image.asset(
-                                                                                  'lib/images/icons/${userState.voiceIcon}-uc.png',
-                                                                                  height: SizeConfig.defaultSize! * 7,
-                                                                                )
+                                                                              ? Stack(children: [
+                                                                                  Image.asset(
+                                                                                    'lib/images/icons/${userState.voiceIcon}-uc.png',
+                                                                                    height: SizeConfig.defaultSize! * 7,
+                                                                                  ),
+                                                                                  Image.asset('lib/images/download.png', height: SizeConfig.defaultSize! * 2.5),
+                                                                                ])
                                                                               : Image.asset(
                                                                                   'lib/images/locked_face.png',
                                                                                   height: SizeConfig.defaultSize! * 6.5,

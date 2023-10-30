@@ -29,7 +29,7 @@ class BookPageCubit extends Cubit<List<BookPageModel>> {
         data.map((item) => json.encode(item.toJson())).toList();
 
     _dataMap[contentVoiceId] = data; // 가져온 데이터를 Map에 저장합니다.
-    prefs.setStringList('book_contentVoiceId_$contentVoiceId', serializedData);
+    // prefs.setStringList('book_contentVoiceId_$contentVoiceId', serializedData);
     data.sort((a, b) => a.pageNum.compareTo(b.pageNum));
     emit(data);
   }

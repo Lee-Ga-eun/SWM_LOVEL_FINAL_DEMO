@@ -225,12 +225,6 @@ class _AppState extends State<App> {
     setState(() {
       _initialized = true; // 초기화 완료 상태 업데이트
     });
-
-    // await remoteConfig.setDefaults(const {
-    //   "is_loading_text_enabled": "A",
-    // });
-
-    //print("🥨 ${abTest.getString("is_loading_text_enabled")}");
   }
 
   Future<void> anonymousLogin() async {
@@ -254,11 +248,12 @@ class _AppState extends State<App> {
         var username = responseData['username'];
         var point = responseData['point'];
         var prefs = await SharedPreferences.getInstance();
+
         await prefs.setString('token', token!);
-        //await prefs.setBool('purchase', purchase);
         await prefs.setBool('record', record);
         await prefs.setString('username', username);
         await prefs.setBool('hasToken', true);
+
         print(responseData['token']);
         await prefs.setBool('purchase', true);
         var url = Uri.parse('${dotenv.get("API_SERVER")}user/successPurchase');
@@ -292,7 +287,6 @@ class _AppState extends State<App> {
             'record': record,
           });
 
-          //await remoteConfig.fetchAndActivate();
           LogInResult result = await Purchases.logIn(state.userId.toString());
         }
       } else {
