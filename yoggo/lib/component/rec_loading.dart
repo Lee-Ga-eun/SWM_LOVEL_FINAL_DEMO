@@ -127,9 +127,8 @@ class _RecLoadingState extends State<RecLoading> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => RecEnd(
-                  abTest: widget.abTest,
-                )),
+            builder: (context) =>
+                RecEnd(abTest: widget.abTest, contentId: widget.contentId)),
       );
     } catch (e) {
       print("Error occurred during loading: $e");

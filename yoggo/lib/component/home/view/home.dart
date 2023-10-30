@@ -817,15 +817,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 )
                                                               ],
                                                               child: BookIntro(
-                                                                  abTest: widget
-                                                                      .abTest,
-                                                                  id: book.id,
-                                                                  title: book
-                                                                      .title,
-                                                                  thumbUrl: book
-                                                                      .thumbUrl,
-                                                                  showOnboarding:
-                                                                      false),
+                                                                abTest: widget
+                                                                    .abTest,
+                                                                id: book.id,
+                                                                title:
+                                                                    book.title,
+                                                                thumbUrl: book
+                                                                    .thumbUrl,
+                                                              ),
                                                             )),
                                                   );
                                                   // : Navigator.push(

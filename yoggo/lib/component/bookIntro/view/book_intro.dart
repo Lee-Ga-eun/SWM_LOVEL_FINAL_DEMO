@@ -34,7 +34,6 @@ class BookIntro extends StatefulWidget {
   final String title, thumbUrl;
   final int id;
   final FirebaseRemoteConfig abTest;
-  final bool showOnboarding;
 
   const BookIntro(
       {
@@ -43,8 +42,7 @@ class BookIntro extends StatefulWidget {
       required this.title,
       required this.id,
       required this.abTest,
-      required this.thumbUrl,
-      required this.showOnboarding})
+      required this.thumbUrl})
       : super(key: key);
 
   @override
@@ -1747,7 +1745,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                                     ),
                                                                                     SizedBox(width: SizeConfig.defaultSize!),
                                                                                     Text(
-                                                                                      '3000',
+                                                                                      bookIntro.first.price.toString(),
                                                                                       textAlign: TextAlign.center,
                                                                                       style: TextStyle(color: Colors.black, fontSize: 2.7 * SizeConfig.defaultSize!, fontFamily: 'GenBkBasR'),
                                                                                     ),
@@ -2112,15 +2110,32 @@ class _BookIntroState extends State<BookIntro> {
                     ),
                     backgroundColor: Colors.white.withOpacity(0.9),
                     title: Center(
-                      child: Text(
-                        '인트로-책구매',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: SizeConfig.defaultSize! * 2.5,
-                          fontFamily: 'font-basic'.tr(),
-                        ),
-                      ).tr(),
-                    ),
+                        child: RichText(
+                            text: TextSpan(children: [
+                      TextSpan(
+                          style: TextStyle(
+                            fontSize: 2.5 * SizeConfig.defaultSize!,
+                            fontFamily: 'font-basic'.tr(),
+                            color: Colors.black,
+                          ),
+                          text: "인트로-책구매1".tr()),
+                      TextSpan(
+                          style: TextStyle(
+                            fontSize: 2.5 * SizeConfig.defaultSize!,
+                            fontFamily: 'font-basic'.tr(),
+                            color: Colors.black,
+                          ),
+                          text: bookIntro.first.price.toString()),
+                      TextSpan(
+                          // textAlign: TextAlign.center,
+                          style: TextStyle(
+                            // textAlign: TextAlign.center,
+                            fontSize: 2.5 * SizeConfig.defaultSize!,
+                            fontFamily: 'font-basic'.tr(),
+                            color: Colors.black,
+                          ),
+                          text: "인트로-책구매2".tr()),
+                    ]))),
                     actions: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -2166,9 +2181,10 @@ class _BookIntroState extends State<BookIntro> {
                               setState(() {
                                 wantBuyBook = false;
                               });
-                              if (userState.point < 3000) {
+                              if (userState.point < bookIntro.first.price) {
                                 lackingPoint =
-                                    (3000 - userState.point).toString();
+                                    (bookIntro.first.price - userState.point)
+                                        .toString();
                                 setState(() {
                                   buyPoints = true;
                                 });

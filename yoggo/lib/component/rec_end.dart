@@ -4,6 +4,8 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yoggo/Repositories/Repository.dart';
+import 'package:yoggo/component/bookIntro/view/book_intro.dart';
 import '../size_config.dart';
 import 'globalCubit/user/user_cubit.dart';
 import 'home/view/home.dart';
@@ -13,8 +15,9 @@ import 'package:yoggo/component/voice.dart';
 
 class RecEnd extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
+  final int contentId;
 
-  const RecEnd({super.key, required this.abTest});
+  const RecEnd({super.key, required this.abTest, required this.contentId});
 
   @override
   _RecEndState createState() => _RecEndState();
@@ -163,6 +166,7 @@ class _RecEndState extends State<RecEnd> {
 
                                 Navigator.of(context)
                                     .popUntil((route) => route.isFirst);
+                                //if (widget.contentId == 0) {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -170,6 +174,22 @@ class _RecEndState extends State<RecEnd> {
                                         abTest: widget.abTest,
                                       ),
                                     ));
+                                /*} else {
+                                  // title이랑 thumbUrl 어떻게 전달하지?
+                                  
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => BookIntro(
+                                          id: widget.contentId,
+                                          abTest: widget.abTest,
+                                          title: book.title,
+                                          thumbUrl: book.thumbUrl,
+                                        ),
+                                      ));
+                                  
+                                }
+                                */
 
                                 //    }
                               },
