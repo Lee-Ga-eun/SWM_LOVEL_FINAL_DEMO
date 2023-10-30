@@ -57,7 +57,7 @@ class _RecInfoState extends State<RecInfo> {
         ),
       ),
       child: SafeArea(
-        bottom: true,
+        bottom: false,
         child: Stack(
           children: [
             Column(
@@ -104,20 +104,20 @@ class _RecInfoState extends State<RecInfo> {
                               color: const Color.fromARGB(0, 0, 0, 0)))
                     ])),
                 Expanded(
-                    flex: 74,
+                    flex: 89,
                     child: Column(
                         //  mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                            height: 1.5 * SizeConfig.defaultSize!,
+                            height: 0.5 * SizeConfig.defaultSize!,
                           ),
-                          Text(
-                            '녹음-안내',
-                            style: TextStyle(
-                              fontSize: SizeConfig.defaultSize! * 2.2,
-                              fontFamily: 'font-basic'.tr(),
-                            ),
-                          ).tr(),
+                          // Text(
+                          //   '녹음-안내',
+                          //   style: TextStyle(
+                          //     fontSize: SizeConfig.defaultSize! * 2.2,
+                          //     fontFamily: 'font-basic'.tr(),
+                          //   ),
+                          // ).tr(),
                           SizedBox(
                             height: 1.8 * SizeConfig.defaultSize!,
                           ),
@@ -243,7 +243,57 @@ class _RecInfoState extends State<RecInfo> {
                                     // ))
                                   ],
                                 ),
-                              ])
+                              ]),
+                          SizedBox(
+                            height: sh * 0.06,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              // print("TAP");
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Rec(
+                                    contentId: widget.contentId,
+
+                                    // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                    abTest: widget.abTest,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: Container(
+                                width: 31.1 * SizeConfig.defaultSize!,
+                                height: 4.5 * SizeConfig.defaultSize!,
+                                decoration: ShapeDecoration(
+                                  color: const Color(0xFFFFA91A),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                                child: Stack(children: [
+                                  Positioned(
+                                      right: 1 * SizeConfig.defaultSize!,
+                                      top: 0.75 * SizeConfig.defaultSize!,
+                                      child: Icon(
+                                        Icons.chevron_right,
+                                        color: Colors.black,
+                                        size: SizeConfig.defaultSize! * 3,
+                                      )),
+                                  Center(
+                                    child: Text(
+                                      "녹음안내-이동버튼",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 2.3 *
+                                              SizeConfig.defaultSize! *
+                                              double.parse('font-ratio'.tr()),
+                                          fontFamily: 'font-book'.tr()),
+                                    ).tr(),
+                                  ),
+                                ])),
+                          )
                         ])),
                 // Expanded(
                 //   flex: 12,
@@ -289,35 +339,35 @@ class _RecInfoState extends State<RecInfo> {
                 // ),
               ],
             ),
-            Positioned(
-              right: sw * 0.01,
-              bottom: sh * 0,
-              child: IconButton(
-                padding: EdgeInsets.only(
-                    left: SizeConfig.defaultSize! * 4,
-                    // top: SizeConfig.defaultSize! * 2,
-                    right: SizeConfig.defaultSize! * 4),
-                icon: Icon(
-                  Icons.arrow_forward,
-                  size: 3 * SizeConfig.defaultSize!,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  print("clicked");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Rec(
-                        contentId: widget.contentId,
+            // Positioned(
+            //   right: sw * 0.01,
+            //   bottom: sh * 0,
+            //   child: IconButton(
+            //     padding: EdgeInsets.only(
+            //         left: SizeConfig.defaultSize! * 4,
+            //         // top: SizeConfig.defaultSize! * 2,
+            //         right: SizeConfig.defaultSize! * 4),
+            //     icon: Icon(
+            //       Icons.arrow_forward,
+            //       size: 3 * SizeConfig.defaultSize!,
+            //       color: Colors.black,
+            //     ),
+            //     onPressed: () {
+            //       print("clicked");
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) => Rec(
+            //             contentId: widget.contentId,
 
-                        // 다음 화면으로 contetnVoiceId를 가지고 이동
-                        abTest: widget.abTest,
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+            //             // 다음 화면으로 contetnVoiceId를 가지고 이동
+            //             abTest: widget.abTest,
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),
