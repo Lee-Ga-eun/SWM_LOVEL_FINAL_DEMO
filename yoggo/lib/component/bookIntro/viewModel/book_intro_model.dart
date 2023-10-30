@@ -12,6 +12,7 @@ class BookIntroModel extends Equatable {
   final int last;
   final List voice;
   final String font;
+  final int price;
   bool lock;
 
   BookIntroModel({
@@ -22,6 +23,7 @@ class BookIntroModel extends Equatable {
     required this.last,
     required this.voice,
     required this.font,
+    required this.price,
     this.lock = true,
   });
 
@@ -32,5 +34,5 @@ class BookIntroModel extends Equatable {
 
   @override
   List<Object?> get props =>
-      [contentId, title, thumbUrl, summary, last, voice, font, lock];
+      [contentId, title, thumbUrl, summary, last, voice, font, lock, price];
 }

@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -157,7 +158,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  bool _initialized = false;
   Future<void>? anonymousLoginFuture;
   String? userToken;
   String? token;
@@ -168,14 +168,23 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     // WidgetsBinding.instance.addPostFrameCallback((_) => initPlugin());
-    initialize().then((_) {});
+
     context.read<UserCubit>().fetchUser();
-    getToken().then((_) {});
+    getToken();
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.white.withOpacity(0), // 투명한 배경 색상으로 설정
+    ));
+    AudioPlayer().setAudioContext(const AudioContext(
+      iOS: AudioContextIOS(
+        category: AVAudioSessionCategory.playback,
+        options: [
+          AVAudioSessionOptions.mixWithOthers,
+          //AVAudioSessionOptions.defaultToSpeaker,  Unable to set this, will result in forced use of the speaker, the headset is invalid
+        ],
+      ),
     ));
   }
 
@@ -218,13 +227,6 @@ class _AppState extends State<App> {
         anonymousLogin();
       }
     }
-  }
-
-  Future<void> initialize() async {
-    await Future.delayed(const Duration(seconds: 0)); // 3초 동안 대기
-    setState(() {
-      _initialized = true; // 초기화 완료 상태 업데이트
-    });
   }
 
   Future<void> anonymousLogin() async {

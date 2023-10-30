@@ -55,7 +55,8 @@
   "책-페이지-로딩": "Downloading the book, please wait a little while! 📚✨",
 
   "인트로-구독": "Register your voice!",
-  "인트로-책구매": "Unlock the book for 3000 points?",
+  "인트로-책구매1": "Unlock the book for ",
+  "인트로-책구매2": " points?",
   "인트로-포인트부족": " points are insufficient.\n You need to purchase additional points.",
 
   "인트로-목소리녹음": "Record your voice!\nYou can listen to the book with your voice after recording.",
