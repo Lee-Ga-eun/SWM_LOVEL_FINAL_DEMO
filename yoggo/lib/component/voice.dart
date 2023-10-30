@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yoggo/size_config.dart';
 import 'globalCubit/user/user_cubit.dart';
-import 'globalCubit/user/user_state.dart';
-import 'home/view/home.dart';
 import 'rec_re.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -36,6 +34,8 @@ class _VoiceProfileState extends State<VoiceProfile> {
   // void playAudio(String audioUrl) async {
   //   await audioPlayer.play(UrlSource(audioUrl));
   // }
+  bool isPlaying = false;
+
   @override
   void initState() {
     super.initState();
@@ -389,28 +389,63 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                                                   .defaultSize!,
                                                         ),
                                                         IconButton(
-                                                          icon: Icon(
-                                                            Icons.play_arrow,
-                                                            size: 3 *
-                                                                SizeConfig
-                                                                    .defaultSize!,
-                                                            // color: const Color.fromARGB(
-                                                            //     255, 194, 120, 209),
-                                                          ),
-                                                          onPressed: () {
-                                                            _sendVoicePlayClickEvent(
-                                                                userState
-                                                                    .voiceId!);
-                                                            audioPlayer.play(userState
-                                                                        .inferenceUrl ==
-                                                                    null
-                                                                ? UrlSource(
-                                                                    inferenceUrl)
-                                                                : UrlSource(
-                                                                    userState
-                                                                        .inferenceUrl!));
-                                                          },
-                                                        ),
+                                                            icon: Icon(
+                                                              isPlaying
+                                                                  ? Icons.stop
+                                                                  : Icons
+                                                                      .play_arrow,
+                                                              size: 3 *
+                                                                  SizeConfig
+                                                                      .defaultSize!,
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                isPlaying =
+                                                                    !isPlaying; // 재생/중지 상태를 토글
+                                                                if (isPlaying) {
+                                                                  // 재생 중인 경우
+                                                                  _sendVoicePlayClickEvent(
+                                                                      userState
+                                                                          .voiceId!);
+                                                                  audioPlayer.play(userState
+                                                                              .inferenceUrl ==
+                                                                          null
+                                                                      ? UrlSource(
+                                                                          inferenceUrl)
+                                                                      : UrlSource(
+                                                                          userState
+                                                                              .inferenceUrl!));
+                                                                } else {
+                                                                  // isPlaying =
+                                                                  //     !isPlaying;
+                                                                  audioPlayer
+                                                                      .stop();
+                                                                  // 중지 상태인 경우
+                                                                  // 중지 로직 추가
+                                                                }
+                                                              });
+                                                            })
+                                                        // IconButton(
+                                                        //   icon: Icon(
+                                                        //     Icons.play_arrow,
+                                                        //     size: 3 *
+                                                        //         SizeConfig
+                                                        //             .defaultSize!,
+                                                        //   ),
+                                                        //   onPressed: () {
+                                                        //     _sendVoicePlayClickEvent(
+                                                        //         userState
+                                                        //             .voiceId!);
+                                                        //     audioPlayer.play(userState
+                                                        //                 .inferenceUrl ==
+                                                        //             null
+                                                        //         ? UrlSource(
+                                                        //             inferenceUrl)
+                                                        //         : UrlSource(
+                                                        //             userState
+                                                        //                 .inferenceUrl!));
+                                                        //   },
+                                                        // ),
                                                       ],
                                                     ),
                                                   ],

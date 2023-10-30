@@ -224,7 +224,7 @@ class _RecState extends State<Rec> {
                         child: Container(
                             // color: Color.fromARGB(250, 0, 100, 0),
                             child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           // crossAxisAlignment: CrossAxisAlignment.,
                           children: [
                             Text(
