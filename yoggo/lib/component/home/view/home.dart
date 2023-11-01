@@ -511,19 +511,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (state.isEmpty) {
                   _sendHomeLoadingViewEvent();
                   return Container(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('lib/images/bkground.png'),
-                        fit: BoxFit.cover,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('lib/images/bkground.png'),
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                    child: Center(
-                      child: LoadingAnimationWidget.fourRotatingDots(
-                        color: const Color.fromARGB(255, 255, 169, 26),
-                        size: SizeConfig.defaultSize! * 10,
-                      ),
-                    ),
-                  );
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LoadingAnimationWidget.fourRotatingDots(
+                            color: //const Color.fromARGB(255, 255, 0, 0),
+                                Color.fromARGB(255, 255, 169, 26),
+                            size: 100, //SizeConfig.defaultSize! * 10,
+                          ),
+                          SizedBox(
+                            height: SizeConfig.defaultSize! * 2,
+                          ),
+                          Text(
+                            '로딩'.tr(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: SizeConfig.defaultSize! * 3,
+                                decoration: TextDecoration.none),
+                          )
+                        ],
+                      ));
                 } else {
                   return Scaffold(
                     resizeToAvoidBottomInset: false,

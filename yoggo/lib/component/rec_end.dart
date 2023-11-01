@@ -7,11 +7,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yoggo/Repositories/Repository.dart';
 import 'package:yoggo/component/bookIntro/view/book_intro.dart';
 import '../size_config.dart';
+import 'bookIntro/viewModel/book_intro_cubit.dart';
+import 'bookIntro/viewModel/book_voice_cubit.dart';
 import 'globalCubit/user/user_cubit.dart';
 import 'home/view/home.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:yoggo/component/voice.dart';
+
+import 'home/viewModel/home_screen_book_model.dart';
 
 class RecEnd extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
@@ -27,10 +31,18 @@ class _RecEndState extends State<RecEnd> {
   bool isLoading = true;
   late String token;
   String completeInferenced = '';
+  late HomeScreenBookModel? book;
+  late DataRepository dataRepository;
 
   @override
   void initState() {
     super.initState();
+    dataRepository = RepositoryProvider.of<DataRepository>(context);
+
+    if (widget.contentId != 0) {
+      book = DataRepository.getBookModelByContentId(widget.contentId);
+    }
+
     getToken();
     _sendRecEndViewEvent();
   }
@@ -40,6 +52,7 @@ class _RecEndState extends State<RecEnd> {
     setState(() {
       token = prefs.getString('token')!;
     });
+
     //print('getToken');
     // loadData(token);
   }
@@ -166,30 +179,48 @@ class _RecEndState extends State<RecEnd> {
 
                                 Navigator.of(context)
                                     .popUntil((route) => route.isFirst);
-                                //if (widget.contentId == 0) {
+                                // if (widget.contentId == 0) {
+                                //   Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(
+                                //         builder: (context) => VoiceProfile(
+                                //           abTest: widget.abTest,
+                                //         ),
+                                //       ));
+                                // } else {
+                                // title이랑 thumbUrl 어떻게 전달하지?
+
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => VoiceProfile(
-                                        abTest: widget.abTest,
-                                      ),
-                                    ));
-                                /*} else {
-                                  // title이랑 thumbUrl 어떻게 전달하지?
-                                  
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => BookIntro(
-                                          id: widget.contentId,
-                                          abTest: widget.abTest,
-                                          title: book.title,
-                                          thumbUrl: book.thumbUrl,
-                                        ),
-                                      ));
-                                  
-                                }
-                                */
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MultiBlocProvider(
+                                            providers: [
+                                              BlocProvider<BookVoiceCubit>(
+                                                create: (context) =>
+                                                    BookVoiceCubit(
+                                                        dataRepository)
+                                                      ..loadBookVoiceData(
+                                                          widget.contentId),
+                                              ),
+                                              BlocProvider<BookIntroCubit>(
+                                                create: (context) =>
+                                                    // BookIntroCubit(),
+                                                    // DataCubit()..loadHomeBookData()
+                                                    BookIntroCubit(
+                                                        dataRepository)
+                                                      ..loadBookIntroData(
+                                                          widget.contentId),
+                                              )
+                                            ],
+                                            child: BookIntro(
+                                              abTest: widget.abTest,
+                                              id: widget.contentId,
+                                              title: book!.title,
+                                              thumbUrl: book!.thumbUrl,
+                                            ),
+                                          )),
+                                );
+                                //}
 
                                 //    }
                               },
