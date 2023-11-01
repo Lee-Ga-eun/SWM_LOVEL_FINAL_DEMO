@@ -41,6 +41,8 @@ class _RecEndState extends State<RecEnd> {
 
     if (widget.contentId != 0) {
       book = DataRepository.getBookModelByContentId(widget.contentId);
+    } else {
+      book = null;
     }
 
     getToken();
@@ -179,48 +181,46 @@ class _RecEndState extends State<RecEnd> {
 
                                 Navigator.of(context)
                                     .popUntil((route) => route.isFirst);
-                                // if (widget.contentId == 0) {
-                                //   Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) => VoiceProfile(
-                                //           abTest: widget.abTest,
-                                //         ),
-                                //       ));
-                                // } else {
-                                // title이랑 thumbUrl 어떻게 전달하지?
-
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MultiBlocProvider(
-                                            providers: [
-                                              BlocProvider<BookVoiceCubit>(
-                                                create: (context) =>
-                                                    BookVoiceCubit(
-                                                        dataRepository)
-                                                      ..loadBookVoiceData(
-                                                          widget.contentId),
+                                if (widget.contentId == 0) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => VoiceProfile(
+                                          abTest: widget.abTest,
+                                        ),
+                                      ));
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MultiBlocProvider(
+                                              providers: [
+                                                BlocProvider<BookVoiceCubit>(
+                                                  create: (context) =>
+                                                      BookVoiceCubit(
+                                                          dataRepository)
+                                                        ..loadBookVoiceData(
+                                                            widget.contentId),
+                                                ),
+                                                BlocProvider<BookIntroCubit>(
+                                                  create: (context) =>
+                                                      // BookIntroCubit(),
+                                                      // DataCubit()..loadHomeBookData()
+                                                      BookIntroCubit(
+                                                          dataRepository)
+                                                        ..loadBookIntroData(
+                                                            widget.contentId),
+                                                )
+                                              ],
+                                              child: BookIntro(
+                                                abTest: widget.abTest,
+                                                id: widget.contentId,
+                                                title: book!.title,
+                                                thumbUrl: book!.thumbUrl,
                                               ),
-                                              BlocProvider<BookIntroCubit>(
-                                                create: (context) =>
-                                                    // BookIntroCubit(),
-                                                    // DataCubit()..loadHomeBookData()
-                                                    BookIntroCubit(
-                                                        dataRepository)
-                                                      ..loadBookIntroData(
-                                                          widget.contentId),
-                                              )
-                                            ],
-                                            child: BookIntro(
-                                              abTest: widget.abTest,
-                                              id: widget.contentId,
-                                              title: book!.title,
-                                              thumbUrl: book!.thumbUrl,
-                                            ),
-                                          )),
-                                );
-                                //}
+                                            )),
+                                  );
+                                }
 
                                 //    }
                               },

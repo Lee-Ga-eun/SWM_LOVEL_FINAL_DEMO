@@ -1167,10 +1167,13 @@ class _BookIntroState extends State<BookIntro> {
                                                                         children: [
                                                                           Padding(
                                                                               padding: EdgeInsets.only(right: 0 * SizeConfig.defaultSize!, left: 0 * SizeConfig.defaultSize!),
-                                                                              child: Image.asset(
-                                                                                'lib/images/icons/grinning-face-uc.png',
-                                                                                height: SizeConfig.defaultSize! * 6.5,
-                                                                              )
+                                                                              child: Stack(children: [
+                                                                                Image.asset(
+                                                                                  'lib/images/icons/grinning-face-uc.png',
+                                                                                  height: SizeConfig.defaultSize! * 7,
+                                                                                ),
+                                                                                Image.asset('lib/images/microphone.png', height: SizeConfig.defaultSize! * 2.5),
+                                                                              ])
                                                                               // colorBlendMode: BlendMode.srcATop,
                                                                               // color: voiceState[0].clicked ? null : const Color.fromARGB(200, 255, 255, 255)),
                                                                               ),
