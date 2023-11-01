@@ -21,9 +21,7 @@ import 'package:yoggo/size_config.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../globalCubit/user/user_cubit.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
-import '../../shop.dart';
 import '../viewModel/book_intro_model.dart';
 import '../viewModel/book_intro_cubit.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -2256,7 +2254,7 @@ class _BookIntroState extends State<BookIntro> {
                               fontFamily: 'font-basic'.tr(),
                               color: Colors.black,
                             ),
-                            text: "$lackingPoint"),
+                            text: lackingPoint),
                         TextSpan(
                             // textAlign: TextAlign.center,
                             style: TextStyle(
@@ -2466,7 +2464,7 @@ class _BookIntroState extends State<BookIntro> {
                     actionsPadding: EdgeInsets.only(
                       left: SizeConfig.defaultSize! * 5,
                       right: SizeConfig.defaultSize! * 5,
-                      bottom: SizeConfig.defaultSize! * 5,
+                      bottom: SizeConfig.defaultSize! * 4,
                       top: SizeConfig.defaultSize! * 1,
                     ),
                     shape: RoundedRectangleBorder(
@@ -2493,77 +2491,43 @@ class _BookIntroState extends State<BookIntro> {
                         fontSize: 2.2 * SizeConfig.defaultSize!,
                       ),
                     ).tr(),
-                    // content: Text('책만들어봐-내용').tr(),
                     actions: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              _sendBookIntroMakeBookLaterClickEvent(
-                                  contentId, title);
-                              setState(() {
-                                completeInference = true;
-                              });
-                            },
-                            child: Container(
-                              width: SizeConfig.defaultSize! * 24,
-                              height: SizeConfig.defaultSize! * 4.5,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    SizeConfig.defaultSize! * 3),
-                                color: const Color(0xFFFFA91A),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '답변-부정',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'font-basic'.tr(),
-                                    fontSize: 2.2 * SizeConfig.defaultSize!,
-                                  ),
-                                ).tr(),
-                              ),
+                      //  Row(
+                      //  mainAxisAlignment: MainAxisAlignment.center,
+                      // children: [
+                      Container(
+                        alignment: AlignmentDirectional.center,
+                        child: GestureDetector(
+                          onTap: () {
+                            _sendBookIntroMakeBookOkClickEvent(
+                                contentId, title);
+                            setState(() {
+                              completeInference = true;
+                            });
+                          },
+                          child: Container(
+                            width: SizeConfig.defaultSize! * 24,
+                            height: SizeConfig.defaultSize! * 4.5,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                  SizeConfig.defaultSize! * 3),
+                              color: const Color(0xFFFFA91A),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '답변-오케이',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'font-basic'.tr(),
+                                  fontSize: 2.2 * SizeConfig.defaultSize!,
+                                ),
+                              ).tr(),
                             ),
                           ),
-                          SizedBox(width: SizeConfig.defaultSize! * 4), // 간격 조정
-                          GestureDetector(
-                            onTap: () {
-                              _sendBookIntroMakeBookOkClickEvent(
-                                  contentId, title);
-                              setState(() {
-                                completeInference = true;
-                              });
-                              //Future.delayed(const Duration(seconds: 1), () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) => const RecInfo()),
-                              // );
-                              //});
-                            },
-                            child: Container(
-                              width: SizeConfig.defaultSize! * 24,
-                              height: SizeConfig.defaultSize! * 4.5,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    SizeConfig.defaultSize! * 3),
-                                color: const Color(0xFFFFA91A),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '답변-긍정',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'font-basic'.tr(),
-                                    fontSize: 2.2 * SizeConfig.defaultSize!,
-                                  ),
-                                ).tr(),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                        //     ],
+                        //  ),
+                      )
                     ],
                   ),
                 ),
