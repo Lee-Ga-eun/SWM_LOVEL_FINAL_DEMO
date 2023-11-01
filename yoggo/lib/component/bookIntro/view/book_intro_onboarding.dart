@@ -780,7 +780,6 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
             body: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  opacity: 0.6,
                   image: AssetImage('lib/images/bkground.png'),
                   fit: BoxFit.cover,
                 ),
