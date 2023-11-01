@@ -6,6 +6,8 @@
   "font-book": "GenBkBasR",
   "font-point": "Lilita",
 
+  "로딩": "LOADING...",
+
   "답변-긍정-대문자": "YES",
   "답변-긍정": "Yes",
   "답변-부정": "No",
@@ -97,7 +99,7 @@
 
   "얼리버드": "🎁 Early Bird Special 🎁\nFREE to use until 2023",
 
-  "녹음안내-이동버튼":"RECORD NOW",
+  "녹음안내-이동버튼": "RECORD NOW",
 
-  "답변-오케이":"OKAY"
+  "답변-오케이": "OKAY"
 }

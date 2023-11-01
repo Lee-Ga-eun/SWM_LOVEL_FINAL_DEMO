@@ -20,6 +20,14 @@ class DataRepository {
 
   static List<HomeScreenBookModel> _loadedHomeScreenData = [];
 
+  static HomeScreenBookModel? getBookModelByContentId(int contentId) {
+    final bookModel = _loadedHomeScreenData.firstWhere(
+      (model) => model.id == contentId,
+      //orElse: () => null,
+    );
+    return bookModel;
+  }
+
   Future<List<HomeScreenBookModel>> loadHomeBookRepository() async {
     // home screen에서 책 목록들
     if (!_isLoaded || _isChanged) {
