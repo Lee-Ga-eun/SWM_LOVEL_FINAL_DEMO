@@ -2194,9 +2194,7 @@ class _BookIntroState extends State<BookIntro> {
                                 });
                               }
                               var result = await buyContent();
-                              if (clickMyVoice == true) {
-                                await startInference(token);
-                              }
+
                               if (result == '200') {
                                 setState(() {
                                   animation = true;
@@ -2205,6 +2203,10 @@ class _BookIntroState extends State<BookIntro> {
 
                                 userCubit.fetchUser();
                                 dataCubit.changeHomeBookData();
+
+                              if (clickMyVoice == true) {
+                                  await startInference(token);
+                                }
                               }
                               // 1초 후에 다음 페이지로 이동
                               ///Future.delayed(const Duration(seconds: 1), () {
