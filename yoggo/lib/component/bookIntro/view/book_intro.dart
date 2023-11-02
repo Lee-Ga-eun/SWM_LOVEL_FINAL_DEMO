@@ -1299,12 +1299,10 @@ class _BookIntroState extends State<BookIntro> {
                                                         Platform.isAndroid
                                                             ? audioPlayer.play(
                                                                 AssetSource(
-                                                                    'scripts/Jolly'
-                                                                    '${widget.id % 2 + 1}.wav'))
+                                                                    'scripts/Emma1.wav'))
                                                             : audioPlayer.play(
                                                                 AssetSource(
-                                                                    'scripts/Jolly'
-                                                                    '${widget.id % 2 + 1}.flac'));
+                                                                    'scripts/Emma1.flac'));
 
                                                         _sendBookVoiceClickEvent(
                                                             clickedVoice!
@@ -1343,7 +1341,7 @@ class _BookIntroState extends State<BookIntro> {
                                                               ),
                                                               child:
                                                                   Image.asset(
-                                                                'lib/images/jolly.png',
+                                                                'lib/images/emma.png',
                                                                 height: SizeConfig
                                                                         .defaultSize! *
                                                                     6.5,
@@ -1458,7 +1456,7 @@ class _BookIntroState extends State<BookIntro> {
                                                               ),
                                                               child:
                                                                   Image.asset(
-                                                                'lib/images/morgan.png',
+                                                                'lib/images/sophia.png',
                                                                 height: SizeConfig
                                                                         .defaultSize! *
                                                                     6.5,
@@ -1573,7 +1571,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                 ),
                                                                 child:
                                                                     Image.asset(
-                                                                  'lib/images/eric.png',
+                                                                  'lib/images/james.png',
                                                                   height: SizeConfig
                                                                           .defaultSize! *
                                                                       6.5,
