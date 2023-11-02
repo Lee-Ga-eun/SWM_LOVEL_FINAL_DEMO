@@ -1329,7 +1329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 'font-ratio'
                                                                     .tr()),
                                                       ),
-                                                    ).tr(),
+                                                    ),
                                                   ),
                                                 ),
                                               ),

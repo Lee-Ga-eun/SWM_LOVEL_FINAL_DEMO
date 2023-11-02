@@ -2203,7 +2203,9 @@ class _BookIntroState extends State<BookIntro> {
 
                                 userCubit.fetchUser();
                                 dataCubit.changeHomeBookData();
+
                                 if (clickMyVoice == true) {
+
                                   await startInference(token);
                                 }
                               }
