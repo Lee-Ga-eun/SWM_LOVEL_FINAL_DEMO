@@ -75,6 +75,10 @@ class _NoticeState extends State<Notice> {
               ),
             ),
             child: SafeArea(
+              minimum: EdgeInsets.only(
+                  // top: SizeConfig.defaultSize!,
+                  right: 3 * SizeConfig.defaultSize!,
+                  left: 3 * SizeConfig.defaultSize!),
               bottom: false,
               child: Column(children: [
                 Expanded(
@@ -101,7 +105,7 @@ class _NoticeState extends State<Notice> {
                           Navigator.popUntil(context, (route) => route.isFirst);
                         },
                         child: Icon(
-                          Icons.arrow_back,
+                          Icons.clear,
                           size: 3 * SizeConfig.defaultSize!,
                         ),
                       ),
@@ -109,6 +113,9 @@ class _NoticeState extends State<Notice> {
                   ]),
                 ),
                 Container(
+                  padding: EdgeInsets.only(
+                    top: SizeConfig.defaultSize!,
+                  ),
                   height: sh * 0.85,
                   child: notices.isEmpty
                       ? Stack(
@@ -116,7 +123,7 @@ class _NoticeState extends State<Notice> {
                           children: [
                             Container(
                               alignment: Alignment.topCenter,
-                              height: sh * 0.8,
+                              height: sh * 0.78,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: Colors.white.withOpacity(0.6),
