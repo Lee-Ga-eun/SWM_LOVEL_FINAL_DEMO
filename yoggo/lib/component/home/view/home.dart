@@ -27,6 +27,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../Repositories/Repository.dart';
 import '../../bookIntro/viewModel/book_intro_cubit.dart';
 import '../../bookIntro/viewModel/book_voice_cubit.dart';
+import '../../notice/view/notice.dart';
 import '../../voice.dart';
 import '../viewModel/home_screen_cubit.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -2293,6 +2294,36 @@ class _HomeScreenState extends State<HomeScreen> {
                               top: 0.5 * SizeConfig.defaultSize!,
                               bottom: 0.5 * SizeConfig.defaultSize!),
                           child: Text(
+                            '공지사항',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 1.8 * SizeConfig.defaultSize!,
+                              fontFamily: 'font-basic'.tr(),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ).tr(),
+                        ),
+                        onTap: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Notice(),
+                            ),
+                          );
+                        },
+                      ),
+
+                      SizedBox(
+                        height: 1.5 * SizeConfig.defaultSize!,
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              right: 0.5 * SizeConfig.defaultSize!,
+                              top: 0.5 * SizeConfig.defaultSize!,
+                              bottom: 0.5 * SizeConfig.defaultSize!),
+                          child: Text(
                             Platform.isAndroid ? '별점-구글플레이' : '별점-앱스토어',
                             style: TextStyle(
                               color: Colors.black,
@@ -2566,12 +2597,30 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: SizeConfig.defaultSize! * 6,
                       )),
                 ),
+                if (book.isNew == true)
+                  Positioned(
+                      right: SizeConfig.defaultSize! * 0,
+                      top: SizeConfig.defaultSize! * 0,
+                      child: Image.asset(
+                        'lib/images/new.png',
+                        width: SizeConfig.defaultSize! * 8,
+                      )),
+                if (book.badge == "offer")
+                  Positioned(
+                      right: SizeConfig.defaultSize! * 1,
+                      bottom: SizeConfig.defaultSize! * 1,
+                      child: Image.asset(
+                        'lib/images/specialOffer.png',
+                        width: SizeConfig.defaultSize! * 6,
+                      )),
+
                 showFirstOverlay && book.id != 10
                     ? Container(
                         width: SizeConfig.defaultSize! * 22,
                         color: Colors.white.withOpacity(0.6),
                       )
                     : Container()
+
                 // CachedNetworkIma
               ]),
             ),

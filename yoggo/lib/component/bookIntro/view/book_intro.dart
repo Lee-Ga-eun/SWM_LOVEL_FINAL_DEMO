@@ -674,6 +674,7 @@ class _BookIntroState extends State<BookIntro> {
     print(response.statusCode);
     if (response.statusCode == 200) {
       UserCubit().fetchUser();
+
       final bookIntro = context.read<BookIntroCubit>().state;
       _sendBookBuySuccessEvent(json.decode(response.body)[0]['point'],
           contentId, bookIntro.first.title);
@@ -1298,12 +1299,10 @@ class _BookIntroState extends State<BookIntro> {
                                                         Platform.isAndroid
                                                             ? audioPlayer.play(
                                                                 AssetSource(
-                                                                    'scripts/Jolly'
-                                                                    '${widget.id % 2 + 1}.wav'))
+                                                                    'scripts/Emma1.wav'))
                                                             : audioPlayer.play(
                                                                 AssetSource(
-                                                                    'scripts/Jolly'
-                                                                    '${widget.id % 2 + 1}.flac'));
+                                                                    'scripts/Emma1.flac'));
 
                                                         _sendBookVoiceClickEvent(
                                                             clickedVoice!
@@ -1342,7 +1341,7 @@ class _BookIntroState extends State<BookIntro> {
                                                               ),
                                                               child:
                                                                   Image.asset(
-                                                                'lib/images/jolly.png',
+                                                                'lib/images/emma.png',
                                                                 height: SizeConfig
                                                                         .defaultSize! *
                                                                     6.5,
@@ -1457,7 +1456,7 @@ class _BookIntroState extends State<BookIntro> {
                                                               ),
                                                               child:
                                                                   Image.asset(
-                                                                'lib/images/morgan.png',
+                                                                'lib/images/sophia.png',
                                                                 height: SizeConfig
                                                                         .defaultSize! *
                                                                     6.5,
@@ -1572,7 +1571,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                 ),
                                                                 child:
                                                                     Image.asset(
-                                                                  'lib/images/eric.png',
+                                                                  'lib/images/james.png',
                                                                   height: SizeConfig
                                                                           .defaultSize! *
                                                                       6.5,

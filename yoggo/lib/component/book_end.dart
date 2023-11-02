@@ -3,9 +3,9 @@ import 'dart:ffi';
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:yoggo/component/globalCubit/user/user_state.dart';
 import 'package:yoggo/component/home/view/home.dart';
 import 'package:yoggo/component/bookPage/view/book_page.dart';
@@ -44,6 +44,7 @@ class _BookEndState extends State<BookEnd> {
   @override
   void initState() {
     super.initState();
+    requestReview();
     _sendBookEndViewEvent(
         widget.contentVoiceId, widget.contentId, widget.voiceId, widget.title);
     // TODO: Add initialization code
@@ -53,6 +54,15 @@ class _BookEndState extends State<BookEnd> {
   void dispose() {
     // TODO: Add cleanup code
     super.dispose();
+  }
+
+  void requestReview() async {
+    Future.delayed(const Duration(seconds: 1), () async {
+      final InAppReview inAppReview = InAppReview.instance;
+      if (await inAppReview.isAvailable()) {
+        inAppReview.requestReview();
+      }
+    });
   }
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;

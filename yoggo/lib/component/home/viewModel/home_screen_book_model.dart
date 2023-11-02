@@ -13,7 +13,9 @@ class HomeScreenBookModel extends Equatable {
   final int last;
   final int age;
   final bool visible;
+  final bool isNew;
   int? sequence;
+  String? badge;
   final bool lock;
 
   HomeScreenBookModel({
@@ -25,6 +27,8 @@ class HomeScreenBookModel extends Equatable {
     required this.last,
     required this.age,
     required this.visible,
+    required this.isNew,
+    this.badge,
     this.sequence,
     required this.lock,
   });
@@ -44,6 +48,8 @@ class HomeScreenBookModel extends Equatable {
         last,
         age,
         visible,
+        isNew,
+        badge,
         sequence,
         lock
       ];
