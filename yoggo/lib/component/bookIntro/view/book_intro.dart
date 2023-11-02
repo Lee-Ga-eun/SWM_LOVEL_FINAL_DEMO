@@ -2204,10 +2204,12 @@ class _BookIntroState extends State<BookIntro> {
                                 userCubit.fetchUser();
                                 dataCubit.changeHomeBookData();
 
-                              if (clickMyVoice == true) {
+                                if (clickMyVoice == true) {
+
                                   await startInference(token);
                                 }
                               }
+
                               // 1초 후에 다음 페이지로 이동
                               ///Future.delayed(const Duration(seconds: 1), () {
                             },
