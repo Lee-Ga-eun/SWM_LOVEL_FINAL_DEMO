@@ -154,7 +154,6 @@ class _AppState extends State<App> {
 
   Future<void> getToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    print('hello');
     setState(() {
       userToken = prefs.getString('token');
     });
@@ -306,8 +305,9 @@ class _AppState extends State<App> {
                           Text(
                             '로딩'.tr(),
                             style: TextStyle(
+                                fontFamily: 'font-basic'.tr(),
                                 color: Colors.black,
-                                fontSize: SizeConfig.defaultSize! * 3,
+                                fontSize: SizeConfig.defaultSize! * 2.5,
                                 decoration: TextDecoration.none),
                           )
                         ],
