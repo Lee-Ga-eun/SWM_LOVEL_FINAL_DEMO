@@ -7,6 +7,7 @@
   "font-point": "Lilita",
 
   "로딩": "LOADING...",
+  "공지사항": "📌 Notice",
 
   "답변-긍정-대문자": "YES",
   "답변-긍정": "Yes",
@@ -17,13 +18,13 @@
   "앱종료-질문": "Are you sure you want to exit?",
 
   "프로필": "Voice Profile",
-  "친구초대": "Invite Friends",
+  "친구초대": "👥 Invite Friends",
   "친구초대문구": "LOVEL - Fairy Tales with Your Voice\n📚 The best app for busy parents 👨‍👩‍👧‍👦\n\nPlayStore : https://play.google.com/store/apps/details?id=com.sayit.yoggo\n\nAppStore : https://apps.apple.com/us/app/LOVEL/id6454792622",
-  "리포트": "Submit Feedback",
+  "리포트": "💬 Submit Feedback",
 
   "프로필-수정": "Edit this voice",
-  "별점-앱스토어": "Rate on AppStore",
-  "별점-구글플레이": "Rate on PlayStore",
+  "별점-앱스토어": "🌟 Rate on AppStore",
+  "별점-구글플레이": "🌟 Rate on PlayStore",
 
   "햄버거-인사": " Welcome! ",
   "온보딩": "Hello, Welcome to LOVEL! \nHere, you can discover free books to read and 4,500 points that can \nunlock premium books. Please click on a book you like and start reading!",
