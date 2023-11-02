@@ -65,6 +65,8 @@ class _BookIntroState extends State<BookIntro> {
   bool isLoading = false;
   bool wantPurchase = false;
   bool wantBuyBook = false;
+  bool clickMyVoice = false;
+
   bool buyPoints = false;
   bool animation = false;
   String lackingPoint = '';
@@ -1195,6 +1197,8 @@ class _BookIntroState extends State<BookIntro> {
                                                                   setState(() {
                                                                     wantBuyBook =
                                                                         true;
+                                                                    clickMyVoice =
+                                                                        true;
                                                                   });
                                                                 },
                                                                 child: Center(
@@ -2190,6 +2194,9 @@ class _BookIntroState extends State<BookIntro> {
                                 });
                               }
                               var result = await buyContent();
+                              if (clickMyVoice == true) {
+                                await startInference(token);
+                              }
                               if (result == '200') {
                                 setState(() {
                                   animation = true;

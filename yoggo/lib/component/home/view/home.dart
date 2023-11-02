@@ -533,7 +533,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             '로딩'.tr(),
                             style: TextStyle(
                                 color: Colors.black,
-                                fontSize: SizeConfig.defaultSize! * 3,
+                                fontFamily: 'font-basic'.tr(),
+                                fontSize: SizeConfig.defaultSize! * 2.5,
                                 decoration: TextDecoration.none),
                           )
                         ],
