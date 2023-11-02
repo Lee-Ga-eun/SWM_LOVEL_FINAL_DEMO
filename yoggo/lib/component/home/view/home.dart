@@ -27,6 +27,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../Repositories/Repository.dart';
 import '../../bookIntro/viewModel/book_intro_cubit.dart';
 import '../../bookIntro/viewModel/book_voice_cubit.dart';
+import '../../notice/view/notice.dart';
 import '../../voice.dart';
 import '../viewModel/home_screen_cubit.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -2282,6 +2283,36 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
                         },
                       ),
+                      SizedBox(
+                        height: 1.5 * SizeConfig.defaultSize!,
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              right: 0.5 * SizeConfig.defaultSize!,
+                              top: 0.5 * SizeConfig.defaultSize!,
+                              bottom: 0.5 * SizeConfig.defaultSize!),
+                          child: Text(
+                            '공지사항',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 1.8 * SizeConfig.defaultSize!,
+                              fontFamily: 'font-basic'.tr(),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ).tr(),
+                        ),
+                        onTap: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Notice(),
+                            ),
+                          );
+                        },
+                      ),
+
                       SizedBox(
                         height: 1.5 * SizeConfig.defaultSize!,
                       ),

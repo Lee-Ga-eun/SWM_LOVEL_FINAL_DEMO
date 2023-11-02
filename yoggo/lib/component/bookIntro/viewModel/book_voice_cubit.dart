@@ -10,7 +10,7 @@ class BookVoiceCubit extends Cubit<List<BookVoiceModel>> {
   BookVoiceCubit(this.dataRepository) : super([]);
 
   Future<BookVoiceModel?> loadBookVoiceData(int contentId) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    //final SharedPreferences prefs = await SharedPreferences.getInstance();
     final data = await dataRepository.bookVoiceRepository(contentId);
     // final serializedData =
     //     data.map((item) => json.encode(item.toJson())).toList();

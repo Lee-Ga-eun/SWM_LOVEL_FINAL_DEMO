@@ -215,9 +215,13 @@ class DataRepository {
   Future<List<BookVoiceModel>> bookVoiceRepository(int contentId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
+    print(token);
     if (_loadedBookVoiceData.containsKey(contentId)) {
+      print(_loadedBookIntroData);
+      print('why');
       return _loadedBookVoiceData[contentId] as List<BookVoiceModel>;
     } else {
+      print('Why');
       final response = await http.get(
         Uri.parse('${dotenv.get("API_SERVER")}content/voice/$contentId'),
         headers: {
@@ -329,6 +333,8 @@ class DataRepository {
         last: element["last"],
         age: element["age"],
         visible: element["visible"],
+        isNew: element["new"],
+        badge: element["badge"],
         sequence: element["sequence"],
         lock: element["lock"],
       );
