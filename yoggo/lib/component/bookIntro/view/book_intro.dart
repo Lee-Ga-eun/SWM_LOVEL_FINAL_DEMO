@@ -674,6 +674,7 @@ class _BookIntroState extends State<BookIntro> {
     print(response.statusCode);
     if (response.statusCode == 200) {
       UserCubit().fetchUser();
+
       final bookIntro = context.read<BookIntroCubit>().state;
       _sendBookBuySuccessEvent(json.decode(response.body)[0]['point'],
           contentId, bookIntro.first.title);

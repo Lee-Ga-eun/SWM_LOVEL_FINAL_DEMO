@@ -2566,12 +2566,30 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: SizeConfig.defaultSize! * 6,
                       )),
                 ),
+                if (book.isNew == true)
+                  Positioned(
+                      right: SizeConfig.defaultSize! * 0,
+                      top: SizeConfig.defaultSize! * 0,
+                      child: Image.asset(
+                        'lib/images/new.png',
+                        width: SizeConfig.defaultSize! * 8,
+                      )),
+                if (book.badge == "offer")
+                  Positioned(
+                      right: SizeConfig.defaultSize! * 1,
+                      bottom: SizeConfig.defaultSize! * 1,
+                      child: Image.asset(
+                        'lib/images/specialOffer.png',
+                        width: SizeConfig.defaultSize! * 6,
+                      )),
+
                 showFirstOverlay && book.id != 10
                     ? Container(
                         width: SizeConfig.defaultSize! * 22,
                         color: Colors.white.withOpacity(0.6),
                       )
                     : Container()
+
                 // CachedNetworkIma
               ]),
             ),
