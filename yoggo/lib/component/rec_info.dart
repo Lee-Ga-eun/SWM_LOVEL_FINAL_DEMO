@@ -57,6 +57,9 @@ class _RecInfoState extends State<RecInfo> {
         ),
       ),
       child: SafeArea(
+        minimum: EdgeInsets.only(
+            left: 3 * SizeConfig.defaultSize!,
+            right: 3 * SizeConfig.defaultSize!),
         bottom: false,
         child: Stack(
           children: [
@@ -106,7 +109,7 @@ class _RecInfoState extends State<RecInfo> {
                 Expanded(
                     flex: 89,
                     child: Column(
-                        //  mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
                             height: 0.5 * SizeConfig.defaultSize!,
@@ -368,6 +371,7 @@ class _RecInfoState extends State<RecInfo> {
             //     },
             //   ),
             // ),
+            Expanded(flex: 10, child: Container())
           ],
         ),
       ),
