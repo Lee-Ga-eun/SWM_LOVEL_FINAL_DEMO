@@ -8,21 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yoggo/component/bookIntro/view/book_intro.dart';
 import 'package:yoggo/component/bookIntro/view/book_intro_onboarding.dart';
-import 'package:yoggo/component/globalCubit/user/user_state.dart';
 import 'package:yoggo/component/home/viewModel/home_dummy_model.dart';
-import 'package:yoggo/component/home/viewModel/home_screen_book_model.dart';
-// import 'package:yoggo/component/sub.dart';
-// import 'package:yoggo/component/shop.dart';
-import 'package:yoggo/component/point.dart';
 
-import 'package:yoggo/component/rec_info.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yoggo/size_config.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:async';
-import 'package:http/http.dart' as http;
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../Repositories/Repository.dart';

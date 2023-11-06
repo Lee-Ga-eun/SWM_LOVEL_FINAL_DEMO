@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:yoggo/component/home/view/home.dart';
-import 'package:yoggo/component/rec_info.dart';
+import 'package:yoggo/component/rec_info_1.dart';
 import 'package:yoggo/size_config.dart';
 
 import 'dart:io' show Platform;

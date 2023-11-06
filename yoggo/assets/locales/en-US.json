@@ -57,7 +57,7 @@
   "구독-약관설명-안드로이드": "After 7-day free trial, LOVEL monthly subscription is $5.99. You can cancel this subscription at any time if you wish.",
 
   "책-시작": "READ NOW",
-  "책-페이지-로딩": "Downloading the book, please wait a little while! 📚✨",
+  "책-페이지-로딩": "Downloading the book, please wait a little while! 📚",
 
   "인트로-구독": "Register your voice!",
   "인트로-책구매1": "Unlock the book for ",
@@ -102,10 +102,11 @@
 
   "얼리버드": "🎁 Early Bird Special 🎁\nFREE to use until 2023",
 
-  "녹음안내-이동버튼": "RECORD NOW",
+  "녹음안내-이동버튼1": "START",
+  "녹음안내-이동버튼2": "Go to RECORD",
 
   "답변-오케이": "OKAY",
 
-  "녹음-안내1": "조용한 곳에서 동화책을 읽는 것처럼 녹음하세요",
-  "녹음-안내2":"아래는 가장 녹음이 잘 된 예시입니다"
+  "녹음안내-설명1": "Let's record your voice.\nYou can read books with your own voice!",
+  "녹음안내-설명2": "Record as if you're reading a fairy tale in a QUIET place.\nBelow is the best recorded example."
 }

@@ -17,7 +17,7 @@ import 'package:yoggo/component/home/viewModel/home_screen_book_model.dart';
 // import 'package:yoggo/component/shop.dart';
 import 'package:yoggo/component/point.dart';
 
-import 'package:yoggo/component/rec_info.dart';
+import 'package:yoggo/component/rec_info_1.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:yoggo/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
