@@ -84,6 +84,12 @@ class _VoiceProfileState extends State<VoiceProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final sw = (MediaQuery.of(context).size.width -
+        MediaQuery.of(context).padding.left -
+        MediaQuery.of(context).padding.right);
+    final sh = (MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.top -
+        MediaQuery.of(context).padding.bottom);
     final userCubit = context.watch<UserCubit>();
     final userState = userCubit.state;
     SizeConfig().init(context);
@@ -103,7 +109,7 @@ class _VoiceProfileState extends State<VoiceProfile> {
           child: Column(
             children: [
               Expanded(
-                flex: 1,
+                flex: 2,
                 child: Row(children: [
                   Expanded(
                       flex: 1,
@@ -137,6 +143,7 @@ class _VoiceProfileState extends State<VoiceProfile> {
                         // color: Color.fromARGB(232, 0, 26, 64),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
                               'LOVEL',
@@ -154,12 +161,13 @@ class _VoiceProfileState extends State<VoiceProfile> {
                 ]),
               ),
               Expanded(
-                  flex: 5,
+                  flex: 10,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        height: 1.5 * SizeConfig.defaultSize!,
-                      ),
+                      // SizedBox(
+                      //   height: sh * 0.1,
+                      // ),
                       Row(
                         children: [
                           // SizedBox(
@@ -461,6 +469,7 @@ class _VoiceProfileState extends State<VoiceProfile> {
                       ),
                     ],
                   )),
+              Expanded(flex: 1, child: Container())
             ],
           ),
         ),

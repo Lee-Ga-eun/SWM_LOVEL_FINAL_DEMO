@@ -197,17 +197,19 @@ class _RecReState extends State<RecRe> {
               child: SafeArea(
                   bottom: false,
                   top: false,
-                  minimum: EdgeInsets.only(right: 3 * SizeConfig.defaultSize!),
+                  minimum: EdgeInsets.only(
+                      left: 3 * SizeConfig.defaultSize!,
+                      right: 3 * SizeConfig.defaultSize!),
                   child: Stack(children: [
                     Column(children: [
                       Expanded(
                           // HEADER
-                          flex: 14,
+                          flex: 24,
                           child: Row(children: [
                             Expanded(
                                 flex: 1,
                                 child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
@@ -240,8 +242,7 @@ class _RecReState extends State<RecRe> {
                             Expanded(
                                 flex: 1,
                                 child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       SizedBox(
                                         height: 0 * SizeConfig.defaultSize!,
@@ -305,7 +306,7 @@ class _RecReState extends State<RecRe> {
                         child: Container(
                             // color: Color.fromARGB(250, 0, 100, 0),
                             child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               '녹음-대본',

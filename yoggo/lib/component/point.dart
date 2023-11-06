@@ -50,77 +50,77 @@ class _PurchaseState extends State<Purchase> {
 
   late String token;
   bool paySuccessed = false;
-  // Future fetch() async {
-  //   final bool available = await InAppPurchase.instance.isAvailable();
-  //   if (available) {
-  //     // 제품 정보를 로드
-  //     // const Set<String> ids = <String>{'product1'};
-  //     // ProductDetailsResponse res =
-  //     //     await InAppPurchase.instance.queryProductDetails(ids);
-  //     // view = res.productDetails;
+  Future fetch() async {
+    final bool available = await InAppPurchase.instance.isAvailable();
+    if (available) {
+      // 제품 정보를 로드
+      // const Set<String> ids = <String>{'product1'};
+      // ProductDetailsResponse res =
+      //     await InAppPurchase.instance.queryProductDetails(ids);
+      // view = res.productDetails;
 
-  //     _inAppPurchase.purchaseStream.listen((List<PurchaseDetails> event) {
-  //       PurchaseDetails e = event[0];
-  //       print(
-  //           "📌 EVENT $e - ${e.status} - ${e.productID} - ${e.pendingCompletePurchase}");
+      _inAppPurchase.purchaseStream.listen((List<PurchaseDetails> event) {
+        PurchaseDetails e = event[0];
+        print(
+            "📌 EVENT $e - ${e.status} - ${e.productID} - ${e.pendingCompletePurchase}");
 
-  //       /// 구매 여부 pendingCompletePurchase - 승인 true / 취소 false
-  //       if (e.pendingCompletePurchase) {
-  //         if (!mounted) return;
-  //         _inAppPurchase.completePurchase(e);
-  //         if (e.status == PurchaseStatus.error) {
-  //           print(e.error);
-  //           return;
-  //         }
-  //         if (e.status == PurchaseStatus.canceled) {
-  //           print(e.error);
-  //           return;
-  //         }
-  //         if (e.status == PurchaseStatus.purchased ||
-  //             e.status == PurchaseStatus.restored) {
-  //           if (e.productID == 'monthly_ios' ||
-  //               e.productID == 'product1:product1' ||
-  //               e.productID == 'product1') {
-  //             //subSuccess();
-  //             _sendSubSuccessEvent();
-  //             context.read<UserCubit>().successSubscribe();
-  //             amplitude.setUserProperties({'subscribe': true});
-  //             final userState = context.read<UserCubit>().state;
+        /// 구매 여부 pendingCompletePurchase - 승인 true / 취소 false
+        if (e.pendingCompletePurchase) {
+          if (!mounted) return;
+          _inAppPurchase.completePurchase(e);
+          if (e.status == PurchaseStatus.error) {
+            print(e.error);
+            return;
+          }
+          if (e.status == PurchaseStatus.canceled) {
+            print(e.error);
+            return;
+          }
+          if (e.status == PurchaseStatus.purchased ||
+              e.status == PurchaseStatus.restored) {
+            if (e.productID == 'monthly_ios' ||
+                e.productID == 'product1:product1' ||
+                e.productID == 'product1') {
+              //subSuccess();
+              _sendSubSuccessEvent();
+              context.read<UserCubit>().successSubscribe();
+              amplitude.setUserProperties({'subscribe': true});
+              final userState = context.read<UserCubit>().state;
 
-  //             if (userState.record) {
-  //               Navigator.pop(context);
-  //               Navigator.pushReplacement(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                   builder: (context) => HomeScreen(
-  //                     abTest: widget.abTest,
-  //                   ),
-  //                 ),
-  //               );
-  //             } else {
-  //               Navigator.pushReplacement(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                   builder: (context) => RecInfo(
-  //                     abTest: widget.abTest,
-  //                   ),
-  //                 ),
-  //               );
-  //             }
-  //           } else {
-  //             paySuccess(e.productID.substring(7));
-  //             context.read<UserCubit>().fetchUser();
-  //             setState(() {
-  //               paySuccessed = true;
-  //             });
-  //           }
-  //         }
-  //       }
-  //     });
-  //   }
-  //   if (!mounted) return;
-  //   setState(() {});
-  // }
+              if (userState.record) {
+                Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(
+                      abTest: widget.abTest,
+                    ),
+                  ),
+                );
+              } else {
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => RecInfo(
+                //       abTest: widget.abTest,
+                //     ),
+                //   ),
+                // );
+              }
+            } else {
+              paySuccess(e.productID.substring(7));
+              context.read<UserCubit>().fetchUser();
+              setState(() {
+                paySuccessed = true;
+              });
+            }
+          }
+        }
+      });
+    }
+    if (!mounted) return;
+    setState(() {});
+  }
 
   @override
   void initState() {
