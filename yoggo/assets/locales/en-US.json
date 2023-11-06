@@ -5,6 +5,7 @@
   "font-thin": "Molengo",
   "font-book": "GenBkBasR",
   "font-point": "Lilita",
+  "font-claim": "",
 
   "로딩": "LOADING...",
   "공지사항": "Notice",
@@ -31,7 +32,8 @@
   "온보딩-뉴": "  In LOVEL, you can read fairytales in your own voice. \n  Now, let's go ahead and record your voice!",
 
   "달력-툴팁": "You can earn points\nthrough attendance checks!",
-  "출첵-일반": "CLAIM NOW",
+  "출첵": "CLAIM NOW",
+  "출첵-일반": "Skip ad: regular rewards",
   "출첵-광고": "  DOUBLE REWARD",
   "달력-안내": "Attend daily and claim your rewards!",
 

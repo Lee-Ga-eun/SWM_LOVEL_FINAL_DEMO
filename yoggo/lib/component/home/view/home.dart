@@ -60,8 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool showSignOutConfirmation = false;
   bool wantDelete = false;
   double dropdownHeight = 0.0;
-  bool isDataFetched = false; // 데이터를 받아온 여부를 나타내는 플래그
-  bool showFirstOverlay = false; // Initially show the overlay
+  bool isDataFetched = false;
   //bool showSecondOverlay = false; // Initially show the overlay
   //bool showBanner = false;
   //bool showFairy = false;
@@ -77,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // 마지막으로 받은 포인트의 일수: lastPointDay --> 1일차, 2일차, 3일차... --> 마지막 기록이 1일차이면 2일차 포인트를 받게 해야한다
   late int availableGetPoint;
   late List<String> claim;
+  bool wantClaim = false;
   String lastPointYMD = '';
   int lastPointDay = -1;
   String formattedTime = '';
@@ -98,7 +98,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _checkFirstTimeAccess(); // 앱 최초 사용 접속 : 온보딩 화면 보여주기
     Future.delayed(Duration.zero, () async {
       await saveRewardStatus();
-      //showFirstOverlay ? null : _openCalendarFunc();
     });
     // _loadAd();
   }
@@ -165,9 +164,6 @@ class _HomeScreenState extends State<HomeScreen> {
     neverRequestedPermission = true;
 
     if (isFirstTime) {
-      setState(() {
-        showFirstOverlay = true;
-      });
       // Set isFirstTime to false after showing overlay
       Navigator.push(
         context,
@@ -378,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       lastPointDay = prefs.getInt('lastPointDay')!;
     }
-    openCalendar = lastPointYMD != formattedTime && !showFirstOverlay;
+    openCalendar = lastPointYMD != formattedTime;
   }
 
   Future<void> sendReport() async {
@@ -561,9 +557,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       //     ),
                       //   ),
                       Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           image: DecorationImage(
-                            opacity: showFirstOverlay ? 0.6 : 1.0,
+                            opacity: 1.0,
                             image: AssetImage('lib/images/bkground.png'),
                             fit: BoxFit.cover,
                           ),
@@ -591,9 +587,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             fontFamily: 'Modak',
                                             fontSize:
                                                 SizeConfig.defaultSize! * 5,
-                                            color: showFirstOverlay
-                                                ? Colors.grey
-                                                : Colors.black,
+                                            color: Colors.black,
                                           ),
                                         ),
                                       ],
@@ -617,11 +611,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .defaultSize!, // 이미지의 폭 설정
                                           height: // 이미지의 높이 설정
                                               3.5 * SizeConfig.defaultSize!,
-                                          colorBlendMode: BlendMode.srcATop,
-                                          color: showFirstOverlay
-                                              ? Color.fromARGB(
-                                                  153, 255, 255, 255)
-                                              : null,
                                         ),
                                       ),
                                     ),
@@ -668,11 +657,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               SizeConfig
                                                   .defaultSize!, // 이미지의 폭 설정
                                           height: 4 * SizeConfig.defaultSize!,
-                                          colorBlendMode: BlendMode.srcATop,
-                                          color: showFirstOverlay
-                                              ? Color.fromARGB(
-                                                  153, 255, 255, 255)
-                                              : null, // 이미지의 높이 설정
+                                          // 이미지의 높이 설정
                                         ),
                                       ),
                                     ),
@@ -685,11 +670,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             child: Image.asset(
                                               'lib/images/redButton.png',
                                               width: 0.02 * sw,
-                                              colorBlendMode: BlendMode.srcATop,
-                                              color: showFirstOverlay
-                                                  ? Color.fromARGB(
-                                                      153, 255, 255, 255)
-                                                  : null,
                                             ))),
                                     //userState.purchase
                                     // ? Container()
@@ -736,15 +716,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               .defaultSize!,
                                                       child: Image.asset(
                                                         'lib/images/oneCoin.png',
-                                                        colorBlendMode:
-                                                            BlendMode.srcATop,
-                                                        color: showFirstOverlay
-                                                            ? Color.fromARGB(
-                                                                153,
-                                                                255,
-                                                                255,
-                                                                255)
-                                                            : null,
                                                       )),
                                                   Container(
                                                     width: 7 *
@@ -758,11 +729,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           fontSize: SizeConfig
                                                                   .defaultSize! *
                                                               2,
-                                                          color:
-                                                              showFirstOverlay
-                                                                  ? Colors.grey
-                                                                  : Colors
-                                                                      .black),
+                                                          color: Colors.black),
                                                       textAlign:
                                                           TextAlign.center,
                                                     ),
@@ -797,21 +764,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   SharedPreferences prefs =
                                                       await SharedPreferences
                                                           .getInstance();
-                                                  // await prefs.setBool(
-                                                  //     'haveClickedBook', true);
-                                                  // setState(() {
-                                                  //   showFairy = true;
-                                                  // });
-                                                  // showFairy = true;
-                                                  // print(showFairy);
-                                                  // --------
-                                                  // userState.purchase == true ||
-                                                  //         book.lock == false ||
-                                                  //         (book.title ==
-                                                  //                 'Snow White and the Seven Dwarfs' ||
-                                                  //             book.title ==
-                                                  //                 'The Little Match Girl') // 구독자인지 확인하기 and 포인트로 푼 책인지 확인하기
-                                                  //     ?
+
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -1002,247 +955,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       //     onTap: ,
                       //   ),
                       // )
-                      GestureDetector(
-                          onTap: () async {
-                            _sendHomeFirstClickEvent();
-                            setState(() {
-                              // Toggle the value of showOverlay when the overlay is tapped
-                              showFirstOverlay = false;
-                              //showSecondOverlay = true;
-                            });
-                            // OneSignal.Notifications.requestPermission(true);
-
-                            _sendBookClickEvent(10);
-                            // SharedPreferences prefs =
-                            //     await SharedPreferences.getInstance();
-                            // await prefs.setBool('haveClickedBook', true);
-                            // setState(() {
-                            //   showFairy = true;
-                            // });
-                            Future.delayed(const Duration(seconds: 1), () {
-                              setState(() {
-                                openCalendar = true;
-                              });
-                            });
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MultiBlocProvider(
-                                          providers: [
-                                            BlocProvider<BookVoiceCubit>(
-                                              create: (context) =>
-                                                  BookVoiceCubit(dataRepository)
-                                                    ..loadBookVoiceData(10),
-                                            ),
-                                            BlocProvider<BookIntroCubit>(
-                                              create: (context) =>
-                                                  // BookIntroCubit(),
-                                                  // DataCubit()..loadHomeBookData()
-                                                  BookIntroCubit(dataRepository)
-                                                    ..loadBookIntroData(10),
-                                            )
-                                          ],
-                                          child: BookIntroOnboarding(
-                                              abTest: widget.abTest,
-                                              id: 10,
-                                              title: 'The Sun and the Wind',
-                                              showOnboarding: true))),
-                            );
-                          },
-                          child: Stack(children: [
-                            Visibility(
-                              visible: showFirstOverlay, // 첫번째 온보딩화면
-                              // visible: true,
-                              child: Stack(
-                                children: [
-                                  Container(
-                                    color: Colors.white.withOpacity(0),
-                                  ),
-                                  // Positioned(
-                                  //   left: SizeConfig.defaultSize! * 28.2,
-                                  //   top: SizeConfig.defaultSize! * 7.8,
-                                  //   child: InkWell(
-                                  //     onTap: () async {},
-                                  //     child: ClipRRect(
-                                  //       borderRadius: BorderRadius.circular(
-                                  //           12), // 원하는 둥근 정도를 조절합니다.
-                                  //       child: Image.asset(
-                                  //         'lib/images/10-0.png',
-                                  //         width: 25 *
-                                  //             SizeConfig
-                                  //                 .defaultSize!, // 이미지의 폭 설정
-                                  //         height: 25 *
-                                  //             SizeConfig
-                                  //                 .defaultSize!, // 이미지의 높이 설정
-                                  //       ),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                  SafeArea(
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          flex: SizeConfig.defaultSize!.toInt(),
-                                          child: Container(),
-                                        ),
-                                        Expanded(
-                                            flex: SizeConfig.defaultSize!
-                                                    .toInt() *
-                                                2,
-                                            child: Stack(
-                                              children: [
-                                                Positioned.fill(
-                                                  left: SizeConfig.defaultSize!,
-                                                  right:
-                                                      SizeConfig.defaultSize!,
-                                                  // top: SizeConfig.defaultSize! * 10,
-                                                  // 안내 글씨
-                                                  child: Align(
-                                                    alignment:
-                                                        Alignment.bottomCenter,
-                                                    child: TextButton(
-                                                      style: ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all<Color>(
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              255,
-                                                              169,
-                                                              26),
-                                                        ),
-                                                        padding:
-                                                            MaterialStateProperty
-                                                                .all<
-                                                                    EdgeInsetsGeometry>(
-                                                          EdgeInsets.symmetric(
-                                                            vertical: SizeConfig
-                                                                    .defaultSize! *
-                                                                2, // 수직 방향 패딩
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      onPressed: null,
-                                                      child: Row(
-                                                        children: [
-                                                          SizedBox(
-                                                              width: SizeConfig
-                                                                      .defaultSize! *
-                                                                  11),
-                                                          Text(
-                                                            "온보딩-뉴",
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'font-basic'
-                                                                        .tr(),
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: SizeConfig
-                                                                        .defaultSize! *
-                                                                    2),
-                                                          ).tr()
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  left:
-                                                      SizeConfig.defaultSize! *
-                                                          0,
-                                                  bottom:
-                                                      SizeConfig.defaultSize! *
-                                                          4.5,
-                                                  child: Image.asset(
-                                                    'lib/images/fairy.png',
-                                                    width: SizeConfig
-                                                            .defaultSize! *
-                                                        17,
-                                                  ),
-                                                ),
-                                                Positioned(
-                                                  left:
-                                                      SizeConfig.defaultSize! *
-                                                          42,
-                                                  top: SizeConfig.defaultSize! *
-                                                      2,
-                                                  child: Image.asset(
-                                                    'lib/images/finger.png',
-                                                    width: SizeConfig
-                                                            .defaultSize! *
-                                                        10,
-                                                  ),
-                                                ),
-                                              ],
-                                            )),
-                                        Expanded(
-                                          flex: 1,
-                                          child: Container(),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ])),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     _sendHomeCalTooltipClickEvent();
-                      //     // _sendHomeSecondClickEvent();
-                      //     _openCalendarFunc();
-                      //     setState(() {
-                      //       showSecondOverlay = false;
-                      //     });
-                      //   },
-                      //   child: Stack(children: [
-                      //     // SafeArea(
-                      //     //     minimum: EdgeInsets.only(
-                      //     //       left: 3 * SizeConfig.defaultSize!,
-                      //     //       right: 3 * SizeConfig.defaultSize!,
-                      //     //     ),
-                      //     //     child: Visibility(
-                      //     //       visible: !showFirstOverlay &&
-                      //     //           showSecondOverlay, // 두번째 온보딩화면(캘린더 가르키기)
-                      //     //       child: Stack(
-                      //     //         children: [
-                      //     //           Positioned(
-                      //     //             right: 5 * SizeConfig.defaultSize!,
-                      //     //             top: 6.5 * SizeConfig.defaultSize!,
-                      //     //             child: Stack(
-                      //     //                 alignment: Alignment.center,
-                      //     //                 children: [
-                      //     //                   Image.asset(
-                      //     //                     'lib/images/textOrangeBubble.png',
-                      //     //                     width:
-                      //     //                         SizeConfig.defaultSize! * 27,
-                      //     //                   ),
-                      //     //                   Container(
-                      //     //                     padding: EdgeInsets.only(
-                      //     //                         top: SizeConfig.defaultSize! *
-                      //     //                             1.2,
-                      //     //                         right:
-                      //     //                             SizeConfig.defaultSize! *
-                      //     //                                 0.8),
-                      //     //                     child: Text(
-                      //     //                       "달력-툴팁",
-                      //     //                       textAlign: TextAlign.center,
-                      //     //                       style: TextStyle(
-                      //     //                           fontFamily:
-                      //     //                               'font-basic'.tr(),
-                      //     //                           fontSize: SizeConfig
-                      //     //                                   .defaultSize! *
-                      //     //                               2),
-                      //     //                     ).tr(),
-                      //     //                   )
-                      //     //                 ]),
-                      //     //           ),
-                      //     //         ],
-                      //     //       ),
-                      //     //     )),
-                      //   ]),
-                      // ),
-                      // 오류 제보
                       SafeArea(
                         child: Visibility(
                             visible: reportClicked,
@@ -1388,8 +1100,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Stack(
                                         children: [
                                           Container(
-                                            height: sh *
-                                                0.1, //SizeConfig.defaultSize! * 4.5,
+                                            height:
+                                                SizeConfig.defaultSize! * 4.5,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(
                                                   topRight: Radius.circular(
@@ -1404,7 +1116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             //첫줄가로
                                             padding: EdgeInsets.only(
                                               top:
-                                                  SizeConfig.defaultSize! * 0.9,
+                                                  SizeConfig.defaultSize! * 0.5,
                                               left:
                                                   SizeConfig.defaultSize! * 1.5,
                                             ),
@@ -1412,7 +1124,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                               alignment: Alignment.topLeft,
                                               child: Padding(
                                                 padding: EdgeInsets.only(
-                                                    top: 0.006 * sh),
+                                                    top: SizeConfig
+                                                            .defaultSize! *
+                                                        0.3),
                                                 child: Text(
                                                   "달력-안내",
                                                   style: TextStyle(
@@ -1617,6 +1331,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               topPadding: 6.5,
                                               lastPointYMD: lastPointYMD),
                                           Container(
+                                            // width: SizeConfig.defaultSize! * 23,
+                                            // height: SizeConfig.defaultSize! * 5,
                                             padding: EdgeInsets.only(
                                               // top: SizeConfig.defaultSize! * 1,
                                               bottom:
@@ -1625,186 +1341,68 @@ class _HomeScreenState extends State<HomeScreen> {
                                             // left: SizeConfig.defaultSize! * 19),
                                             child: Align(
                                               alignment: Alignment.bottomCenter,
-                                              child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    TextButton(
-                                                      style: ButtonStyle(
-                                                        shape: MaterialStateProperty.all<
-                                                                RoundedRectangleBorder>(
-                                                            RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(0.3 *
+                                              child: Container(
+                                                width: SizeConfig.defaultSize! *
+                                                    20,
+                                                height:
+                                                    SizeConfig.defaultSize! * 4,
+                                                child: TextButton(
+                                                  style: ButtonStyle(
+                                                    shape: MaterialStateProperty.all<
+                                                            RoundedRectangleBorder>(
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0.3 *
                                                                             sh))),
-                                                        padding: MaterialStatePropertyAll(
-                                                            EdgeInsets.only(
-                                                                right: SizeConfig
-                                                                        .defaultSize! *
-                                                                    3,
-                                                                left: SizeConfig
-                                                                        .defaultSize! *
-                                                                    3,
-                                                                top: 0.0 * sh,
-                                                                bottom:
-                                                                    0.0 * sh)),
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all<Color>(
-                                                          lastPointYMD !=
-                                                                  formattedTime
-                                                              ? const Color
-                                                                      .fromARGB(
-                                                                  255,
-                                                                  255,
-                                                                  169,
-                                                                  26)
-                                                              : Colors.grey,
-                                                        ), // 배경색 설정
-                                                      ),
-                                                      onPressed: () async {
-                                                        _sendCalClaimClickEvent(
-                                                            userState.point);
-                                                        lastPointYMD !=
-                                                                formattedTime
-                                                            ? {
-                                                                claimSuccess(1),
-                                                                // 원 시그널 permission request 어디서 보여줄지 고민하기
-                                                                // OneSignal.shared
-                                                                //     .promptUserForPushNotificationPermission()
-                                                                //     .then((accepted) {
-                                                                //   print(
-                                                                //       "Accepted permission: $accepted");
-                                                                // });
-                                                                if (OneSignal
-                                                                            .Notifications
-                                                                            .permission !=
-                                                                        true &&
-                                                                    neverRequestedPermission)
-                                                                  {
-                                                                    OneSignal
-                                                                            .Notifications
-                                                                        .requestPermission(
-                                                                            true),
-                                                                    neverRequestedPermission =
-                                                                        false,
-                                                                  }
-                                                              }
-                                                            : null;
-                                                      },
-                                                      child: Text(
-                                                        '출첵-일반',
-                                                        style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: SizeConfig
-                                                                  .defaultSize! *
-                                                              2.2 *
-                                                              double.parse(
-                                                                  'font-ratio'
-                                                                      .tr()),
-                                                          fontFamily:
-                                                              'font-point'.tr(),
-                                                        ),
-                                                      ).tr(),
+                                                    padding: MaterialStatePropertyAll(
+                                                        EdgeInsets.only(
+                                                            right: SizeConfig
+                                                                    .defaultSize! *
+                                                                3,
+                                                            left: SizeConfig
+                                                                    .defaultSize! *
+                                                                3,
+                                                            top: 0.0 * sh,
+                                                            bottom: 0.0 * sh)),
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                      lastPointYMD !=
+                                                              formattedTime
+                                                          ? const Color
+                                                                  .fromARGB(
+                                                              255, 255, 169, 26)
+                                                          : Colors.grey,
+                                                    ), // 배경색 설정
+                                                  ),
+                                                  onPressed: () async {
+                                                    _sendCalClaimNowClickEvent(
+                                                        userState.point);
+                                                    lastPointYMD !=
+                                                            formattedTime
+                                                        ? setState(() {
+                                                            wantClaim = true;
+                                                          })
+                                                        : null;
+                                                  },
+                                                  child: Text(
+                                                    '출첵',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: SizeConfig
+                                                              .defaultSize! *
+                                                          2.2 *
+                                                          double.parse(
+                                                              'font-ratio'
+                                                                  .tr()),
+                                                      fontFamily:
+                                                          'font-point'.tr(),
                                                     ),
-                                                    SizedBox(
-                                                      width: sw * 0.01,
-                                                    ),
-                                                    TextButton(
-                                                      style: ButtonStyle(
-                                                        shape: MaterialStateProperty.all<
-                                                                RoundedRectangleBorder>(
-                                                            RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(0.3 *
-                                                                            sh))),
-                                                        padding: MaterialStatePropertyAll(
-                                                            EdgeInsets.only(
-                                                                right: SizeConfig
-                                                                        .defaultSize! *
-                                                                    3,
-                                                                left: SizeConfig
-                                                                        .defaultSize! *
-                                                                    3,
-                                                                top: 0.00 * sh,
-                                                                bottom:
-                                                                    0.00 * sh)),
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all<Color>(
-                                                          lastPointYMD !=
-                                                                  formattedTime
-                                                              ? const Color
-                                                                      .fromARGB(
-                                                                  225,
-                                                                  255,
-                                                                  77,
-                                                                  0)
-                                                              : Colors.grey,
-                                                        ), // 배경색 설정
-                                                      ),
-                                                      onPressed: () async {
-                                                        _sendCalClaimAdClickEvent(
-                                                            userState.point);
-                                                        SharedPreferences
-                                                            prefs =
-                                                            await SharedPreferences
-                                                                .getInstance();
-                                                        DateTime currentDate =
-                                                            DateTime.now();
-                                                        String formattedDate =
-                                                            DateFormat(
-                                                                    'yyyy-MM-dd')
-                                                                .format(
-                                                                    currentDate);
-                                                        int tmp = prefs.getInt(
-                                                            'availableGetPoint')!;
-                                                        lastPointYMD !=
-                                                                formattedTime
-                                                            ? {
-                                                                if (formattedDate !=
-                                                                        prefs.getString(
-                                                                            'lastPointYMD') &&
-                                                                    tmp !=
-                                                                        lastPointDay)
-                                                                  {
-                                                                    _isAdLoaded
-                                                                        ? null
-                                                                        : _loadRewardedAd(),
-                                                                  }
-                                                              }
-                                                            : null;
-                                                      },
-                                                      child: Row(
-                                                        children: [
-                                                          Image.asset(
-                                                            'lib/images/slate1.png',
-                                                            width: 0.03 * sw,
-                                                          ),
-                                                          Text(
-                                                            '출첵-광고',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontSize: SizeConfig
-                                                                      .defaultSize! *
-                                                                  2.2 *
-                                                                  double.parse(
-                                                                      'font-ratio'
-                                                                          .tr()),
-                                                              fontFamily:
-                                                                  'font-point'
-                                                                      .tr(),
-                                                            ),
-                                                          ).tr(),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ]),
+                                                  ).tr(),
+                                                ),
+                                              ),
                                             ),
                                           ),
                                           Visibility(
@@ -1819,6 +1417,249 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       color: Color(0xFFF39E09),
                                                     ),
                                                   ))),
+                                          Visibility(
+                                              visible: wantClaim,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    wantClaim = false;
+                                                  });
+                                                  _sendCalClaimClickEvent(
+                                                      userState.point, true);
+
+                                                  lastPointYMD != formattedTime
+                                                      ? {
+                                                          claimSuccess(1),
+                                                          if (OneSignal
+                                                                      .Notifications
+                                                                      .permission !=
+                                                                  true &&
+                                                              neverRequestedPermission)
+                                                            {
+                                                              OneSignal
+                                                                      .Notifications
+                                                                  .requestPermission(
+                                                                      true),
+                                                              neverRequestedPermission =
+                                                                  false,
+                                                            }
+                                                        }
+                                                      : null;
+                                                },
+                                                child: Container(
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(
+                                                              SizeConfig
+                                                                  .defaultSize!),
+                                                        ),
+                                                        color:
+                                                            Color(0x60000000))),
+                                              )),
+                                          Visibility(
+                                              visible: wantClaim,
+                                              child: Center(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        const BorderRadius.all(
+                                                            Radius.circular(
+                                                                15)),
+                                                    color: Colors.white,
+                                                  ),
+                                                  height: 27 *
+                                                      SizeConfig.defaultSize!,
+                                                  width: 30 *
+                                                      SizeConfig.defaultSize!,
+                                                  child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SizedBox(
+                                                            height: SizeConfig
+                                                                    .defaultSize! *
+                                                                1),
+                                                        Image.asset(
+                                                            'lib/images/pointBox.png',
+                                                            width: 12.5 *
+                                                                SizeConfig
+                                                                    .defaultSize!),
+                                                        SizedBox(
+                                                            height: SizeConfig
+                                                                    .defaultSize! *
+                                                                2),
+                                                        Container(
+                                                          width: 24 *
+                                                              SizeConfig
+                                                                  .defaultSize!,
+                                                          height: 5 *
+                                                              SizeConfig
+                                                                  .defaultSize!,
+                                                          child: TextButton(
+                                                            style: ButtonStyle(
+                                                              shape: MaterialStateProperty.all<
+                                                                      RoundedRectangleBorder>(
+                                                                  RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(0.3 *
+                                                                              sh))),
+                                                              padding: MaterialStatePropertyAll(EdgeInsets.only(
+                                                                  // right: SizeConfig
+                                                                  //         .defaultSize! *
+                                                                  //     3,
+                                                                  // left: SizeConfig
+                                                                  //         .defaultSize! *
+                                                                  //     3,
+                                                                  top: 0.0 * sh,
+                                                                  bottom: 0.0 * sh)),
+                                                              backgroundColor:
+                                                                  MaterialStateProperty
+                                                                      .all<
+                                                                          Color>(
+                                                                lastPointYMD !=
+                                                                        formattedTime
+                                                                    ? const Color
+                                                                            .fromARGB(
+                                                                        255,
+                                                                        255,
+                                                                        169,
+                                                                        26)
+                                                                    : Colors
+                                                                        .grey,
+                                                              ), // 배경색 설정
+                                                            ),
+                                                            onPressed:
+                                                                () async {
+                                                              _sendCalClaimAdClickEvent(
+                                                                  userState
+                                                                      .point);
+
+                                                              setState(() {
+                                                                wantClaim =
+                                                                    false;
+                                                              });
+                                                              SharedPreferences
+                                                                  prefs =
+                                                                  await SharedPreferences
+                                                                      .getInstance();
+                                                              DateTime
+                                                                  currentDate =
+                                                                  DateTime
+                                                                      .now();
+                                                              String
+                                                                  formattedDate =
+                                                                  DateFormat(
+                                                                          'yyyy-MM-dd')
+                                                                      .format(
+                                                                          currentDate);
+                                                              int tmp =
+                                                                  prefs.getInt(
+                                                                      'availableGetPoint')!;
+                                                              lastPointYMD !=
+                                                                      formattedTime
+                                                                  ? {
+                                                                      if (formattedDate !=
+                                                                              prefs.getString(
+                                                                                  'lastPointYMD') &&
+                                                                          tmp !=
+                                                                              lastPointDay)
+                                                                        {
+                                                                          _isAdLoaded
+                                                                              ? null
+                                                                              : _loadRewardedAd(),
+                                                                        }
+                                                                    }
+                                                                  : null;
+                                                            },
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Image.asset(
+                                                                  'lib/images/slate1.png',
+                                                                  width:
+                                                                      0.03 * sw,
+                                                                ),
+                                                                Text(
+                                                                  '출첵-광고',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .black,
+                                                                    fontSize:
+                                                                        SizeConfig.defaultSize! *
+                                                                            2.2,
+                                                                    fontFamily:
+                                                                        'font-point'
+                                                                            .tr(),
+                                                                  ),
+                                                                ).tr(),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                            height: SizeConfig
+                                                                .defaultSize!),
+                                                        Container(
+                                                          width: 23 *
+                                                              SizeConfig
+                                                                  .defaultSize!,
+                                                          child: Center(
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () async {
+                                                                _sendCalClaimClickEvent(
+                                                                    userState
+                                                                        .point,
+                                                                    false);
+                                                                setState(() {
+                                                                  wantClaim =
+                                                                      false;
+                                                                });
+                                                                lastPointYMD !=
+                                                                        formattedTime
+                                                                    ? {
+                                                                        claimSuccess(
+                                                                            1),
+                                                                        if (OneSignal.Notifications.permission !=
+                                                                                true &&
+                                                                            neverRequestedPermission)
+                                                                          {
+                                                                            OneSignal.Notifications.requestPermission(true),
+                                                                            neverRequestedPermission =
+                                                                                false,
+                                                                          }
+                                                                      }
+                                                                    : null;
+                                                              },
+                                                              child: Text(
+                                                                '출첵-일반',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize:
+                                                                      SizeConfig
+                                                                              .defaultSize! *
+                                                                          1.5,
+                                                                  fontFamily:
+                                                                      'font-claim'
+                                                                          .tr(),
+                                                                ),
+                                                              ).tr(),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ]),
+                                                ),
+                                              ))
                                         ],
                                       ),
                                     ),
@@ -2491,12 +2332,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Image(
                       image:
                           FileImage(File(book.thumbUrl.replaceAll("'", "")))),
-                  showFirstOverlay && book.id != 10
-                      ? Container(
-                          width: SizeConfig.defaultSize! * 22,
-                          color: Colors.white.withOpacity(0.6),
-                        )
-                      : Container()
+
                   // CachedNetworkImage(
                   //   imageUrl: book.thumbUrl,
                   // ),
@@ -2573,13 +2409,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         'lib/images/specialOffer.png',
                         width: SizeConfig.defaultSize! * 6,
                       )),
-
-                showFirstOverlay && book.id != 10
-                    ? Container(
-                        width: SizeConfig.defaultSize! * 22,
-                        color: Colors.white.withOpacity(0.6),
-                      )
-                    : Container()
 
                 // CachedNetworkIma
               ]),
@@ -2916,16 +2745,42 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<void> _sendCalClaimClickEvent(pointNow) async {
+  Future<void> _sendCalClaimNowClickEvent(pointNow) async {
+    try {
+      // 이벤트 로깅
+      await analytics.logEvent(
+        name: 'cal_claim_now_click',
+        parameters: <String, dynamic>{
+          'point_now': pointNow,
+        },
+      );
+      await amplitude.logEvent(
+        'cal_claim_now_click',
+        eventProperties: {
+          'point_now': pointNow,
+        },
+      );
+    } catch (e) {
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendCalClaimClickEvent(pointNow, background) async {
     try {
       // 이벤트 로깅
       await analytics.logEvent(
         name: 'cal_claim_click',
-        parameters: <String, dynamic>{'point_now': pointNow},
+        parameters: <String, dynamic>{
+          'point_now': pointNow,
+          'background': background
+        },
       );
       await amplitude.logEvent(
         'cal_claim_click',
-        eventProperties: {'point_now': pointNow},
+        eventProperties: {
+          'point_now': pointNow,
+          'background': background ? 'true' : 'false'
+        },
       );
     } catch (e) {
       print('Failed to log event: $e');
