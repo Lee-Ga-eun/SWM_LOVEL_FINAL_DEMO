@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,9 @@ import 'globalCubit/user/user_cubit.dart';
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../component/rec.dart';
+import 'dart:io' show File, Platform;
+import 'dart:async';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class RecInfo extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
@@ -19,13 +23,39 @@ class RecInfo extends StatefulWidget {
 
 String mypath = '';
 
-class _RecInfoState extends State<RecInfo> {
+class _RecInfoState extends State<RecInfo> with SingleTickerProviderStateMixin {
+  final Duration _duration = const Duration();
+  final Duration _position = const Duration();
+  //AudioPlayer advancedPlayer=
+  AudioPlayer audioPlayer = AudioPlayer();
+  final double _currentSliderValue = 0;
+  bool playStart = false;
+  late AnimationController _animationController;
+  double percent = 0;
+
+  //Timer timer;
+
   @override
   void initState() {
     super.initState();
     _sendRecInfoViewEvent();
-
+    _initializeAnimationController();
     // TODO: Add initialization code
+    //advancedPlayer = new AudioPlayer();
+  }
+
+  void _initializeAnimationController() {
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 19), // 19초 동안 애니메이션
+      vsync: this,
+    );
+
+    // Add a listener to update the LinearPercentIndicator
+    _animationController.addListener(() {
+      setState(() {
+        percent = _animationController.value;
+      });
+    });
   }
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -39,6 +69,7 @@ class _RecInfoState extends State<RecInfo> {
 
   @override
   Widget build(BuildContext context) {
+    print(playStart);
     final userCubit = context.watch<UserCubit>();
     final userState = userCubit.state;
     final sw = (MediaQuery.of(context).size.width -
@@ -114,139 +145,87 @@ class _RecInfoState extends State<RecInfo> {
                           SizedBox(
                             height: 0.5 * SizeConfig.defaultSize!,
                           ),
-                          // Text(
-                          //   '녹음-안내',
-                          //   style: TextStyle(
-                          //     fontSize: SizeConfig.defaultSize! * 2.2,
-                          //     fontFamily: 'font-basic'.tr(),
-                          //   ),
-                          // ).tr(),
+                          Text(
+                            '녹음-안내1',
+                            style: TextStyle(
+                              fontSize: SizeConfig.defaultSize! * 2.2,
+                              fontFamily: 'font-basic'.tr(),
+                            ),
+                          ).tr(),
+                          Text(
+                            '녹음-안내2',
+                            style: TextStyle(
+                              fontSize: SizeConfig.defaultSize! * 2.2,
+                              fontFamily: 'font-basic'.tr(),
+                            ),
+                          ).tr(),
                           SizedBox(
                             height: 1.8 * SizeConfig.defaultSize!,
                           ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                          SizedBox(
+                            height: sh * 0.06,
+                          ),
+                          Container(
+                            width: sw * 0.4,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 3),
+                                color: Colors.white),
+                            child: Row(
                               children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  // crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Image(
-                                      image: AssetImage('lib/images/quite.png'),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize! * 2,
-                                    ),
-                                    Text(
-                                      "녹음-안내-1",
-                                      style: TextStyle(
-                                          fontSize: SizeConfig.defaultSize! *
-                                              2 *
-                                              double.parse('font-ratio'.tr()),
-                                          fontWeight: FontWeight.w400,
-                                          fontFamily: 'font-basic'.tr()),
-                                      textAlign: TextAlign.center,
-                                    ).tr()
-                                  ],
+                                IconButton(
+                                    icon: playStart
+                                        ? const Icon(Icons.stop)
+                                        : const Icon(Icons.play_arrow),
+                                    onPressed: () async {
+                                      if (playStart) {
+                                        playStart = false;
+                                        // 이미 애니메이션이 시작되었으면 오디오 일시 중지
+                                        audioPlayer.stop();
+                                        _animationController.dispose();
+                                        setState(() {
+                                          percent = 0;
+                                          _initializeAnimationController();
+                                        });
+                                        // _initializeAnimationController();
+
+                                        setState(() {
+                                          playStart = false;
+                                        });
+                                      } else {
+                                        // 애니메이션 시작 및 오디오 재생
+                                        if (Platform.isAndroid) {
+                                          audioPlayer.play(AssetSource(
+                                              'scripts/emma-sample.wav'));
+                                        } else {
+                                          audioPlayer.play(AssetSource(
+                                              'scripts/emma-sample.flac'));
+                                        }
+                                        _animationController.forward();
+                                        setState(() {
+                                          playStart = true;
+                                        });
+                                      }
+                                    }),
+                                LinearPercentIndicator(
+                                  curve: Curves.linear,
+                                  width: 0.3 * sw,
+                                  animation:
+                                      playStart, // 애니메이션을 playStart 변수로 제어
+                                  lineHeight: 0.01 * sh,
+                                  animationDuration:
+                                      19000, // 오디오 길이에 따라 애니메이션 지속 시간 설정
+                                  percent: percent,
+                                  // playStart
+                                  //     ? 1.0
+                                  //     : 0.0, // 애니메이션 진행 및 중지에 따라 퍼센트 설정
+                                  center: const Text(""),
+                                  progressColor:
+                                      const Color.fromARGB(255, 59, 59, 59),
                                 ),
-                                SizedBox(
-                                  width: SizeConfig.defaultSize! * 4,
-                                ),
-                                Column(
-                                  children: [
-                                    const Image(
-                                      image:
-                                          AssetImage('lib/images/speach1.png'),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize! * 2,
-                                    ),
-                                    Text(
-                                      "녹음-안내-2",
-                                      style: TextStyle(
-                                        fontSize: SizeConfig.defaultSize! *
-                                            2 *
-                                            double.parse('font-ratio'.tr()),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'font-basic'.tr(),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ).tr()
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.defaultSize! * 4,
-                                ),
-                                Column(
-                                  children: [
-                                    const Image(
-                                      image:
-                                          AssetImage('lib/images/thumbsUp.png'),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize! * 2,
-                                    ),
-                                    Text(
-                                      "녹음-안내-3",
-                                      style: TextStyle(
-                                        fontSize: SizeConfig.defaultSize! *
-                                            2 *
-                                            double.parse('font-ratio'.tr()),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'font-basic'.tr(),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ).tr()
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: SizeConfig.defaultSize! * 4,
-                                ),
-                                Column(
-                                  children: [
-                                    const Image(
-                                      image:
-                                          AssetImage('lib/images/infinite.png'),
-                                    ),
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize! * 2,
-                                    ),
-                                    Text(
-                                      "녹음-안내-4",
-                                      style: TextStyle(
-                                        fontSize: SizeConfig.defaultSize! *
-                                            2 *
-                                            double.parse('font-ratio'.tr()),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: 'font-basic'.tr(),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ).tr(),
-                                    // Positioned(
-                                    //     child: IconButton(
-                                    //   padding: EdgeInsets.only(
-                                    //       left: SizeConfig.defaultSize! * 13,
-                                    //       top: SizeConfig.defaultSize! * 2),
-                                    //   icon: Icon(
-                                    //     Icons.arrow_circle_right_outlined,
-                                    //     size: SizeConfig.defaultSize! * 4,
-                                    //     color: Colors.black,
-                                    //   ),
-                                    //   onPressed: () {
-                                    //     Navigator.push(
-                                    //       context,
-                                    //       MaterialPageRoute(
-                                    //         builder: (context) => const Rec(
-                                    //             // 다음 화면으로 contetnVoiceId를 가지고 이동
-                                    //             ),
-                                    //       ),
-                                    //     );
-                                    //   },
-                                    // ))
-                                  ],
-                                ),
-                              ]),
+                              ],
+                            ),
+                          ),
                           SizedBox(
                             height: sh * 0.06,
                           ),
@@ -298,48 +277,6 @@ class _RecInfoState extends State<RecInfo> {
                                 ])),
                           )
                         ])),
-                // Expanded(
-                //   flex: 12,
-                //   child: Row(
-                //     children: [
-                //       Expanded(
-                //         flex: 1,
-                //         child: Container(color: const Color.fromARGB(0, 0, 100, 0)),
-                //       ),
-                //       Expanded(
-                //         flex: 8,
-                //         child: Container(color: const Color.fromARGB(0, 0, 100, 0)),
-                //       ),
-                //       Expanded(
-                //           flex: 1,
-                //           child: Row(
-                //               mainAxisAlignment: MainAxisAlignment.end,
-                //               children: [
-                //                 IconButton(
-                //                   padding: EdgeInsets.only(
-                //                       //  left: SizeConfig.defaultSize! * 13,
-                //                       // top: SizeConfig.defaultSize! * 2,
-                //                       right: SizeConfig.defaultSize! * 4),
-                //                   icon: Icon(
-                //                     Icons.arrow_forward,
-                //                     size: 3 * SizeConfig.defaultSize!,
-                //                     color: Colors.black,
-                //                   ),
-                //                   onPressed: () {
-                //                     Navigator.push(
-                //                       context,
-                //                       MaterialPageRoute(
-                //                         builder: (context) => const Rec(
-                //                             // 다음 화면으로 contetnVoiceId를 가지고 이동
-                //                             ),
-                //                       ),
-                //                     );
-                //                   },
-                //                 ),
-                //               ])),
-                //     ],
-                //   ),
-                // ),
                 Expanded(flex: 10, child: Container())
               ],
             ),
