@@ -8,7 +8,7 @@ import 'package:yoggo/component/bookIntro/viewModel/book_voice_cubit.dart';
 import 'package:yoggo/component/bookIntro/viewModel/book_voice_model.dart';
 import 'package:yoggo/component/home/viewModel/home_screen_cubit.dart';
 import 'package:yoggo/component/point.dart';
-import 'package:yoggo/component/rec_info.dart';
+import 'package:yoggo/component/rec_info_1.dart';
 
 import '../../../Repositories/Repository.dart';
 import '../../bookPage/view/book_page.dart';
@@ -2205,7 +2205,6 @@ class _BookIntroState extends State<BookIntro> {
                                 dataCubit.changeHomeBookData();
 
                                 if (clickMyVoice == true) {
-
                                   await startInference(token);
                                 }
                               }

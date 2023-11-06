@@ -57,7 +57,7 @@
   "구독-약관설명-안드로이드": "After 7-day free trial, LOVEL monthly subscription is $5.99. You can cancel this subscription at any time if you wish.",
 
   "책-시작": "READ NOW",
-  "책-페이지-로딩": "Downloading the book, please wait a little while! 📚✨",
+  "책-페이지-로딩": "Downloading the book, please wait a little while! 📚",
 
   "인트로-구독": "Register your voice!",
   "인트로-책구매1": "Unlock the book for ",
@@ -85,7 +85,7 @@
   "녹음-축하": "Congratulations on \n completing the RECORDING",
   "녹음-푸쉬알림": "Your voice is well recorded \n We'll let you know by PUSH when it's done",
 
-  "녹음-대본": "According to Stanford research, children can recognize our voice\nin less than a second. Isn't that amazing?\nThe voice is one of the most vital tools in human communication.\nThrough our voices, children learn about\nsocial interactions and emotional development.\nWhen we read to them, it's not just about the words in a book,\nbut teaching them to understand the world, and conveying our deep love.\nWith your unique voice that's one of a kind in this world, tell your child,\n\"You are the most precious treasure in the world.\"",
+  "녹음-대본": "In a land not so distant…\nBirds brought joy with their morning song\nClouds would gather, hinting winter wouldn't be long\nBut with every dawn, light made the day bright and strong\nEvery village, near or wide, had a tale, a lifelong bond.",
   "녹음-완료문의": "Are you sure?",
   "녹음-대기": "Waiting to record",
 
@@ -102,10 +102,11 @@
 
   "얼리버드": "🎁 Early Bird Special 🎁\nFREE to use until 2023",
 
-  "녹음안내-이동버튼": "RECORD NOW",
+  "녹음안내-이동버튼1": "START",
+  "녹음안내-이동버튼2": "Go to RECORD",
 
   "답변-오케이": "OKAY",
 
-  "녹음-안내1": "조용한 곳에서 동화책을 읽는 것처럼 녹음하세요",
-  "녹음-안내2":"아래는 가장 녹음이 잘 된 예시입니다"
+  "녹음안내-설명1": "Let's record your voice.\nYou can read books with your own voice!",
+  "녹음안내-설명2": "Record as if you're reading a fairy tale in a QUIET place.\nBelow is the best recorded example."
 }
