@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yoggo/component/bookIntro/view/book_intro.dart';
 import 'package:yoggo/component/bookIntro/view/book_intro_onboarding.dart';
 import 'package:yoggo/component/globalCubit/user/user_state.dart';
+import 'package:yoggo/component/home/view/home_onboarding.dart';
 import 'package:yoggo/component/home/viewModel/home_screen_book_model.dart';
 // import 'package:yoggo/component/sub.dart';
 // import 'package:yoggo/component/shop.dart';
@@ -162,18 +163,19 @@ class _HomeScreenState extends State<HomeScreen> {
     bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
     //bool haveClickedBook = prefs.getBool('haveClickedBook') ?? false;
     neverRequestedPermission = true;
-    // bool haveClickedFairy = prefs.getBool('haveClickedFairy') ?? false;
-    // if (haveClickedBook) {
-    //   setState(() {
-    //     showFairy = haveClickedBook;
-    //   });
-    // }
+
     if (isFirstTime) {
       setState(() {
         showFirstOverlay = true;
-        //showSecondOverlay = false;
       });
       // Set isFirstTime to false after showing overlay
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => HomeOnboarding(
+                  abTest: widget.abTest,
+                )),
+      );
       await prefs.setBool('isFirstTime', false);
     }
   }
@@ -2012,6 +2014,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Drawer(
         child: Container(
       decoration: const BoxDecoration(
+        //color: Color(0xFFFDE392),
         image: DecorationImage(
           image: AssetImage('lib/images/bkground.png'),
           fit: BoxFit.cover,
@@ -2020,50 +2023,6 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          Container(
-              width: 30 * SizeConfig.defaultSize!,
-              height: 13 * SizeConfig.defaultSize!,
-              decoration: BoxDecoration(color: Colors.white.withOpacity(0.5)),
-              child: SafeArea(
-                minimum: EdgeInsets.only(
-                  left: 3 * SizeConfig.defaultSize!,
-                  //right: 3 * SizeConfig.defaultSize!,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: SizeConfig.defaultSize! * 2),
-                    Text(
-                      '햄버거-인사'.tr(),
-                      style: TextStyle(
-                          fontSize: SizeConfig.defaultSize! * 1.8,
-                          fontFamily: 'font-basic'.tr()),
-                    ),
-                    SizedBox(height: SizeConfig.defaultSize!),
-                    Padding(
-                      padding:
-                          EdgeInsets.only(left: SizeConfig.defaultSize! * 1),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.account_circle,
-                            size: SizeConfig.defaultSize! * 2.3,
-                          ),
-                          SizedBox(
-                            width: SizeConfig.defaultSize! * 0.5,
-                          ),
-                          Text(
-                            userState.userName,
-                            style: TextStyle(
-                                fontSize: SizeConfig.defaultSize! * 1.4),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )),
           Column(
             children: [
               SafeArea(
@@ -2077,7 +2036,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       // ),
                       SizedBox(
-                        height: 1 * SizeConfig.defaultSize!,
+                        height: 3 * SizeConfig.defaultSize!,
                       ),
                       Text(
                         '프로필',
