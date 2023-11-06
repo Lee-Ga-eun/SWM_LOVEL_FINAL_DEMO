@@ -340,38 +340,9 @@ class _RecInfoState extends State<RecInfo> {
                 //     ],
                 //   ),
                 // ),
+                Expanded(flex: 10, child: Container())
               ],
             ),
-            // Positioned(
-            //   right: sw * 0.01,
-            //   bottom: sh * 0,
-            //   child: IconButton(
-            //     padding: EdgeInsets.only(
-            //         left: SizeConfig.defaultSize! * 4,
-            //         // top: SizeConfig.defaultSize! * 2,
-            //         right: SizeConfig.defaultSize! * 4),
-            //     icon: Icon(
-            //       Icons.arrow_forward,
-            //       size: 3 * SizeConfig.defaultSize!,
-            //       color: Colors.black,
-            //     ),
-            //     onPressed: () {
-            //       print("clicked");
-            //       Navigator.push(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => Rec(
-            //             contentId: widget.contentId,
-
-            //             // 다음 화면으로 contetnVoiceId를 가지고 이동
-            //             abTest: widget.abTest,
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
-            Expanded(flex: 10, child: Container())
           ],
         ),
       ),
