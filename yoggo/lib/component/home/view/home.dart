@@ -1486,11 +1486,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             height: SizeConfig
                                                                     .defaultSize! *
                                                                 1),
-                                                        Image.asset(
-                                                            'lib/images/pointBox.png',
-                                                            width: 12.5 *
-                                                                SizeConfig
-                                                                    .defaultSize!),
+                                                        SizedBox(
+                                                          height: 12.5 *
+                                                              SizeConfig
+                                                                  .defaultSize!,
+                                                          child: Image.asset(
+                                                              'lib/images/pointBox.png',
+                                                              width: 12.5 *
+                                                                  SizeConfig
+                                                                      .defaultSize!),
+                                                        ),
                                                         SizedBox(
                                                             height: SizeConfig
                                                                     .defaultSize! *

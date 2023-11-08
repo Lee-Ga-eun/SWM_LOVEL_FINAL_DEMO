@@ -338,7 +338,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         fontSize: 3.2 * SizeConfig.defaultSize!,
-                                        fontFamily: 'Lilita',
+                                        fontFamily: 'EmilysCandy',
                                         fontWeight: FontWeight.w200),
                                   ),
                                 )),
@@ -352,10 +352,8 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                               // 썸네일 사진
                               flex: 2,
                               child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SizedBox(
-                                    height: SizeConfig.defaultSize!,
-                                  ),
                                   Container(
                                     color: const Color.fromARGB(0, 0, 0, 0),
                                     child: TweenAnimationBuilder<double>(
@@ -410,6 +408,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                               153, 255, 255, 255)),
                                     ),
                                   ),
+                                  SizedBox(height: SizeConfig.defaultSize! * 3),
                                 ],
                               ),
                             ),
@@ -419,403 +418,418 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                             Expanded(
                                 // 제목, 성우, 요약
                                 flex: 3,
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      // Text(
-                                      //   title,
-                                      //   style: TextStyle(
-                                      //       fontSize: 3.2 * SizeConfig.defaultSize!,
-                                      //       fontFamily: 'BreeSerif'),
-                                      // ),
-                                      // SizedBox(
-                                      //   height: SizeConfig.defaultSize! * 2,
-                                      // ),
-                                      SizedBox(
-                                        height: userState.purchase
-                                            ? 1 * SizeConfig.defaultSize!
-                                            : 1.5 * SizeConfig.defaultSize!,
-                                      ),
-                                      Column(
+                                child: Container(
+                                    height:
+                                        thumbSize + SizeConfig.defaultSize! * 3,
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
-                                          Container(
-                                              width:
-                                                  SizeConfig.defaultSize! * 34,
-                                              padding: EdgeInsets.only(
-                                                  left:
+                                          // Text(
+                                          //   title,
+                                          //   style: TextStyle(
+                                          //       fontSize: 3.2 * SizeConfig.defaultSize!,
+                                          //       fontFamily: 'BreeSerif'),
+                                          // ),
+                                          // SizedBox(
+                                          //   height: SizeConfig.defaultSize! * 2,
+                                          // ),
+                                          SizedBox(
+                                            height: userState.purchase
+                                                ? 1 * SizeConfig.defaultSize!
+                                                : 1.5 * SizeConfig.defaultSize!,
+                                          ),
+                                          Column(
+                                            children: [
+                                              Container(
+                                                  width:
                                                       SizeConfig.defaultSize! *
+                                                          34,
+                                                  padding: EdgeInsets.only(
+                                                      left: SizeConfig
+                                                              .defaultSize! *
                                                           1.2,
-                                                  top: SizeConfig.defaultSize!,
-                                                  bottom:
-                                                      SizeConfig.defaultSize!),
-                                              // color: Colors.red,
-                                              decoration: BoxDecoration(
-                                                color: Colors.white
-                                                    .withOpacity(0.4),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        SizeConfig
+                                                      top: SizeConfig
+                                                          .defaultSize!,
+                                                      bottom: SizeConfig
+                                                          .defaultSize!),
+                                                  // color: Colors.red,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white
+                                                        .withOpacity(0.4),
+                                                    borderRadius: BorderRadius
+                                                        .circular(SizeConfig
                                                                 .defaultSize! *
                                                             3),
-                                              ),
-                                              child: Row(
-                                                //  mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  GestureDetector(
-                                                      // purchase & record
-                                                      // no start Inference
-                                                      onTap: () {
-                                                        // bookVoiceCubit
-                                                        //     .changeBookVoiceData(contentId);
-                                                        _sendBookMyVoiceInOnboardingClickEvent(
-                                                          contentId,
-                                                          "The Sun and the Wind",
-                                                        );
-                                                        Navigator
-                                                            .pushReplacement(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) =>
-                                                                      RecInfo(
-                                                                        contentId:
-                                                                            10,
-                                                                        abTest:
-                                                                            widget.abTest,
-                                                                      )),
-                                                        );
-                                                      },
-                                                      child: Column(children: [
-                                                        Padding(
-                                                            padding: EdgeInsets.only(
-                                                                right: 0 *
-                                                                    SizeConfig
-                                                                        .defaultSize!),
-                                                            child: Image.asset(
-                                                              'lib/images/icons/grinning-face-c.png',
-                                                              height: SizeConfig
-                                                                      .defaultSize! *
-                                                                  7,
-                                                            )),
-                                                        SizedBox(
-                                                            height: SizeConfig
-                                                                    .defaultSize! *
-                                                                0.3),
-                                                        Text('My Voice',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'GenBkBasR',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                //     FontWeight.w800,
-                                                                fontSize: 1.8 *
-                                                                    SizeConfig
-                                                                        .defaultSize!))
-                                                      ])),
-                                                  SizedBox(
-                                                    // color: ,
-                                                    width: 1.5 *
-                                                        SizeConfig.defaultSize!,
                                                   ),
-                                                  GestureDetector(
-                                                    //Jolly
-                                                    onTap: () async {},
-                                                    child:
-                                                        //   ValueListenableBuilder<
-                                                        //       bool>(
-                                                        // valueListenable:
-                                                        //     isClicked0,
-                                                        // builder: (context,
-                                                        //     value, child) {
-                                                        //   return
-                                                        Center(
-                                                      child: Column(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                              right: 0 *
-                                                                  SizeConfig
-                                                                      .defaultSize!,
-                                                            ),
-                                                            child: Image.asset(
-                                                              'lib/images/emma.png',
-                                                              height: SizeConfig
-                                                                      .defaultSize! *
-                                                                  6.5,
-                                                              colorBlendMode:
-                                                                  BlendMode
-                                                                      .srcATop,
-                                                              color: const Color
-                                                                      .fromARGB(
-                                                                  150,
-                                                                  255,
-                                                                  255,
-                                                                  255),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: SizeConfig
-                                                                    .defaultSize! *
-                                                                0.3,
-                                                          ),
-                                                          Text(
-                                                            'Emma',
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontFamily:
-                                                                    'GenBkBasR',
-                                                                fontSize: 1.8 *
-                                                                    SizeConfig
-                                                                        .defaultSize!,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal),
-                                                          ),
-                                                        ],
+                                                  child: Row(
+                                                    //  mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      GestureDetector(
+                                                          // purchase & record
+                                                          // no start Inference
+                                                          onTap: () {
+                                                            // bookVoiceCubit
+                                                            //     .changeBookVoiceData(contentId);
+                                                            _sendBookMyVoiceInOnboardingClickEvent(
+                                                              contentId,
+                                                              "The Sun and the Wind",
+                                                            );
+                                                            Navigator
+                                                                .pushReplacement(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          RecInfo(
+                                                                            contentId:
+                                                                                10,
+                                                                            abTest:
+                                                                                widget.abTest,
+                                                                          )),
+                                                            );
+                                                          },
+                                                          child: Column(
+                                                              children: [
+                                                                Padding(
+                                                                    padding: EdgeInsets.only(
+                                                                        right: 0 *
+                                                                            SizeConfig
+                                                                                .defaultSize!),
+                                                                    child: Image
+                                                                        .asset(
+                                                                      'lib/images/icons/grinning-face-c.png',
+                                                                      height:
+                                                                          SizeConfig.defaultSize! *
+                                                                              7,
+                                                                    )),
+                                                                SizedBox(
+                                                                    height: SizeConfig
+                                                                            .defaultSize! *
+                                                                        0.3),
+                                                                Text('My Voice',
+                                                                    style: TextStyle(
+                                                                        fontFamily: 'GenBkBasR',
+                                                                        fontWeight: FontWeight.bold,
+                                                                        //     FontWeight.w800,
+                                                                        fontSize: 1.8 * SizeConfig.defaultSize!))
+                                                              ])),
+                                                      SizedBox(
+                                                        // color: ,
+                                                        width: 1.5 *
+                                                            SizeConfig
+                                                                .defaultSize!,
                                                       ),
-                                                      //);
-                                                      //},
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 1.5 *
-                                                        SizeConfig.defaultSize!,
-                                                  ),
-                                                  // Morgan
-                                                  GestureDetector(
-                                                    onTap: () async {},
-                                                    child: Center(
-                                                      child: Column(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                              right: 0 *
-                                                                  SizeConfig
-                                                                      .defaultSize!,
-                                                            ),
-                                                            child: Image.asset(
-                                                              'lib/images/sophia.png',
-                                                              height: SizeConfig
-                                                                      .defaultSize! *
-                                                                  6.5,
-                                                              colorBlendMode:
-                                                                  BlendMode
-                                                                      .srcATop,
-                                                              color: const Color
-                                                                      .fromARGB(
-                                                                  150,
-                                                                  255,
-                                                                  255,
-                                                                  255),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: SizeConfig
-                                                                    .defaultSize! *
-                                                                0.3,
-                                                          ),
-                                                          Text(
-                                                            'Sophia',
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontFamily:
-                                                                  'GenBkBasR',
-                                                              fontSize: 1.8 *
-                                                                  SizeConfig
-                                                                      .defaultSize!,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      //);
-                                                      //},
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 1.5 *
-                                                        SizeConfig.defaultSize!,
-                                                  ),
-                                                  // Eric
-                                                  GestureDetector(
-                                                      onTap: () async {},
-                                                      child: Center(
-                                                        child: Column(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .only(
-                                                                right: 0 *
-                                                                    SizeConfig
-                                                                        .defaultSize!,
+                                                      GestureDetector(
+                                                        //Jolly
+                                                        onTap: () async {},
+                                                        child:
+                                                            //   ValueListenableBuilder<
+                                                            //       bool>(
+                                                            // valueListenable:
+                                                            //     isClicked0,
+                                                            // builder: (context,
+                                                            //     value, child) {
+                                                            //   return
+                                                            Center(
+                                                          child: Column(
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .only(
+                                                                  right: 0 *
+                                                                      SizeConfig
+                                                                          .defaultSize!,
+                                                                ),
+                                                                child:
+                                                                    Image.asset(
+                                                                  'lib/images/emma.png',
+                                                                  height: SizeConfig
+                                                                          .defaultSize! *
+                                                                      6.5,
+                                                                  colorBlendMode:
+                                                                      BlendMode
+                                                                          .srcATop,
+                                                                  color: const Color
+                                                                          .fromARGB(
+                                                                      150,
+                                                                      255,
+                                                                      255,
+                                                                      255),
+                                                                ),
                                                               ),
-                                                              child:
-                                                                  Image.asset(
-                                                                'lib/images/james.png',
+                                                              SizedBox(
                                                                 height: SizeConfig
                                                                         .defaultSize! *
-                                                                    6.5,
-                                                                colorBlendMode:
-                                                                    BlendMode
-                                                                        .srcATop,
-                                                                color: const Color
-                                                                        .fromARGB(
-                                                                    150,
-                                                                    255,
-                                                                    255,
-                                                                    255),
+                                                                    0.3,
                                                               ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: SizeConfig
-                                                                      .defaultSize! *
-                                                                  0.3,
-                                                            ),
-                                                            Text(
-                                                              'James',
-                                                              style: TextStyle(
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontFamily:
-                                                                    'GenBkBasR',
-                                                                fontSize: 1.8 *
-                                                                    SizeConfig
-                                                                        .defaultSize!,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
+                                                              Text(
+                                                                'Emma',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    fontFamily:
+                                                                        'GenBkBasR',
+                                                                    fontSize: 1.8 *
+                                                                        SizeConfig
+                                                                            .defaultSize!,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal),
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      )
-                                                      //},
-                                                      //),
-                                                      ),
-                                                ],
-                                              ) //;
-                                              // }),
-                                              ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                          height: 1.5 *
-                                              SizeConfig
-                                                  .defaultSize! //userState.purchase
-                                          //? 4
-                                          //: 4 * SizeConfig.defaultSize!,
-                                          ),
-                                      Expanded(
-                                          flex: 3,
-                                          child: Scrollbar(
-                                            thumbVisibility: true,
-                                            trackVisibility: true,
-                                            child: ListView(children: [
-                                              Padding(
-                                                // Summary
-                                                padding: EdgeInsets.only(
-                                                  right: 1 *
-                                                      SizeConfig.defaultSize!,
-                                                  top: 0 *
-                                                      SizeConfig.defaultSize!,
-                                                ),
-                                                child: Text(
-                                                  "Learn a wonderful lesson with 'The Sun and the Wind'! See how the Sun and the Wind teach us that being gentle and kind is the coolest way to succeed!",
-                                                  style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontFamily: 'GenBkBasR',
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: SizeConfig
-                                                              .defaultSize! *
-                                                          2.1),
-                                                ),
-                                              ),
-                                            ]),
-                                          )),
-                                      SizedBox(
-                                        height: SizeConfig.defaultSize! * 1.5,
-                                      ),
-                                      Expanded(
-                                          flex: 2,
-                                          child: Stack(children: [
-                                            // 다른 위젯들...
-                                            Align(
-                                                alignment: Alignment.topCenter,
-                                                // right: SizeConfig.defaultSize! * 12,
-                                                // top: SizeConfig.defaultSize! * 1.4,
-                                                child: GestureDetector(
-                                                    onTap: () async {},
-                                                    child: Container(
-                                                        width: 31.1 *
-                                                            SizeConfig
-                                                                .defaultSize!,
-                                                        height: 4.5 *
-                                                            SizeConfig
-                                                                .defaultSize!,
-                                                        decoration:
-                                                            ShapeDecoration(
-                                                          color: const Color
-                                                                  .fromARGB(
-                                                              50, 255, 169, 26),
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        30),
+                                                            ],
                                                           ),
+                                                          //);
+                                                          //},
                                                         ),
-                                                        child: Stack(children: [
-                                                          Positioned(
-                                                              right: 1 *
-                                                                  SizeConfig
-                                                                      .defaultSize!,
-                                                              top: 0.75 *
-                                                                  SizeConfig
-                                                                      .defaultSize!,
-                                                              child: Icon(
-                                                                Icons
-                                                                    .chevron_right,
-                                                                color:
-                                                                    Colors.grey,
-                                                                size: SizeConfig
+                                                      ),
+                                                      SizedBox(
+                                                        width: 1.5 *
+                                                            SizeConfig
+                                                                .defaultSize!,
+                                                      ),
+                                                      // Morgan
+                                                      GestureDetector(
+                                                        onTap: () async {},
+                                                        child: Center(
+                                                          child: Column(
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .only(
+                                                                  right: 0 *
+                                                                      SizeConfig
+                                                                          .defaultSize!,
+                                                                ),
+                                                                child:
+                                                                    Image.asset(
+                                                                  'lib/images/sophia.png',
+                                                                  height: SizeConfig
+                                                                          .defaultSize! *
+                                                                      6.5,
+                                                                  colorBlendMode:
+                                                                      BlendMode
+                                                                          .srcATop,
+                                                                  color: const Color
+                                                                          .fromARGB(
+                                                                      150,
+                                                                      255,
+                                                                      255,
+                                                                      255),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: SizeConfig
                                                                         .defaultSize! *
-                                                                    3,
-                                                              )),
-                                                          Center(
-                                                            child: Text(
-                                                              '책-시작',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
+                                                                    0.3,
+                                                              ),
+                                                              Text(
+                                                                'Sophia',
+                                                                style:
+                                                                    TextStyle(
                                                                   color: Colors
                                                                       .grey,
-                                                                  fontSize: 2.3 *
-                                                                      SizeConfig
-                                                                          .defaultSize! *
-                                                                      double.parse(
-                                                                          'font-ratio'
-                                                                              .tr()),
                                                                   fontFamily:
-                                                                      'font-book'
-                                                                          .tr()),
-                                                            ).tr(),
+                                                                      'GenBkBasR',
+                                                                  fontSize: 1.8 *
+                                                                      SizeConfig
+                                                                          .defaultSize!,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
-                                                        ]))))
-                                          ]))
-                                    ]))
+                                                          //);
+                                                          //},
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 1.5 *
+                                                            SizeConfig
+                                                                .defaultSize!,
+                                                      ),
+                                                      // Eric
+                                                      GestureDetector(
+                                                          onTap: () async {},
+                                                          child: Center(
+                                                            child: Column(
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                    right: 0 *
+                                                                        SizeConfig
+                                                                            .defaultSize!,
+                                                                  ),
+                                                                  child: Image
+                                                                      .asset(
+                                                                    'lib/images/james.png',
+                                                                    height:
+                                                                        SizeConfig.defaultSize! *
+                                                                            6.5,
+                                                                    colorBlendMode:
+                                                                        BlendMode
+                                                                            .srcATop,
+                                                                    color: const Color
+                                                                            .fromARGB(
+                                                                        150,
+                                                                        255,
+                                                                        255,
+                                                                        255),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: SizeConfig
+                                                                          .defaultSize! *
+                                                                      0.3,
+                                                                ),
+                                                                Text(
+                                                                  'James',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Colors
+                                                                        .grey,
+                                                                    fontFamily:
+                                                                        'GenBkBasR',
+                                                                    fontSize: 1.8 *
+                                                                        SizeConfig
+                                                                            .defaultSize!,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                          //},
+                                                          //),
+                                                          ),
+                                                    ],
+                                                  ) //;
+                                                  // }),
+                                                  ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                              height: 1.5 *
+                                                  SizeConfig
+                                                      .defaultSize! //userState.purchase
+                                              //? 4
+                                              //: 4 * SizeConfig.defaultSize!,
+                                              ),
+                                          Expanded(
+                                              flex: 3,
+                                              child: Scrollbar(
+                                                thumbVisibility: true,
+                                                trackVisibility: true,
+                                                child: ListView(children: [
+                                                  Padding(
+                                                    // Summary
+                                                    padding: EdgeInsets.only(
+                                                      right: 1 *
+                                                          SizeConfig
+                                                              .defaultSize!,
+                                                      top: 0 *
+                                                          SizeConfig
+                                                              .defaultSize!,
+                                                    ),
+                                                    child: Text(
+                                                      "Learn a wonderful lesson with 'The Sun and the Wind'! See how the Sun and the Wind teach us that being gentle and kind is the coolest way to succeed!",
+                                                      style: TextStyle(
+                                                          color: Colors.grey,
+                                                          fontFamily:
+                                                              'GenBkBasR',
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: SizeConfig
+                                                                  .defaultSize! *
+                                                              2.1),
+                                                    ),
+                                                  ),
+                                                ]),
+                                              )),
+                                          SizedBox(
+                                            height:
+                                                SizeConfig.defaultSize! * 1.5,
+                                          ),
+                                          Expanded(
+                                              flex: 2,
+                                              child: Stack(children: [
+                                                // 다른 위젯들...
+                                                Align(
+                                                    alignment:
+                                                        Alignment.topCenter,
+                                                    // right: SizeConfig.defaultSize! * 12,
+                                                    // top: SizeConfig.defaultSize! * 1.4,
+                                                    child: GestureDetector(
+                                                        onTap: () async {},
+                                                        child: Container(
+                                                            width: 31.1 *
+                                                                SizeConfig
+                                                                    .defaultSize!,
+                                                            height: 4.5 *
+                                                                SizeConfig
+                                                                    .defaultSize!,
+                                                            decoration:
+                                                                ShapeDecoration(
+                                                              color: const Color
+                                                                      .fromARGB(
+                                                                  50,
+                                                                  255,
+                                                                  169,
+                                                                  26),
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            30),
+                                                              ),
+                                                            ),
+                                                            child: Stack(
+                                                                children: [
+                                                                  Positioned(
+                                                                      right: 1 *
+                                                                          SizeConfig
+                                                                              .defaultSize!,
+                                                                      top: 0.75 *
+                                                                          SizeConfig
+                                                                              .defaultSize!,
+                                                                      child:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .chevron_right,
+                                                                        color: Colors
+                                                                            .grey,
+                                                                        size: SizeConfig.defaultSize! *
+                                                                            3,
+                                                                      )),
+                                                                  Center(
+                                                                    child: Text(
+                                                                      '책-시작',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .center,
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .grey,
+                                                                          fontSize: 2.3 *
+                                                                              SizeConfig.defaultSize! *
+                                                                              double.parse('font-ratio'.tr()),
+                                                                          fontFamily: 'font-book'.tr()),
+                                                                    ).tr(),
+                                                                  ),
+                                                                ]))))
+                                              ]))
+                                        ])))
                           ])),
                     ]),
                   ),
@@ -823,7 +837,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
               ),
               Positioned(
                 left: SizeConfig.defaultSize! * 52,
-                top: SizeConfig.defaultSize! * 13,
+                top: SizeConfig.defaultSize! * 19,
                 child: Image.asset(
                   'lib/images/finger.png',
                   width: SizeConfig.defaultSize! * 10,
