@@ -23,8 +23,7 @@ class RecInfo2 extends StatefulWidget {
 
 String mypath = '';
 
-class _RecInfo2State extends State<RecInfo2>
-    with SingleTickerProviderStateMixin {
+class _RecInfo2State extends State<RecInfo2> {
   //AudioPlayer advancedPlayer=
   AudioPlayer audioPlayer = AudioPlayer();
   final double _currentSliderValue = 0;
@@ -162,7 +161,7 @@ class _RecInfo2State extends State<RecInfo2>
                             ),
                           ).tr(),
                           SizedBox(
-                            height: 1.8 * SizeConfig.defaultSize!,
+                            height: 3 * SizeConfig.defaultSize!,
                           ),
                           Container(
                             width: SizeConfig.defaultSize! * 40,

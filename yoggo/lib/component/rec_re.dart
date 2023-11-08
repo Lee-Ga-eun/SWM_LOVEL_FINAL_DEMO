@@ -213,9 +213,6 @@ class _RecReState extends State<RecRe> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(
-                                        height: 0 * SizeConfig.defaultSize!,
-                                      ),
                                       IconButton(
                                         icon: Icon(Icons.clear,
                                             size: 3 * SizeConfig.defaultSize!),
@@ -244,9 +241,6 @@ class _RecReState extends State<RecRe> {
                                 child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      SizedBox(
-                                        height: 0 * SizeConfig.defaultSize!,
-                                      ),
                                       IconButton(
                                         icon: hide_info
                                             ? Icon(
