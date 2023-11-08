@@ -106,7 +106,9 @@
   "녹음안내-이동버튼2": "Go to RECORD",
 
   "답변-오케이": "OKAY",
-
+  "샘플음성-안드로이드": "scripts/sample-en.wav",
+  "샘플음성-애플": "scripts/sample-en.flac",
+  "샘플음성-길이": " / 0:25",
   "녹음안내-설명1": "Let's record your voice.\nYou can read books with your own voice!",
   "녹음안내-설명2": "Please record in a quiet place.\nBelow is the best recorded example."
 }

@@ -187,11 +187,11 @@ class _RecInfo2State extends State<RecInfo2> {
                                         });
                                       } else {
                                         if (Platform.isAndroid) {
-                                          audioPlayer.play(AssetSource(
-                                              'scripts/emma-sample.wav'));
+                                          audioPlayer.play(
+                                              AssetSource('샘플음성-안드로이드'.tr()));
                                         } else {
-                                          audioPlayer.play(AssetSource(
-                                              'scripts/emma-sample.flac'));
+                                          audioPlayer.play(
+                                              AssetSource('샘플음성-애플'.tr()));
                                         }
                                         setState(() {
                                           playStart = true;
@@ -199,7 +199,13 @@ class _RecInfo2State extends State<RecInfo2> {
                                       }
                                     }),
                                 Text(
-                                  '  0:${currentPosition.inSeconds < 10 ? '0' + currentPosition.inSeconds.toString() : currentPosition.inSeconds.toString()} / 0:18',
+                                  '  0:${currentPosition.inSeconds < 10 ? '0' + currentPosition.inSeconds.toString() : currentPosition.inSeconds.toString()}',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 1.8 * SizeConfig.defaultSize!),
+                                ),
+                                Text(
+                                  '샘플음성-길이'.tr(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 1.8 * SizeConfig.defaultSize!),
