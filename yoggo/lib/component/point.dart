@@ -813,13 +813,13 @@ class _PurchaseState extends State<Purchase> {
                     width: 0.46 * sw,
                     height: 0.78 * sh,
                     child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             gradient: RadialGradient(
                                 radius: 0.7,
                                 // begin: Alignment.topCenter,
                                 // end: Alignment.bottomCenter,
                                 colors: [
-                          const Color.fromARGB(150, 0, 0, 0), // 흐린 배경의 시작 색상
+                          Color.fromARGB(150, 0, 0, 0), // 흐린 배경의 시작 색상
                           Color.fromARGB(100, 0, 0, 0), // 투명한 중간 색상
                         ]))
 
@@ -963,8 +963,9 @@ class _PurchaseState extends State<Purchase> {
                           child: SizedBox(
                             width: sw * 0.08,
                             height: sw * 0.08,
-                            child: const CircularProgressIndicator(
-                              color: Color(0xFFF39E09),
+                            child: CircularProgressIndicator(
+                              color: const Color(0xFFF39E09),
+                              strokeWidth: sh * 0.015,
                             ),
                           ))),
                   // Positioned(
