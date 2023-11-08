@@ -68,9 +68,6 @@ class _PurchaseState extends State<Purchase> {
         if (e.pendingCompletePurchase) {
           if (!mounted) return;
           _inAppPurchase.completePurchase(e);
-          setState(() {
-            _isLoading = false;
-          });
 
           if (e.status == PurchaseStatus.error) {
             print(e.error);
@@ -231,6 +228,10 @@ class _PurchaseState extends State<Purchase> {
           .setUserProperties({'point': json.decode(response.body)[0]['point']});
       print('포인트 구매 완료');
       context.read<UserCubit>().fetchUser();
+
+      setState(() {
+        _isLoading = false;
+      });
       //       Amplitude.getInstance().setUserProperties(
       // {'point': point, 'subscribe': purchase, 'record': record});
     } else {
@@ -863,6 +864,8 @@ class _PurchaseState extends State<Purchase> {
             Positioned(
                 top: 7 * SizeConfig.defaultSize!,
                 right: 0.01 * sw,
+                width: 0.46 * sw,
+                height: 0.78 * sh,
                 child: Stack(children: [
                   SizedBox(
                     width: 0.46 * sw,
