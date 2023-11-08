@@ -528,11 +528,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: SizeConfig.defaultSize! * 2,
                           ),
                           Text(
-                            '로딩'.tr(),
+                            '로딩2'.tr(),
                             style: TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'font-basic'.tr(),
-                                fontSize: SizeConfig.defaultSize! * 2.5,
+                                fontSize: SizeConfig.defaultSize! *
+                                    2.5 *
+                                    double.parse('font-ratio'.tr()),
                                 decoration: TextDecoration.none),
                           )
                         ],

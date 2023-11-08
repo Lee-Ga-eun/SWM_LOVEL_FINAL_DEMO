@@ -303,11 +303,13 @@ class _AppState extends State<App> {
                             height: SizeConfig.defaultSize! * 2,
                           ),
                           Text(
-                            '로딩'.tr(),
+                            '로딩1'.tr(),
                             style: TextStyle(
                                 fontFamily: 'font-basic'.tr(),
                                 color: Colors.black,
-                                fontSize: SizeConfig.defaultSize! * 2.5,
+                                fontSize: SizeConfig.defaultSize! *
+                                    2.5 *
+                                    double.parse('font-ratio'.tr()),
                                 decoration: TextDecoration.none),
                           )
                         ],

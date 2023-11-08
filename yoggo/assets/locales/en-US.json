@@ -7,7 +7,8 @@
   "font-point": "Lilita",
   "font-claim": "",
 
-  "로딩": "LOADING...",
+  "로딩1": "Connecting to server...",
+  "로딩2": "Downloading contents...",
   "공지사항": "Notice",
 
   "답변-긍정-대문자": "YES",
