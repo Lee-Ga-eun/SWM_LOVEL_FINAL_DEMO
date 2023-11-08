@@ -155,7 +155,7 @@ class _RecInfo2State extends State<RecInfo2> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: SizeConfig.defaultSize! *
-                                  3 *
+                                  2.8 *
                                   double.parse('font-ratio'.tr()),
                               fontFamily: 'font-basic'.tr(),
                             ),
