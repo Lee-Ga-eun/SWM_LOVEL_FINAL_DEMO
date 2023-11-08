@@ -903,10 +903,8 @@ class _BookIntroState extends State<BookIntro> {
                                 // 썸네일 사진
                                 flex: 2,
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(
-                                      height: SizeConfig.defaultSize!,
-                                    ),
                                     Container(
                                         color: const Color.fromARGB(0, 0, 0, 0),
                                         child: Hero(
@@ -977,6 +975,8 @@ class _BookIntroState extends State<BookIntro> {
                                             // ),
                                           ),
                                         )),
+                                    SizedBox(
+                                        height: SizeConfig.defaultSize! * 3),
                                   ],
                                 ),
                               ),
@@ -986,557 +986,313 @@ class _BookIntroState extends State<BookIntro> {
                               Expanded(
                                   // 제목, 성우, 요약
                                   flex: 3,
-                                  child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        // Text(
-                                        //   title,
-                                        //   style: TextStyle(
-                                        //       fontSize: 3.2 * SizeConfig.defaultSize!,
-                                        //       fontFamily: 'BreeSerif'),
-                                        // ),
-                                        // SizedBox(
-                                        //   height: SizeConfig.defaultSize! * 2,
-                                        // ),
-                                        SizedBox(
-                                          height: userState.purchase
-                                              ? 1 * SizeConfig.defaultSize!
-                                              : 1.5 * SizeConfig.defaultSize!,
-                                        ),
-                                        Column(
-                                          children: [
-                                            Container(
-                                                width: SizeConfig.defaultSize! *
-                                                    34,
-                                                padding: EdgeInsets.only(
-                                                    left: SizeConfig
-                                                            .defaultSize! *
-                                                        1.2,
-                                                    top:
-                                                        SizeConfig.defaultSize!,
-                                                    bottom: SizeConfig
-                                                        .defaultSize!),
-                                                // color: Colors.red,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white
-                                                      .withOpacity(0.4),
-                                                  borderRadius: BorderRadius
-                                                      .circular(SizeConfig
+                                  child: Container(
+                                    height:
+                                        thumbSize + SizeConfig.defaultSize! * 3,
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          // Text(
+                                          //   title,
+                                          //   style: TextStyle(
+                                          //       fontSize: 3.2 * SizeConfig.defaultSize!,
+                                          //       fontFamily: 'BreeSerif'),
+                                          // ),
+                                          // SizedBox(
+                                          //   height: SizeConfig.defaultSize! * 2,
+                                          // ),
+                                          SizedBox(
+                                            height: userState.purchase
+                                                ? 1 * SizeConfig.defaultSize!
+                                                : 1.5 * SizeConfig.defaultSize!,
+                                          ),
+                                          Column(
+                                            children: [
+                                              Container(
+                                                  width:
+                                                      SizeConfig.defaultSize! *
+                                                          34,
+                                                  padding: EdgeInsets.only(
+                                                      left: SizeConfig
                                                               .defaultSize! *
-                                                          3),
-                                                ),
-                                                child: Row(
-                                                  //  mainAxisAlignment: MainAxisAlignment.center,
-                                                  children: [
-                                                    //GestureDetector(onTap:(){}, child: Column(children:[]))
-                                                    userState.purchase
-                                                        ? !bookIntro.first
-                                                                .lock //한시적인 코드
-                                                            ? userState.record
-                                                                // ? inferenceId ==
-                                                                ? voiceState[0]
-                                                                            .contentVoiceId ==
-                                                                        0
-                                                                    ? GestureDetector(
-                                                                        onTap:
-                                                                            () {
-                                                                          _sendBookMyVoiceClickEvent(
-                                                                            contentId,
-                                                                            title,
-                                                                          );
-
-                                                                          setState(
+                                                          1.2,
+                                                      top: SizeConfig
+                                                          .defaultSize!,
+                                                      bottom: SizeConfig
+                                                          .defaultSize!),
+                                                  // color: Colors.red,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white
+                                                        .withOpacity(0.4),
+                                                    borderRadius: BorderRadius
+                                                        .circular(SizeConfig
+                                                                .defaultSize! *
+                                                            3),
+                                                  ),
+                                                  child: Row(
+                                                    //  mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      //GestureDetector(onTap:(){}, child: Column(children:[]))
+                                                      userState.purchase
+                                                          ? !bookIntro.first
+                                                                  .lock //한시적인 코드
+                                                              ? userState.record
+                                                                  // ? inferenceId ==
+                                                                  ? voiceState[0]
+                                                                              .contentVoiceId ==
+                                                                          0
+                                                                      ? GestureDetector(
+                                                                          onTap:
                                                                               () {
-                                                                            canChanged.value =
-                                                                                false;
-
-                                                                            completeInference = isLoading
-                                                                                ? false
-                                                                                : true;
-                                                                            wantInference.value = isLoading
-                                                                                ? false
-                                                                                : true;
-                                                                          });
-                                                                        },
-                                                                        child: Column(
-                                                                            children: [
-                                                                              Stack(children: [
-                                                                                Image.asset(
-                                                                                  'lib/images/icons/${userState.voiceIcon}-uc.png',
-                                                                                  height: SizeConfig.defaultSize! * 7,
-                                                                                ),
-                                                                                isLoading
-                                                                                    ? const Positioned(
-                                                                                        left: 12,
-                                                                                        right: 12,
-                                                                                        bottom: 12,
-                                                                                        top: 12,
-                                                                                        child: CircularProgressIndicator(
-                                                                                          color: Color(0xFFFFA91A),
-                                                                                        ),
-                                                                                      )
-                                                                                    : Image.asset('lib/images/download.png', height: SizeConfig.defaultSize! * 2.5),
-                                                                              ]),
-                                                                              SizedBox(height: SizeConfig.defaultSize! * 0.3),
-                                                                              Text(userState.voiceName!,
-                                                                                  style: TextStyle(
-                                                                                      fontFamily: 'GenBkBasR',
-                                                                                      // fontWeight:
-                                                                                      //     FontWeight.w800,
-                                                                                      fontSize: 1.8 * SizeConfig.defaultSize!))
-                                                                            ]))
-                                                                    : GestureDetector(
-                                                                        // purchase & record
-                                                                        // complete Inference : 책 인퍼런스 완료된 상태
-                                                                        onTap:
-                                                                            () async {
-                                                                          bookVoiceCubit
-                                                                              .changeBookVoiceData(contentId);
-                                                                          bookVoiceCubit.clickBookVoiceData(
+                                                                            _sendBookMyVoiceClickEvent(
                                                                               contentId,
-                                                                              voiceState[0].voiceId);
-                                                                          clickedVoice =
-                                                                              await bookVoiceCubit.loadClickedBookVoiceData(contentId) as BookVoiceModel;
-                                                                          _sendBookMyVoiceClickEvent(
-                                                                            contentId,
-                                                                            title,
-                                                                          );
-                                                                          // setState(() {
-                                                                          // isClicked.value =
-                                                                          //     !isClicked.value;
-                                                                          // isClicked0.value =
-                                                                          //     false;
-                                                                          // isClicked1.value =
-                                                                          //     false;
-                                                                          // isClicked2.value =
-                                                                          //     false;
+                                                                              title,
+                                                                            );
 
-                                                                          canChanged.value =
-                                                                              true;
+                                                                            setState(() {
+                                                                              canChanged.value = false;
 
-                                                                          canChanged.value =
-                                                                              true; // 인퍼런스가 완료됐을 때 바로 화살표가 넘어갈 수 있도록
-                                                                          //   });
-                                                                        },
-                                                                        child:
-                                                                            // ValueListenableBuilder<
-                                                                            //         bool>(
-                                                                            //     valueListenable:
-                                                                            //         isClicked,
-                                                                            //     builder: (context,
-                                                                            //         value,
-                                                                            //         child) {
-                                                                            //       return
-                                                                            Column(
-                                                                                children: [
-                                                                              Padding(
-                                                                                padding: EdgeInsets.only(right: 0 * SizeConfig.defaultSize!),
-                                                                                child: voiceState[0].clicked //isClicked.value
-                                                                                    ? Image.asset(
-                                                                                        'lib/images/icons/${userState.voiceIcon}-c.png',
-                                                                                        height: SizeConfig.defaultSize! * 7,
-                                                                                      )
-                                                                                    : Image.asset(
-                                                                                        'lib/images/icons/${userState.voiceIcon}-uc.png',
-                                                                                        height: SizeConfig.defaultSize! * 7,
-                                                                                      ),
-                                                                              ),
-                                                                              SizedBox(height: SizeConfig.defaultSize! * 0.3),
-                                                                              Text(userState.voiceName!, style: TextStyle(fontFamily: 'GenBkBasR', fontWeight: voiceState[0].clicked ? (FontWeight.bold) : (FontWeight.normal), fontSize: 1.8 * SizeConfig.defaultSize!))
-                                                                            ])
-                                                                        //})
-                                                                        )
-                                                                : GestureDetector(
-                                                                    // no record
-                                                                    onTap: () {
-                                                                      _sendBookMyVoiceClickEvent(
-                                                                          contentId,
-                                                                          title);
-                                                                      setState(
-                                                                          () {
-                                                                        // wantRecord = true;
-                                                                      });
-                                                                      wantRecord
-                                                                              .value =
-                                                                          true;
-                                                                    },
-                                                                    child:
-                                                                        Center(
-                                                                      child:
-                                                                          Column(
-                                                                        children: [
-                                                                          Padding(
-                                                                              padding: EdgeInsets.only(right: 0 * SizeConfig.defaultSize!, left: 0 * SizeConfig.defaultSize!),
-                                                                              child: Stack(children: [
-                                                                                Image.asset(
-                                                                                  'lib/images/icons/grinning-face-uc.png',
-                                                                                  height: SizeConfig.defaultSize! * 7,
-                                                                                ),
-                                                                                Image.asset('lib/images/microphone.png', height: SizeConfig.defaultSize! * 2.5),
-                                                                              ])
-                                                                              // colorBlendMode: BlendMode.srcATop,
-                                                                              // color: voiceState[0].clicked ? null : const Color.fromARGB(200, 255, 255, 255)),
-                                                                              ),
-                                                                          SizedBox(
-                                                                              height: SizeConfig.defaultSize! * 0.3),
-                                                                          Text(
-                                                                              'My voice',
-                                                                              style: TextStyle(fontFamily: 'GenBkBasR', fontSize: 1.8 * SizeConfig.defaultSize!))
-                                                                        ],
-                                                                      ),
-                                                                    ))
-                                                            : GestureDetector(
-                                                                //책 안 산 사람
-                                                                onTap: () {
-                                                                  _sendBookMyVoiceClickEvent(
-                                                                      contentId,
-                                                                      title);
-                                                                  setState(() {
-                                                                    wantBuyBook =
-                                                                        true;
-                                                                    clickMyVoice =
-                                                                        true;
-                                                                  });
-                                                                },
-                                                                child: Center(
-                                                                  child: Column(
-                                                                    // 결제 안 한 사람
-                                                                    children: [
-                                                                      Padding(
-                                                                          padding: EdgeInsets.only(
-                                                                              right: 0 * SizeConfig.defaultSize!,
-                                                                              left: 0 * SizeConfig.defaultSize!),
-                                                                          child: userState.record
-                                                                              ? Stack(children: [
+                                                                              completeInference = isLoading ? false : true;
+                                                                              wantInference.value = isLoading ? false : true;
+                                                                            });
+                                                                          },
+                                                                          child: Column(
+                                                                              children: [
+                                                                                Stack(children: [
                                                                                   Image.asset(
                                                                                     'lib/images/icons/${userState.voiceIcon}-uc.png',
                                                                                     height: SizeConfig.defaultSize! * 7,
                                                                                   ),
-                                                                                  Image.asset('lib/images/download.png', height: SizeConfig.defaultSize! * 2.5),
+                                                                                  isLoading
+                                                                                      ? const Positioned(
+                                                                                          left: 12,
+                                                                                          right: 12,
+                                                                                          bottom: 12,
+                                                                                          top: 12,
+                                                                                          child: CircularProgressIndicator(
+                                                                                            color: Color(0xFFFFA91A),
+                                                                                          ),
+                                                                                        )
+                                                                                      : Image.asset('lib/images/download.png', height: SizeConfig.defaultSize! * 2.5),
+                                                                                ]),
+                                                                                SizedBox(height: SizeConfig.defaultSize! * 0.3),
+                                                                                Text(userState.voiceName!,
+                                                                                    style: TextStyle(
+                                                                                        fontFamily: 'GenBkBasR',
+                                                                                        // fontWeight:
+                                                                                        //     FontWeight.w800,
+                                                                                        fontSize: 1.8 * SizeConfig.defaultSize!))
+                                                                              ]))
+                                                                      : GestureDetector(
+                                                                          // purchase & record
+                                                                          // complete Inference : 책 인퍼런스 완료된 상태
+                                                                          onTap:
+                                                                              () async {
+                                                                            bookVoiceCubit.changeBookVoiceData(contentId);
+                                                                            bookVoiceCubit.clickBookVoiceData(contentId,
+                                                                                voiceState[0].voiceId);
+                                                                            clickedVoice =
+                                                                                await bookVoiceCubit.loadClickedBookVoiceData(contentId) as BookVoiceModel;
+                                                                            _sendBookMyVoiceClickEvent(
+                                                                              contentId,
+                                                                              title,
+                                                                            );
+                                                                            // setState(() {
+                                                                            // isClicked.value =
+                                                                            //     !isClicked.value;
+                                                                            // isClicked0.value =
+                                                                            //     false;
+                                                                            // isClicked1.value =
+                                                                            //     false;
+                                                                            // isClicked2.value =
+                                                                            //     false;
+
+                                                                            canChanged.value =
+                                                                                true;
+
+                                                                            canChanged.value =
+                                                                                true; // 인퍼런스가 완료됐을 때 바로 화살표가 넘어갈 수 있도록
+                                                                            //   });
+                                                                          },
+                                                                          child:
+                                                                              // ValueListenableBuilder<
+                                                                              //         bool>(
+                                                                              //     valueListenable:
+                                                                              //         isClicked,
+                                                                              //     builder: (context,
+                                                                              //         value,
+                                                                              //         child) {
+                                                                              //       return
+                                                                              Column(
+                                                                                  children: [
+                                                                                Padding(
+                                                                                  padding: EdgeInsets.only(right: 0 * SizeConfig.defaultSize!),
+                                                                                  child: voiceState[0].clicked //isClicked.value
+                                                                                      ? Image.asset(
+                                                                                          'lib/images/icons/${userState.voiceIcon}-c.png',
+                                                                                          height: SizeConfig.defaultSize! * 7,
+                                                                                        )
+                                                                                      : Image.asset(
+                                                                                          'lib/images/icons/${userState.voiceIcon}-uc.png',
+                                                                                          height: SizeConfig.defaultSize! * 7,
+                                                                                        ),
+                                                                                ),
+                                                                                SizedBox(height: SizeConfig.defaultSize! * 0.3),
+                                                                                Text(userState.voiceName!, style: TextStyle(fontFamily: 'GenBkBasR', fontWeight: voiceState[0].clicked ? (FontWeight.bold) : (FontWeight.normal), fontSize: 1.8 * SizeConfig.defaultSize!))
+                                                                              ])
+                                                                          //})
+                                                                          )
+                                                                  : GestureDetector(
+                                                                      // no record
+                                                                      onTap:
+                                                                          () {
+                                                                        _sendBookMyVoiceClickEvent(
+                                                                            contentId,
+                                                                            title);
+                                                                        setState(
+                                                                            () {
+                                                                          // wantRecord = true;
+                                                                        });
+                                                                        wantRecord.value =
+                                                                            true;
+                                                                      },
+                                                                      child:
+                                                                          Center(
+                                                                        child:
+                                                                            Column(
+                                                                          children: [
+                                                                            Padding(
+                                                                                padding: EdgeInsets.only(right: 0 * SizeConfig.defaultSize!, left: 0 * SizeConfig.defaultSize!),
+                                                                                child: Stack(children: [
+                                                                                  Image.asset(
+                                                                                    'lib/images/icons/grinning-face-uc.png',
+                                                                                    height: SizeConfig.defaultSize! * 7,
+                                                                                  ),
+                                                                                  Image.asset('lib/images/microphone.png', height: SizeConfig.defaultSize! * 2.5),
                                                                                 ])
-                                                                              : Image.asset(
-                                                                                  'lib/images/locked_face.png',
-                                                                                  height: SizeConfig.defaultSize! * 6.5,
-                                                                                )),
-                                                                      SizedBox(
+                                                                                // colorBlendMode: BlendMode.srcATop,
+                                                                                // color: voiceState[0].clicked ? null : const Color.fromARGB(200, 255, 255, 255)),
+                                                                                ),
+                                                                            SizedBox(height: SizeConfig.defaultSize! * 0.3),
+                                                                            Text('My voice',
+                                                                                style: TextStyle(fontFamily: 'GenBkBasR', fontSize: 1.8 * SizeConfig.defaultSize!))
+                                                                          ],
+                                                                        ),
+                                                                      ))
+                                                              : GestureDetector(
+                                                                  //책 안 산 사람
+                                                                  onTap: () {
+                                                                    _sendBookMyVoiceClickEvent(
+                                                                        contentId,
+                                                                        title);
+                                                                    setState(
+                                                                        () {
+                                                                      wantBuyBook =
+                                                                          true;
+                                                                      clickMyVoice =
+                                                                          true;
+                                                                    });
+                                                                  },
+                                                                  child: Center(
+                                                                    child:
+                                                                        Column(
+                                                                      // 결제 안 한 사람
+                                                                      children: [
+                                                                        Padding(
+                                                                            padding:
+                                                                                EdgeInsets.only(right: 0 * SizeConfig.defaultSize!, left: 0 * SizeConfig.defaultSize!),
+                                                                            child: userState.record
+                                                                                ? Stack(children: [
+                                                                                    Image.asset(
+                                                                                      'lib/images/icons/${userState.voiceIcon}-uc.png',
+                                                                                      height: SizeConfig.defaultSize! * 7,
+                                                                                    ),
+                                                                                    Image.asset('lib/images/download.png', height: SizeConfig.defaultSize! * 2.5),
+                                                                                  ])
+                                                                                : Image.asset(
+                                                                                    'lib/images/locked_face.png',
+                                                                                    height: SizeConfig.defaultSize! * 6.5,
+                                                                                  )),
+                                                                        SizedBox(
+                                                                            height:
+                                                                                SizeConfig.defaultSize! * 0.3),
+                                                                        Text(
+                                                                            userState.record
+                                                                                ? userState.voiceName!
+                                                                                : 'My voice',
+                                                                            style: TextStyle(fontFamily: 'GenBkBasR', fontSize: 1.8 * SizeConfig.defaultSize!))
+                                                                      ],
+                                                                    ),
+                                                                  ))
+                                                          : GestureDetector(
+                                                              //no Purchase
+                                                              onTap: () {
+                                                                _sendBookMyVoiceClickEvent(
+                                                                    contentId,
+                                                                    title);
+                                                                setState(() {
+                                                                  wantPurchase =
+                                                                      true;
+                                                                });
+                                                              },
+                                                              child: Center(
+                                                                child: Column(
+                                                                  // 결제 안 한 사람
+                                                                  children: [
+                                                                    Padding(
+                                                                        padding: EdgeInsets.only(
+                                                                            right:
+                                                                                0 * SizeConfig.defaultSize!,
+                                                                            left: 0 * SizeConfig.defaultSize!),
+                                                                        child: Image.asset(
+                                                                          'lib/images/locked_face.png',
                                                                           height:
-                                                                              SizeConfig.defaultSize! * 0.3),
-                                                                      Text(
-                                                                          userState.record
-                                                                              ? userState
-                                                                                  .voiceName!
-                                                                              : 'My voice',
-                                                                          style: TextStyle(
-                                                                              fontFamily: 'GenBkBasR',
-                                                                              fontSize: 1.8 * SizeConfig.defaultSize!))
-                                                                    ],
-                                                                  ),
-                                                                ))
-                                                        : GestureDetector(
-                                                            //no Purchase
-                                                            onTap: () {
-                                                              _sendBookMyVoiceClickEvent(
-                                                                  contentId,
-                                                                  title);
-                                                              setState(() {
-                                                                wantPurchase =
-                                                                    true;
-                                                              });
-                                                            },
-                                                            child: Center(
-                                                              child: Column(
-                                                                // 결제 안 한 사람
-                                                                children: [
-                                                                  Padding(
-                                                                      padding: EdgeInsets.only(
-                                                                          right: 0 *
-                                                                              SizeConfig
-                                                                                  .defaultSize!,
-                                                                          left: 0 *
-                                                                              SizeConfig
-                                                                                  .defaultSize!),
-                                                                      child: Image
-                                                                          .asset(
-                                                                        'lib/images/locked_face.png',
+                                                                              SizeConfig.defaultSize! * 6.5,
+                                                                        )),
+                                                                    SizedBox(
                                                                         height: SizeConfig.defaultSize! *
-                                                                            6.5,
-                                                                      )),
-                                                                  SizedBox(
-                                                                      height: SizeConfig
-                                                                              .defaultSize! *
-                                                                          0.3),
-                                                                  Text(
-                                                                      'My voice',
-                                                                      style: TextStyle(
-                                                                          fontFamily:
-                                                                              'GenBkBasR',
-                                                                          fontSize:
-                                                                              1.8 * SizeConfig.defaultSize!))
-                                                                ],
-                                                              ),
-                                                            )),
-                                                    SizedBox(
-                                                      // color: ,
-                                                      width: 1.5 *
-                                                          SizeConfig
-                                                              .defaultSize!,
-                                                    ),
-                                                    GestureDetector(
-                                                      //Jolly
-                                                      onTap: () async {
-                                                        // cvi = voiceState[1]
-                                                        //     .contentVoiceId;
-                                                        // vi = voiceState[1]
-                                                        //     .voiceId;
-
-                                                        bookVoiceCubit
-                                                            .clickBookVoiceData(
-                                                                contentId, 1);
-                                                        clickedVoice =
-                                                            await bookVoiceCubit
-                                                                    .loadClickedBookVoiceData(
-                                                                        contentId)
-                                                                as BookVoiceModel; //clicked 바꾸기
-                                                        Platform.isAndroid
-                                                            ? audioPlayer.play(
-                                                                AssetSource(
-                                                                    'scripts/Emma1.wav'))
-                                                            : audioPlayer.play(
-                                                                AssetSource(
-                                                                    'scripts/Emma1.flac'));
-
-                                                        _sendBookVoiceClickEvent(
-                                                            clickedVoice!
-                                                                .contentVoiceId,
-                                                            contentId,
-                                                            title,
-                                                            clickedVoice!
-                                                                .voiceId);
-                                                        // isClicked.value = false;
-                                                        // isClicked0.value = true;
-                                                        // isClicked1.value =
-                                                        //     false;
-                                                        // isClicked2.value =
-                                                        //     false;
-                                                        canChanged.value =
-                                                            true; // 클릭 상태
-                                                      },
-                                                      child:
-                                                          //   ValueListenableBuilder<
-                                                          //       bool>(
-                                                          // valueListenable:
-                                                          //     isClicked0,
-                                                          // builder: (context,
-                                                          //     value, child) {
-                                                          //   return
-                                                          Center(
-                                                        child: Column(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .only(
-                                                                right: 0 *
-                                                                    SizeConfig
-                                                                        .defaultSize!,
-                                                              ),
-                                                              child:
-                                                                  Image.asset(
-                                                                'lib/images/emma.png',
-                                                                height: SizeConfig
-                                                                        .defaultSize! *
-                                                                    6.5,
-                                                                colorBlendMode:
-                                                                    BlendMode
-                                                                        .srcATop,
-                                                                color: voiceState[
-                                                                            1]
-                                                                        .clicked
-                                                                    ? null
-                                                                    : const Color
-                                                                            .fromARGB(
-                                                                        150,
-                                                                        255,
-                                                                        255,
-                                                                        255),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: SizeConfig
-                                                                      .defaultSize! *
-                                                                  0.3,
-                                                            ),
-                                                            Text(
-                                                              voiceState[1]
-                                                                  .voiceName,
-                                                              style: TextStyle(
-                                                                  fontFamily:
-                                                                      'GenBkBasR',
-                                                                  fontSize: 1.8 *
-                                                                      SizeConfig
-                                                                          .defaultSize!,
-                                                                  fontWeight: voiceState[
-                                                                              1]
-                                                                          .clicked
-                                                                      ? FontWeight
-                                                                          .bold
-                                                                      : FontWeight
-                                                                          .normal),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        //);
-                                                        //},
+                                                                            0.3),
+                                                                    Text(
+                                                                        'My voice',
+                                                                        style: TextStyle(
+                                                                            fontFamily:
+                                                                                'GenBkBasR',
+                                                                            fontSize:
+                                                                                1.8 * SizeConfig.defaultSize!))
+                                                                  ],
+                                                                ),
+                                                              )),
+                                                      SizedBox(
+                                                        // color: ,
+                                                        width: 1.5 *
+                                                            SizeConfig
+                                                                .defaultSize!,
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 1.5 *
-                                                          SizeConfig
-                                                              .defaultSize!,
-                                                    ),
-                                                    // Morgan
-                                                    GestureDetector(
-                                                      onTap: () async {
-                                                        // cvi = voiceState[2]
-                                                        //     .contentVoiceId;
-
-                                                        // vi = voiceState[2]
-                                                        //     .voiceId;
-                                                        bookVoiceCubit
-                                                            .clickBookVoiceData(
-                                                                contentId, 2);
-                                                        clickedVoice =
-                                                            await bookVoiceCubit
-                                                                    .loadClickedBookVoiceData(
-                                                                        contentId)
-                                                                as BookVoiceModel;
-                                                        Platform.isAndroid
-                                                            ? audioPlayer.play(
-                                                                AssetSource(
-                                                                    'scripts/Morgan'
-                                                                    '${widget.id % 2 + 1}.wav'))
-                                                            : audioPlayer.play(
-                                                                AssetSource(
-                                                                    'scripts/Morgan'
-                                                                    '${widget.id % 2 + 1}.flac'));
-
-                                                        _sendBookVoiceClickEvent(
-                                                            clickedVoice!
-                                                                .contentVoiceId,
-                                                            contentId,
-                                                            title,
-                                                            clickedVoice!
-                                                                .voiceId);
-                                                        // isClicked.value = false;
-                                                        // isClicked0.value =
-                                                        //     false;
-                                                        // isClicked1.value = true;
-                                                        // isClicked2.value =
-                                                        //     false;
-                                                        canChanged.value =
-                                                            true; // 클릭 상태
-                                                      },
-                                                      child:
-                                                          //   ValueListenableBuilder<
-                                                          //       bool>(
-                                                          // valueListenable:
-                                                          //     isClicked1,
-                                                          // builder: (context,
-                                                          //     value, child) {
-                                                          //return
-                                                          Center(
-                                                        child: Column(
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .only(
-                                                                right: 0 *
-                                                                    SizeConfig
-                                                                        .defaultSize!,
-                                                              ),
-                                                              child:
-                                                                  Image.asset(
-                                                                'lib/images/sophia.png',
-                                                                height: SizeConfig
-                                                                        .defaultSize! *
-                                                                    6.5,
-                                                                colorBlendMode:
-                                                                    BlendMode
-                                                                        .srcATop,
-                                                                color: voiceState[
-                                                                            2]
-                                                                        .clicked
-                                                                    ? null
-                                                                    : const Color
-                                                                            .fromARGB(
-                                                                        150,
-                                                                        255,
-                                                                        255,
-                                                                        255),
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: SizeConfig
-                                                                      .defaultSize! *
-                                                                  0.3,
-                                                            ),
-                                                            Text(
-                                                              voiceState[2]
-                                                                  .voiceName,
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    'GenBkBasR',
-                                                                fontSize: 1.8 *
-                                                                    SizeConfig
-                                                                        .defaultSize!,
-                                                                fontWeight: voiceState[
-                                                                            2]
-                                                                        .clicked
-                                                                    ? FontWeight
-                                                                        .bold
-                                                                    : FontWeight
-                                                                        .normal,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        //);
-                                                        //},
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: 1.5 *
-                                                          SizeConfig
-                                                              .defaultSize!,
-                                                    ),
-                                                    // Eric
-                                                    GestureDetector(
+                                                      GestureDetector(
+                                                        //Jolly
                                                         onTap: () async {
-                                                          // cvi = voiceState[3]
+                                                          // cvi = voiceState[1]
                                                           //     .contentVoiceId;
-                                                          // vi = voiceState[3]
+                                                          // vi = voiceState[1]
                                                           //     .voiceId;
-                                                          // clicked는 유지하고 voice 정보만 바꾸기
+
                                                           bookVoiceCubit
                                                               .clickBookVoiceData(
-                                                                  contentId, 3);
+                                                                  contentId, 1);
                                                           clickedVoice = await bookVoiceCubit
                                                                   .loadClickedBookVoiceData(
                                                                       contentId)
-                                                              as BookVoiceModel;
+                                                              as BookVoiceModel; //clicked 바꾸기
                                                           Platform.isAndroid
                                                               ? audioPlayer.play(
                                                                   AssetSource(
-                                                                      'scripts/Eric'
-                                                                      '${widget.id % 2 + 1}.wav'))
+                                                                      'scripts/Emma1.wav'))
                                                               : audioPlayer.play(
                                                                   AssetSource(
-                                                                      'scripts/Eric'
-                                                                      '${widget.id % 2 + 1}.flac'));
+                                                                      'scripts/Emma1.flac'));
 
                                                           _sendBookVoiceClickEvent(
                                                               clickedVoice!
@@ -1546,11 +1302,11 @@ class _BookIntroState extends State<BookIntro> {
                                                               clickedVoice!
                                                                   .voiceId);
                                                           // isClicked.value = false;
-                                                          // isClicked0.value =
-                                                          //     false;
+                                                          // isClicked0.value = true;
                                                           // isClicked1.value =
                                                           //     false;
-                                                          // isClicked2.value = true;
+                                                          // isClicked2.value =
+                                                          //     false;
                                                           canChanged.value =
                                                               true; // 클릭 상태
                                                         },
@@ -1558,10 +1314,10 @@ class _BookIntroState extends State<BookIntro> {
                                                             //   ValueListenableBuilder<
                                                             //       bool>(
                                                             // valueListenable:
-                                                            //     isClicked2,
+                                                            //     isClicked0,
                                                             // builder: (context,
                                                             //     value, child) {
-                                                            // return
+                                                            //   return
                                                             Center(
                                                           child: Column(
                                                             children: [
@@ -1575,7 +1331,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                 ),
                                                                 child:
                                                                     Image.asset(
-                                                                  'lib/images/james.png',
+                                                                  'lib/images/emma.png',
                                                                   height: SizeConfig
                                                                           .defaultSize! *
                                                                       6.5,
@@ -1583,7 +1339,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                       BlendMode
                                                                           .srcATop,
                                                                   color: voiceState[
-                                                                              3]
+                                                                              1]
                                                                           .clicked
                                                                       ? null
                                                                       : const Color
@@ -1600,7 +1356,121 @@ class _BookIntroState extends State<BookIntro> {
                                                                     0.3,
                                                               ),
                                                               Text(
-                                                                voiceState[3]
+                                                                voiceState[1]
+                                                                    .voiceName,
+                                                                style: TextStyle(
+                                                                    fontFamily:
+                                                                        'GenBkBasR',
+                                                                    fontSize: 1.8 *
+                                                                        SizeConfig
+                                                                            .defaultSize!,
+                                                                    fontWeight: voiceState[
+                                                                                1]
+                                                                            .clicked
+                                                                        ? FontWeight
+                                                                            .bold
+                                                                        : FontWeight
+                                                                            .normal),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          //);
+                                                          //},
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 1.5 *
+                                                            SizeConfig
+                                                                .defaultSize!,
+                                                      ),
+                                                      // Morgan
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          // cvi = voiceState[2]
+                                                          //     .contentVoiceId;
+
+                                                          // vi = voiceState[2]
+                                                          //     .voiceId;
+                                                          bookVoiceCubit
+                                                              .clickBookVoiceData(
+                                                                  contentId, 2);
+                                                          clickedVoice = await bookVoiceCubit
+                                                                  .loadClickedBookVoiceData(
+                                                                      contentId)
+                                                              as BookVoiceModel;
+                                                          Platform.isAndroid
+                                                              ? audioPlayer.play(
+                                                                  AssetSource(
+                                                                      'scripts/Morgan'
+                                                                      '${widget.id % 2 + 1}.wav'))
+                                                              : audioPlayer.play(
+                                                                  AssetSource(
+                                                                      'scripts/Morgan'
+                                                                      '${widget.id % 2 + 1}.flac'));
+
+                                                          _sendBookVoiceClickEvent(
+                                                              clickedVoice!
+                                                                  .contentVoiceId,
+                                                              contentId,
+                                                              title,
+                                                              clickedVoice!
+                                                                  .voiceId);
+                                                          // isClicked.value = false;
+                                                          // isClicked0.value =
+                                                          //     false;
+                                                          // isClicked1.value = true;
+                                                          // isClicked2.value =
+                                                          //     false;
+                                                          canChanged.value =
+                                                              true; // 클릭 상태
+                                                        },
+                                                        child:
+                                                            //   ValueListenableBuilder<
+                                                            //       bool>(
+                                                            // valueListenable:
+                                                            //     isClicked1,
+                                                            // builder: (context,
+                                                            //     value, child) {
+                                                            //return
+                                                            Center(
+                                                          child: Column(
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .only(
+                                                                  right: 0 *
+                                                                      SizeConfig
+                                                                          .defaultSize!,
+                                                                ),
+                                                                child:
+                                                                    Image.asset(
+                                                                  'lib/images/sophia.png',
+                                                                  height: SizeConfig
+                                                                          .defaultSize! *
+                                                                      6.5,
+                                                                  colorBlendMode:
+                                                                      BlendMode
+                                                                          .srcATop,
+                                                                  color: voiceState[
+                                                                              2]
+                                                                          .clicked
+                                                                      ? null
+                                                                      : const Color
+                                                                              .fromARGB(
+                                                                          150,
+                                                                          255,
+                                                                          255,
+                                                                          255),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: SizeConfig
+                                                                        .defaultSize! *
+                                                                    0.3,
+                                                              ),
+                                                              Text(
+                                                                voiceState[2]
                                                                     .voiceName,
                                                                 style:
                                                                     TextStyle(
@@ -1610,7 +1480,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                       SizeConfig
                                                                           .defaultSize!,
                                                                   fontWeight: voiceState[
-                                                                              3]
+                                                                              2]
                                                                           .clicked
                                                                       ? FontWeight
                                                                           .bold
@@ -1620,277 +1490,388 @@ class _BookIntroState extends State<BookIntro> {
                                                               ),
                                                             ],
                                                           ),
-                                                        )
-                                                        //},
-                                                        //),
+                                                          //);
+                                                          //},
                                                         ),
-                                                  ],
-                                                ) //;
-                                                // }),
-                                                ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                            height: 1.5 *
-                                                SizeConfig
-                                                    .defaultSize! //userState.purchase
-                                            //? 4
-                                            //: 4 * SizeConfig.defaultSize!,
-                                            ),
-                                        Expanded(
-                                            flex: 3,
-                                            child: Scrollbar(
-                                              thumbVisibility: true,
-                                              trackVisibility: true,
-                                              child: ListView(children: [
-                                                Padding(
-                                                  // Summary
-                                                  padding: EdgeInsets.only(
-                                                    right: 1 *
-                                                        SizeConfig.defaultSize!,
-                                                    top: 0 *
-                                                        SizeConfig.defaultSize!,
-                                                  ),
-                                                  child: Text(
-                                                    bookIntro.first.summary,
-                                                    style: TextStyle(
-                                                        fontFamily: 'GenBkBasR',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: SizeConfig
-                                                                .defaultSize! *
-                                                            2.1),
-                                                  ),
-                                                ),
-                                              ]),
-                                            )),
-                                        SizedBox(
-                                          height: SizeConfig.defaultSize! * 1.5,
-                                        ),
-                                        Expanded(
-                                            flex: 2,
-                                            child: Stack(children: [
-                                              // 다른 위젯들...
-                                              Align(
-                                                  alignment:
-                                                      Alignment.topCenter,
-                                                  // right: SizeConfig.defaultSize! * 12,
-                                                  // top: SizeConfig.defaultSize! * 1.4,
-                                                  child: bookIntro.first.lock
-                                                      ? InkWell(
+                                                      ),
+                                                      SizedBox(
+                                                        width: 1.5 *
+                                                            SizeConfig
+                                                                .defaultSize!,
+                                                      ),
+                                                      // Eric
+                                                      GestureDetector(
                                                           onTap: () async {
-                                                            _sendBook3000ClickEvent(
-                                                                userState.point,
+                                                            // cvi = voiceState[3]
+                                                            //     .contentVoiceId;
+                                                            // vi = voiceState[3]
+                                                            //     .voiceId;
+                                                            // clicked는 유지하고 voice 정보만 바꾸기
+                                                            bookVoiceCubit
+                                                                .clickBookVoiceData(
+                                                                    contentId,
+                                                                    3);
+                                                            clickedVoice = await bookVoiceCubit
+                                                                    .loadClickedBookVoiceData(
+                                                                        contentId)
+                                                                as BookVoiceModel;
+                                                            Platform.isAndroid
+                                                                ? audioPlayer.play(
+                                                                    AssetSource(
+                                                                        'scripts/Eric'
+                                                                        '${widget.id % 2 + 1}.wav'))
+                                                                : audioPlayer.play(
+                                                                    AssetSource(
+                                                                        'scripts/Eric'
+                                                                        '${widget.id % 2 + 1}.flac'));
+
+                                                            _sendBookVoiceClickEvent(
+                                                                clickedVoice!
+                                                                    .contentVoiceId,
                                                                 contentId,
-                                                                title);
-                                                            setState(() {
-                                                              wantBuyBook =
-                                                                  true;
-                                                            });
+                                                                title,
+                                                                clickedVoice!
+                                                                    .voiceId);
+                                                            // isClicked.value = false;
+                                                            // isClicked0.value =
+                                                            //     false;
+                                                            // isClicked1.value =
+                                                            //     false;
+                                                            // isClicked2.value = true;
+                                                            canChanged.value =
+                                                                true; // 클릭 상태
                                                           },
                                                           child:
-                                                              AnimatedContainer(
-                                                                  width: animation
-                                                                      ? 31.1 *
-                                                                          SizeConfig
-                                                                              .defaultSize!
-                                                                      : 24 *
-                                                                          SizeConfig
-                                                                              .defaultSize!,
-                                                                  height: 4.5 *
-                                                                      SizeConfig
-                                                                          .defaultSize!,
-                                                                  decoration:
-                                                                      ShapeDecoration(
-                                                                    color: const Color(
-                                                                        0xFFFFA91A),
-                                                                    shape:
-                                                                        RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              30),
-                                                                    ),
+                                                              //   ValueListenableBuilder<
+                                                              //       bool>(
+                                                              // valueListenable:
+                                                              //     isClicked2,
+                                                              // builder: (context,
+                                                              //     value, child) {
+                                                              // return
+                                                              Center(
+                                                            child: Column(
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                    right: 0 *
+                                                                        SizeConfig
+                                                                            .defaultSize!,
                                                                   ),
-                                                                  duration: const Duration(
-                                                                      milliseconds:
-                                                                          350),
-                                                                  child: Stack(
-                                                                      children: [
-                                                                        // Positioned(
-                                                                        //     right: 1 *
-                                                                        //         SizeConfig
-                                                                        //             .defaultSize!,
-                                                                        //     top: 0.75 *
-                                                                        //         SizeConfig
-                                                                        //             .defaultSize!,
-                                                                        //     child:
-                                                                        //         Icon(
-                                                                        //       Icons
-                                                                        //           .chevron_right,
-                                                                        //       color: Colors
-                                                                        //           .black,
-                                                                        //       size: SizeConfig.defaultSize! *
-                                                                        //           3,
-                                                                        //     )),
-                                                                        Center(
-                                                                          child: animation
-                                                                              //? Text('')
-                                                                              ? Text(
-                                                                                  '책-시작',
-                                                                                  textAlign: TextAlign.center,
-                                                                                  style: TextStyle(color: Colors.black, fontSize: 2.3 * SizeConfig.defaultSize! * double.parse('font-ratio'.tr()), fontFamily: 'font-book'.tr()),
-                                                                                ).tr()
-                                                                              : Row(
-                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                  children: [
-                                                                                    Image.asset(
-                                                                                      'lib/images/oneCoin.png',
-                                                                                      width: SizeConfig.defaultSize! * 2.7,
-                                                                                    ),
-                                                                                    SizedBox(width: SizeConfig.defaultSize!),
-                                                                                    Text(
-                                                                                      bookIntro.first.price.toString(),
-                                                                                      textAlign: TextAlign.center,
-                                                                                      style: TextStyle(color: Colors.black, fontSize: 2.7 * SizeConfig.defaultSize!, fontFamily: 'GenBkBasR'),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                        ),
-                                                                      ])))
-                                                      : GestureDetector(
-                                                          onTap: () async {
-                                                            // print(clickedVoice!
-                                                            //     .voiceId);
-                                                            // // 버튼 클릭 시 동작
-                                                            // _checkHaveRead();
-                                                            (clickedVoice!
-                                                                        .contentVoiceId ==
-                                                                    inferenceId) // 원래는 cvi==inferenceId
-                                                                ? await checkInference(
-                                                                        token)
-                                                                    ? {
-                                                                        _sendBookStartClickEvent(
-                                                                          clickedVoice!
-                                                                              .contentVoiceId,
-                                                                          contentId,
-                                                                          title,
-                                                                          clickedVoice!
-                                                                              .voiceId,
-                                                                        ),
-                                                                        _sendABBookLoadingEvent(),
-
-                                                                        // print(clickedVoice!
-                                                                        //     .voiceName),
-                                                                        Navigator
-                                                                            .push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                            builder: (context) => BookPage(
-                                                                                // 다음 화면으로 contetnVoiceId를 가지고 이동
-                                                                                contentVoiceId: clickedVoice!.contentVoiceId,
-                                                                                voiceId: clickedVoice!.voiceId,
-                                                                                contentId: contentId,
-                                                                                lastPage: lastPage,
-                                                                                isSelected: true,
-                                                                                title: bookIntro.first.title,
-                                                                                abTest: widget.abTest),
-                                                                          ),
-                                                                        )
-                                                                      }
-                                                                    : setState(
-                                                                        () {
-                                                                        completeInference =
-                                                                            false;
-                                                                      })
-                                                                : canChanged
-                                                                        .value
-                                                                    ? {
-                                                                        _sendBookStartClickEvent(
-                                                                          clickedVoice!
-                                                                              .contentVoiceId,
-                                                                          contentId,
-                                                                          title,
-                                                                          clickedVoice!
-                                                                              .voiceId,
-                                                                        ),
-                                                                        print(clickedVoice!
-                                                                            .voiceName),
-                                                                        _sendABBookLoadingEvent(),
-                                                                        Navigator
-                                                                            .push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                            builder: (context) => BookPage(
-                                                                                // 다음 화면으로 contetnVoiceId를 가지고 이동
-                                                                                abTest: widget.abTest,
-                                                                                contentVoiceId: clickedVoice!.contentVoiceId,
-                                                                                voiceId: clickedVoice!.voiceId,
-                                                                                contentId: contentId,
-                                                                                lastPage: lastPage,
-                                                                                isSelected: true,
-                                                                                title: bookIntro.first.title),
-                                                                          ),
-                                                                        ),
-                                                                        audioPlayer
-                                                                            .stop(),
-                                                                      }
-                                                                    : null;
-                                                          },
-                                                          child: Container(
-                                                              width: 31.1 *
-                                                                  SizeConfig
-                                                                      .defaultSize!,
-                                                              height: 4.5 *
-                                                                  SizeConfig
-                                                                      .defaultSize!,
-                                                              decoration:
-                                                                  ShapeDecoration(
-                                                                color: const Color(
-                                                                    0xFFFFA91A),
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              30),
+                                                                  child: Image
+                                                                      .asset(
+                                                                    'lib/images/james.png',
+                                                                    height:
+                                                                        SizeConfig.defaultSize! *
+                                                                            6.5,
+                                                                    colorBlendMode:
+                                                                        BlendMode
+                                                                            .srcATop,
+                                                                    color: voiceState[3]
+                                                                            .clicked
+                                                                        ? null
+                                                                        : const Color.fromARGB(
+                                                                            150,
+                                                                            255,
+                                                                            255,
+                                                                            255),
+                                                                  ),
                                                                 ),
-                                                              ),
-                                                              child: Stack(
-                                                                  children: [
-                                                                    Positioned(
-                                                                        right: 1 *
+                                                                SizedBox(
+                                                                  height: SizeConfig
+                                                                          .defaultSize! *
+                                                                      0.3,
+                                                                ),
+                                                                Text(
+                                                                  voiceState[3]
+                                                                      .voiceName,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontFamily:
+                                                                        'GenBkBasR',
+                                                                    fontSize: 1.8 *
+                                                                        SizeConfig
+                                                                            .defaultSize!,
+                                                                    fontWeight: voiceState[
+                                                                                3]
+                                                                            .clicked
+                                                                        ? FontWeight
+                                                                            .bold
+                                                                        : FontWeight
+                                                                            .normal,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                          //},
+                                                          //),
+                                                          ),
+                                                    ],
+                                                  ) //;
+                                                  // }),
+                                                  ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                              height: 1.5 *
+                                                  SizeConfig
+                                                      .defaultSize! //userState.purchase
+                                              //? 4
+                                              //: 4 * SizeConfig.defaultSize!,
+                                              ),
+                                          Expanded(
+                                              flex: 3,
+                                              child: Scrollbar(
+                                                thumbVisibility: true,
+                                                trackVisibility: true,
+                                                child: ListView(children: [
+                                                  Padding(
+                                                    // Summary
+                                                    padding: EdgeInsets.only(
+                                                      right: 1 *
+                                                          SizeConfig
+                                                              .defaultSize!,
+                                                      top: 0 *
+                                                          SizeConfig
+                                                              .defaultSize!,
+                                                    ),
+                                                    child: Text(
+                                                      bookIntro.first.summary,
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'GenBkBasR',
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: SizeConfig
+                                                                  .defaultSize! *
+                                                              2.1),
+                                                    ),
+                                                  ),
+                                                ]),
+                                              )),
+                                          SizedBox(
+                                            height:
+                                                SizeConfig.defaultSize! * 1.5,
+                                          ),
+                                          Expanded(
+                                              flex: 2,
+                                              child: Stack(children: [
+                                                // 다른 위젯들...
+                                                Align(
+                                                    alignment:
+                                                        Alignment.topCenter,
+                                                    // right: SizeConfig.defaultSize! * 12,
+                                                    // top: SizeConfig.defaultSize! * 1.4,
+                                                    child: bookIntro.first.lock
+                                                        ? InkWell(
+                                                            onTap: () async {
+                                                              _sendBook3000ClickEvent(
+                                                                  userState
+                                                                      .point,
+                                                                  contentId,
+                                                                  title);
+                                                              setState(() {
+                                                                wantBuyBook =
+                                                                    true;
+                                                              });
+                                                            },
+                                                            child:
+                                                                AnimatedContainer(
+                                                                    width: animation
+                                                                        ? 31.1 *
+                                                                            SizeConfig
+                                                                                .defaultSize!
+                                                                        : 24 *
                                                                             SizeConfig
                                                                                 .defaultSize!,
-                                                                        top: 0.75 *
-                                                                            SizeConfig
-                                                                                .defaultSize!,
-                                                                        child:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .chevron_right,
-                                                                          color:
-                                                                              Colors.black,
-                                                                          size: SizeConfig.defaultSize! *
-                                                                              3,
-                                                                        )),
-                                                                    Center(
-                                                                      child:
-                                                                          Text(
-                                                                        '책-시작',
-                                                                        textAlign:
-                                                                            TextAlign.center,
-                                                                        style: TextStyle(
-                                                                            color: Colors
-                                                                                .black,
-                                                                            fontSize: 2.3 *
-                                                                                SizeConfig.defaultSize! *
-                                                                                double.parse('font-ratio'.tr()),
-                                                                            fontFamily: 'font-book'.tr()),
-                                                                      ).tr(),
+                                                                    height: 4.5 *
+                                                                        SizeConfig
+                                                                            .defaultSize!,
+                                                                    decoration:
+                                                                        ShapeDecoration(
+                                                                      color: const Color(
+                                                                          0xFFFFA91A),
+                                                                      shape:
+                                                                          RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(30),
+                                                                      ),
                                                                     ),
-                                                                  ]))))
-                                            ]))
-                                      ]))
+                                                                    duration: const Duration(
+                                                                        milliseconds:
+                                                                            350),
+                                                                    child: Stack(
+                                                                        children: [
+                                                                          // Positioned(
+                                                                          //     right: 1 *
+                                                                          //         SizeConfig
+                                                                          //             .defaultSize!,
+                                                                          //     top: 0.75 *
+                                                                          //         SizeConfig
+                                                                          //             .defaultSize!,
+                                                                          //     child:
+                                                                          //         Icon(
+                                                                          //       Icons
+                                                                          //           .chevron_right,
+                                                                          //       color: Colors
+                                                                          //           .black,
+                                                                          //       size: SizeConfig.defaultSize! *
+                                                                          //           3,
+                                                                          //     )),
+                                                                          Center(
+                                                                            child: animation
+                                                                                //? Text('')
+                                                                                ? Text(
+                                                                                    '책-시작',
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(color: Colors.black, fontSize: 2.3 * SizeConfig.defaultSize! * double.parse('font-ratio'.tr()), fontFamily: 'font-book'.tr()),
+                                                                                  ).tr()
+                                                                                : Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                    children: [
+                                                                                      Image.asset(
+                                                                                        'lib/images/oneCoin.png',
+                                                                                        width: SizeConfig.defaultSize! * 2.7,
+                                                                                      ),
+                                                                                      SizedBox(width: SizeConfig.defaultSize!),
+                                                                                      Text(
+                                                                                        bookIntro.first.price.toString(),
+                                                                                        textAlign: TextAlign.center,
+                                                                                        style: TextStyle(color: Colors.black, fontSize: 2.7 * SizeConfig.defaultSize!, fontFamily: 'GenBkBasR'),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                          ),
+                                                                        ])))
+                                                        : GestureDetector(
+                                                            onTap: () async {
+                                                              // print(clickedVoice!
+                                                              //     .voiceId);
+                                                              // // 버튼 클릭 시 동작
+                                                              // _checkHaveRead();
+                                                              (clickedVoice!
+                                                                          .contentVoiceId ==
+                                                                      inferenceId) // 원래는 cvi==inferenceId
+                                                                  ? await checkInference(
+                                                                          token)
+                                                                      ? {
+                                                                          _sendBookStartClickEvent(
+                                                                            clickedVoice!.contentVoiceId,
+                                                                            contentId,
+                                                                            title,
+                                                                            clickedVoice!.voiceId,
+                                                                          ),
+                                                                          _sendABBookLoadingEvent(),
+
+                                                                          // print(clickedVoice!
+                                                                          //     .voiceName),
+                                                                          Navigator
+                                                                              .push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                              builder: (context) => BookPage(
+                                                                                  // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                                                                  contentVoiceId: clickedVoice!.contentVoiceId,
+                                                                                  voiceId: clickedVoice!.voiceId,
+                                                                                  contentId: contentId,
+                                                                                  lastPage: lastPage,
+                                                                                  isSelected: true,
+                                                                                  title: bookIntro.first.title,
+                                                                                  abTest: widget.abTest),
+                                                                            ),
+                                                                          )
+                                                                        }
+                                                                      : setState(
+                                                                          () {
+                                                                          completeInference =
+                                                                              false;
+                                                                        })
+                                                                  : canChanged
+                                                                          .value
+                                                                      ? {
+                                                                          _sendBookStartClickEvent(
+                                                                            clickedVoice!.contentVoiceId,
+                                                                            contentId,
+                                                                            title,
+                                                                            clickedVoice!.voiceId,
+                                                                          ),
+                                                                          print(
+                                                                              clickedVoice!.voiceName),
+                                                                          _sendABBookLoadingEvent(),
+                                                                          Navigator
+                                                                              .push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                              builder: (context) => BookPage(
+                                                                                  // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                                                                  abTest: widget.abTest,
+                                                                                  contentVoiceId: clickedVoice!.contentVoiceId,
+                                                                                  voiceId: clickedVoice!.voiceId,
+                                                                                  contentId: contentId,
+                                                                                  lastPage: lastPage,
+                                                                                  isSelected: true,
+                                                                                  title: bookIntro.first.title),
+                                                                            ),
+                                                                          ),
+                                                                          audioPlayer
+                                                                              .stop(),
+                                                                        }
+                                                                      : null;
+                                                            },
+                                                            child: Container(
+                                                                width: 31.1 *
+                                                                    SizeConfig
+                                                                        .defaultSize!,
+                                                                height: 4.5 *
+                                                                    SizeConfig
+                                                                        .defaultSize!,
+                                                                decoration:
+                                                                    ShapeDecoration(
+                                                                  color: const Color(
+                                                                      0xFFFFA91A),
+                                                                  shape:
+                                                                      RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            30),
+                                                                  ),
+                                                                ),
+                                                                child: Stack(
+                                                                    children: [
+                                                                      Positioned(
+                                                                          right: 1 *
+                                                                              SizeConfig
+                                                                                  .defaultSize!,
+                                                                          top: 0.75 *
+                                                                              SizeConfig
+                                                                                  .defaultSize!,
+                                                                          child:
+                                                                              Icon(
+                                                                            Icons.chevron_right,
+                                                                            color:
+                                                                                Colors.black,
+                                                                            size:
+                                                                                SizeConfig.defaultSize! * 3,
+                                                                          )),
+                                                                      Center(
+                                                                        child:
+                                                                            Text(
+                                                                          '책-시작',
+                                                                          textAlign:
+                                                                              TextAlign.center,
+                                                                          style: TextStyle(
+                                                                              color: Colors.black,
+                                                                              fontSize: 2.3 * SizeConfig.defaultSize! * double.parse('font-ratio'.tr()),
+                                                                              fontFamily: 'font-book'.tr()),
+                                                                        ).tr(),
+                                                                      ),
+                                                                    ]))))
+                                              ]))
+                                        ]),
+                                  ))
                             ])),
 
                         // Expanded(

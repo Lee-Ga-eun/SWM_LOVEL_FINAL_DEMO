@@ -47,7 +47,7 @@ class AppData {
 class _PurchaseState extends State<Purchase> {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
   List<ProductDetails> view = [];
-
+  bool _isLoading = false;
   late String token;
   bool paySuccessed = false;
   Future fetch() async {
@@ -68,6 +68,10 @@ class _PurchaseState extends State<Purchase> {
         if (e.pendingCompletePurchase) {
           if (!mounted) return;
           _inAppPurchase.completePurchase(e);
+          setState(() {
+            _isLoading = false;
+          });
+
           if (e.status == PurchaseStatus.error) {
             print(e.error);
             return;
@@ -127,7 +131,7 @@ class _PurchaseState extends State<Purchase> {
     super.initState();
     getToken();
     _sendShopViewEvent();
-    // Future(fetch);
+    Future(fetch);
   }
 
   Future<void> getToken() async {
@@ -163,6 +167,10 @@ class _PurchaseState extends State<Purchase> {
     try {
       Offerings? offerings = await Purchases.getOfferings();
       if (offerings.getOffering("default")!.availablePackages.isNotEmpty) {
+        setState(() {
+          _isLoading = true;
+        });
+
         var product = offerings.getOffering("default")!.availablePackages;
         CustomerInfo customerInfo = await Purchases.purchasePackage(product[0]);
         EntitlementInfo? entitlement = customerInfo.entitlements.all['pro'];
@@ -174,6 +182,10 @@ class _PurchaseState extends State<Purchase> {
         // Display packages for sale
       }
     } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+
       print('subStart 안에서 오류남');
       // optional error handling
     }
@@ -234,12 +246,19 @@ class _PurchaseState extends State<Purchase> {
           await InAppPurchase.instance.queryProductDetails(kIds);
 
       if (response.notFoundIDs.isNotEmpty) print('제품 없다');
+      setState(() {
+        _isLoading = true;
+      });
       final ProductDetails productDetails = response.productDetails.first;
       // Saved earlier from queryProductDetails().
       final PurchaseParam purchaseParam =
           PurchaseParam(productDetails: productDetails);
       InAppPurchase.instance.buyConsumable(purchaseParam: purchaseParam);
     } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+
       print(e);
       // optional error handling
     }
@@ -931,10 +950,20 @@ class _PurchaseState extends State<Purchase> {
                                           flag: 'specialPromotion'),
                                     ],
                                   ),
-                                )
+                                ),
                               ]),
                         )),
                   ),
+                  Center(
+                      child: Visibility(
+                          visible: _isLoading,
+                          child: SizedBox(
+                            width: sw * 0.08,
+                            height: sw * 0.08,
+                            child: const CircularProgressIndicator(
+                              color: Color(0xFFF39E09),
+                            ),
+                          ))),
                   // Positioned(
                   //     top: 5 * SizeConfig.defaultSize!,
                   //     right: 10.5 * SizeConfig.defaultSize!,
