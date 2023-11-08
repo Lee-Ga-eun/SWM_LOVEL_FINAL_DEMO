@@ -70,10 +70,16 @@ class _PurchaseState extends State<Purchase> {
           _inAppPurchase.completePurchase(e);
 
           if (e.status == PurchaseStatus.error) {
+            setState(() {
+              _isLoading = false;
+            });
             print(e.error);
             return;
           }
           if (e.status == PurchaseStatus.canceled) {
+            setState(() {
+              _isLoading = false;
+            });
             print(e.error);
             return;
           }
@@ -964,7 +970,7 @@ class _PurchaseState extends State<Purchase> {
                             width: sw * 0.08,
                             height: sw * 0.08,
                             child: CircularProgressIndicator(
-                              color: const Color(0xFFF39E09),
+                              color: Color.fromARGB(255, 153, 153, 153),
                               strokeWidth: sh * 0.015,
                             ),
                           ))),
