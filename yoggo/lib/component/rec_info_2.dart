@@ -51,11 +51,11 @@ class _RecInfo2State extends State<RecInfo2> {
       });
     });
 
-    // audioPlayer.onDurationChanged.listen((Duration position) {
-    //   setState(() {
-    //     totalDuration = position;
-    //   });
-    // });
+    audioPlayer.onDurationChanged.listen((Duration position) {
+      setState(() {
+        totalDuration = position;
+      });
+    });
   }
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;

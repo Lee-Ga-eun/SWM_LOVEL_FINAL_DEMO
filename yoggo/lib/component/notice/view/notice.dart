@@ -176,15 +176,15 @@ class _NoticeState extends State<Notice> {
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
+            color: Colors.white.withOpacity(0.6),
           ),
           width: sw * 0.8,
-          height: sh * 0.3,
+          height: null,
+          // child: Expanded(
           child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Stack(children: [
-                Container(
-                  color: Colors.white.withOpacity(0.6),
-                ),
+                Container(),
                 Padding(
                     padding: EdgeInsets.only(
                         top: SizeConfig.defaultSize! * 1,
@@ -203,6 +203,9 @@ class _NoticeState extends State<Notice> {
                           child: Text(time,
                               style: TextStyle(
                                   fontSize: SizeConfig.defaultSize! * 1.4))),
+                      Text('',
+                          style: TextStyle(
+                              fontSize: SizeConfig.defaultSize! * 0.7)),
                       Align(
                           alignment: Alignment.topLeft,
                           child: Text(content,
@@ -211,6 +214,7 @@ class _NoticeState extends State<Notice> {
                     ]))
               ])),
         ),
+        //),
 
         SizedBox(
           height: SizeConfig.defaultSize! * 1,
