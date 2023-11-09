@@ -382,26 +382,32 @@ class _HomeScreenState extends State<HomeScreen> {
     // API에서 모든 책 페이지 데이터를 불러와 pages 리스트에 저장
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token')!;
-    final url = Uri.parse('${dotenv.get("API_SERVER")}user/report');
-    final body = jsonEncode(
-        {'contentId': 0, 'voiceId': 0, 'pageNum': 0, 'report': reportContent});
+    if (reportContent != '') {
+      final url = Uri.parse('${dotenv.get("API_SERVER")}user/report');
+      final body = jsonEncode({
+        'contentId': 0,
+        'voiceId': 0,
+        'pageNum': 0,
+        'report': reportContent
+      });
 
-    var response = await http.post(url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: body);
-    if (response.statusCode == 200) {
-      final jsonData = json.decode(response.body);
-      // if (jsonData is List<dynamic>) {
-      //   setState(() {
-      //     // pages = List<Map<String, dynamic>>.from(jsonData);
-      //   });
-      // }
-      print(jsonData);
-    } else {
-      // 에러 처리
+      var response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          body: body);
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+        // if (jsonData is List<dynamic>) {
+        //   setState(() {
+        //     // pages = List<Map<String, dynamic>>.from(jsonData);
+        //   });
+        // }
+        print(jsonData);
+      } else {
+        // 에러 처리
+      }
     }
   }
 
@@ -2073,35 +2079,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               top: 0.5 * SizeConfig.defaultSize!,
                               bottom: 0.5 * SizeConfig.defaultSize!),
                           child: Text(
-                            '친구초대',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 1.8 * SizeConfig.defaultSize!,
-                              fontFamily: 'font-basic'.tr(),
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ).tr(),
-                        ),
-                        onTap: () async {
-                          _sendInviteFriendsClickEvent(userState.point);
-                          final result =
-                              await Share.shareWithResult('친구초대문구'.tr());
-                          if (result.status == ShareResultStatus.success) {
-                            _sendInviteFriendsSuccessEvent(userState.point);
-                          }
-                        },
-                      ),
-                      SizedBox(
-                        height: 1.5 * SizeConfig.defaultSize!,
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              right: 0.5 * SizeConfig.defaultSize!,
-                              top: 0.5 * SizeConfig.defaultSize!,
-                              bottom: 0.5 * SizeConfig.defaultSize!),
-                          child: Text(
                             '공지사항',
                             style: TextStyle(
                               color: Colors.black,
@@ -2124,6 +2101,36 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 1.5 * SizeConfig.defaultSize!,
                       ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              right: 0.5 * SizeConfig.defaultSize!,
+                              top: 0.5 * SizeConfig.defaultSize!,
+                              bottom: 0.5 * SizeConfig.defaultSize!),
+                          child: Text(
+                            '친구초대',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 1.8 * SizeConfig.defaultSize!,
+                              fontFamily: 'font-basic'.tr(),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ).tr(),
+                        ),
+                        onTap: () async {
+                          _sendInviteFriendsClickEvent(userState.point);
+                          final result =
+                              await Share.shareWithResult('친구초대문구'.tr());
+                          if (result.status == ShareResultStatus.success) {
+                            _sendInviteFriendsSuccessEvent(userState.point);
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 1.5 * SizeConfig.defaultSize!,
+                      ),
+
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         child: Padding(

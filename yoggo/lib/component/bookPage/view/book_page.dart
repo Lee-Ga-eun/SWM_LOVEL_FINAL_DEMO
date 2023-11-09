@@ -51,7 +51,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   int currentPageIndex = 0; // 현재 페이지 인덱스
   Color iconColor = Colors.black;
   bool isPlaying = false;
-  bool pauseFunction = false;
+  //bool pauseFunction = false;
   AudioPlayer audioPlayer = AudioPlayer();
   bool autoplayClicked = true;
   bool reportClicked = false;
@@ -74,6 +74,19 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    audioPlayer.onPlayerComplete.listen((event) {
+      if (autoplayClicked) {
+        if (currentPageIndex != widget.lastPage - 1) {
+          Future.delayed(const Duration(seconds: 1)).then((_) {
+            nextPage();
+          });
+        } else {
+          setState(() {
+            iconColor = Colors.green;
+          });
+        }
+      } else {}
+    });
   }
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
@@ -141,12 +154,10 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
       //await widget.audioPlayer.play(UrlSource(audioUrl));
       //await widget.audioPlayer.play(DeviceFileSource(filePath));
       String filePath = audioPath.replaceAll("'", "");
-
+      print(DeviceFileSource(filePath));
       await audioPlayer.play(DeviceFileSource(filePath));
       isPlaying = true;
     }
-
-    // await widget.audioPlayer.play(UrlSource(widget.audioUrl));
   }
 
   void nextPage() async {
@@ -154,7 +165,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
     setState(() {
       //isPlaying = true;
       //awiat stopAudio();
-      pauseFunction = false;
+      //pauseFunction = false;
       if (currentPageIndex < widget.lastPage) {
         currentPageIndex++;
         if (currentPageIndex == widget.lastPage) {
@@ -170,7 +181,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
       if (currentPageIndex > 0) {
         currentPageIndex--;
         isPlaying = true;
-        pauseFunction = false;
+        //pauseFunction = false;
         stopAudio();
       }
     });
@@ -229,19 +240,6 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
       });
     });
 
-    audioPlayer.onPlayerComplete.listen((event) {
-      if (autoplayClicked) {
-        if (currentPageIndex != widget.lastPage - 1 && autoplayClicked) {
-          Future.delayed(const Duration(seconds: 1)).then((_) {
-            nextPage();
-          }); // 3초 동안 대기
-        } else {
-          setState(() {
-            iconColor = Colors.green;
-          });
-        }
-      }
-    });
     return BlocProvider(create: (context) {
       final bookPageCubit = BookPageCubit(dataRepository);
       bookPageCubit.loadBookPageData(widget.contentVoiceId);
@@ -503,7 +501,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                             realCurrent: true,
                             currentPage: currentPageIndex,
                             audioPlayer: audioPlayer,
-                            pauseFunction: pauseFunction,
+                            //pauseFunction: pauseFunction,
                             previousPage: previousPage,
                             currentPageIndex: currentPageIndex,
                             nextPage: nextPage,
@@ -763,7 +761,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                     double.parse(
                                                         'font-ratio'.tr()),
                                               ),
-                                            ).tr(),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -1141,7 +1139,7 @@ class PageWidget extends StatefulWidget {
   final String audioUrl;
   final int currentPage;
   final AudioPlayer audioPlayer;
-  final bool pauseFunction;
+  //final bool pauseFunction;
   final bool realCurrent;
   final previousPage;
   final int currentPageIndex;
@@ -1169,7 +1167,7 @@ class PageWidget extends StatefulWidget {
     required this.audioUrl,
     required this.currentPage,
     required this.audioPlayer,
-    required this.pauseFunction,
+    //required this.pauseFunction,
     required this.realCurrent,
     required this.previousPage,
     required this.currentPageIndex,
