@@ -652,11 +652,8 @@ class _PurchaseState extends State<Purchase> {
                                                         '구독-가격-할인전',
                                                         style: TextStyle(
                                                             color: const Color
-                                                                    .fromARGB(
-                                                                136,
-                                                                0,
-                                                                0,
-                                                                0),
+                                                                .fromARGB(136,
+                                                                0, 0, 0),
                                                             fontFamily:
                                                                 'font-basic'
                                                                     .tr(),
@@ -825,8 +822,8 @@ class _PurchaseState extends State<Purchase> {
                                 // begin: Alignment.topCenter,
                                 // end: Alignment.bottomCenter,
                                 colors: [
-                          Color.fromARGB(150, 0, 0, 0), // 흐린 배경의 시작 색상
-                          Color.fromARGB(100, 0, 0, 0), // 투명한 중간 색상
+                          // Color.fromARGB(150, 0, 0, 0), // 흐린 배경의 시작 색상
+                          // Color.fromARGB(100, 0, 0, 0), // 투명한 중간 색상
                         ]))
 
                         // 다른 속성들은 필요에 따라 추가할 수 있습니다.
@@ -837,23 +834,23 @@ class _PurchaseState extends State<Purchase> {
                         // ),
 
                         ))),
-            Positioned(
-                top: 0.39 * sh,
-                left: 3 * SizeConfig.defaultSize!,
-                child: SizedBox(
-                  width: 0.46 * sw,
-                  child: Center(
-                    child: Text('얼리버드'.tr(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontFamily: 'font-book'.tr(),
-                            color: Colors.white,
-                            fontSize: 2.8 *
-                                SizeConfig.defaultSize! *
-                                double.parse('font-ratio'.tr()),
-                            fontWeight: FontWeight.w600)),
-                  ),
-                )),
+            // Positioned(
+            //     top: 0.39 * sh,
+            //     left: 3 * SizeConfig.defaultSize!,
+            //     child: SizedBox(
+            //       width: 0.46 * sw,
+            //       child: Center(
+            //         child: Text('얼리버드'.tr(),
+            //             textAlign: TextAlign.center,
+            //             style: TextStyle(
+            //                 fontFamily: 'font-book'.tr(),
+            //                 color: Colors.white,
+            //                 fontSize: 2.8 *
+            //                     SizeConfig.defaultSize! *
+            //                     double.parse('font-ratio'.tr()),
+            //                 fontWeight: FontWeight.w600)),
+            //       ),
+            //     )),
             // Positioned(
             //     top: 0.2 * sh,
             //     left: 0.135 * sw,

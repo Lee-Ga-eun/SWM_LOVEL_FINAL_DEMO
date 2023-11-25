@@ -1343,7 +1343,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                           .clicked
                                                                       ? null
                                                                       : const Color
-                                                                              .fromARGB(
+                                                                          .fromARGB(
                                                                           150,
                                                                           255,
                                                                           255,
@@ -1457,7 +1457,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                           .clicked
                                                                       ? null
                                                                       : const Color
-                                                                              .fromARGB(
+                                                                          .fromARGB(
                                                                           150,
                                                                           255,
                                                                           255,
@@ -1572,7 +1572,8 @@ class _BookIntroState extends State<BookIntro> {
                                                                     color: voiceState[3]
                                                                             .clicked
                                                                         ? null
-                                                                        : const Color.fromARGB(
+                                                                        : const Color
+                                                                            .fromARGB(
                                                                             150,
                                                                             255,
                                                                             255,
@@ -1642,7 +1643,7 @@ class _BookIntroState extends State<BookIntro> {
                                                       bookIntro.first.summary,
                                                       style: TextStyle(
                                                           fontFamily:
-                                                              'GenBkBasR',
+                                                              'font-book'.tr(),
                                                           fontWeight:
                                                               FontWeight.w400,
                                                           fontSize: SizeConfig
@@ -1727,7 +1728,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                                 ? Text(
                                                                                     '책-시작',
                                                                                     textAlign: TextAlign.center,
-                                                                                    style: TextStyle(color: Colors.black, fontSize: 2.3 * SizeConfig.defaultSize! * double.parse('font-ratio'.tr()), fontFamily: 'font-book'.tr()),
+                                                                                    style: TextStyle(color: Colors.black, fontSize: 2.3 * SizeConfig.defaultSize! * double.parse('font-ratio'.tr()), fontFamily: 'font-button'.tr()),
                                                                                   ).tr()
                                                                                 : Row(
                                                                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -1865,7 +1866,7 @@ class _BookIntroState extends State<BookIntro> {
                                                                           style: TextStyle(
                                                                               color: Colors.black,
                                                                               fontSize: 2.3 * SizeConfig.defaultSize! * double.parse('font-ratio'.tr()),
-                                                                              fontFamily: 'font-book'.tr()),
+                                                                              fontFamily: 'font-button'.tr()),
                                                                         ).tr(),
                                                                       ),
                                                                     ]))))

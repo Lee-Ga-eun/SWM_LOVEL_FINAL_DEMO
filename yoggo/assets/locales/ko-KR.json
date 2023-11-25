@@ -3,7 +3,8 @@
 
   "font-basic": "Maple",
   "font-thin": "MapleRegular",
-  "font-book": "Maple",
+  "font-book": "GenBkBasR",
+  "font-button": "Maple",
   "font-point": "Maple",
   "font-claim": "Maple",
 
@@ -98,6 +99,8 @@
   "녹음-안내-3": "40초 정도\n녹음했을 때,\n품질이 가장\n좋아요",
   "녹음-안내-4": "언제든\n원할 때면\n재녹음이\n가능해요",
 
+  "오류 제보": "오류 제보",
+  "자동 재생": "자동 재생",
   "자동 재생 켬": "자동 재생 사용",
   "자동 재생 끔": "자동 재생 중지",
 

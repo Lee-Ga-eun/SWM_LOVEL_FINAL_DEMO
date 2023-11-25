@@ -13,11 +13,13 @@ class BookPageModel extends Equatable {
   final String audioUrl;
   final String imageLocalPath;
   final String audioLocalPath;
+  String textKr;
 
-  const BookPageModel({
+  BookPageModel({
     required this.contentVoiceId,
     required this.pageNum,
     required this.text,
+    required this.textKr,
     required this.imageUrl,
     required this.position,
     required this.audioUrl,
@@ -35,6 +37,7 @@ class BookPageModel extends Equatable {
         contentVoiceId,
         pageNum,
         text,
+        textKr,
         imageUrl,
         position,
         audioUrl,

@@ -1380,7 +1380,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       lastPointYMD !=
                                                               formattedTime
                                                           ? const Color
-                                                                  .fromARGB(
+                                                              .fromARGB(
                                                               255, 255, 169, 26)
                                                           : Colors.grey,
                                                     ), // 배경색 설정
@@ -1537,7 +1537,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 lastPointYMD !=
                                                                         formattedTime
                                                                     ? const Color
-                                                                            .fromARGB(
+                                                                        .fromARGB(
                                                                         255,
                                                                         255,
                                                                         169,

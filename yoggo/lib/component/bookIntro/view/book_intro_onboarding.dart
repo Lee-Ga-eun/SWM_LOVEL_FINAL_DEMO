@@ -746,7 +746,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                                       style: TextStyle(
                                                           color: Colors.grey,
                                                           fontFamily:
-                                                              'GenBkBasR',
+                                                              'font-book'.tr(),
                                                           fontWeight:
                                                               FontWeight.w400,
                                                           fontSize: SizeConfig
@@ -824,7 +824,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                                                           fontSize: 2.3 *
                                                                               SizeConfig.defaultSize! *
                                                                               double.parse('font-ratio'.tr()),
-                                                                          fontFamily: 'font-book'.tr()),
+                                                                          fontFamily: 'font-button'.tr()),
                                                                     ).tr(),
                                                                   ),
                                                                 ]))))
