@@ -4,6 +4,7 @@
   "font-basic": "Molengo",
   "font-thin": "Molengo",
   "font-book": "GenBkBasR",
+  "font-button": "GenBkBasR",
   "font-point": "Lilita",
   "font-claim": "",
 
@@ -98,6 +99,8 @@
   "녹음-안내-3": "The best quality\nwhen recorded\nfor about\n40 seconds",
   "녹음-안내-4": "You can try again\nuntil you want",
 
+  "오류 제보": "Report",
+  "자동 재생": "Autoplay",
   "자동 재생 켬": "Autoplay is on",
   "자동 재생 끔": "Autoplay is off",
 

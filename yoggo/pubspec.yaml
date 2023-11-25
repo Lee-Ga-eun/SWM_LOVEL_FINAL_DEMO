@@ -154,11 +154,16 @@ flutter:
     - family: MapleRegular
       fonts:
         - asset: assets/fonts/SOYO Maple Regular.ttf
-
+    - family: Suit
+      fonts:
+        - asset: assets/fonts/SUIT-Variable.ttf
     - family: Maple
       fonts:
         - asset: assets/fonts/SOYO Maple Bold.ttf
           weight: 700
+    - family: SCDream
+      fonts:
+        - asset: assets/fonts/SCDream4.otf
     # - family: BreeSerif
     #   fonts:
     #     - asset: assets/fonts/BreeSerif-Regular.ttf
@@ -218,9 +223,6 @@ flutter:
     # - family: Libre
     #   fonts:
     #     - asset: assets/fonts/LibreBaskerville-Regular.ttf
-    # - family: IBM
-    #   fonts:
-    #     - asset: assets/fonts/IBMPlexSansKR-SemiBold.ttf
 
   #
   # For details regarding fonts from package dependencies,

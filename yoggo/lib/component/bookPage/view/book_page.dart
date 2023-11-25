@@ -54,8 +54,10 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   //bool pauseFunction = false;
   AudioPlayer audioPlayer = AudioPlayer();
   bool autoplayClicked = true;
+  bool changeKorean = false;
   bool reportClicked = false;
   bool _isChanged = false;
+  bool _isChangedLanguage = false;
   String reportContent = '';
   bool isKeyboardVisible = false;
 
@@ -133,17 +135,6 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
             'Authorization': 'Bearer $token',
           },
           body: body);
-      // if (response.statusCode == 200) {
-      //   final jsonData = json.decode(response.body);
-      //   // if (jsonData is List<dynamic>) {
-      //   //   setState(() {
-      //   //     // pages = List<Map<String, dynamic>>.from(jsonData);
-      //   //   });
-      //   // }
-      //   //print(jsonData);
-      // } else {
-      //   // 에러 처리
-      // }
     }
   }
 
@@ -339,24 +330,24 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                 ),
               ),
               SafeArea(
-                //top: false,
+                top: false,
                 bottom: false,
                 minimum: EdgeInsets.only(
                     left: SizeConfig.defaultSize!,
                     right: SizeConfig.defaultSize!),
                 child: Padding(
-                  padding: EdgeInsets.all(SizeConfig.defaultSize!),
+                  padding: EdgeInsets.only(bottom: SizeConfig.defaultSize!),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Expanded(
                         //HEADER
-                        flex: 12,
+                        flex: 14,
                         child: Row(
                           // mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Expanded(
-                              flex: 3,
+                              flex: 4,
                               child: IconButton(
                                 padding: EdgeInsets.all(
                                     0.2 * SizeConfig.defaultSize!),
@@ -394,83 +385,156 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                               ),
                             ),
                             Expanded(
-                                flex: 2,
-                                child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: _isChanged
-                                        ? autoplayClicked
-                                            ? Text('자동 재생 켬',
+                              flex: 4,
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    context.locale.toString() == "ko_KR"
+                                        ? SizedBox(
+                                            width: SizeConfig.defaultSize! * 5,
+                                            height: SizeConfig.defaultSize! * 5,
+                                            child: Stack(
+                                              children: [
+                                                Transform.scale(
+                                                  scale: 0.8,
+                                                  child: CupertinoSwitch(
+                                                    value: changeKorean,
+                                                    activeColor: CupertinoColors
+                                                        .activeOrange,
+                                                    onChanged: (bool? value) {
+                                                      setState(() {
+                                                        changeKorean =
+                                                            value ?? false;
+                                                        _isChangedLanguage =
+                                                            true;
+                                                      });
+                                                      Future.delayed(
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      1500))
+                                                          .then((_) {
+                                                        setState(() {
+                                                          _isChangedLanguage =
+                                                              false;
+                                                        });
+                                                      });
+                                                    },
+                                                  ),
+                                                ),
+                                                Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Text('한글 번역',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'font-basic'
+                                                                    .tr(),
+                                                            fontSize: SizeConfig
+                                                                    .defaultSize! *
+                                                                1.25 *
+                                                                double.parse(
+                                                                    'font-ratio'
+                                                                        .tr()))))
+                                              ],
+                                            ))
+                                        : Container(),
+                                    SizedBox(width: SizeConfig.defaultSize!),
+                                    SizedBox(
+                                        width: SizeConfig.defaultSize! * 5,
+                                        height: SizeConfig.defaultSize! * 5,
+                                        child: Stack(children: [
+                                          Transform.scale(
+                                            scale: 0.8,
+                                            child: CupertinoSwitch(
+                                              value: autoplayClicked,
+                                              activeColor:
+                                                  CupertinoColors.activeOrange,
+                                              onChanged: (bool? value) {
+                                                autoplayClicked
+                                                    ? _sendBookAutoPlayOffClickEvent(
+                                                        widget.contentId,
+                                                        widget.voiceId,
+                                                        widget.contentVoiceId,
+                                                        currentPageIndex,
+                                                        widget.title)
+                                                    : _sendBookAutoPlayOnClickEvent(
+                                                        widget.contentId,
+                                                        widget.voiceId,
+                                                        widget.contentVoiceId,
+                                                        currentPageIndex,
+                                                        widget.title);
+
+                                                setState(() {
+                                                  autoplayClicked =
+                                                      value ?? false;
+                                                  _isChanged = true;
+                                                });
+                                                Future.delayed(const Duration(
+                                                        milliseconds: 1500))
+                                                    .then((_) {
+                                                  setState(() {
+                                                    _isChanged = false;
+                                                  });
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                          Align(
+                                            alignment: Alignment.bottomCenter,
+                                            child: Text('자동 재생',
                                                     style: TextStyle(
                                                         fontFamily:
                                                             'font-basic'.tr(),
                                                         fontSize: SizeConfig
                                                                 .defaultSize! *
-                                                            1.5))
-                                                .tr()
-                                            : Text('자동 재생 끔',
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'font-basic'.tr(),
-                                                        fontSize: SizeConfig
-                                                                .defaultSize! *
-                                                            1.5))
-                                                .tr()
-                                        : Container())),
-                            Expanded(
-                              flex: 1,
-                              child: Row(children: [
-                                SizedBox(
-                                  width: SizeConfig.defaultSize! * 5,
-                                  height: SizeConfig.defaultSize! * 3,
-                                  child: Switch(
-                                    value: autoplayClicked,
-                                    activeColor: CupertinoColors.activeOrange,
-                                    onChanged: (bool? value) {
-                                      autoplayClicked
-                                          ? _sendBookAutoPlayOnClickEvent(
-                                              widget.contentId,
-                                              widget.voiceId,
-                                              widget.contentVoiceId,
-                                              currentPageIndex,
-                                              widget.title)
-                                          : _sendBookAutoPlayOffClickEvent(
-                                              widget.contentId,
-                                              widget.voiceId,
-                                              widget.contentVoiceId,
-                                              currentPageIndex,
-                                              widget.title);
-                                      setState(() {
-                                        autoplayClicked = value ?? false;
-                                        _isChanged = true;
-                                      });
-                                      Future.delayed(const Duration(
-                                              milliseconds: 1500))
-                                          .then((_) {
-                                        setState(() {
-                                          _isChanged = false;
-                                        });
-                                      });
-                                    },
-                                  ),
-                                ),
-                                SizedBox(width: SizeConfig.defaultSize!),
-                                GestureDetector(
-                                    child: Icon(Icons.error_outline,
-                                        color: Colors.black,
-                                        size: SizeConfig.defaultSize! * 3),
-                                    onTap: () {
-                                      // print('report');
-                                      _sendBookErrorReportClickEvent(
-                                          widget.contentId,
-                                          widget.voiceId,
-                                          widget.contentVoiceId,
-                                          currentPageIndex,
-                                          widget.title);
-                                      setState(() {
-                                        reportClicked = true;
-                                      });
-                                    }),
-                              ]),
+                                                            1.25 *
+                                                            double.parse(
+                                                                'font-ratio'
+                                                                    .tr())))
+                                                .tr(),
+                                          )
+                                        ])),
+                                    SizedBox(width: SizeConfig.defaultSize!),
+                                    Container(
+                                      width: SizeConfig.defaultSize! * 5,
+                                      height: SizeConfig.defaultSize! * 5,
+                                      child: GestureDetector(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Icon(Icons.error_outline,
+                                                  color: Colors.black,
+                                                  size:
+                                                      SizeConfig.defaultSize! *
+                                                          3),
+                                              Text('오류 제보',
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'font-basic'.tr(),
+                                                          fontSize: SizeConfig
+                                                                  .defaultSize! *
+                                                              1.25 *
+                                                              double.parse(
+                                                                  'font-ratio'
+                                                                      .tr())))
+                                                  .tr()
+                                            ],
+                                          ),
+                                          onTap: () {
+                                            // print('report');
+                                            _sendBookErrorReportClickEvent(
+                                                widget.contentId,
+                                                widget.voiceId,
+                                                widget.contentVoiceId,
+                                                currentPageIndex,
+                                                widget.title);
+                                            setState(() {
+                                              reportClicked = true;
+                                            });
+                                          }),
+                                    )
+                                  ]),
                             )
                           ],
                         ),
@@ -488,7 +552,9 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                             // imageUrl: currentPageIndex < widget.lastPage
                             //     ? bookPage[currentPageIndex].imageUrl
                             //     : bookPage[widget.lastPage - 1].imageUrl,
-
+                            textKr: currentPageIndex < widget.lastPage
+                                ? bookPage[currentPageIndex].textKr
+                                : bookPage[widget.lastPage - 1].textKr,
                             position: currentPageIndex < widget.lastPage
                                 ? bookPage[currentPageIndex].position
                                 : bookPage[widget.lastPage - 1].position,
@@ -513,6 +579,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                             dispose: dispose,
                             stopAudio: stopAudio,
                             title: widget.title,
+                            changeKorean: changeKorean,
                             playAudio: playAudio,
                           )),
                       Expanded(
@@ -807,6 +874,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
       contentId, voiceId, contentVoiceId, pageId, title) async {
     try {
       // 이벤트 로깅
+      print('on!!');
       await analytics.logEvent(
         name: 'book_autoplay_on_click',
         parameters: <String, dynamic>{
@@ -1137,6 +1205,7 @@ class PageWidget extends StatefulWidget {
   // final String imageUrl;
   final int position;
   final String audioUrl;
+  final String textKr;
   final int currentPage;
   final AudioPlayer audioPlayer;
   //final bool pauseFunction;
@@ -1153,15 +1222,17 @@ class PageWidget extends StatefulWidget {
   final bool isSelected;
   final dispose;
   final stopAudio;
+  bool changeKorean;
   final String filePath;
   final audioPath;
   final String title;
   final playAudio;
 
-  const PageWidget({
+  PageWidget({
     Key? key,
     //  required this.page,
     required this.text,
+    required this.textKr,
     //  required this.imageUrl,
     required this.position,
     required this.audioUrl,
@@ -1178,6 +1249,7 @@ class PageWidget extends StatefulWidget {
     required this.contentVoiceId,
     required this.contentId,
     required this.isSelected,
+    required this.changeKorean,
     this.record,
     required this.dispose,
     required this.stopAudio,
@@ -1210,123 +1282,72 @@ class _PageWidgetState extends State<PageWidget> {
     widget.audioPlayer.onPlayerComplete.listen((event) {
       iconColor = Colors.green;
     });
-    return Row(
-      children: [
-        Expanded(
-          flex: widget.position == 1 ? 1 : 2,
-          child: Container(
-            // color: Colors.red,
-            child: widget.position == 1
-                ? Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset('lib/images/gray.png'),
-                      ),
-                      // Positioned.fill(
-                      //   child:
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image(image: FileImage(File(nowImage))),
-                        //File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png'))),
-                        //   File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/51BD51C0-88A3-4805-BDEE-B9DA1AE95AEA/Library/Caches/libCachedImageData/c63ef170-5c10-11ee-bf53-17b03fffd053.png'))),
-                        // CachedNetworkImage(
-                        //   imageUrl: widget.imageUrl,
-                        //   fit: BoxFit.cover,
-                        // ),
-                      ),
-                      //),
-                    ],
-                  )
-                : Padding(
-                    // 글자 - 그림
-                    padding: EdgeInsets.only(
-                        right: 1 * SizeConfig.defaultSize!,
-                        left: 1 * SizeConfig.defaultSize!),
-                    child: Scrollbar(
-                      controller: _scrollController,
-                      thumbVisibility: true,
-                      trackVisibility: true,
-                      scrollbarOrientation: ScrollbarOrientation.right,
-                      child: SingleChildScrollView(
-                          controller: _scrollController,
-                          child: Center(
-                            //alignment: Alignment.centerLeft,
-                            child: Padding(
-                                padding: EdgeInsets.only(
-                                    right: 1 * SizeConfig.defaultSize!),
-                                child: Text(
-                                  widget.text,
-                                  style: TextStyle(
-                                      fontSize: 2.1 * SizeConfig.defaultSize!,
-                                      height: 1.4,
-                                      fontFamily: 'GenBkBasR',
-                                      fontWeight: FontWeight.w400),
-                                )),
-                          )),
+    return Container(
+      //color: Colors.red,
+      child: Row(
+        children: [
+          Expanded(
+              flex: 2,
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset(
+                      'lib/images/gray.png',
                     ),
                   ),
-            // ), // 글자를 2번 화면에 배치
-          ),
-        ),
-        Expanded(
-          flex: widget.position == 0 ? 1 : 2,
-          child: Container(
-            //color: position == 2 ? Colors.red : Colors.white,
-            child: widget.position == 0
-                ? Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.asset('lib/images/gray.png'),
-                      ),
-                      //Positioned.fill(
-                      //child:
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image(
-                            image: FileImage(File(
-                          nowImage,
-                          //'/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png',
-                        ))),
-                        // CachedNetworkImage(
-                        //   imageUrl: widget.imageUrl,
-                        //   fit: BoxFit.cover,
-                        // ),
-                      ),
-                      //),
-                    ],
-                  )
-                //그림을 2번 화면에 배치
-                : Padding(
-                    padding: EdgeInsets.only(
-                        right: 0.5 * SizeConfig.defaultSize!,
-                        left: 2 * SizeConfig.defaultSize!),
-                    child: Scrollbar(
-                      controller: ScrollController(),
-                      thumbVisibility: true,
-                      trackVisibility: true,
-                      scrollbarOrientation: ScrollbarOrientation.right,
-                      child: SingleChildScrollView(
-                          child: Center(
-                        //alignment: Alignment.centerLeft,
-                        child: Padding(
-                            padding: EdgeInsets.only(
-                                right: 1 * SizeConfig.defaultSize!),
-                            child: Text(
-                              widget.text,
-                              style: TextStyle(
-                                  fontSize: 2.1 * SizeConfig.defaultSize!,
-                                  height: 1.4,
-                                  fontFamily: 'GenBkBasR',
-                                  fontWeight: FontWeight.w400),
-                            )),
-                      )),
+                  // Positioned.fill(
+                  //   child:
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image(
+                      image: FileImage(File(nowImage)),
                     ),
-                  ), // 글자를 1번 화면에 배치
+                    //File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/149D45B5-47F9-4354-8392-AA13CFEB73FD/Library/Caches/libCachedImageData/c7e8f7f0-5c10-11ee-bf53-17b03fffd053.png'))),
+                    //   File('/Users/iga-eun/Library/Developer/CoreSimulator/Devices/7F898527-8EDA-4F3B-8DB7-7540CDC6DC56/data/Containers/Data/Application/51BD51C0-88A3-4805-BDEE-B9DA1AE95AEA/Library/Caches/libCachedImageData/c63ef170-5c10-11ee-bf53-17b03fffd053.png'))),
+                    // CachedNetworkImage(
+                    //   imageUrl: widget.imageUrl,
+                    //   fit: BoxFit.cover,
+                    // ),
+                  ),
+                  //),
+                ],
+              )),
+          Expanded(
+            flex: 3,
+            child: Container(
+              //color: position == 2 ? Colors.red : Colors.white,
+              child: Padding(
+                padding: EdgeInsets.only(
+                    right: 0.5 * SizeConfig.defaultSize!,
+                    left: 2 * SizeConfig.defaultSize!),
+                child: Scrollbar(
+                  controller: ScrollController(),
+                  thumbVisibility: true,
+                  trackVisibility: true,
+                  scrollbarOrientation: ScrollbarOrientation.right,
+                  child: SingleChildScrollView(
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              right: 1 * SizeConfig.defaultSize!),
+                          child: Text(
+                            widget.changeKorean ? widget.textKr : widget.text,
+                            style: TextStyle(
+                                fontSize: widget.changeKorean
+                                    ? 1.85 * SizeConfig.defaultSize!
+                                    : 2.1 * SizeConfig.defaultSize!,
+                                height: 1.4,
+                                fontFamily: widget.changeKorean
+                                    ? 'SCDream'
+                                    : 'font-book'.tr(),
+                                fontWeight: FontWeight.w400),
+                          ))),
+                ),
+              ), // 글자를 1번 화면에 배치
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
