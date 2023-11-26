@@ -24,8 +24,14 @@ class Rec extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
   final int contentId;
   final void Function(String path)? onStop;
+  final AudioPlayer bgmPlayer;
+
   const Rec(
-      {Key? key, this.onStop, required this.abTest, required this.contentId})
+      {Key? key,
+      this.onStop,
+      required this.abTest,
+      required this.contentId,
+      required this.bgmPlayer})
       : super(key: key);
 
   @override
@@ -196,7 +202,7 @@ class _RecState extends State<Rec> {
                                 child: IconButton(
                                   icon: Icon(Icons.clear,
                                       size: 3 * SizeConfig.defaultSize!),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     Navigator.of(context).pop();
                                   },
                                 )),
@@ -318,6 +324,7 @@ class _RecState extends State<Rec> {
                                       MaterialPageRoute(
                                           builder: (context) => Rec(
                                                 contentId: widget.contentId,
+                                                bgmPlayer: widget.bgmPlayer,
                                                 abTest: widget.abTest,
                                               )),
                                     );
@@ -366,6 +373,7 @@ class _RecState extends State<Rec> {
                                                 contentId: widget.contentId,
                                                 abTest: widget.abTest,
                                                 onStop: widget.onStop,
+                                                bgmPlayer: widget.bgmPlayer,
                                                 path: path!,
                                               )),
                                     );

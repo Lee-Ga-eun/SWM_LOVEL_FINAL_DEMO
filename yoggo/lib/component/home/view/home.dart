@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'package:amplitude_flutter/amplitude.dart';
@@ -48,7 +50,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // late Future<List<bookModel>> webtoons;
@@ -61,6 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool wantDelete = false;
   double dropdownHeight = 0.0;
   bool isDataFetched = false;
+  late bool playingBgm;
+  bool _isChanged = false;
   //bool showSecondOverlay = false; // Initially show the overlay
   //bool showBanner = false;
   //bool showFairy = false;
@@ -87,9 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   RewardedAd? _rewardedAd;
   bool _isAdLoaded = false;
+  AudioPlayer bgmPlayer = AudioPlayer();
   @override
   void initState() {
     super.initState();
+    bgmPlayer.setReleaseMode(ReleaseMode.loop);
+    WidgetsBinding.instance.addObserver(this);
 
     // Amplitude.getInstance().setUserProperties({
     //   'ab_book_loading': widget.abTest.getString("is_loading_text_enabled")
@@ -100,6 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
       await saveRewardStatus();
     });
     // _loadAd();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    bgmPlayer.pause();
   }
 
   // void _loadAd() {
@@ -142,6 +155,25 @@ class _HomeScreenState extends State<HomeScreen> {
   //         },
   //       ));
   // }
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    switch (state) {
+      case AppLifecycleState.paused:
+        // 앱이 일시 중지될 때
+        bgmPlayer.pause();
+        break;
+      case AppLifecycleState.resumed:
+        // 앱이 재개될 때
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        bool playingBgm = prefs.getBool('playingBgm') ?? true;
+        if (playingBgm) {
+          bgmPlayer.resume();
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
@@ -160,19 +192,24 @@ class _HomeScreenState extends State<HomeScreen> {
     // 앱 최초 사용 접속 : 온보딩 화면 보여주기
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isFirstTime = prefs.getBool('isFirstTime') ?? true;
+    playingBgm = prefs.getBool('playingBgm') ?? true;
     //bool haveClickedBook = prefs.getBool('haveClickedBook') ?? false;
     neverRequestedPermission = true;
 
     if (isFirstTime) {
       // Set isFirstTime to false after showing overlay
+
       Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => HomeOnboarding(
                   abTest: widget.abTest,
+                  bgmPlayer: bgmPlayer,
                 )),
       );
       await prefs.setBool('isFirstTime', false);
+    } else {
+      if (playingBgm) bgmPlayer.play(AssetSource('sound/Christmas.wav'));
     }
   }
 
@@ -772,7 +809,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   SharedPreferences prefs =
                                                       await SharedPreferences
                                                           .getInstance();
-
+                                                  bgmPlayer.pause();
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -802,6 +839,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     book.title,
                                                                 thumbUrl: book
                                                                     .thumbUrl,
+                                                                bgmPlayer:
+                                                                    bgmPlayer,
                                                               ),
                                                             )),
                                                   );
@@ -1939,12 +1978,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                           onTap: () {
                                             userCubit.fetchUser();
                                             _sendHbgVoiceClickEvent();
+                                            bgmPlayer.pause();
+
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     VoiceProfile(
                                                   abTest: widget.abTest,
+                                                  bgmPlayer: bgmPlayer,
                                                 ),
                                               ),
                                             );
@@ -1961,12 +2003,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         onTap: () {
                                           userCubit.fetchUser();
                                           _sendHbgVoiceClickEvent();
+                                          bgmPlayer.pause();
+
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   VoiceProfile(
                                                 abTest: widget.abTest,
+                                                bgmPlayer: bgmPlayer,
                                               ),
                                             ),
                                           );
@@ -1995,12 +2040,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                           onTap: () {
                                             userCubit.fetchUser();
                                             _sendHbgVoiceClickEvent();
+                                            bgmPlayer.pause();
+
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     VoiceProfile(
                                                   abTest: widget.abTest,
+                                                  bgmPlayer: bgmPlayer,
                                                 ),
                                               ),
                                             );
@@ -2038,6 +2086,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           : GestureDetector(
                               onTap: () {
                                 _sendHbgAddVoiceClickEvent();
+                                userState.purchase ? bgmPlayer.pause() : null;
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -2045,6 +2094,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ? RecInfo(
                                             contentId: 0,
                                             abTest: widget.abTest,
+                                            bgmPlayer: bgmPlayer,
                                           )
                                         : Purchase(
                                             abTest: widget.abTest,
@@ -2186,6 +2236,52 @@ class _HomeScreenState extends State<HomeScreen> {
                           });
                         },
                       ),
+                      SizedBox(
+                        height: 1.5 * SizeConfig.defaultSize!,
+                      ),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Background Music'.tr(),
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 1.8 * SizeConfig.defaultSize!,
+                                fontFamily: 'font-basic'.tr(),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Transform.scale(
+                              scale: 0.8,
+                              child: CupertinoSwitch(
+                                value: playingBgm,
+                                activeColor: CupertinoColors.activeOrange,
+                                onChanged: (bool? value) async {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  setState(() {
+                                    print(value);
+                                    playingBgm = value ?? false;
+                                    if (playingBgm)
+                                      bgmPlayer.play(
+                                          AssetSource('sound/Christmas.wav'));
+                                    else {
+                                      bgmPlayer.stop();
+                                    }
+                                    prefs.setBool('playingBgm', playingBgm);
+                                    _isChanged = true;
+                                  });
+                                  Future.delayed(
+                                          const Duration(milliseconds: 1500))
+                                      .then((_) {
+                                    setState(() {
+                                      _isChanged = false;
+                                    });
+                                  });
+                                },
+                              ),
+                            ),
+                          ]),
 
                       // IconButton(
                       //     onPressed: () {

@@ -33,17 +33,18 @@ class BookIntroOnboarding extends StatefulWidget {
   final String title;
   final int id;
   final FirebaseRemoteConfig abTest;
+  final AudioPlayer bgmPlayer;
   final bool showOnboarding;
 
-  const BookIntroOnboarding(
-      {
-      // super.key,
-      Key? key,
-      required this.title,
-      required this.id,
-      required this.abTest,
-      required this.showOnboarding})
-      : super(key: key);
+  const BookIntroOnboarding({
+    // super.key,
+    Key? key,
+    required this.title,
+    required this.id,
+    required this.abTest,
+    required this.showOnboarding,
+    required this.bgmPlayer,
+  }) : super(key: key);
 
   @override
   _BookIntroOnboardingState createState() => _BookIntroOnboardingState();
@@ -318,11 +319,20 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                         icon: Icon(Icons.clear,
                                             color: Colors.grey,
                                             size: 3 * SizeConfig.defaultSize!),
-                                        onPressed: () {
+                                        onPressed: () async {
                                           _sendBookIntroXInOnboardingClickEvent(
                                               widget.id,
                                               'The Sun and the Wind');
                                           audioPlayer.stop();
+                                          SharedPreferences prefs =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          bool playingBgm =
+                                              prefs.getBool('playingBgm') ??
+                                                  true;
+                                          if (playingBgm) {
+                                            widget.bgmPlayer.resume();
+                                          }
                                           Navigator.popUntil(context,
                                               (route) => route.isFirst);
                                         },
@@ -488,6 +498,8 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                                                                 10,
                                                                             abTest:
                                                                                 widget.abTest,
+                                                                            bgmPlayer:
+                                                                                widget.bgmPlayer,
                                                                           )),
                                                             );
                                                           },
@@ -554,7 +566,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                                                       BlendMode
                                                                           .srcATop,
                                                                   color: const Color
-                                                                          .fromARGB(
+                                                                      .fromARGB(
                                                                       150,
                                                                       255,
                                                                       255,
@@ -615,7 +627,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                                                       BlendMode
                                                                           .srcATop,
                                                                   color: const Color
-                                                                          .fromARGB(
+                                                                      .fromARGB(
                                                                       150,
                                                                       255,
                                                                       255,
@@ -678,7 +690,7 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                                                         BlendMode
                                                                             .srcATop,
                                                                     color: const Color
-                                                                            .fromARGB(
+                                                                        .fromARGB(
                                                                         150,
                                                                         255,
                                                                         255,
@@ -781,11 +793,8 @@ class _BookIntroOnboardingState extends State<BookIntroOnboarding> {
                                                             decoration:
                                                                 ShapeDecoration(
                                                               color: const Color
-                                                                      .fromARGB(
-                                                                  50,
-                                                                  255,
-                                                                  169,
-                                                                  26),
+                                                                  .fromARGB(50,
+                                                                  255, 169, 26),
                                                               shape:
                                                                   RoundedRectangleBorder(
                                                                 borderRadius:

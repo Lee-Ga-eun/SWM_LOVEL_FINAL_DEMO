@@ -16,10 +16,14 @@ import 'package:easy_localization/easy_localization.dart';
 class VoiceProfile extends StatefulWidget {
   // final String infenrencedVoice;
   final FirebaseRemoteConfig abTest;
+  final AudioPlayer bgmPlayer;
 
-  const VoiceProfile({super.key, required this.abTest
-      // required this.infenrencedVoice,
-      });
+  const VoiceProfile({
+    super.key,
+    required this.abTest,
+    required this.bgmPlayer,
+    // required this.infenrencedVoice,
+  });
 
   @override
   _VoiceProfileState createState() => _VoiceProfileState();
@@ -126,10 +130,16 @@ class _VoiceProfileState extends State<VoiceProfile> {
                                 child: IconButton(
                                   icon: Icon(Icons.clear,
                                       size: 3 * SizeConfig.defaultSize!),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     audioPlayer.stop();
                                     dispose();
-
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    bool playingBgm =
+                                        prefs.getBool('playingBgm') ?? true;
+                                    if (playingBgm) {
+                                      widget.bgmPlayer.resume();
+                                    }
                                     Navigator.of(context)
                                         .popUntil((route) => route.isFirst);
                                   },
@@ -512,6 +522,7 @@ class _VoiceProfileState extends State<VoiceProfile> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => RecRe(
+                          bgmPlayer: widget.bgmPlayer,
                           abTest: widget.abTest,
                         ),
                       ),

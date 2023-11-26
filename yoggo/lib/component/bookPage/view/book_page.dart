@@ -31,6 +31,7 @@ class BookPage extends StatefulWidget {
   final int voiceId;
   final int contentId;
   final String title;
+  final AudioPlayer bgmPlayer;
 
   const BookPage(
       {super.key,
@@ -40,7 +41,8 @@ class BookPage extends StatefulWidget {
       required this.isSelected,
       required this.lastPage,
       required this.title,
-      required this.abTest});
+      required this.abTest,
+      required this.bgmPlayer});
 
   @override
   _BookPageState createState() => _BookPageState();
@@ -54,6 +56,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   bool isPlaying = false;
   //bool pauseFunction = false;
   AudioPlayer audioPlayer = AudioPlayer();
+  AudioPlayer effectPlayer = AudioPlayer();
   bool autoplayClicked = true;
   bool changeKorean = false;
   bool reportClicked = false;
@@ -81,7 +84,8 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
     audioPlayer.onPlayerComplete.listen((event) {
       if (autoplayClicked) {
         if (currentPageIndex != widget.lastPage - 1) {
-          Future.delayed(const Duration(seconds: 1)).then((_) {
+          effectPlayer.play(AssetSource('sound/book-turn.wav'));
+          Future.delayed(const Duration(milliseconds: 500)).then((_) {
             nextPage();
           });
         } else {
@@ -368,7 +372,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                       color: Colors.black,
                                       size: 3 * SizeConfig.defaultSize!,
                                     ),
-                                    onPressed: () {
+                                    onPressed: () async {
                                       // stopAudio();
                                       dispose();
                                       _sendBookPageXClickEvent(
@@ -378,6 +382,14 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                           currentPageIndex + 1,
                                           widget.title);
                                       WakelockPlus.disable();
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      bool playingBgm =
+                                          prefs.getBool('playingBgm') ?? true;
+                                      if (playingBgm) {
+                                        widget.bgmPlayer.resume();
+                                      }
+
                                       Navigator.popUntil(
                                           context, (route) => route.isFirst);
                                       //고민
@@ -639,13 +651,25 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                               .defaultSize!,
                                                     ),
                                               onPressed: () {
+                                                effectPlayer.play(AssetSource(
+                                                    'sound/book-turn.wav'));
+                                                _sendBookNextClickEvent(
+                                                    widget.contentVoiceId,
+                                                    widget.contentId,
+                                                    widget.voiceId,
+                                                    currentPageIndex + 1,
+                                                    widget.title);
                                                 _sendBookBackClickEvent(
                                                     widget.contentVoiceId,
                                                     widget.contentId,
                                                     widget.voiceId,
                                                     currentPageIndex + 1,
                                                     widget.title);
-                                                previousPage();
+                                                Future.delayed(const Duration(
+                                                        milliseconds: 500))
+                                                    .then((_) {
+                                                  previousPage();
+                                                });
                                               })
                                         ],
                                       ),
@@ -677,14 +701,22 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                           SizeConfig
                                                               .defaultSize!,
                                                     ),
-                                                    onPressed: () {
+                                                    onPressed: () async {
+                                                      effectPlayer.play(AssetSource(
+                                                          'sound/book-turn.wav'));
                                                       _sendBookNextClickEvent(
                                                           widget.contentVoiceId,
                                                           widget.contentId,
                                                           widget.voiceId,
                                                           currentPageIndex + 1,
                                                           widget.title);
-                                                      nextPage();
+                                                      Future.delayed(
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      500))
+                                                          .then((_) {
+                                                        nextPage();
+                                                      });
                                                     })
                                               ],
                                             ),
@@ -726,6 +758,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                           userState.purchase ==
                                                               true) {
                                                         //Navigator.pop(context);
+
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
@@ -746,6 +779,8 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                                   .isSelected,
                                                               title:
                                                                   widget.title,
+                                                              bgmPlayer: widget
+                                                                  .bgmPlayer,
                                                             ),
                                                           ),
                                                         );
@@ -754,22 +789,26 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                           context,
                                                           //결제가 끝나면 RecInfo로 가야 함
                                                           MaterialPageRoute(
-                                                            builder: (context) => BookEnd(
-                                                                abTest: widget
-                                                                    .abTest,
-                                                                contentVoiceId:
-                                                                    widget
-                                                                        .contentVoiceId,
-                                                                contentId: widget
-                                                                    .contentId,
-                                                                voiceId: widget
-                                                                    .voiceId,
-                                                                lastPage: widget
-                                                                    .lastPage,
-                                                                isSelected: widget
-                                                                    .isSelected,
-                                                                title: widget
-                                                                    .title),
+                                                            builder:
+                                                                (context) =>
+                                                                    BookEnd(
+                                                              abTest:
+                                                                  widget.abTest,
+                                                              contentVoiceId: widget
+                                                                  .contentVoiceId,
+                                                              contentId: widget
+                                                                  .contentId,
+                                                              voiceId: widget
+                                                                  .voiceId,
+                                                              lastPage: widget
+                                                                  .lastPage,
+                                                              isSelected: widget
+                                                                  .isSelected,
+                                                              title:
+                                                                  widget.title,
+                                                              bgmPlayer: widget
+                                                                  .bgmPlayer,
+                                                            ),
                                                           ),
                                                         );
                                                       }

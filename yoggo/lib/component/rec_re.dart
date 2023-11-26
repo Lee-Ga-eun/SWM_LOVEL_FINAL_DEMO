@@ -23,8 +23,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class RecRe extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
   final void Function(String path)? onStop;
+  final AudioPlayer bgmPlayer;
 
-  const RecRe({Key? key, this.onStop, required this.abTest}) : super(key: key);
+  const RecRe(
+      {Key? key, this.onStop, required this.abTest, required this.bgmPlayer})
+      : super(key: key);
 
   @override
   State<RecRe> createState() => _RecReState();
@@ -216,7 +219,16 @@ class _RecReState extends State<RecRe> {
                                       IconButton(
                                         icon: Icon(Icons.clear,
                                             size: 3 * SizeConfig.defaultSize!),
-                                        onPressed: () {
+                                        onPressed: () async {
+                                          SharedPreferences prefs =
+                                              await SharedPreferences
+                                                  .getInstance();
+                                          bool playingBgm =
+                                              prefs.getBool('playingBgm') ??
+                                                  true;
+                                          if (playingBgm) {
+                                            widget.bgmPlayer.resume();
+                                          }
                                           Navigator.of(context).pop();
                                         },
                                       )
@@ -389,6 +401,7 @@ class _RecReState extends State<RecRe> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => RecRe(
+                                                bgmPlayer: widget.bgmPlayer,
                                                 abTest: widget.abTest,
                                               )),
                                     );
@@ -438,6 +451,7 @@ class _RecReState extends State<RecRe> {
                                                 onStop: widget.onStop,
                                                 path: path!,
                                                 retry: true,
+                                                bgmPlayer: widget.bgmPlayer,
                                                 contentId: 0,
                                               )),
                                     );
