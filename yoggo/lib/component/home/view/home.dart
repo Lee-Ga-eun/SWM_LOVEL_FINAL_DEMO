@@ -1419,7 +1419,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                       lastPointYMD !=
                                                               formattedTime
                                                           ? const Color
-                                                              .fromARGB(
+                                                                  .fromARGB(
                                                               255, 255, 169, 26)
                                                           : Colors.grey,
                                                     ), // 배경색 설정
@@ -1576,7 +1576,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                                 lastPointYMD !=
                                                                         formattedTime
                                                                     ? const Color
-                                                                        .fromARGB(
+                                                                            .fromARGB(
                                                                         255,
                                                                         255,
                                                                         169,
@@ -2237,13 +2237,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                         },
                       ),
                       SizedBox(
-                        height: 1.5 * SizeConfig.defaultSize!,
+                        height: 1.0 * SizeConfig.defaultSize!,
                       ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Background Music'.tr(),
+                              '배경음악'.tr(),
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 1.8 * SizeConfig.defaultSize!,

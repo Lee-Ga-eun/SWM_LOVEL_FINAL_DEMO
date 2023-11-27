@@ -431,6 +431,26 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                                 .activeOrange,
                                                         onChanged:
                                                             (bool? value) {
+                                                          changeKorean
+                                                              ? _sendBookTranslateOffClickEvent(
+                                                                  widget
+                                                                      .contentId,
+                                                                  widget
+                                                                      .voiceId,
+                                                                  widget
+                                                                      .contentVoiceId,
+                                                                  currentPageIndex,
+                                                                  widget.title)
+                                                              : _sendBookTranslateOnClickEvent(
+                                                                  widget
+                                                                      .contentId,
+                                                                  widget
+                                                                      .voiceId,
+                                                                  widget
+                                                                      .contentVoiceId,
+                                                                  currentPageIndex,
+                                                                  widget.title);
+
                                                           setState(() {
                                                             changeKorean =
                                                                 value ?? false;
@@ -989,6 +1009,37 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
     }
   }
 
+  Future<void> _sendBookTranslateOnClickEvent(
+      contentId, voiceId, contentVoiceId, pageId, title) async {
+    try {
+      // 이벤트 로깅
+      print('on!!');
+      await analytics.logEvent(
+        name: 'book_translate_on_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+      amplitude.logEvent(
+        'book_translate_on_click',
+        eventProperties: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
   Future<void> _sendBookErrorReportClickEvent(
       contentId, voiceId, contentVoiceId, pageId, title) async {
     try {
@@ -1083,6 +1134,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
       contentId, voiceId, contentVoiceId, pageId, title) async {
     try {
       // 이벤트 로깅
+      // print('off');
       await analytics.logEvent(
         name: 'book_autoplay_off_click',
         parameters: <String, dynamic>{
@@ -1095,6 +1147,37 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
       );
       amplitude.logEvent(
         'book_autoplay_off_click',
+        eventProperties: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+    } catch (e) {
+      // 이벤트 로깅 실패 시 에러 출력
+      print('Failed to log event: $e');
+    }
+  }
+
+  Future<void> _sendBookTranslateOffClickEvent(
+      contentId, voiceId, contentVoiceId, pageId, title) async {
+    try {
+      // 이벤트 로깅
+      // print('off');
+      await analytics.logEvent(
+        name: 'book_translate_off_click',
+        parameters: <String, dynamic>{
+          'contentId': contentId,
+          'voiceId': voiceId,
+          'contentVoiceId': contentVoiceId,
+          'pageId': pageId,
+          'title': title
+        },
+      );
+      amplitude.logEvent(
+        'book_translate_off_click',
         eventProperties: <String, dynamic>{
           'contentId': contentId,
           'voiceId': voiceId,
