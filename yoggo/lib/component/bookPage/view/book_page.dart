@@ -85,7 +85,10 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
       if (autoplayClicked) {
         if (currentPageIndex != widget.lastPage - 1) {
           effectPlayer.play(AssetSource('sound/book-turn.wav'));
-          nextPage();
+
+          Future.delayed(const Duration(milliseconds: 500)).then((_) {
+            nextPage();
+          });
         } else {
           setState(() {
             iconColor = Colors.green;
@@ -684,7 +687,11 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                     currentPageIndex + 1,
                                                     widget.title);
 
-                                                previousPage();
+                                                Future.delayed(const Duration(
+                                                        milliseconds: 500))
+                                                    .then((_) {
+                                                  previousPage();
+                                                });
                                               })
                                         ],
                                       ),
@@ -726,7 +733,13 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                           currentPageIndex + 1,
                                                           widget.title);
 
-                                                      nextPage();
+                                                      Future.delayed(
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      500))
+                                                          .then((_) {
+                                                        nextPage();
+                                                      });
                                                     })
                                               ],
                                             ),
