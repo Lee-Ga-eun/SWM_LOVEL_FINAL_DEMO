@@ -1,4 +1,5 @@
 import 'package:amplitude_flutter/amplitude.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,13 @@ import 'home/viewModel/home_screen_book_model.dart';
 class RecEnd extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
   final int contentId;
+  final AudioPlayer bgmPlayer;
 
-  const RecEnd({super.key, required this.abTest, required this.contentId});
+  const RecEnd(
+      {super.key,
+      required this.abTest,
+      required this.contentId,
+      required this.bgmPlayer});
 
   @override
   _RecEndState createState() => _RecEndState();
@@ -187,6 +193,7 @@ class _RecEndState extends State<RecEnd> {
                                       MaterialPageRoute(
                                         builder: (context) => VoiceProfile(
                                           abTest: widget.abTest,
+                                          bgmPlayer: widget.bgmPlayer,
                                         ),
                                       ));
                                 } else {
@@ -217,6 +224,7 @@ class _RecEndState extends State<RecEnd> {
                                                 id: widget.contentId,
                                                 title: book!.title,
                                                 thumbUrl: book!.thumbUrl,
+                                                bgmPlayer: widget.bgmPlayer,
                                               ),
                                             )),
                                   );

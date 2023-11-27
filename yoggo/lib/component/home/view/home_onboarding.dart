@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -32,7 +33,10 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class HomeOnboarding extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
-  const HomeOnboarding({Key? key, required this.abTest}) : super(key: key);
+  final AudioPlayer bgmPlayer;
+  const HomeOnboarding(
+      {Key? key, required this.abTest, required this.bgmPlayer})
+      : super(key: key);
 
   @override
   _HomeOnboardingState createState() => _HomeOnboardingState();
@@ -277,10 +281,12 @@ class _HomeOnboardingState extends State<HomeOnboarding> {
                               )
                             ],
                             child: BookIntroOnboarding(
-                                abTest: widget.abTest,
-                                id: 10,
-                                title: 'The Sun and the Wind',
-                                showOnboarding: true))),
+                              abTest: widget.abTest,
+                              id: 10,
+                              title: 'The Sun and the Wind',
+                              showOnboarding: true,
+                              bgmPlayer: widget.bgmPlayer,
+                            ))),
               );
             },
             child: Stack(children: [

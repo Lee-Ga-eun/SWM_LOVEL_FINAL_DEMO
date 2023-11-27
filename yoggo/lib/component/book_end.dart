@@ -1,11 +1,13 @@
 import 'dart:ffi';
 
 import 'package:amplitude_flutter/amplitude.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yoggo/component/globalCubit/user/user_state.dart';
 import 'package:yoggo/component/home/view/home.dart';
 import 'package:yoggo/component/bookPage/view/book_page.dart';
@@ -23,6 +25,7 @@ class BookEnd extends StatefulWidget {
   final bool isSelected;
   final int lastPage;
   final String title;
+  final AudioPlayer bgmPlayer;
   final FirebaseRemoteConfig abTest;
 
   const BookEnd({
@@ -34,6 +37,7 @@ class BookEnd extends StatefulWidget {
     required this.lastPage,
     required this.title,
     required this.abTest,
+    required this.bgmPlayer,
   });
 
   @override
@@ -137,14 +141,16 @@ class _BookEndState extends State<BookEnd> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => BookPage(
-                                  // 다음 화면으로 contetnVoiceId를 가지고 이동
-                                  abTest: widget.abTest,
-                                  contentId: widget.contentId,
-                                  contentVoiceId: widget.contentVoiceId,
-                                  voiceId: widget.voiceId,
-                                  lastPage: widget.lastPage,
-                                  isSelected: widget.isSelected,
-                                  title: widget.title),
+                                // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                abTest: widget.abTest,
+                                contentId: widget.contentId,
+                                contentVoiceId: widget.contentVoiceId,
+                                voiceId: widget.voiceId,
+                                lastPage: widget.lastPage,
+                                isSelected: widget.isSelected,
+                                title: widget.title,
+                                bgmPlayer: widget.bgmPlayer,
+                              ),
                             ),
                           );
                         },
@@ -158,9 +164,16 @@ class _BookEndState extends State<BookEnd> {
                       ),
                       IconButton(
                         padding: EdgeInsets.all(0.2 * SizeConfig.defaultSize!),
-                        onPressed: () {
+                        onPressed: () async {
                           _sendBookHomeClickEvent(widget.contentVoiceId,
                               widget.contentId, widget.voiceId, widget.title);
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          bool playingBgm = prefs.getBool('playingBgm') ?? true;
+                          if (playingBgm) {
+                            widget.bgmPlayer.resume();
+                          }
+
                           Navigator.of(context)
                               .popUntil((route) => route.isFirst);
 
@@ -451,6 +464,7 @@ class _BookEndState extends State<BookEnd> {
                                 builder: (context) => RecInfo(
                                   contentId: widget.contentId,
                                   abTest: widget.abTest,
+                                  bgmPlayer: widget.bgmPlayer,
                                 ),
                               ),
                             );

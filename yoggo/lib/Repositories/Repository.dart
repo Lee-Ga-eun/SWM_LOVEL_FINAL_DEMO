@@ -376,8 +376,8 @@ class DataRepository {
 
     _loadedBookPageNumber.add(contentVoiceId);
     final response = await http.get(Uri.parse(
-        'https://yoggo-server.fly.dev/content/page?contentVoiceId=$contentVoiceId'));
-    // '${dotenv.get("API_SERVER")}content/page?contentVoiceId=$contentVoiceId'));
+        //    'https://yoggo-server.fly.dev/content/page?contentVoiceId=$contentVoiceId'));
+        '${dotenv.get("API_SERVER")}content/page?contentVoiceId=$contentVoiceId'));
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body) as List<dynamic>;
       //final bookPageData = <BookPageModel>[];

@@ -32,16 +32,17 @@ class BookIntro extends StatefulWidget {
   final String title, thumbUrl;
   final int id;
   final FirebaseRemoteConfig abTest;
+  final AudioPlayer bgmPlayer;
 
-  const BookIntro(
-      {
-      // super.key,
-      Key? key,
-      required this.title,
-      required this.id,
-      required this.abTest,
-      required this.thumbUrl})
-      : super(key: key);
+  const BookIntro({
+    // super.key,
+    Key? key,
+    required this.title,
+    required this.id,
+    required this.abTest,
+    required this.thumbUrl,
+    required this.bgmPlayer,
+  }) : super(key: key);
 
   @override
   _BookIntroState createState() => _BookIntroState();
@@ -790,7 +791,14 @@ class _BookIntroState extends State<BookIntro> {
 
     final dataRepository = RepositoryProvider.of<DataRepository>(context);
     bookIntroCubit.loadBookIntroData(widget.id);
-    return BlocBuilder<BookIntroCubit, List<BookIntroModel>>(
+    return WillPopScope(onWillPop: () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      bool playingBgm = prefs.getBool('playingBgm') ?? true;
+      if (playingBgm) {
+        widget.bgmPlayer.resume();
+      }
+      return true; // Return true to exit the app, false to stay in the app
+    }, child: BlocBuilder<BookIntroCubit, List<BookIntroModel>>(
         builder: (context, bookIntro) {
       final userCubit = context.watch<UserCubit>();
       final userState = userCubit.state;
@@ -864,10 +872,20 @@ class _BookIntroState extends State<BookIntro> {
                                           icon: Icon(Icons.clear,
                                               size:
                                                   3 * SizeConfig.defaultSize!),
-                                          onPressed: () {
+                                          onPressed: () async {
                                             _sendBookIntroXClickEvent(
                                                 widget.id, title);
                                             audioPlayer.stop();
+                                            SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            bool playingBgm =
+                                                prefs.getBool('playingBgm') ??
+                                                    true;
+                                            if (playingBgm) {
+                                              widget.bgmPlayer.resume();
+                                            }
+
                                             Navigator.popUntil(context,
                                                 (route) => route.isFirst);
                                             // Navigator.pushReplacement(
@@ -1774,14 +1792,16 @@ class _BookIntroState extends State<BookIntro> {
                                                                             context,
                                                                             MaterialPageRoute(
                                                                               builder: (context) => BookPage(
-                                                                                  // 다음 화면으로 contetnVoiceId를 가지고 이동
-                                                                                  contentVoiceId: clickedVoice!.contentVoiceId,
-                                                                                  voiceId: clickedVoice!.voiceId,
-                                                                                  contentId: contentId,
-                                                                                  lastPage: lastPage,
-                                                                                  isSelected: true,
-                                                                                  title: bookIntro.first.title,
-                                                                                  abTest: widget.abTest),
+                                                                                // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                                                                contentVoiceId: clickedVoice!.contentVoiceId,
+                                                                                voiceId: clickedVoice!.voiceId,
+                                                                                contentId: contentId,
+                                                                                lastPage: lastPage,
+                                                                                isSelected: true,
+                                                                                title: bookIntro.first.title,
+                                                                                abTest: widget.abTest,
+                                                                                bgmPlayer: widget.bgmPlayer,
+                                                                              ),
                                                                             ),
                                                                           )
                                                                         }
@@ -1807,14 +1827,16 @@ class _BookIntroState extends State<BookIntro> {
                                                                             context,
                                                                             MaterialPageRoute(
                                                                               builder: (context) => BookPage(
-                                                                                  // 다음 화면으로 contetnVoiceId를 가지고 이동
-                                                                                  abTest: widget.abTest,
-                                                                                  contentVoiceId: clickedVoice!.contentVoiceId,
-                                                                                  voiceId: clickedVoice!.voiceId,
-                                                                                  contentId: contentId,
-                                                                                  lastPage: lastPage,
-                                                                                  isSelected: true,
-                                                                                  title: bookIntro.first.title),
+                                                                                // 다음 화면으로 contetnVoiceId를 가지고 이동
+                                                                                abTest: widget.abTest,
+                                                                                contentVoiceId: clickedVoice!.contentVoiceId,
+                                                                                voiceId: clickedVoice!.voiceId,
+                                                                                contentId: contentId,
+                                                                                lastPage: lastPage,
+                                                                                isSelected: true,
+                                                                                title: bookIntro.first.title,
+                                                                                bgmPlayer: widget.bgmPlayer,
+                                                                              ),
                                                                             ),
                                                                           ),
                                                                           audioPlayer
@@ -2417,6 +2439,7 @@ class _BookIntroState extends State<BookIntro> {
                                         builder: (context) => RecInfo(
                                               contentId: contentId,
                                               abTest: widget.abTest,
+                                              bgmPlayer: widget.bgmPlayer,
                                             )),
                                   );
                                   //});
@@ -2631,6 +2654,6 @@ class _BookIntroState extends State<BookIntro> {
               ]));
         }
       }); //);
-    });
+    }));
   }
 }

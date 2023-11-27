@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class RecLoading extends StatefulWidget {
   final int contentId;
   final void Function(String path)? onStop;
   final String path;
+  final AudioPlayer bgmPlayer;
   bool? retry; // retry페이지에서 넘어왔을 경우
 
   RecLoading(
@@ -28,7 +30,8 @@ class RecLoading extends StatefulWidget {
       required this.path,
       this.retry,
       required this.abTest,
-      required this.contentId})
+      required this.contentId,
+      required this.bgmPlayer})
       : super(key: key);
 
   @override
@@ -127,8 +130,11 @@ class _RecLoadingState extends State<RecLoading> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) =>
-                RecEnd(abTest: widget.abTest, contentId: widget.contentId)),
+            builder: (context) => RecEnd(
+                  abTest: widget.abTest,
+                  contentId: widget.contentId,
+                  bgmPlayer: widget.bgmPlayer,
+                )),
       );
     } catch (e) {
       print("Error occurred during loading: $e");

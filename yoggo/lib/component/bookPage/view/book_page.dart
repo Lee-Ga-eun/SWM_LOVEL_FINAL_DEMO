@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:yoggo/component/bookPage/viewModel/book_page_cubit.dart';
 import 'package:yoggo/component/bookPage/viewModel/book_page_model.dart';
 import 'dart:convert';
@@ -30,6 +31,7 @@ class BookPage extends StatefulWidget {
   final int voiceId;
   final int contentId;
   final String title;
+  final AudioPlayer bgmPlayer;
 
   const BookPage(
       {super.key,
@@ -39,7 +41,8 @@ class BookPage extends StatefulWidget {
       required this.isSelected,
       required this.lastPage,
       required this.title,
-      required this.abTest});
+      required this.abTest,
+      required this.bgmPlayer});
 
   @override
   _BookPageState createState() => _BookPageState();
@@ -53,6 +56,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   bool isPlaying = false;
   //bool pauseFunction = false;
   AudioPlayer audioPlayer = AudioPlayer();
+  AudioPlayer effectPlayer = AudioPlayer();
   bool autoplayClicked = true;
   bool changeKorean = false;
   bool reportClicked = false;
@@ -75,11 +79,13 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WakelockPlus.enable();
     WidgetsBinding.instance.addObserver(this);
     audioPlayer.onPlayerComplete.listen((event) {
       if (autoplayClicked) {
         if (currentPageIndex != widget.lastPage - 1) {
-          Future.delayed(const Duration(seconds: 1)).then((_) {
+          effectPlayer.play(AssetSource('sound/book-turn.wav'));
+          Future.delayed(const Duration(milliseconds: 500)).then((_) {
             nextPage();
           });
         } else {
@@ -231,200 +237,286 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
       });
     });
 
-    return BlocProvider(create: (context) {
-      final bookPageCubit = BookPageCubit(dataRepository);
-      bookPageCubit.loadBookPageData(widget.contentVoiceId);
-      return bookPageCubit;
-    }, child: BlocBuilder<BookPageCubit, List<BookPageModel>>(
-        builder: (context, bookPage) {
-      if (bookPage.isEmpty) {
-        return Scaffold(
-          body: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('lib/images/bkground.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 0.15 * sw, right: 0.15 * sw),
-                    child: widget.abTest.getString("is_loading_text_enabled") ==
-                            "A"
-                        ? Stack(children: [
-                            Positioned(
-                              left: 0.2 * sw,
-                              child: LinearPercentIndicator(
-                                curve: Curves.fastOutSlowIn,
-                                width: 0.5 * sw,
-                                animation: true,
-                                lineHeight: 0.05 * sh,
-                                animationDuration: 6000,
-                                percent: 1,
-                                center: Text(""),
-                                linearStrokeCap: LinearStrokeCap.roundAll,
-                                progressColor:
-                                    Color.fromARGB(255, 255, 169, 26),
-                              ),
-                            ),
-                            Positioned(
-                              child: LinearPercentIndicator(
-                                curve: Curves.fastOutSlowIn,
-                                width: 0.5 * sw,
-                                animation: true,
-                                lineHeight: 0.05 * sh,
-                                animationDuration: 2000,
-                                percent: 1,
-                                center: Text(""),
-                                linearStrokeCap: LinearStrokeCap.roundAll,
-                                progressColor:
-                                    Color.fromARGB(255, 255, 169, 26),
-                              ),
-                            ),
-                          ])
-                        : Center(
-                            // 로딩 화면
-                            child: LoadingAnimationWidget.fourRotatingDots(
-                              color: const Color.fromARGB(255, 255, 169, 26),
-                              size: SizeConfig.defaultSize! * 10,
-                            ),
-                          ),
-                  ),
-
-                  SizedBox(
-                    height: SizeConfig.defaultSize! * 2,
-                  ),
-
-                  Text(
-                    '책-페이지-로딩',
-                    style: TextStyle(
-                        fontFamily: 'font-basic'.tr(),
-                        fontSize: SizeConfig.defaultSize! * 2.5),
-                    textAlign: TextAlign.center,
-                  ).tr()
-                  //: Container()
-                ],
-              ),
-            ),
-          ),
-        );
-      } else {
-        _sendBookPageViewEvent(widget.contentVoiceId, widget.contentId,
-            widget.voiceId, currentPageIndex + 1, widget.title);
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: //SingleChildScrollView(
-              //child:
-              Stack(
-            children: [
-              Container(
+    return WillPopScope(
+        onWillPop: () async {
+          await WakelockPlus.disable();
+          print('screen off');
+          return true; // Return true to exit the app, false to stay in the app
+        },
+        child: BlocProvider(create: (context) {
+          final bookPageCubit = BookPageCubit(dataRepository);
+          bookPageCubit.loadBookPageData(widget.contentVoiceId);
+          return bookPageCubit;
+        }, child: BlocBuilder<BookPageCubit, List<BookPageModel>>(
+            builder: (context, bookPage) {
+          if (bookPage.isEmpty) {
+            return Scaffold(
+              body: Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('lib/images/bkground.png'),
                     fit: BoxFit.cover,
                   ),
                 ),
-              ),
-              SafeArea(
-                top: false,
-                bottom: false,
-                minimum: EdgeInsets.only(
-                    left: SizeConfig.defaultSize!,
-                    right: SizeConfig.defaultSize!),
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: SizeConfig.defaultSize!),
+                child: SafeArea(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        //HEADER
-                        flex: 14,
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: IconButton(
-                                padding: EdgeInsets.all(
-                                    0.2 * SizeConfig.defaultSize!),
-                                alignment: Alignment.centerLeft,
-                                icon: Icon(
-                                  Icons.clear,
-                                  color: Colors.black,
-                                  size: 3 * SizeConfig.defaultSize!,
+                      Padding(
+                        padding:
+                            EdgeInsets.only(left: 0.15 * sw, right: 0.15 * sw),
+                        child: widget.abTest
+                                    .getString("is_loading_text_enabled") ==
+                                "A"
+                            ? Stack(children: [
+                                Positioned(
+                                  left: 0.2 * sw,
+                                  child: LinearPercentIndicator(
+                                    curve: Curves.fastOutSlowIn,
+                                    width: 0.5 * sw,
+                                    animation: true,
+                                    lineHeight: 0.05 * sh,
+                                    animationDuration: 6000,
+                                    percent: 1,
+                                    center: Text(""),
+                                    linearStrokeCap: LinearStrokeCap.roundAll,
+                                    progressColor:
+                                        Color.fromARGB(255, 255, 169, 26),
+                                  ),
                                 ),
-                                onPressed: () {
-                                  // stopAudio();
-                                  dispose();
-                                  _sendBookPageXClickEvent(
-                                      widget.contentVoiceId,
-                                      widget.contentId,
-                                      widget.voiceId,
-                                      currentPageIndex + 1,
-                                      widget.title);
-                                  Navigator.popUntil(
-                                      context, (route) => route.isFirst);
-                                  //고민
-                                },
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  '${currentPageIndex + 1} / ${widget.lastPage}',
-                                  style: TextStyle(
-                                      fontFamily: 'GenBkBasR',
-                                      fontSize: SizeConfig.defaultSize! * 2),
+                                Positioned(
+                                  child: LinearPercentIndicator(
+                                    curve: Curves.fastOutSlowIn,
+                                    width: 0.5 * sw,
+                                    animation: true,
+                                    lineHeight: 0.05 * sh,
+                                    animationDuration: 2000,
+                                    percent: 1,
+                                    center: Text(""),
+                                    linearStrokeCap: LinearStrokeCap.roundAll,
+                                    progressColor:
+                                        Color.fromARGB(255, 255, 169, 26),
+                                  ),
+                                ),
+                              ])
+                            : Center(
+                                // 로딩 화면
+                                child: LoadingAnimationWidget.fourRotatingDots(
+                                  color:
+                                      const Color.fromARGB(255, 255, 169, 26),
+                                  size: SizeConfig.defaultSize! * 10,
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    context.locale.toString() == "ko_KR"
-                                        ? SizedBox(
+                      ),
+
+                      SizedBox(
+                        height: SizeConfig.defaultSize! * 2,
+                      ),
+
+                      Text(
+                        '책-페이지-로딩',
+                        style: TextStyle(
+                            fontFamily: 'font-basic'.tr(),
+                            fontSize: SizeConfig.defaultSize! * 2.5),
+                        textAlign: TextAlign.center,
+                      ).tr()
+                      //: Container()
+                    ],
+                  ),
+                ),
+              ),
+            );
+          } else {
+            _sendBookPageViewEvent(widget.contentVoiceId, widget.contentId,
+                widget.voiceId, currentPageIndex + 1, widget.title);
+            return Scaffold(
+              resizeToAvoidBottomInset: false,
+              body: //SingleChildScrollView(
+                  //child:
+                  Stack(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('lib/images/bkground.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  SafeArea(
+                    top: false,
+                    bottom: false,
+                    minimum: EdgeInsets.only(
+                        left: SizeConfig.defaultSize!,
+                        right: SizeConfig.defaultSize!),
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: SizeConfig.defaultSize!),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            //HEADER
+                            flex: 14,
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: IconButton(
+                                    padding: EdgeInsets.all(
+                                        0.2 * SizeConfig.defaultSize!),
+                                    alignment: Alignment.centerLeft,
+                                    icon: Icon(
+                                      Icons.clear,
+                                      color: Colors.black,
+                                      size: 3 * SizeConfig.defaultSize!,
+                                    ),
+                                    onPressed: () async {
+                                      // stopAudio();
+                                      dispose();
+                                      _sendBookPageXClickEvent(
+                                          widget.contentVoiceId,
+                                          widget.contentId,
+                                          widget.voiceId,
+                                          currentPageIndex + 1,
+                                          widget.title);
+                                      WakelockPlus.disable();
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      bool playingBgm =
+                                          prefs.getBool('playingBgm') ?? true;
+                                      if (playingBgm) {
+                                        widget.bgmPlayer.resume();
+                                      }
+
+                                      Navigator.popUntil(
+                                          context, (route) => route.isFirst);
+                                      //고민
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      '${currentPageIndex + 1} / ${widget.lastPage}',
+                                      style: TextStyle(
+                                          fontFamily: 'GenBkBasR',
+                                          fontSize:
+                                              SizeConfig.defaultSize! * 2),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  flex: 4,
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        context.locale.toString() == "ko_KR"
+                                            ? SizedBox(
+                                                width:
+                                                    SizeConfig.defaultSize! * 5,
+                                                height:
+                                                    SizeConfig.defaultSize! * 5,
+                                                child: Stack(
+                                                  children: [
+                                                    Transform.scale(
+                                                      scale: 0.8,
+                                                      child: CupertinoSwitch(
+                                                        value: changeKorean,
+                                                        activeColor:
+                                                            CupertinoColors
+                                                                .activeOrange,
+                                                        onChanged:
+                                                            (bool? value) {
+                                                          setState(() {
+                                                            changeKorean =
+                                                                value ?? false;
+                                                            _isChangedLanguage =
+                                                                true;
+                                                          });
+                                                          Future.delayed(
+                                                                  const Duration(
+                                                                      milliseconds:
+                                                                          1500))
+                                                              .then((_) {
+                                                            setState(() {
+                                                              _isChangedLanguage =
+                                                                  false;
+                                                            });
+                                                          });
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Align(
+                                                        alignment: Alignment
+                                                            .bottomCenter,
+                                                        child: Text('한글 번역',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'font-basic'
+                                                                        .tr(),
+                                                                fontSize: SizeConfig
+                                                                        .defaultSize! *
+                                                                    1.25 *
+                                                                    double.parse(
+                                                                        'font-ratio'
+                                                                            .tr()))))
+                                                  ],
+                                                ))
+                                            : Container(),
+                                        SizedBox(
+                                            width: SizeConfig.defaultSize!),
+                                        SizedBox(
                                             width: SizeConfig.defaultSize! * 5,
                                             height: SizeConfig.defaultSize! * 5,
-                                            child: Stack(
-                                              children: [
-                                                Transform.scale(
-                                                  scale: 0.8,
-                                                  child: CupertinoSwitch(
-                                                    value: changeKorean,
-                                                    activeColor: CupertinoColors
-                                                        .activeOrange,
-                                                    onChanged: (bool? value) {
+                                            child: Stack(children: [
+                                              Transform.scale(
+                                                scale: 0.8,
+                                                child: CupertinoSwitch(
+                                                  value: autoplayClicked,
+                                                  activeColor: CupertinoColors
+                                                      .activeOrange,
+                                                  onChanged: (bool? value) {
+                                                    autoplayClicked
+                                                        ? _sendBookAutoPlayOffClickEvent(
+                                                            widget.contentId,
+                                                            widget.voiceId,
+                                                            widget
+                                                                .contentVoiceId,
+                                                            currentPageIndex,
+                                                            widget.title)
+                                                        : _sendBookAutoPlayOnClickEvent(
+                                                            widget.contentId,
+                                                            widget.voiceId,
+                                                            widget
+                                                                .contentVoiceId,
+                                                            currentPageIndex,
+                                                            widget.title);
+
+                                                    setState(() {
+                                                      autoplayClicked =
+                                                          value ?? false;
+                                                      _isChanged = true;
+                                                    });
+                                                    Future.delayed(
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    1500))
+                                                        .then((_) {
                                                       setState(() {
-                                                        changeKorean =
-                                                            value ?? false;
-                                                        _isChangedLanguage =
-                                                            true;
+                                                        _isChanged = false;
                                                       });
-                                                      Future.delayed(
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      1500))
-                                                          .then((_) {
-                                                        setState(() {
-                                                          _isChangedLanguage =
-                                                              false;
-                                                        });
-                                                      });
-                                                    },
-                                                  ),
+                                                    });
+                                                  },
                                                 ),
-                                                Align(
-                                                    alignment:
-                                                        Alignment.bottomCenter,
-                                                    child: Text('한글 번역',
+                                              ),
+                                              Align(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                child: Text('자동 재생',
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 'font-basic'
@@ -434,440 +526,436 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                                 1.25 *
                                                                 double.parse(
                                                                     'font-ratio'
-                                                                        .tr()))))
-                                              ],
-                                            ))
-                                        : Container(),
-                                    SizedBox(width: SizeConfig.defaultSize!),
-                                    SizedBox(
-                                        width: SizeConfig.defaultSize! * 5,
-                                        height: SizeConfig.defaultSize! * 5,
-                                        child: Stack(children: [
-                                          Transform.scale(
-                                            scale: 0.8,
-                                            child: CupertinoSwitch(
-                                              value: autoplayClicked,
-                                              activeColor:
-                                                  CupertinoColors.activeOrange,
-                                              onChanged: (bool? value) {
-                                                autoplayClicked
-                                                    ? _sendBookAutoPlayOffClickEvent(
-                                                        widget.contentId,
-                                                        widget.voiceId,
-                                                        widget.contentVoiceId,
-                                                        currentPageIndex,
-                                                        widget.title)
-                                                    : _sendBookAutoPlayOnClickEvent(
-                                                        widget.contentId,
-                                                        widget.voiceId,
-                                                        widget.contentVoiceId,
-                                                        currentPageIndex,
-                                                        widget.title);
-
-                                                setState(() {
-                                                  autoplayClicked =
-                                                      value ?? false;
-                                                  _isChanged = true;
-                                                });
-                                                Future.delayed(const Duration(
-                                                        milliseconds: 1500))
-                                                    .then((_) {
-                                                  setState(() {
-                                                    _isChanged = false;
-                                                  });
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          Align(
-                                            alignment: Alignment.bottomCenter,
-                                            child: Text('자동 재생',
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'font-basic'.tr(),
-                                                        fontSize: SizeConfig
-                                                                .defaultSize! *
-                                                            1.25 *
-                                                            double.parse(
-                                                                'font-ratio'
-                                                                    .tr())))
-                                                .tr(),
-                                          )
-                                        ])),
-                                    SizedBox(width: SizeConfig.defaultSize!),
-                                    Container(
-                                      width: SizeConfig.defaultSize! * 5,
-                                      height: SizeConfig.defaultSize! * 5,
-                                      child: GestureDetector(
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Icon(Icons.error_outline,
-                                                  color: Colors.black,
-                                                  size:
-                                                      SizeConfig.defaultSize! *
+                                                                        .tr())))
+                                                    .tr(),
+                                              )
+                                            ])),
+                                        SizedBox(
+                                            width: SizeConfig.defaultSize!),
+                                        Container(
+                                          width: SizeConfig.defaultSize! * 5,
+                                          height: SizeConfig.defaultSize! * 5,
+                                          child: GestureDetector(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Icon(Icons.error_outline,
+                                                      color: Colors.black,
+                                                      size: SizeConfig
+                                                              .defaultSize! *
                                                           3),
-                                              Text('오류 제보',
-                                                      style: TextStyle(
-                                                          fontFamily:
-                                                              'font-basic'.tr(),
-                                                          fontSize: SizeConfig
-                                                                  .defaultSize! *
-                                                              1.25 *
-                                                              double.parse(
-                                                                  'font-ratio'
-                                                                      .tr())))
-                                                  .tr()
-                                            ],
-                                          ),
-                                          onTap: () {
-                                            // print('report');
-                                            _sendBookErrorReportClickEvent(
-                                                widget.contentId,
-                                                widget.voiceId,
-                                                widget.contentVoiceId,
-                                                currentPageIndex,
-                                                widget.title);
-                                            setState(() {
-                                              reportClicked = true;
-                                            });
-                                          }),
-                                    )
-                                  ]),
-                            )
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                          // BoDY
-                          flex: 74,
-                          child: PageWidget(
-                            // page: currentPageIndex < widget.lastPage
-                            //     ? bookPage[currentPageIndex]
-                            //     : bookPage[widget.lastPage - 1],
-                            text: currentPageIndex < widget.lastPage
-                                ? bookPage[currentPageIndex].text
-                                : bookPage[widget.lastPage - 1].text,
-                            // imageUrl: currentPageIndex < widget.lastPage
-                            //     ? bookPage[currentPageIndex].imageUrl
-                            //     : bookPage[widget.lastPage - 1].imageUrl,
-                            textKr: currentPageIndex < widget.lastPage
-                                ? bookPage[currentPageIndex].textKr
-                                : bookPage[widget.lastPage - 1].textKr,
-                            position: currentPageIndex < widget.lastPage
-                                ? bookPage[currentPageIndex].position
-                                : bookPage[widget.lastPage - 1].position,
-                            audioUrl: bookPage[currentPageIndex].audioUrl,
-                            audioPath:
-                                bookPage[currentPageIndex].audioLocalPath,
-                            filePath: currentPageIndex < widget.lastPage
-                                ? bookPage[currentPageIndex].imageLocalPath
-                                : bookPage[widget.lastPage - 1].imageLocalPath,
-                            realCurrent: true,
-                            currentPage: currentPageIndex,
-                            audioPlayer: audioPlayer,
-                            //pauseFunction: pauseFunction,
-                            previousPage: previousPage,
-                            currentPageIndex: currentPageIndex,
-                            nextPage: nextPage,
-                            lastPage: widget.lastPage,
-                            voiceId: widget.voiceId,
-                            contentVoiceId: widget.contentVoiceId,
-                            contentId: widget.contentId,
-                            isSelected: widget.isSelected,
-                            dispose: dispose,
-                            stopAudio: stopAudio,
-                            title: widget.title,
-                            changeKorean: changeKorean,
-                            playAudio: playAudio,
-                          )),
-                      Expanded(
-                        flex: 12,
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 1,
-                                // bottom: 5,
-                                // left: 10,
-                                child: Container(
-                                  // [<-]
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .start, // 아이콘을 맨 왼쪽으로 정렬
-                                    children: [
-                                      IconButton(
-                                          padding: EdgeInsets.all(
-                                              0.2 * SizeConfig.defaultSize!),
-                                          icon: currentPageIndex == 0
-                                              ? Icon(
-                                                  Icons.arrow_back,
-                                                  color: Colors.black
-                                                      .withOpacity(0),
-                                                )
-                                              : Icon(
-                                                  Icons.arrow_back,
-                                                  size: 3 *
-                                                      SizeConfig.defaultSize!,
-                                                ),
-                                          onPressed: () {
-                                            _sendBookBackClickEvent(
-                                                widget.contentVoiceId,
-                                                widget.contentId,
-                                                widget.voiceId,
-                                                currentPageIndex + 1,
-                                                widget.title);
-                                            previousPage();
-                                          })
-                                    ],
-                                  ),
-                                )),
-                            Expanded(
-                                flex: 8,
-                                child: Container(
-                                    color: const Color.fromARGB(0, 0, 0, 0))),
-                            Expanded(
-                                flex: 1,
-                                child: currentPageIndex != widget.lastPage - 1
-                                    ? Container(
-                                        // [->]
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .end, // 아이콘을 맨 왼쪽으로 정렬
-                                          children: [
-                                            IconButton(
-                                                padding: EdgeInsets.all(0.2 *
-                                                    SizeConfig.defaultSize!),
-                                                icon: Icon(
-                                                  Icons.arrow_forward,
-                                                  size: 3 *
-                                                      SizeConfig.defaultSize!,
-                                                ),
-                                                onPressed: () {
-                                                  _sendBookNextClickEvent(
-                                                      widget.contentVoiceId,
-                                                      widget.contentId,
-                                                      widget.voiceId,
-                                                      currentPageIndex + 1,
-                                                      widget.title);
-                                                  nextPage();
-                                                })
-                                          ],
-                                        ),
-                                      )
-                                    : Container(
-                                        // [V]
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .end, // 아이콘을 맨 왼쪽으로 정렬
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.all(0.2 *
-                                                  SizeConfig
-                                                      .defaultSize!), // 패딩 크기를 원하는 값으로 조정해주세요
-                                              child: IconButton(
-                                                icon: Icon(
-                                                  Icons.check,
-                                                  color: iconColor,
-                                                  size: 3 *
-                                                      SizeConfig.defaultSize!,
-                                                ),
-                                                // 결제와 목소리 등록을 완료한 사용자는 바로 종료시킨다
-                                                // 결제만 한 사용자는 등록을 하라는 메시지를 보낸다 // 아직 등록하지 않았어요~~
-                                                // 결제를 안 한 사용자는 결제하는 메시지를 보여준다 >> 목소리로 할 수 있아요~~
-                                                onPressed: () {
-                                                  dispose();
-                                                  _sendBookLastClickEvent(
-                                                      widget.contentVoiceId,
-                                                      widget.contentId,
-                                                      widget.voiceId,
-                                                      currentPageIndex + 1,
-                                                      widget.title);
-
-                                                  if (userState.record != null &&
-                                                      userState.record ==
-                                                          true &&
-                                                      userState.purchase ==
-                                                          true) {
-                                                    //Navigator.pop(context);
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            BookEnd(
-                                                          abTest: widget.abTest,
-                                                          voiceId:
-                                                              widget.voiceId,
-                                                          contentVoiceId: widget
-                                                              .contentVoiceId,
-                                                          contentId:
-                                                              widget.contentId,
-                                                          lastPage:
-                                                              widget.lastPage,
-                                                          isSelected:
-                                                              widget.isSelected,
-                                                          title: widget.title,
-                                                        ),
-                                                      ),
-                                                    );
-                                                  } else {
-                                                    Navigator.push(
-                                                      context,
-                                                      //결제가 끝나면 RecInfo로 가야 함
-                                                      MaterialPageRoute(
-                                                        builder: (context) => BookEnd(
-                                                            abTest:
-                                                                widget.abTest,
-                                                            contentVoiceId: widget
-                                                                .contentVoiceId,
-                                                            contentId: widget
-                                                                .contentId,
-                                                            voiceId:
-                                                                widget.voiceId,
-                                                            lastPage:
-                                                                widget.lastPage,
-                                                            isSelected: widget
-                                                                .isSelected,
-                                                            title:
-                                                                widget.title),
-                                                      ),
-                                                    );
-                                                  }
-                                                },
+                                                  Text('오류 제보',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'font-basic'
+                                                                      .tr(),
+                                                              fontSize: SizeConfig
+                                                                      .defaultSize! *
+                                                                  1.25 *
+                                                                  double.parse(
+                                                                      'font-ratio'
+                                                                          .tr())))
+                                                      .tr()
+                                                ],
                                               ),
-                                            )
-                                          ],
-                                        ),
-                                      )),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SafeArea(
-                minimum: EdgeInsets.only(
-                    left: SizeConfig.defaultSize!,
-                    right: SizeConfig.defaultSize!),
-                child: Padding(
-                    padding: EdgeInsets.only(
-                      left: sw * 0.1,
-                      top: isKeyboardVisible ? sh * 0.1 : sh * 0.3,
-                    ),
-                    child: Visibility(
-                      visible: reportClicked,
-                      child: Container(
-                          width: sw * 0.8,
-                          height: sh * 0.3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                SizeConfig.defaultSize! * 2),
-                            color: Colors.white.withOpacity(0.9),
+                                              onTap: () {
+                                                // print('report');
+                                                _sendBookErrorReportClickEvent(
+                                                    widget.contentId,
+                                                    widget.voiceId,
+                                                    widget.contentVoiceId,
+                                                    currentPageIndex,
+                                                    widget.title);
+                                                setState(() {
+                                                  reportClicked = true;
+                                                });
+                                              }),
+                                        )
+                                      ]),
+                                )
+                              ],
+                            ),
                           ),
-                          child: Stack(children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  // right: SizeConfig.defaultSize!,
-                                  top: sh * 0.12,
-                                  bottom: sh * 0.05),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                        // left: SizeConfig.defaultSize! * 3,
-                                        right: SizeConfig.defaultSize! * 2,
+                          Expanded(
+                              // BoDY
+                              flex: 74,
+                              child: PageWidget(
+                                // page: currentPageIndex < widget.lastPage
+                                //     ? bookPage[currentPageIndex]
+                                //     : bookPage[widget.lastPage - 1],
+                                text: currentPageIndex < widget.lastPage
+                                    ? bookPage[currentPageIndex].text
+                                    : bookPage[widget.lastPage - 1].text,
+                                // imageUrl: currentPageIndex < widget.lastPage
+                                //     ? bookPage[currentPageIndex].imageUrl
+                                //     : bookPage[widget.lastPage - 1].imageUrl,
+                                textKr: currentPageIndex < widget.lastPage
+                                    ? bookPage[currentPageIndex].textKr
+                                    : bookPage[widget.lastPage - 1].textKr,
+                                position: currentPageIndex < widget.lastPage
+                                    ? bookPage[currentPageIndex].position
+                                    : bookPage[widget.lastPage - 1].position,
+                                audioUrl: bookPage[currentPageIndex].audioUrl,
+                                audioPath:
+                                    bookPage[currentPageIndex].audioLocalPath,
+                                filePath: currentPageIndex < widget.lastPage
+                                    ? bookPage[currentPageIndex].imageLocalPath
+                                    : bookPage[widget.lastPage - 1]
+                                        .imageLocalPath,
+                                realCurrent: true,
+                                currentPage: currentPageIndex,
+                                audioPlayer: audioPlayer,
+                                //pauseFunction: pauseFunction,
+                                previousPage: previousPage,
+                                currentPageIndex: currentPageIndex,
+                                nextPage: nextPage,
+                                lastPage: widget.lastPage,
+                                voiceId: widget.voiceId,
+                                contentVoiceId: widget.contentVoiceId,
+                                contentId: widget.contentId,
+                                isSelected: widget.isSelected,
+                                dispose: dispose,
+                                stopAudio: stopAudio,
+                                title: widget.title,
+                                changeKorean: changeKorean,
+                                playAudio: playAudio,
+                              )),
+                          Expanded(
+                            flex: 12,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    // bottom: 5,
+                                    // left: 10,
+                                    child: Container(
+                                      // [<-]
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start, // 아이콘을 맨 왼쪽으로 정렬
+                                        children: [
+                                          IconButton(
+                                              padding: EdgeInsets.all(0.2 *
+                                                  SizeConfig.defaultSize!),
+                                              icon: currentPageIndex == 0
+                                                  ? Icon(
+                                                      Icons.arrow_back,
+                                                      color: Colors.black
+                                                          .withOpacity(0),
+                                                    )
+                                                  : Icon(
+                                                      Icons.arrow_back,
+                                                      size: 3 *
+                                                          SizeConfig
+                                                              .defaultSize!,
+                                                    ),
+                                              onPressed: () {
+                                                effectPlayer.play(AssetSource(
+                                                    'sound/book-turn.wav'));
+                                                _sendBookNextClickEvent(
+                                                    widget.contentVoiceId,
+                                                    widget.contentId,
+                                                    widget.voiceId,
+                                                    currentPageIndex + 1,
+                                                    widget.title);
+                                                _sendBookBackClickEvent(
+                                                    widget.contentVoiceId,
+                                                    widget.contentId,
+                                                    widget.voiceId,
+                                                    currentPageIndex + 1,
+                                                    widget.title);
+                                                Future.delayed(const Duration(
+                                                        milliseconds: 500))
+                                                    .then((_) {
+                                                  previousPage();
+                                                });
+                                              })
+                                        ],
                                       ),
-                                      width: 0.6 * sw,
-                                      child: TextField(
-                                        onChanged: (value) {
-                                          setState(() {
-                                            reportContent = value;
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                            contentPadding: EdgeInsets.all(
-                                                10), // 입력 텍스트와 외곽선 사이의 간격 조정
-                                            hintText: '오류제보'.tr(),
-                                            filled: true,
-                                            fillColor: Colors.grey[200]),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          _sendBookErrorReportSendClickEvent(
-                                              widget.contentId,
-                                              widget.voiceId,
-                                              widget.contentVoiceId,
-                                              currentPageIndex,
-                                              widget.title);
-                                          sendReport();
-                                          setState(() {
-                                            reportClicked = false;
-                                          });
-                                        },
-                                        child: Container(
-                                          width: SizeConfig.defaultSize! * 10,
-                                          height: SizeConfig.defaultSize! * 4.5,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                SizeConfig.defaultSize! * 1),
-                                            color: const Color(0xFFFFA91A),
+                                    )),
+                                Expanded(
+                                    flex: 8,
+                                    child: Container(
+                                        color:
+                                            const Color.fromARGB(0, 0, 0, 0))),
+                                Expanded(
+                                    flex: 1,
+                                    child: currentPageIndex !=
+                                            widget.lastPage - 1
+                                        ? Container(
+                                            // [->]
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .end, // 아이콘을 맨 왼쪽으로 정렬
+                                              children: [
+                                                IconButton(
+                                                    padding: EdgeInsets.all(
+                                                        0.2 *
+                                                            SizeConfig
+                                                                .defaultSize!),
+                                                    icon: Icon(
+                                                      Icons.arrow_forward,
+                                                      size: 3 *
+                                                          SizeConfig
+                                                              .defaultSize!,
+                                                    ),
+                                                    onPressed: () async {
+                                                      effectPlayer.play(AssetSource(
+                                                          'sound/book-turn.wav'));
+                                                      _sendBookNextClickEvent(
+                                                          widget.contentVoiceId,
+                                                          widget.contentId,
+                                                          widget.voiceId,
+                                                          currentPageIndex + 1,
+                                                          widget.title);
+                                                      Future.delayed(
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      500))
+                                                          .then((_) {
+                                                        nextPage();
+                                                      });
+                                                    })
+                                              ],
+                                            ),
+                                          )
+                                        : Container(
+                                            // [V]
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .end, // 아이콘을 맨 왼쪽으로 정렬
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.all(0.2 *
+                                                      SizeConfig
+                                                          .defaultSize!), // 패딩 크기를 원하는 값으로 조정해주세요
+                                                  child: IconButton(
+                                                    icon: Icon(
+                                                      Icons.check,
+                                                      color: iconColor,
+                                                      size: 3 *
+                                                          SizeConfig
+                                                              .defaultSize!,
+                                                    ),
+                                                    // 결제와 목소리 등록을 완료한 사용자는 바로 종료시킨다
+                                                    // 결제만 한 사용자는 등록을 하라는 메시지를 보낸다 // 아직 등록하지 않았어요~~
+                                                    // 결제를 안 한 사용자는 결제하는 메시지를 보여준다 >> 목소리로 할 수 있아요~~
+                                                    onPressed: () {
+                                                      dispose();
+                                                      _sendBookLastClickEvent(
+                                                          widget.contentVoiceId,
+                                                          widget.contentId,
+                                                          widget.voiceId,
+                                                          currentPageIndex + 1,
+                                                          widget.title);
+
+                                                      if (userState.record != null &&
+                                                          userState.record ==
+                                                              true &&
+                                                          userState.purchase ==
+                                                              true) {
+                                                        //Navigator.pop(context);
+
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    BookEnd(
+                                                              abTest:
+                                                                  widget.abTest,
+                                                              voiceId: widget
+                                                                  .voiceId,
+                                                              contentVoiceId: widget
+                                                                  .contentVoiceId,
+                                                              contentId: widget
+                                                                  .contentId,
+                                                              lastPage: widget
+                                                                  .lastPage,
+                                                              isSelected: widget
+                                                                  .isSelected,
+                                                              title:
+                                                                  widget.title,
+                                                              bgmPlayer: widget
+                                                                  .bgmPlayer,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      } else {
+                                                        Navigator.push(
+                                                          context,
+                                                          //결제가 끝나면 RecInfo로 가야 함
+                                                          MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    BookEnd(
+                                                              abTest:
+                                                                  widget.abTest,
+                                                              contentVoiceId: widget
+                                                                  .contentVoiceId,
+                                                              contentId: widget
+                                                                  .contentId,
+                                                              voiceId: widget
+                                                                  .voiceId,
+                                                              lastPage: widget
+                                                                  .lastPage,
+                                                              isSelected: widget
+                                                                  .isSelected,
+                                                              title:
+                                                                  widget.title,
+                                                              bgmPlayer: widget
+                                                                  .bgmPlayer,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SafeArea(
+                    minimum: EdgeInsets.only(
+                        left: SizeConfig.defaultSize!,
+                        right: SizeConfig.defaultSize!),
+                    child: Padding(
+                        padding: EdgeInsets.only(
+                          left: sw * 0.1,
+                          top: isKeyboardVisible ? sh * 0.1 : sh * 0.3,
+                        ),
+                        child: Visibility(
+                          visible: reportClicked,
+                          child: Container(
+                              width: sw * 0.8,
+                              height: sh * 0.3,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    SizeConfig.defaultSize! * 2),
+                                color: Colors.white.withOpacity(0.9),
+                              ),
+                              child: Stack(children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      // right: SizeConfig.defaultSize!,
+                                      top: sh * 0.12,
+                                      bottom: sh * 0.05),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                            // left: SizeConfig.defaultSize! * 3,
+                                            right: SizeConfig.defaultSize! * 2,
                                           ),
-                                          child: Center(
-                                            child: Text(
-                                              '오류제출'.tr(),
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'font-basic'.tr(),
-                                                fontSize: 2 *
-                                                    SizeConfig.defaultSize! *
-                                                    double.parse(
-                                                        'font-ratio'.tr()),
+                                          width: 0.6 * sw,
+                                          child: TextField(
+                                            onChanged: (value) {
+                                              setState(() {
+                                                reportContent = value;
+                                              });
+                                            },
+                                            decoration: InputDecoration(
+                                                contentPadding: EdgeInsets.all(
+                                                    10), // 입력 텍스트와 외곽선 사이의 간격 조정
+                                                hintText: '오류제보'.tr(),
+                                                filled: true,
+                                                fillColor: Colors.grey[200]),
+                                          ),
+                                        ),
+                                        Container(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              _sendBookErrorReportSendClickEvent(
+                                                  widget.contentId,
+                                                  widget.voiceId,
+                                                  widget.contentVoiceId,
+                                                  currentPageIndex,
+                                                  widget.title);
+                                              sendReport();
+                                              setState(() {
+                                                reportClicked = false;
+                                              });
+                                            },
+                                            child: Container(
+                                              width:
+                                                  SizeConfig.defaultSize! * 10,
+                                              height:
+                                                  SizeConfig.defaultSize! * 4.5,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        SizeConfig
+                                                                .defaultSize! *
+                                                            1),
+                                                color: const Color(0xFFFFA91A),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '오류제출'.tr(),
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily:
+                                                        'font-basic'.tr(),
+                                                    fontSize: 2 *
+                                                        SizeConfig
+                                                            .defaultSize! *
+                                                        double.parse(
+                                                            'font-ratio'.tr()),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                            Positioned(
-                              top: sh * 0.00,
-                              right: sw * 0.000,
-                              child: IconButton(
-                                padding: EdgeInsets.all(sh * 0.01),
-                                alignment: Alignment.centerLeft,
-                                icon: Icon(
-                                  Icons.clear,
-                                  color: Colors.black,
-                                  size: 3 * SizeConfig.defaultSize!,
+                                      ]),
                                 ),
-                                onPressed: () {
-                                  _sendBookErrorReportXClickEvent(
-                                      widget.contentId,
-                                      widget.voiceId,
-                                      widget.contentVoiceId,
-                                      currentPageIndex,
-                                      widget.title);
-                                  setState(() {
-                                    reportClicked = false;
-                                  });
-                                  //고민
-                                },
-                              ),
-                            ),
-                          ])),
-                    )),
-              )
-            ],
-          ),
-        );
-      }
-    }));
+                                Positioned(
+                                  top: sh * 0.00,
+                                  right: sw * 0.000,
+                                  child: IconButton(
+                                    padding: EdgeInsets.all(sh * 0.01),
+                                    alignment: Alignment.centerLeft,
+                                    icon: Icon(
+                                      Icons.clear,
+                                      color: Colors.black,
+                                      size: 3 * SizeConfig.defaultSize!,
+                                    ),
+                                    onPressed: () {
+                                      _sendBookErrorReportXClickEvent(
+                                          widget.contentId,
+                                          widget.voiceId,
+                                          widget.contentVoiceId,
+                                          currentPageIndex,
+                                          widget.title);
+                                      setState(() {
+                                        reportClicked = false;
+                                      });
+                                      //고민
+                                    },
+                                  ),
+                                ),
+                              ])),
+                        )),
+                  )
+                ],
+              ),
+            );
+          }
+        })));
   }
 
   Future<void> _sendBookAutoPlayOnClickEvent(
@@ -1281,6 +1369,10 @@ class _PageWidgetState extends State<PageWidget> {
     //playAudio(widget.audioUrl);
     widget.audioPlayer.onPlayerComplete.listen((event) {
       iconColor = Colors.green;
+      if (widget.currentPageIndex == widget.lastPage - 1) {
+        WakelockPlus.disable();
+        print('screen off');
+      }
     });
     return Container(
       //color: Colors.red,

@@ -3,6 +3,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yoggo/component/globalCubit/user/user_cubit.dart';
 import 'package:yoggo/size_config.dart';
 import 'package:amplitude_flutter/amplitude.dart';
@@ -15,7 +16,13 @@ import 'package:percent_indicator/percent_indicator.dart';
 class RecInfo2 extends StatefulWidget {
   final FirebaseRemoteConfig abTest;
   final int contentId;
-  const RecInfo2({super.key, required this.abTest, required this.contentId});
+  final AudioPlayer bgmPlayer;
+
+  const RecInfo2(
+      {super.key,
+      required this.abTest,
+      required this.contentId,
+      required this.bgmPlayer});
 
   @override
   _RecInfo2State createState() => _RecInfo2State();
@@ -117,7 +124,14 @@ class _RecInfo2State extends State<RecInfo2> {
                               IconButton(
                                 icon: Icon(Icons.clear,
                                     size: 3 * SizeConfig.defaultSize!),
-                                onPressed: () {
+                                onPressed: () async {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  bool playingBgm =
+                                      prefs.getBool('playingBgm') ?? true;
+                                  if (playingBgm) {
+                                    widget.bgmPlayer.resume();
+                                  }
                                   Navigator.of(context)
                                       .popUntil((route) => route.isFirst);
                                 },
@@ -239,6 +253,7 @@ class _RecInfo2State extends State<RecInfo2> {
                             MaterialPageRoute(
                               builder: (context) => Rec(
                                 contentId: widget.contentId,
+                                bgmPlayer: widget.bgmPlayer,
 
                                 // 다음 화면으로 contetnVoiceId를 가지고 이동
                                 abTest: widget.abTest,
