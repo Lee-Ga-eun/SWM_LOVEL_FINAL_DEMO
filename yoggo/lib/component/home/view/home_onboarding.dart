@@ -261,7 +261,7 @@ class _HomeOnboardingState extends State<HomeOnboarding> {
               _sendHomeFirstClickEvent();
 
               _sendBookClickEvent(10);
-
+              widget.bgmPlayer.pause();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
