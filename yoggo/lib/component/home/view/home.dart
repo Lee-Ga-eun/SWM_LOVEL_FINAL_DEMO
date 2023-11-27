@@ -198,6 +198,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     if (isFirstTime) {
       // Set isFirstTime to false after showing overlay
+      await bgmPlayer.play(AssetSource('sound/Christmas.wav'));
+      bgmPlayer.pause();
 
       Navigator.push(
         context,
@@ -209,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
       await prefs.setBool('isFirstTime', false);
     } else {
-      if (playingBgm) bgmPlayer.play(AssetSource('sound/Christmas.wav'));
+      await bgmPlayer.play(AssetSource('sound/Christmas.wav'));
     }
   }
 
@@ -1419,7 +1421,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                       lastPointYMD !=
                                                               formattedTime
                                                           ? const Color
-                                                                  .fromARGB(
+                                                              .fromARGB(
                                                               255, 255, 169, 26)
                                                           : Colors.grey,
                                                     ), // 배경색 설정
@@ -1576,7 +1578,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                                                                 lastPointYMD !=
                                                                         formattedTime
                                                                     ? const Color
-                                                                            .fromARGB(
+                                                                        .fromARGB(
                                                                         255,
                                                                         255,
                                                                         169,

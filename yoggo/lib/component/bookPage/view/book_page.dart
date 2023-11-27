@@ -85,9 +85,7 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
       if (autoplayClicked) {
         if (currentPageIndex != widget.lastPage - 1) {
           effectPlayer.play(AssetSource('sound/book-turn.wav'));
-          Future.delayed(const Duration(milliseconds: 500)).then((_) {
-            nextPage();
-          });
+          nextPage();
         } else {
           setState(() {
             iconColor = Colors.green;
@@ -685,11 +683,8 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                     widget.voiceId,
                                                     currentPageIndex + 1,
                                                     widget.title);
-                                                Future.delayed(const Duration(
-                                                        milliseconds: 500))
-                                                    .then((_) {
-                                                  previousPage();
-                                                });
+
+                                                previousPage();
                                               })
                                         ],
                                       ),
@@ -730,13 +725,8 @@ class _BookPageState extends State<BookPage> with WidgetsBindingObserver {
                                                           widget.voiceId,
                                                           currentPageIndex + 1,
                                                           widget.title);
-                                                      Future.delayed(
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      500))
-                                                          .then((_) {
-                                                        nextPage();
-                                                      });
+
+                                                      nextPage();
                                                     })
                                               ],
                                             ),
@@ -1448,7 +1438,9 @@ class _PageWidgetState extends State<PageWidget> {
     // var nowImage = widget.filePath;
     var nowImage = '';
     nowImage = widget.filePath.replaceAll("'", "");
-    widget.playAudio(widget.audioPath);
+    Future.delayed(const Duration(milliseconds: 500)).then((_) {
+      widget.playAudio(widget.audioPath);
+    });
     //playAudio(widget.audioUrl);
     widget.audioPlayer.onPlayerComplete.listen((event) {
       iconColor = Colors.green;
