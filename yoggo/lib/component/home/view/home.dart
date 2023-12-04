@@ -198,8 +198,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
     if (isFirstTime) {
       // Set isFirstTime to false after showing overlay
-      await bgmPlayer.play(AssetSource('sound/Christmas.wav'));
-      bgmPlayer.pause();
+      if (playingBgm) await bgmPlayer.play(AssetSource('sound/Christmas.wav'));
 
       Navigator.push(
         context,
@@ -211,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
       await prefs.setBool('isFirstTime', false);
     } else {
-      await bgmPlayer.play(AssetSource('sound/Christmas.wav'));
+      if (playingBgm) await bgmPlayer.play(AssetSource('sound/Christmas.wav'));
     }
   }
 
